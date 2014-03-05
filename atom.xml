@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://yoursite.com/atom.xml" rel="self"/>
-  <link href="http://yoursite.com/"/>
-  <updated>2014-03-06T01:18:40+08:00</updated>
-  <id>http://yoursite.com/</id>
+  <link href="http://jueqingsizhe66.github.io/atom.xml" rel="self"/>
+  <link href="http://jueqingsizhe66.github.io/"/>
+  <updated>2014-03-06T01:54:24+08:00</updated>
+  <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[This Must Be a Success]]></title>
-    <link href="http://yoursite.com/blog/2014/03/06/this-must-be-a-success/"/>
+    <link href="http://jueqingsizhe66.github.io/blog/2014/03/06/this-must-be-a-success/"/>
     <updated>2014-03-06T01:18:31+08:00</updated>
-    <id>http://yoursite.com/blog/2014/03/06/this-must-be-a-success</id>
+    <id>http://jueqingsizhe66.github.io/blog/2014/03/06/this-must-be-a-success</id>
     <content type="html"><![CDATA[
 ]]></content>
   </entry>
