@@ -31,6 +31,13 @@ layout: default
   </section>
 {% endif %}
 </div>
+
+{% if site.duoshuo_short_name and site.duoshuo_comments == true and page.comments == true %}
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite">{% include post/duoshuo.html %}</div>
+  </section>
+{% endif %}
 {% unless page.sidebar == false %}
 <aside class="sidebar">
   {% if site.page_asides.size %}
