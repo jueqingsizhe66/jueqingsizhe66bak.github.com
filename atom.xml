@@ -4,7 +4,7 @@
   <title><![CDATA[Welcome to ZhaoLiang Home]]></title>
   <link href="http://jueqingsizhe66.github.io/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2014-03-06T09:53:51+08:00</updated>
+  <updated>2014-03-06T11:10:27+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -14,15 +14,23 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Funny Jokes]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2014/03/06/funny-jokes/"/>
+    <updated>2014-03-06T11:09:03+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2014/03/06/funny-jokes</id>
+    <content type="html"><![CDATA[<p><img src="http://jueqingsizhe66.github.io/images/limits.gif" alt="jokes" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[This Must Be a Success]]></title>
     <link href="http://jueqingsizhe66.github.io/blog/2014/03/06/this-must-be-a-success/"/>
     <updated>2014-03-06T01:18:31+08:00</updated>
     <id>http://jueqingsizhe66.github.io/blog/2014/03/06/this-must-be-a-success</id>
     <content type="html"><![CDATA[<p><strong>stay hungry,stay foolish</strong></p>
 
-<p><img src="./zhaoliang.jpg" alt="zhao" title="liang" width="200" /></p>
-
-<p>This is my <a href="http://hi.baidu.com/jueqingsizhe66">hibai</a></p>
+<p><img src="http://jueqingsizhe66.github.io/images/zhaoliang.jpg" alt="myimages" />
+This is my <a href="http://hi.baidu.com/jueqingsizhe66">hibai</a></p>
 ]]></content>
   </entry>
   
