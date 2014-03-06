@@ -38,10 +38,11 @@ layout: default
     <div id="comments" aria-live="polite">{% include post/duoshuo.html %}</div>
   </section>
 {% endif %}
+
 {% unless page.sidebar == false %}
 <aside class="sidebar">
-  {% if site.page_asides.size %}
-    {% include_array page_asides %}
+  {% if site.post_asides.size %}
+    {% include_array post_asides %}
   {% else %}
     {% include_array default_asides %}
   {% endif %}
