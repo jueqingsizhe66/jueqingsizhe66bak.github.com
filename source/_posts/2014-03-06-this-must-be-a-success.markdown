@@ -8,7 +8,7 @@ categories:
 
 **stay hungry,stay foolish**
 
-<img src="./zhaoliang.jpg" alt="zhao" title="liang" width="200" /> 
 
+![myimages](/images/zhaoliang.jpg)
 This is my [hibai][ref]
 [ref]: http://hi.baidu.com/jueqingsizhe66
