@@ -1,0 +1,11 @@
+---
+layout: post
+title: "try again"
+date: 2014-05-11 14:40:39 +0800
+comments: true
+categories: error
+---
+
+# Never give up
+> Still there are some people doing much better and longer than you
+> So go on.
