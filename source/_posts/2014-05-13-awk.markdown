@@ -1,0 +1,19 @@
+---
+layout: post
+title: "awk"
+date: 2014-05-13 00:11:09 +0800
+comments: true
+categories: linux
+keyword : awk
+---
+
+<!-- more-->
+###awk对于财务列表的实际使用###
+* 批量处理文件名  
+```sh
+ls|grep ux |awk '{print NR,$1}'|xargs -n2 mv
+```
+
+* 2
+* 3
+undone

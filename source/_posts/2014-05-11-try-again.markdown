@@ -6,6 +6,8 @@ comments: true
 categories: error
 ---
 
+<!--more-->
 # Never give up
+
 > Still there are some people doing much better and longer than you
 > So go on.

@@ -8,6 +8,7 @@ categories: life
 
 **stay hungry,stay foolish**
 
+<!--more-->
 
 ![myimages](/images/zhaoliang.jpg)
 This is my [hibai][ref]

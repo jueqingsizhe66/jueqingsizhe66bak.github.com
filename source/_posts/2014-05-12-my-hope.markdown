@@ -7,6 +7,7 @@ categories: life
 keyword: hope
 ---
 
+<!--more-->
 ###my hope
 * 我希望我能够成为一盏灯，点亮欣然的生活，而我希望她成为我生活中的一盏灯
 

@@ -6,7 +6,9 @@ comments: true
 categories: git
 ---
 
+<!--more-->
 ###How to utilize the git?
+
 > They say
 >
 
