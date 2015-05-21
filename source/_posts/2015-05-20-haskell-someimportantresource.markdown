@@ -1,0 +1,68 @@
+---
+layout: post
+title: "Haskell-someImportantResource"
+date: 2015-05-20 22:38:05 +0800
+comments: true
+categories: Haskell
+---
+
+
++ The most important is:[Hackage-haskell-Official](hackage.haskell.org)
+    Maintains a central repository of open source Hakell libraries called Hackage.
+<!--more-->
++ [The hoogle-the haskell dictionary](https://www.haskell.org/hoogle)
+
++ [The hackage-wiki](http://haskell.org/haskelwiki/Applications_and_libraries)
+ contains a section dedicated to information about particular Haskell libraries
++ [一个中文Real-world-haskell翻译](rwh.readthedocs.org/en/latest)
++ 使用Cabal，一个命令行的安装工具，类似vim的bundles Install，ubuntu的apt-get install, redhat的yum install *等，来安装
+  你需要的haskell的包和依赖
+	> 比如 安装HTTP library
+         ``` sh
+		cabal install HTTP
+	 ```
+       cabal四个阶段：
+	+ fetches 获取
+	+ configures 配置
+	+ compiles 编译
+	+ installs 安装
+	
+   所以安装HTTP库（一般库也是一样)
+     1. Refresh the list
+	Download the recent list of packages
+``` sh
+	cabal update
+```
+     2. Install the package
+        find any package from Hackage
+``` sh
+	cabal install HTTP
+```
+     3. Use
+        Cabal takes care of installing the package. The library can now be imported
+``` haskell
+ ---new file.hs
+ import Network.HTTP
+```
+
+     4. 使用[hackage.haskell.org/packages/HTTP](hackage.haskell.org/packages/HTTP)查看HTTP的使用方式
+        可以查看这个网页下的 Modules 
+                                Network 包含着一些相关的函数。
+       比如我们点击，Network.HTTP就会给我们一个详细的函数使用说明的网页，他接受什么类型，返回什么类型。
+             SimpleHTTP 接受一个Request 对象，然后返回一个IO Monad。
+``` haskell
+Prelude Network.HTTP> import Network.HTTP
+Prelude Network.HTTP> :t simpleHTTP
+simpleHTTP
+  :: HStream ty =>
+     Request ty -> IO (Network.Stream.Result (Response ty))
+Prelude Network.HTTP> let myRequest=getRequest "http://www.baidu.com"
+Prelude Network.HTTP> simpleHTTP myRequest >>= getResponseBody 
+  就会得到很多的内容！！！
+>>=是什么玩意！！
+Prelude Network.HTTP> :t (>>=)
+(>>=) :: Monad m => m a -> (a -> m b) -> m b
+>>=其实就是网络编程的bind操作（绑定端口）
+
+```
+Actually, go to [https://wiki.haskell.org/Haskell](https://wiki.haskell.org/Haskell), you will get resources you want.

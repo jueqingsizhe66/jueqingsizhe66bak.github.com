@@ -1,0 +1,78 @@
+---
+layout: post
+title: "尾递归"
+date: 2015-05-13 20:56:12 +0800
+comments: true
+categories: scheme
+---
+
+尾递归的好处就是快速计算，尾递归实际上是在递归计算的过程中，
+（印象中递归过程[表示语法形式-调用自己]和递归计算过程[表正线性方式 和非线性方式]是不一样的）, 加入了迭代的思想，不断的修改了product和counter的值，
+不需要树形展开。
+<!--more-->
+``` scheme
+(define (fact n)
+  (cond
+    ((= n 1) 1)
+    (else (* n (fact (- n 1))))))
+
+(define (fact1 n)
+  (define (fact-iter product counter)
+    (cond
+      ((= counter 1) product)
+      (else (fact-iter (* product counter) (- counter 1)))))
+  (fact-iter 1 n))
+;;;Solve 4!
+(fact 4)
+(fact1 4)
+
+```
+;;; 求幂
+
+``` scheme
+(define (expr b n)
+  (if (= n 0)
+     1
+     (* b (expt b (- n 1)))))
+
+;;;iter form
+(define (expr1 b n)
+  (define (expr-iter b counter product)
+    (if (= counter 0)
+       product
+       (expr-iter b (- counter 1) (* b product))))
+  (expr-iter b  n 1))
+
+(expr 4 5)
+(expr1 4 5)
+```
+
+
+===>另外还有一种更快速的方法
+;; b^n =(b^(n/2))^2, n is even
+;; b^n =(b*b^(n-1)) , n is odd
+
+``` scheme
+(define (fast-iter b n)
+ (cond 
+  ((= n 0) 1)
+  ((even? n) (square (fast)))
+  (else (* b (fast-iter b (- n 1))))))
+
+```
+
+
+
+====>并最终得到尾递归的一般形式
+结合[求定积分](jueqingsizhe66.github.io/2015/05/13/qiu-ding-ji-fen/)
+
+===>
+``` scheme
+(define (sum term a  next b)
+    (define (sum-iter a result)
+     (if <???>
+       <???> 
+       (iter <???> <???>)))
+    (sum-iter <???> <???>)
+)
+```

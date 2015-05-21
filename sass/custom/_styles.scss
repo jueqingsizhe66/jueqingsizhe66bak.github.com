@@ -1,24 +1,28 @@
 // This File is imported last, and will override other styles in the cascade
 // Add styles here to make changes without digging in too much
-// This File is imported last, and will override other styles in the cascade
-// Add styles here to make changes without digging in too much
-
-
-// Main layout
+//1为博客添加背景图片 
 html {
   background: #555555 url("/images/wood.jpg");
   //background: #555555;
-  body > div > div {
-    //border-right: none;
-  }
+}
 
-// Header
+body > div { 
+  background-image: none; 
+//background: #F5F5D5
+} //侧边栏
+
+body > div > div { //文章内容
+  background-image: none; 
+  //background: #F5F5D5; 
+  //background: url("/images/textbg.jpg");
+}
+
+// 改造博客的Header区域
+html {
   body > header {
     background: none;
-padding: 1.6em 0 1em 0;
-h1 {
-//font-size: 2.5em;
-      //padding-left: 15px;
+  padding: 1.6em 0 1em 0;
+  h1 {
       @include text-shadow(0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #666, 0px 5px 0px #555, 0px 6px 0px #444, 0px 7px 0px #333, 0px 8px 7px #001135);
     }
     h2 {
@@ -28,9 +32,10 @@ h1 {
   }
 }
 
-// Navigation
+
+// 3改造导航栏 
+
 body > nav {
-  //@include single-box-shadow(#000, 1px, 3px, 5px);
   //background: url("/images/nav.jpg");
   //background: #555555;
   ul.main-navigation {
@@ -61,19 +66,17 @@ body > nav {
     }
   }
 }
+// 4 倒圆角
+@media only screen and (min-width: 1040px) {
+  body > nav {
+    @include border-top-radius(.4em);
+  }
 
-body > div {
-  background-image: none;
-//background: #F5F5D5
+  body > footer {
+    @include border-bottom-radius(.4em);
+  }
 }
-
-body > div > div {
-  background-image: none;
-//background: #F5F5D5;
-//background: url("/images/textbg.jpg");
-}
-
-// Responsive design
+// 5 给博客加上logo
 @media only screen and (min-width: 550px) {
 
   body > header h1{
@@ -84,14 +87,3 @@ body > div > div {
   body > header h2 { padding-left: 65px; }
 }
 
-@media only screen and (min-width: 1040px) {
-  body > nav {
-    @include border-top-radius(.4em);
-  }
-
-  body > footer {
-    @include border-bottom-radius(.4em);
-  }
-}
-
-.post-footer{margin-top:10px;padding:5px;background:none repeat scroll 0pt 0pt #eee;font-size:90%;color:gray}

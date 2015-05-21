@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source "http://ruby.taobao.org"
 
 group :development do
   gem 'rake', '~> 0.9'
@@ -15,6 +15,8 @@ group :development do
   gem 'stringex', '~> 1.4.0'
   gem 'liquid', '~> 2.3.0'
   gem 'directory_watcher', '1.4.1'
+#  gem 'webrick','=1.3.1'
 end
 
 gem 'sinatra', '~> 1.4.2'
+#gem 'thin'
