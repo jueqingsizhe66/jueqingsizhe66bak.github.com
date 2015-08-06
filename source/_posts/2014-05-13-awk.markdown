@@ -3,7 +3,7 @@ layout: post
 title: "awk"
 date: 2014-05-13 00:11:09 +0800
 comments: true
-categories: linux
+categories: Linux
 keyword : awk
 ---
 

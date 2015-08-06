@@ -3,7 +3,7 @@ layout: post
 title: "WeNeedToGoDeeper"
 date: 2015-05-20 14:11:31 +0800
 comments: true
-categories: Life
+categories: life
 ---
 
 Inception盗梦空间，虽然未看过，大概了解他的风格是从一个梦中跳到另一个梦中，

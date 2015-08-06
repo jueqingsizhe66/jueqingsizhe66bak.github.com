@@ -6,13 +6,13 @@ comments: true
 categories: Haskell
 ---
 
-Reference [Here](www.shuklan.com/haskell/lec05.html#/0/21)
+Reference [Here](http://www.shuklan.com/haskell/lec05.html#/0/21)
 
 模块化，这样才能方便构建较大型的项目，解决更加复杂的问题。
 其中MyData.hs是模块文件
-              注意，模块中添加类型时候使用(..);
-                          添加函数时候直接使用函数名
-    TestMyData.hs是测试模块文件
+注意，模块中添加类型时候使用(..);
+添加函数时候直接使用函数名
+TestMyData.hs是测试模块文件
 
 ##基本语法结构：
 module MyData

@@ -31,7 +31,7 @@ mdkir src
 
 
 
-## 2 main.hs.src内新建一个main.hs
+## 2 main.hs  在src内新建一个main.hs
 ``` haskell
 module Main where
 
@@ -50,6 +50,7 @@ main=do
 
 Return to the* top* directory, and run cabal init.
 It helps you fill out the following information:
+
 + Package name
 + Package version
 + License
@@ -58,6 +59,7 @@ It helps you fill out the following information:
 + Project homepage URL
 + Project synopsis
 + Build type
+
 ``` sh
 cabal init
 ```
@@ -252,4 +254,5 @@ $ tree
 
 + 使用-- |
 + 使用{- -} 针对快注释
+
 [一个链接关于haddock的用户指南](https://www.haskell.org/haddock/doc/html/index.html )
