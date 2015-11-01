@@ -27,12 +27,12 @@ Bash-it是源自于[oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh),
 
 当然还需要安装一些[额外的插件](http://www.phodal.com/blog/use-bash-it-bash-framework/)
 
-+ apt-get install docker
++ apt-get install docker()(有时候可能不需要)
     + sudo apt-get install docker.io 
     + sudo ln -sf /usr/bin/docker.io /usr/local/bin/docker 
     + sudo sed -i '$acomplete -F \_docker docker' /etc/bash_completion.d/docker.io 
     + chmod 777 /var/run/docker.sock
-+ pip install arg
++ pip install arg (首先得安装python-pip)
 + 安装chruby [https://github.com/postmodern/chruby](https://github.com/postmodern/chruby)
 + apt-get install libpq-dev
 
