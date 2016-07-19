@@ -3,7 +3,7 @@ layout: post
 title: "中国版的The Design Of Everyday Things"
 date: 2015-10-24 20:30:55 +0800
 comments: true
-categories: Life
+categories: life
 ---
 
 经常时不时地回去逛[王垠][1]的博客，接触它并不是因为他特立独行，他从清华退学，主要是

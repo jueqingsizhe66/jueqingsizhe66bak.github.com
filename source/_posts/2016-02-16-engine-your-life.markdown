@@ -26,11 +26,13 @@ zero，successor，predecessor。而判断部分也叫做胃词部分predicate�
     + add
     + delete
     + modify
+    + ...
 2. observer
     + false?
     + null?
     + zero?
     + atom?
+    + ...
 
 
 而综合Engine和Data Abstraction,其实Engine也是由着constructor和observer两部分组成进行数据抽象，只不过可能引入时间的概念。
@@ -41,8 +43,11 @@ zero，successor，predecessor。而判断部分也叫做胃词部分predicate�
 一盘池水，流下了似水流年，规则依然
 ![shuiku][2]
 
+坚信**任何科学问题都可以通过子语言进行求解**，当前语言无法解决只能说现在的语言对问题的解释不清楚，得进一步进行**语言分层**,
+[每一个未解之谜都是要被解开的。][5]
 
 [1]: /images/life/waterDown.jpg
 [2]: /images/life/reservoir.jpg
 [3]: /images/life/listen.jpg
 [4]: http://jueqingsizhe66.github.io/blog/2016/02/15/data-representation-the-same-interface-with-different-implementation/
+[5]: http://tianchunbinghe.blog.163.com/blog/static/7001201542402420584/ 

@@ -14,7 +14,17 @@ I think data conceives the soul,not only the fixed process,but changing vari-lan
 
 <!--more-->
 
-## The Little Scheme
+* [1.The Little Scheme interpreter](#1)
+* [2.The Season Scheme interpreter](#2)
+* [3.The CPS control struture](#3)
+    * [3.1 how to add arguments?](#3.1)
+    * [3.2 what is the small stuff?](#3.2)
+* [4. how to evaluate or interpreter  a procedre?](#4)
+    * [4.1 ordinary tracing](#4.1)
+    * [4.2 cps tracing](#4.2)
+* [5. It is not the end](#5)
+
+<h2 id="1">The Little Scheme</h2>
 
 Here below is the interpreter from TLS
 
@@ -273,7 +283,7 @@ Here below is the interpreter from TLS
 
 ```
 
-## The Season scheme
+<h2 id="2"> The Season scheme</h2>
 
 
 Here below is the interpreter from TLS
@@ -597,14 +607,14 @@ Here below is the interpreter from TLS
 
 ```
 
-## The CPS control struture
+<h2 id="3">The CPS control struture</h2>
 
 Here below is the method how to change the ordinary subroutine to the continuation passing style [Ref.](https://cgi.soic.indiana.edu/~c311/lib/exe/fetch.php?media=cps-notes.scm).
 
 + First rule: whenever we see a lambda in the code we want to CPS, we have to add an argument, and then process the body  
 + Second rule: "Don't sweat the small stuff!" 
 
-### how to add argument?
+<h3 id="3.1">how to add argument?</h3>
 
 - orignial style:
 
@@ -628,13 +638,32 @@ Here below is the method how to change the ordinary subroutine to the continuati
       [else (cons (car ls) (rember8 (cdr ls)))])))
 ```
 
-### what is the small stuff?
+<h3 id="3.2">what is the small stuff?</h3>
 
 Small stuff is stuff we know will terminate right away.
 Don't sweat the small stuff if we know it will be evaluated.
 Don't sweat the small stuff if it *might* be evaluated, but instead
 pass it to k.
 
+为了更好辨别，我们改为如下形式
+
+``` scheme
+
+(define rember8
+  (lambda (ls k)
+    (cond
+      [(null? ls) (*k* '())]
+      [(= (car ls) 8) (*k* (cdr ls))]
+      [else (*rember8* (cdr ls) (lambda (x) (*k* (cons (car ls) x))))])))
+```
+
+凡是加上\*号的，都代表者continuation的过程。
+    Why don't null?, =, car, cdr, and cons count? Because they're just
+    small stuff, and when we combine small stuff together in small ways,
+    the combination remains small.
+
+    Second, all arguments are small stuff. Yep, even the lambda in the
+    else line, because lambda is *always* small stuff.
 
 - complete cps style:
 
@@ -644,15 +673,15 @@ pass it to k.
   (lambda (ls k)
     (cond
       [(null? ls) (k '())]
-      [(= (car ls) 8) (cdr ls)]
-      [else (cons (car ls) (rember8 (cdr ls)))])))
+      [(= (car ls) 8) (k (cdr ls))]
+      [else (rember8 (cdr ls) (lambda (x) (k (cons (car ls) x)))])))
 ```
 
 
 
-## how to evaluate or interpreter  a procedre?
+<h2 id="4">how to evaluate or interpreter  a procedre?</h2>
 
-### ordinary tracing
+<h3 id="4.1">ordinary tracing</h3>
 
   we will develop a unimplemented language to do give an explanation to it.
 
@@ -806,7 +835,7 @@ Good explanation begin(kernal part)：
 
 Finished~  Good ~  Well done.
 
-### cps tracing
+<h3 id="4.2">cps tracing</h3>
 
 ```
 Let's trace (rember8  (lambda (x) x))
@@ -829,7 +858,7 @@ And we're done.
 ```
 
 
-## It is not the end
+<h2 id="5"> It is not the end</h2>
 
 how to change the procedure above? Leave to you.
 
