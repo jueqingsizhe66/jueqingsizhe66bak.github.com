@@ -10,6 +10,10 @@ module BacktickCodeBlock
     @lang = nil
     @url = nil
     @title = nil
+    #if ! input.valid_encoding?
+    #  s = input.encode("UTF-16be",:invalid=>:replace,:replace=>"?").encode("UTF-8")
+    #  s.gsub(/^`{3} *([^\n]+)?\n(.+?)\n`{3}/m) do
+    #end
     input.gsub(/^`{3} *([^\n]+)?\n(.+?)\n`{3}/m) do
       @options = $1 || ''
       str = $2

@@ -1,0 +1,189 @@
+---
+layout: post
+title: "my bundles.vim2016-8-11"
+date: 2016-08-11 02:30:27 +0800
+comments: true
+categories: vim
+---
+
+Only record my bundles.vim
+
+``` sh
+git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+```
+<!--more-->
+
+
+bundles.vim
+
+
+``` vim
+set nocompatible               " be iMproved
+filetype off                   " required!
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+" required!
+Bundle 'gmarik/vundle'
+
+"------------------
+" Code Completions
+"------------------
+Bundle 'Shougo/neocomplcache'
+"Bundle 'Shougo/neocomplete'
+Bundle 'garbas/vim-snipmate'
+Bundle 'ervandew/supertab'
+"Bundle 'honza/snipmate-snippets'
+Bundle 'scrooloose/snipmate-snippets' 
+"Bundle 'mattn/zencoding-vim'
+Bundle 'mattn/emmet-vim'
+Bundle 'Raimondi/delimitMate'
+"------ snipmate dependencies -------
+Bundle 'MarcWeber/vim-addon-mw-utils'
+Bundle 'tomtom/tlib_vim'
+
+"-----------------
+" Fast navigation
+"-----------------
+Bundle 'edsono/vim-matchit'
+Bundle 'Lokaltog/vim-easymotion'
+
+"--------------
+" Fast editing
+"--------------
+Bundle 'tpope/vim-surround'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'sjl/gundo.vim'
+Bundle 'godlygeek/tabular'
+Bundle 'nathanaelkane/vim-indent-guides'
+
+"--------------
+" IDE features
+"--------------
+Bundle 'scrooloose/nerdtree'
+Bundle 'humiaozuzu/TabBar'
+Bundle 'majutsushi/tagbar'
+Bundle 'mileszs/ack.vim'
+Bundle 'kien/ctrlp.vim'
+Bundle 'tpope/vim-fugitive'
+Bundle 'Lokaltog/vim-powerline'
+Bundle 'scrooloose/syntastic'
+Bundle 'bronson/vim-trailing-whitespace'
+
+"-------------
+" Other Utils
+"-------------
+" Bundle 'humiaozuzu/fcitx-status'
+Bundle 'nvie/vim-togglemouse'
+
+"----------------------------------------
+" Syntax/Indent for language enhancement
+"----------------------------------------
+"------- web backend ---------
+Bundle '2072/PHP-Indenting-for-VIm'
+"Bundle 'tpope/vim-rails'
+Bundle 'mitsuhiko/vim-jinja'
+"Bundle 'digitaltoad/vim-jade'
+
+"------- web frontend ----------
+Bundle 'othree/html5.vim'
+" Bundle 'tpope/vim-haml'
+Bundle 'pangloss/vim-javascript'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'nono/jquery.vim'
+" Bundle 'groenewege/vim-less'
+" Bundle 'wavded/vim-stylus'
+" Bundle 'nono/vim-handlebars'
+
+"------- markup language -------
+Bundle 'tpope/vim-markdown'
+" Bundle 'timcharper/textile.vim'
+
+"------- Ruby --------
+" Bundle 'tpope/vim-endwise'
+
+"------- Go ----------
+Bundle 'jnwhiteh/vim-golang'
+
+"------- FPs ------
+Bundle 'kien/rainbow_parentheses.vim'
+" Bundle 'wlangstroth/vim-racket'
+" Bundle 'vim-scripts/VimClojure'
+" Bundle 'rosstimson/scala-vim-support'
+
+"--------------
+" Color Schemes
+"--------------
+Bundle 'rickharris/vim-blackboard'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'rickharris/vim-monokai'
+Bundle 'tpope/vim-vividchalk'
+Bundle 'Lokaltog/vim-distinguished'
+Bundle 'chriskempson/vim-tomorrow-theme'
+Bundle 'fisadev/fisa-vim-colorscheme'
+"Bundle 'https://github.com/jueqingsizhe66/Pydiction.git'
+Bundle 'rkulla/pydiction'
+"Bundle 'https://github.com/jueqingsizhe66/cscope.vim'
+Bundle 'brookhong/cscope.vim'
+
+"fortran"
+"Bundle 'https://github.com/jueqingsizhe66/fortran_line_length.vim'
+Bundle 'caglartoklu/fortran_line_length.vim'
+"Bundle 'https://github.com/jueqingsizhe66/fortran.vim'
+"Bundle 'https://github.com/jueqingsizhe66/fortran_codecomplete.vim'
+Bundle 'vim-scripts/fortran.vim'
+Bundle 'vim-scripts/fortran_codecomplete.vim'
+
+
+"I increase
+"2015-4-29
+"Bundle 'https://github.com/jueqingsizhe66/bash-support.vim'
+"Bundle 'https://github.com/jueqingsizhe66/perl-support.vim'
+"Bundle 'https://github.com/jueqingsizhe66/vim-perl'
+"Bundle 'https://github.com/jueqingsizhe66/vim-plugins'
+"Bundle 'https://github.com/jueqingsizhe66/slimv'
+"Bundle 'https://github.com/jueqingsizhe66/javacomplete'
+"Bundle 'https://github.com/jueqingsizhe66/android-javacomplete'
+"Bundle 'https://github.com/jueqingsizhe66/python-vim-instant-markdown'
+"Bundle 'https://github.com/jueqingsizhe66/pydown'
+"Bundle 'https://github.com/jueqingsizhe66/vim-orgmode'
+"Bundle 'https://github.com/jueqingsizhe66/vim-speeddating'
+"Bundle 'https://github.com/jueqingsizhe66/haskellmode-vim'
+Bundle 'vim-scripts/bash-support.vim'
+Bundle 'vim-scripts/perl-support.vim'
+"Bundle 'vim-scripts/javacomplete'
+Bundle 'artur-shaik/vim-javacomplete2'
+"Bundle 'vim-scripts/slimv.vim'
+Bundle 'kovisoft/slimv'
+Bundle 'vim-perl/vim-perl'
+Bundle 'WolfgangMehner/vim-plugins'
+Bundle 'isnowfy/python-vim-instant-markdown'
+Bundle 'jceb/vim-orgmode'
+Bundle 'tpope/vim-speeddating'
+Bundle 'lukerandall/haskellmode-vim'
+"Bundle 'vim-scripts/LaTex-Suite-aka-Vim-LaTex'
+Bundle 'lervag/vimtex'
+Bundle 'jcf/vim-latex'
+Bundle 'adimit/prolog.vim'
+"Buddle 'python.vim'
+"Buddle 'indentpython.vim--nianyang'
+"Buddle 'https://github.com/vim-scripts/indentpython.vim--nianyang.git'
+
+filetype plugin indent on     " required!
+```
+
+
+Funny added in 2016/8/12
+
+```
+"matlab
+Bundle 'elmanuelito/vim-matlab-behave'
+"MarkTag in the left
+Bundle 'kshenoy/vim-signature'
+
+"highlight word,if your mapleader is ,(let mapleader=','),then you can use ,m to highlight the word 
+" selected
+Bundle 'dimasg/vim-mark'
+```
