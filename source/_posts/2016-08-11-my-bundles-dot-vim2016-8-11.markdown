@@ -187,3 +187,26 @@ Bundle 'kshenoy/vim-signature'
 " selected
 Bundle 'dimasg/vim-mark'
 ```
+
+
+GoodWork added in 2016/8/13
+
+```
+"git
+Bundle  'airblade/vim-gitgutter'
+Bundle  'skwp/greplace.vim'
+Bundle 'Xuyuanp/nerdtree-git-plugin'
+
+"accompnay with vim-mark,good to refactor codes,just the  'vim-multiple-cursors'
+"use ctrl-n to select, use c to change the name"
+Bundle 'terryma/vim-multiple-cursors'
+```
+
+A good tutor:
+
+1. if you want to use multiple_cursors ,advice you in the visual mode(Every time,before ctrl-n, input v to enter visual mode)
+2. so ,namely ,only in the visual mode,we can use ctrl-n select the same pattern.
+3. you can use some move motion, such as f, to move the cursor under the ,(comma)
+4. in the multiple_cursors mode, you can only  use `delete` to delete the match word.And you can only use `c` to change name,such as 
+change line `c<Cr>`,<Cr> means `Enter` key
+5. what's more, you can use `,m` to highlight the word ,and then use the multiple_cursors to replace or delete or add or Join(J).

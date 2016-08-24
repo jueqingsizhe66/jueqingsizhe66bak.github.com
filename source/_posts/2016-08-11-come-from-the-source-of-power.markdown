@@ -3,7 +3,7 @@ layout: post
 title: "Come From The Source Of Power"
 date: 2016-08-11 22:50:22 +0800
 comments: true
-categories: Life
+categories: life
 ---
 
 ![PowerSource][2]

@@ -39,6 +39,8 @@ Input, to enter dynamic IP allocation
 dhclient wlan0
 ```
 
+hello
+
 
 
 
