@@ -36,7 +36,9 @@ lenacc([H|T], A, N) :-
 
 ```
 
+
 ### 2.斐波那契数列（Fibonacci sequence） 
+
 
 ```
 
@@ -288,6 +290,7 @@ printpartlist([quant(X, N)|R]) :-
 ## III. update version加上accumulator
 
 测试结果：
+
 ``` prolog
 32 ?- listing(partlist2acc).
 bicycleEntend2Acc:partlist2acc(A) :-
@@ -327,6 +330,73 @@ true .
 ```
 
 ``` prolog
+%%:- ensure_loaded([bicycle]).
+
+:- module(bicycleEntend2Acc, [partlist2acc/1]).
+
+
+basicpart(rim).
+basicpart(spoke).
+%basicpart(hub).
+basicpart(handle).
+basicpart(rear_frame).
+basicpart(gear).
+basicpart(bolt).
+basicpart(nut).
+basicpart(fork).
+
+
+assemble(bike2,[ wheel2:2, frame2:2]).
+%% maybe a quantitty of bolts and nuts.
+assemble(wheel2,[ spoke:4, rim:2, hub2:2]).
+assemble(frame2,[ rear_frame2:1, front_frame2:1]).
+assemble(front_frame2,[ fork:1, handle:2]).
+assemble(rear_frame2,[]).
+assemble(hub2,[ gear:2, axle2:2]).
+assemble(axle2,[ bolt:6, nut:6]).
+
+
+
+partlist2acc(T) :-
+    partsof_wrapper(1,T,P),
+    collect(P,Q),
+    printpartlist(Q).
+
+partsof_wrapper(N, X, P) :-
+    partsof(N, X, [], P).
+
+partsof(N, X, A, P) :-
+    assemble(X, Subparts),
+    partsoflist(N, Subparts, A, P).
+
+partsof(N, X, A, [X:N|A]) :-
+    basicpart(X).
+
+partsoflist(_, [], A, A).
+partsoflist(N, [X:Num|L], A, T) :-
+    M is N* Num,
+    partsof(M, X, A, Xparts),
+    partsoflist(N, L, Xparts, T).
+
+
+collect([], []).
+collect([X:N|R], [X:Ntotal|R2]) :-
+    collectrest(X, N, R, O, Ntotal),
+    collect(O, R2).
+
+collectrest(_, N, [], [], N).
+collectrest(X, N, [X:Num|Rest], Others, Ntotal) :-
+    !,
+    M is N + Num,
+    collectrest(X, M, Rest, Others, Ntotal).
+collectrest(X, N, [Other|Rest], [Other|Others], Ntotal) :-
+    collectrest(X, N, Rest, Others, Ntotal).
+
+printpartlist([]).
+printpartlist([X:N|R]) :-
+    write(''),write(N),
+    put_char('\t'),write(X),nl,
+    printpartlist(R).
 
 ```
 
@@ -343,125 +413,126 @@ collect函数有意思的是
 下面是针对`partlistacc(bike1)`的两步调试过程，
 
 ![debug][1]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][2]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][3]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][4]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][5]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][6]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][7]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][8]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][9]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][10]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][11]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][12]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][13]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][14]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][15]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][16]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][17]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][18]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][19]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][20]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][21]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][22]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][23]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][24]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][25]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][26]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][27]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][28]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][29]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][30]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][31]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][32]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][33]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][34]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][35]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][36]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][37]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][38]
-<hr\>
-<br\>
+<hr/>
+<br/>
 ![debug][39]
-<hr\>
-<br\>
+<hr/>
+<br/>
 
 
 <div align="center"><font color="red">Noted, you can add the module call in the one file,just like below,</font></div>
+
 ``` prolog
 :-[bicycle].
 :- use_module(bicycleExtend, [partlist/1]).
