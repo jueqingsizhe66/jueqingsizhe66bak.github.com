@@ -6,22 +6,6 @@ comments: true
 categories: prolog
 ---
 
-
-Assume list is a top part, while others are down part, then `top->down` with [depth-first and breadth-first][4].
-Assume list is a bottom part, while others are up part, then `bottom->up` with depth-first and breadth-first.
-
-lists thinking can also extend to the numbers organisation(111000101)
-
-lists can list the separtion of the concept.
-[Natural Language  = Logic(the graph of the relationship) + Control( The flow in the graph of the relationship) P130][4],
-logic graph keeps the bees. The logic is like an puzzle.
-
-[Algorithm  = Logic(the graph of the relationship) + Control( The flow in the graph of the relationship) P128][4],
-
-每一次logic都需要一种格局(格局才能带领你继续走下去，也叫做前进的动力)，prolog给我的感觉是风筝和枯井,到底算法和自然语言是什么？还没想好。
-![prolog][13]
-
-
 + 1. [member](#member)
 + 2. [substitution and rember](#subst)
 + 3. [flattern](#flattern)
@@ -37,8 +21,26 @@ logic graph keeps the bees. The logic is like an puzzle.
 + 13. [Element At](#elementAt)
 
 ![list][1]
+
 <!--more-->
 
+
+Assume list is a top part, while others are down part, then `top->down` with [depth-first(<strong>because multiple clauses in your knowledge database</strong>) and breadth-first(because <strong>multiple subgoals in your main goal</strong>)][4].
+Assume list is a bottom part, while others are up part, then `bottom->up` with depth-first and breadth-first.
+
+lists thinking can also extend to the numbers organisation(111000101)
+
+lists can list the separtion of the concept.
+[Natural Language  = Logic(the graph of the relationship) + Control( The flow in the graph of the relationship) P130][4],
+logic graph keeps the bees. The logic is like an puzzle.
+
+[Algorithm  = Logic(the graph of the relationship) + Control( The flow in the graph of the relationship) P128][4],
+
+每一次logic都需要一种格局(格局才能带领你继续走下去，也叫做前进的动力)，prolog给我的感觉是风筝和枯井,到底算法和自然语言是什么？还没想好。
+![prolog][13]
+
+
+<hr/>
 <font color="red">Logic is the data structure(the statement is wrong)</font>. You can change the logic in the flow of the data just like switcher.
 The conceputual separation of logic from control, so you can improve the algorithms by improving
 their component without changing the logic components.(All your define in the prolog pl files are called
