@@ -8,7 +8,9 @@ categories: prolog
 ---
 
 
-十分好的学习prolog网站：[Stack Overflow for prolog][6]
+十分好的学习prolog网站：
+[Stack Overflow for prolog][6]
+
 ![stackoverflow][9]
 
 [Bob Kowalski][11] firstly put out
@@ -60,7 +62,7 @@ the library implemented by swi-prolog,SICSTus prolog ,YAP etc and as integral pa
 + [jekejekech prolog][10]
 
 
-I suddenly think the prolog as a doctor(my insight) for your programming , it can [diganose][] what's wrong with your problem
+I suddenly think the prolog as a doctor(my insight) for your programming , it can [diganose][16] what's wrong with your problem
 
 ``` prolog
 disease(hiv,[sore_throat,headache,fever,rash]).
