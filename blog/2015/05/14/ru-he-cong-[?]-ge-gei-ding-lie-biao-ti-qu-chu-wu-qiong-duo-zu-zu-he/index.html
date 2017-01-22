@@ -1,0 +1,2085 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>如何从一个给定列表提取出无穷多组组合 - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="a + b + c =30
+从一个列表中(1,3,5,7,11,13,15) 中提取三个元素，使其满足上式，该如何做？
+第二个问题，如果我想从这7个元素中提取出来2个元素任意组合,3个,4个
+我又该如何做？ 如果我假定能够获得我想要的这些表，那么我完全可以把他们一一运用于
+(map &lsquo &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2015/05/14/ru-he-cong-%5B%3F%5D-ge-gei-ding-lie-biao-ti-qu-chu-wu-qiong-duo-zu-zu-he">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">如何从一个给定列表提取出无穷多组组合</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-14T16:42:39+08:00" pubdate data-updated="true">May 14<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>a + b + c =30
+从一个列表中(1,3,5,7,11,13,15) 中提取三个元素，使其满足上式，该如何做？
+第二个问题，如果我想从这7个元素中提取出来2个元素任意组合,3个,4个
+我又该如何做？</p>
+
+<p>如果我假定能够获得我想要的这些表，那么我完全可以把他们一一运用于
+(map &lsquo;+ all-table)中，一一计算出来</p>
+
+<p>当我提取出来两个元素的时候，我是不是可以使用
+(get-2 all-table all-table)
+(get-3 all-table all-table all-table)</p>
+
+<!--more-->
+
+
+<h2>scheme and lisp的一些<a href="http://www.oschina.net/question/563463_122233?sort=time">区别点</a></h2>
+
+<ol>
+<li><p>在Common Lisp眼中,一个符号的symbol-value和symbol-function是不一样的,而Scheme对两者不作区分。在Scheme里面，变量只有唯一对应的值，它可以是个函数，也可以是另一种对象。因此，在Scheme中就不需要#’或者funcall了。Common Lisp的：</p>
+
+<pre><code> (let ((f #’(lambda (x) (1+ x))))
+ (funcall f 2))
+</code></pre></li>
+</ol>
+
+
+<p>在Scheme中将变成：</p>
+
+<pre><code>    (let ((f (lambda (x) (1+ x))))
+    (f 2))
+</code></pre>
+
+<h2>记住在Drracket Help中Pairs and Lists有更多的关于列表的操作</h2>
+
+<p>下面是我学了一天的列表操作(P27 P28未实现到scheme版本，主要问题:</p>
+
+<ol>
+<li>remove-duplicate：去除一个lat中重复的元素</li>
+<li>reduce  把一个最小包含()的列表 比如((a b) (c d)) 会变为(a b c d) ((a (b)) (c d)) ==>(a (b) c d)</li>
+<li>sort: 排序，暂时没时间</li>
+</ol>
+
+
+<h2>P01 最后一个元素</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">3</span> <span class="mi">5</span> <span class="mi">7</span> <span class="mi">9</span> <span class="mi">11</span> <span class="mi">13</span> <span class="mi">15</span><span class="p">)</span>
+</span><span class='line'><span class="c1">; (if (= (+ a b c) 30) &#39;(a b c)</span>
+</span><span class='line'> <span class="c1">;   (define (first a)</span>
+</span><span class='line'>
+</span><span class='line'>     <span class="c1">;;Find the last box of a list. (查找列表最后一个元素) </span>
+</span><span class='line'> <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">my-last</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>   <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">))</span>  <span class="c1">;;;(null? (cdr lst))</span>
+</span><span class='line'>      <span class="nv">lst</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">my-last</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">))))</span>
+</span><span class='line'>
+</span><span class='line'> <span class="p">(</span><span class="nf">my-last</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">13</span>  <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">33</span><span class="p">))</span>
+</span><span class='line'> <span class="c1">;&#39;(33)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>P02  Find the last but one box of a list.(除最后一个元素外的列表)</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'> <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">my-but-last-1</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>   <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="p">(</span><span class="nb">cddr </span><span class="nv">lst</span><span class="p">))</span> <span class="c1">;;(null? (cddr  lst))</span>
+</span><span class='line'>      <span class="nv">lst</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">my-but-last-1</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">))))</span>
+</span><span class='line'> <span class="c1">;&#39;(c d)</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>P03  Find the K&#8217;th element of a list. (查找列表的第K个元素)</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'> <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">element-at</span> <span class="nv">lst</span> <span class="nv">n</span><span class="p">)</span>
+</span><span class='line'>   <span class="p">(</span><span class="k">cond </span>
+</span><span class='line'>     <span class="p">((</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">())</span>
+</span><span class='line'>     <span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">))</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">element-at</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))))</span>
+</span><span class='line'>
+</span><span class='line'> <span class="p">(</span><span class="nf">element-at</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span><span class="p">)</span> <span class="mi">3</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>P04  Find the number of elements of a list.</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'> <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">length-lst</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>   <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>      <span class="mi">0</span>
+</span><span class='line'>      <span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="p">(</span><span class="nf">length-lst</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)))))</span>
+</span><span class='line'>
+</span><span class='line'> <span class="p">(</span><span class="nf">length-lst</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span>  <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P05  Reverse a list.</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'> <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">reverse-lst</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rec</span> <span class="nv">lst</span> <span class="nv">acc</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>        <span class="nv">acc</span>
+</span><span class='line'>        <span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">acc</span><span class="p">))))</span>
+</span><span class='line'>   <span class="p">(</span><span class="nf">rec</span> <span class="nv">lst</span> <span class="o">&#39;</span><span class="p">()))</span>
+</span><span class='line'>
+</span><span class='line'> <span class="p">(</span><span class="nf">reverse-lst</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P06  Find out whether a list is a palindrome.</h2>
+
+<p> 链表是否中心对称,将链表逆转,然后查看链表是否一样</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'> <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">palindrome</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>   <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">lst1</span> <span class="p">(</span><span class="nf">reverse-lst</span> <span class="nv">lst</span><span class="p">)))</span>
+</span><span class='line'>     <span class="p">(</span><span class="nb">equal? </span><span class="nv">lst</span> <span class="nv">lst1</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'> <span class="p">(</span><span class="nf">palindrome</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">b</span> <span class="nv">a</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">palindrome</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">b</span> <span class="nv">a</span> <span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>P07  Flatten a nested list structure.</h2>
+
+<p>Transform a list, possibly holding lists as elements into
+a flat list by replacing each list with its elements (recursively).</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">ncons</span> <span class="nv">lst</span> <span class="nv">lst1</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nf">cond</span>
+</span><span class='line'>  <span class="c1">;;((null? lst)  &#39;())</span>
+</span><span class='line'>  <span class="p">((</span><span class="nb">null? </span><span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">))</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">ncons</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">lst1</span><span class="p">)</span> <span class="nv">lst1</span><span class="p">))))</span>
+</span><span class='line'><span class="p">(</span><span class="nf">ncons</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">c</span> <span class="nv">d</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nf">ncons</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span>  <span class="nv">e</span> <span class="nv">c</span> <span class="nv">d</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">c</span> <span class="nv">d</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nf">ncons</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span>  <span class="nv">e</span> <span class="nv">f</span> <span class="nv">c</span> <span class="nv">d</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">c</span> <span class="nv">d</span><span class="p">))</span>
+</span><span class='line'><span class="c1">;;&#39;(((d c d) c d) c d)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;;;如何提取公共部分 (cons x </span>
+</span><span class='line'><span class="c1">;;;&gt; (cons &#39;a (cons &#39;b &#39;(c d e)))</span>
+</span><span class='line'><span class="c1">;;;&#39;(a b c d e)</span>
+</span><span class='line'><span class="c1">;;;&gt; (cons &#39;a (cons &#39;b (cons &#39;c &#39;(d e f))))</span>
+</span><span class='line'><span class="c1">;;;&#39;(a b c d e f);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;;;;后来我想到了 我们平时用的(null? lst) &#39;())  </span>
+</span><span class='line'><span class="c1">;;;;; 那么现在我们公共的模式其实是跟平时一样的</span>
+</span><span class='line'><span class="c1">;;;;;(cons &#39;a (cons &#39;b (cons &#39;c &#39;()))) 只不过是最里面的‘()</span>
+</span><span class='line'><span class="c1">;;;;;替换成了 &#39;(c d e)  或者lst1即可! 因为他只用一次,</span>
+</span><span class='line'><span class="c1">;;;;; 把他放在最里面即可</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;;;;; 当时我还想到一个思路</span>
+</span><span class='line'><span class="c1">;;;1 把lst1 变幻方向 reverse-list</span>
+</span><span class='line'><span class="c1">;;;2 然后利用(cons (car lst) (reverse-list lst1)</span>
+</span><span class='line'><span class="c1">;;;;;但是问题出现,你的natural recusrion?无法体现!!</span>
+</span><span class='line'><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">ncons-true</span> <span class="nv">lst</span> <span class="nv">lst1</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nf">cond</span>
+</span><span class='line'><span class="p">((</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">lst1</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nf">ncons-true</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">lst1</span><span class="p">)))))</span>
+</span><span class='line'><span class="p">(</span><span class="nf">ncons-true</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">d</span> <span class="nv">e</span> <span class="nv">f</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;;说明ncons-true 就是clisp的nconc的scheme写法</span>
+</span><span class='line'><span class="c1">;;;有了ncons-true 这个类似之前的(sum term a next b)的工具</span>
+</span><span class='line'><span class="c1">;;; 我们就可以办很多事情</span>
+</span><span class='line'><span class="c1">;;据此可以改写reverse-list</span>
+</span><span class='line'><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">reverse-lst-2</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>   <span class="o">&#39;</span><span class="p">()</span>
+</span><span class='line'>   <span class="p">(</span><span class="nf">ncons-true</span> <span class="p">(</span><span class="nf">reverse-lst-2</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">))</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)))))</span>
+</span><span class='line'><span class="p">(</span><span class="nf">reverse-lst-2</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Try Again you.</p>
+
+<h2>P08  Flatten a nested list structure.</h2>
+
+<p>  Transform a list, possibly holding lists as elements into a flat
+  list by replacing each list with its elements (recursively)</p>
+
+<p>  (define (atom? x)</p>
+
+<pre><code>(and (not (null?  x)) (not (pair?  x))))
+</code></pre>
+
+<p>得分为三种情况
+1. null?
+2. atom?
+3. list?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="o">```</span><span class="nv">scheme</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">my-flatten</span> <span class="nv">tree</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">cond </span>
+</span><span class='line'>      <span class="p">((</span><span class="nb">null? </span><span class="nv">tree</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">())</span>
+</span><span class='line'>      <span class="p">((</span><span class="nf">atom?</span> <span class="nv">tree</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="nv">tree</span><span class="p">))</span>
+</span><span class='line'>      <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">ncons-true</span> <span class="p">(</span><span class="nf">my-flatten</span> <span class="p">(</span><span class="nb">car </span><span class="nv">tree</span><span class="p">))</span>
+</span><span class='line'>                                     <span class="p">(</span><span class="nf">my-flatten</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">tree</span><span class="p">))))))</span>
+</span><span class='line'>   <span class="p">(</span><span class="nf">my-flatten</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="p">(</span><span class="nf">b</span> <span class="p">(</span><span class="nf">c</span> <span class="nv">d</span><span class="p">)</span> <span class="nv">e</span><span class="p">)))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>P09  Eliminate consecutive duplicates of list elements.</h2>
+
+<p>If a list contains repeated elements they should be replaced
+with a single copy of the element.
+The order of the elements should not be changed.</p>
+
+<p>首先将相邻相同的元素通过collect组织到一起,然后对相同的元素处理,通过combine将结果返回</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>   <span class="c1">; (compress &#39;(a a a a b c c a a d e e e e))</span>
+</span><span class='line'><span class="c1">;;;;;(A B C A D E)</span>
+</span><span class='line'>   <span class="c1">;;1 compress module</span>
+</span><span class='line'>   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">compress</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>         <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rec</span> <span class="nv">lst</span> <span class="nv">acc</span> <span class="nv">prev</span><span class="p">)</span>
+</span><span class='line'>           <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">acc</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">((</span><span class="nb">equal? </span><span class="nv">prev</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">))</span> <span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">acc</span> <span class="nv">prev</span><span class="p">))</span><span class="c1">;;如果相等则剔除掉</span>
+</span><span class='line'>                <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">acc</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)))))</span>
+</span><span class='line'>         <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>            <span class="nv">lst</span>
+</span><span class='line'>            <span class="p">(</span><span class="nf">reverse-lst-2</span> <span class="p">(</span><span class="nf">rec</span> <span class="nv">lst</span> <span class="o">&#39;</span><span class="p">()</span> <span class="o">&#39;</span><span class="p">()))))</span>
+</span><span class='line'>   <span class="c1">;; (compress &#39;(a a  b b c  c))</span>
+</span><span class='line'><span class="c1">;;;;&#39;(a b c)</span>
+</span><span class='line'>   <span class="c1">;;&gt; (compress &#39;(a a  b b c  c d d a a ))</span>
+</span><span class='line'><span class="c1">;;&#39;(a b c d a)</span>
+</span><span class='line'>   <span class="c1">;;;还不错 达到目的了 !但是下面提出了更一般的表达方式</span>
+</span><span class='line'>   <span class="c1">;;&gt; (compress &#39;(a a a b b))</span>
+</span><span class='line'><span class="c1">;;;&#39;(a b)</span>
+</span><span class='line'><span class="c1">;;&gt; (compress &#39;((a a a) (b b))) ;;;;;;;;;;;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Compress的一个缺陷!</span>
+</span><span class='line'><span class="c1">;;;&#39;((a a a) (b b))   ;;;;补救方法是让他遍历 括号里面的内容 ,(atom? (car l))  (原先的操作) (else (cons (compress (car lst)) (compress (cdr lst))))</span>
+</span><span class='line'>   <span class="c1">;;;collect目的就是对相同的元素进行分组</span>
+</span><span class='line'>      <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">compress-*</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">atom?</span> <span class="nv">x</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">null? </span><span class="nv">x</span><span class="p">))</span> <span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">x</span><span class="p">))))</span>
+</span><span class='line'>         <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rec</span> <span class="nv">lst</span> <span class="nv">acc</span> <span class="nv">prev</span><span class="p">)</span>
+</span><span class='line'>           <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">acc</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">((</span><span class="nf">atom?</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">))</span>
+</span><span class='line'>                 <span class="p">(</span><span class="nf">cond</span>
+</span><span class='line'>                   <span class="p">((</span><span class="nb">equal? </span><span class="nv">prev</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">))</span> <span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">acc</span> <span class="nv">prev</span><span class="p">))</span><span class="c1">;;如果相等则剔除掉</span>
+</span><span class='line'>                   <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">acc</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)))))</span>
+</span><span class='line'>                <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">compress-*</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">))</span> <span class="p">(</span><span class="nf">compress-*</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">))))))</span>
+</span><span class='line'>         <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>            <span class="nv">lst</span>
+</span><span class='line'>          <span class="c1">;;  (reverse-lst-2 (rec lst &#39;() &#39;()))))</span>
+</span><span class='line'>       <span class="p">(</span><span class="nf">rec</span> <span class="nv">lst</span> <span class="o">&#39;</span><span class="p">()</span> <span class="o">&#39;</span><span class="p">())))</span>
+</span><span class='line'>   <span class="c1">;;;&gt; (compress-* &#39;((a a a) (b b)))</span>
+</span><span class='line'><span class="c1">;;;;&#39;((b) (a))</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">;;;改进去掉了 reverse-lst-2</span>
+</span><span class='line'>      <span class="c1">;;; (compress-* &#39;((a a a) (b b)))</span>
+</span><span class='line'><span class="c1">;;;&#39;((a) (b))</span>
+</span><span class='line'>   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">collect</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rec</span> <span class="nv">lst</span> <span class="nv">temp</span> <span class="nv">acc</span><span class="p">)</span>
+</span><span class='line'>       <span class="p">(</span><span class="k">cond </span>
+</span><span class='line'>         <span class="p">((</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">temp</span> <span class="nv">acc</span><span class="p">))</span>
+</span><span class='line'>         <span class="p">((</span><span class="nb">equal? </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">temp</span><span class="p">))</span> <span class="c1">;;如果相邻两个元素是同一个</span>
+</span><span class='line'>          <span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">temp</span><span class="p">)</span> <span class="nv">acc</span><span class="p">))</span> <span class="c1">;;则把他存入temp中,并进行下一次</span>
+</span><span class='line'>         <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">))</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">temp</span> <span class="nv">acc</span><span class="p">)))))</span><span class="c1">;;; 如果不是,则新开一个list (list (car lst))  并把之前的temp加入到acc中!</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>        <span class="o">&#39;</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">(</span><span class="nf">reverse-lst-2</span> <span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">))</span> <span class="o">&#39;</span><span class="p">()))))</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="c1">;;;测试collect过程</span>
+</span><span class='line'>   <span class="p">(</span><span class="nf">collect</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">b</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">c</span> <span class="nv">c</span> <span class="nv">a</span> <span class="nv">a</span> <span class="nv">a</span> <span class="p">))</span>
+</span><span class='line'>   <span class="c1">;;;&#39;((a a) (b b b) (c c c) (a a a))  结果很漂亮</span>
+</span><span class='line'>   <span class="c1">;;(collect &#39;((a a b b c c) b b b c c c a a a ))</span>
+</span><span class='line'><span class="c1">;;;&#39;(((a a b b c c)) (b b b) (c c c) (a a a))  ;;;-----------------------&gt;Collect的一个缺点</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">collect*</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">atom?</span> <span class="nv">x</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">null? </span><span class="nv">x</span><span class="p">))</span> <span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">x</span><span class="p">))))</span>
+</span><span class='line'>       <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rec</span> <span class="nv">lst</span> <span class="nv">temp</span> <span class="nv">acc</span><span class="p">)</span>
+</span><span class='line'>         <span class="p">(</span><span class="k">cond </span>
+</span><span class='line'>           <span class="p">((</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">temp</span> <span class="nv">acc</span><span class="p">))</span>
+</span><span class='line'>           <span class="p">((</span><span class="nf">atom?</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">))</span>
+</span><span class='line'>            <span class="p">(</span><span class="nf">cond</span>
+</span><span class='line'>              <span class="p">((</span><span class="nb">equal? </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">temp</span><span class="p">))</span> <span class="c1">;;如果相邻两个元素是同一个</span>
+</span><span class='line'>               <span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">temp</span><span class="p">)</span> <span class="nv">acc</span><span class="p">))</span> <span class="c1">;;则把他存入temp中,并进行下一次</span>
+</span><span class='line'>             <span class="c1">;; (else (rec (cdr lst) (list (car lst)) (cons temp acc)))));;; 如果不是,则新开一个list (list (car lst))  并把之前的temp加入到acc中!</span>
+</span><span class='line'>              <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span>  <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">))</span> <span class="p">(</span><span class="nb">cons </span><span class="nv">temp</span> <span class="nv">acc</span><span class="p">)))))</span>
+</span><span class='line'>         <span class="c1">;;  (else (cons (collect* (car lst) (cdr lst)))))) ;;;---------------&gt;导致有问题</span>
+</span><span class='line'>            <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">collect*</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">))</span> <span class="p">(</span><span class="nf">collect*</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">))))))</span>
+</span><span class='line'>       <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>          <span class="o">&#39;</span><span class="p">()</span>
+</span><span class='line'>         <span class="c1">;; (reverse-lst-2 (rec (cdr lst) (list (car lst)) &#39;()))))</span>
+</span><span class='line'>          <span class="p">(</span><span class="nf">reverse-lst-2</span> <span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">))</span> <span class="o">&#39;</span><span class="p">()))))</span>
+</span><span class='line'>     <span class="c1">;;;(collect*  &#39;((a a a  b b b (c c  d d)) e e  f f))</span>
+</span><span class='line'><span class="c1">;;;;&#39;(((a a a b b b (c c d d))) (e e) (f f))</span>
+</span><span class='line'>
+</span><span class='line'>     <span class="c1">;;;;暂时有点问题!!</span>
+</span><span class='line'>     <span class="c1">;;;(collect* &#39;((a a a b b b) (c c d d) (e e) (f f)))</span>
+</span><span class='line'><span class="c1">;;;&#39;(((f f)) ((c c) (d d)))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;;;;这是类似于 (sum term a next b)级别的高阶函数</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">general-process</span> <span class="nv">combine</span> <span class="nv">fn</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rec</span> <span class="nv">lst</span> <span class="nv">acc</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>               <span class="nv">acc</span>
+</span><span class='line'>               <span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nf">combine</span> <span class="p">(</span><span class="nf">fn</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">))</span> <span class="c1">;;;只是获取第一个元素,然后放入acc中,最后返回acc</span>
+</span><span class='line'>                                      <span class="nv">acc</span><span class="p">))))</span>
+</span><span class='line'>          <span class="p">(</span><span class="nf">reverse-lst-2</span> <span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nf">collect</span> <span class="nv">lst</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">())))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">compress-1</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">general-process</span> <span class="nv">cons</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">sublst</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">sublst</span><span class="p">))</span> <span class="nv">lst</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">compress-1</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">a</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">b</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">c</span> <span class="nv">c</span>  <span class="nv">a</span> <span class="nv">a</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">b</span> <span class="nv">b</span><span class="p">))</span>
+</span><span class='line'>  <span class="c1">;;;&#39;(a b c a b)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P10  Pack consecutive duplicates of list elements into sublists.</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>  <span class="c1">;;;(collect &#39;(a a b b c c  d d  e e f e f))  ;;用collect也可以实现</span>
+</span><span class='line'><span class="c1">;;;&#39;((a a) (b b) (c c) (d d) (e e) (f) (e) (f))</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'> <span class="c1">;;同样的我们也可以使用general-process实现一下</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">pack</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">identity</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">general-process</span> <span class="nv">cons</span> <span class="nv">identity</span> <span class="nv">lst</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">pack</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">a</span>  <span class="nv">b</span> <span class="nv">b</span>  <span class="nv">c</span> <span class="nv">c</span>  <span class="nv">a</span> <span class="nv">a</span><span class="p">))</span>
+</span><span class='line'>  <span class="c1">;;&#39;((a a) (b b) (c c) (a a))  为什么可以这样漂亮  其实主要是因为collect的作用!!collect本身已经帮你分好了</span>
+</span><span class='line'>              <span class="c1">;;;所以感觉这个general-process 函数有点贼!!</span>
+</span><span class='line'>  <span class="c1">;;;那么下面就来体现general-process的与众不同之处把!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P11  Run-length encoding of a list.</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>  <span class="c1">;;;Use the result of problem P09 to implement the so-called run-length</span>
+</span><span class='line'>  <span class="c1">;;;encoding data compression method. Consecutive duplicates of elements are </span>
+</span><span class='line'>  <span class="c1">;;;encoded as lists (N E) where N is the number of duplicates of the element E.</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;;Example:</span>
+</span><span class='line'><span class="c1">;;;(encode &#39;(a a a a b c c a a d e e e e))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">encode</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">general-process</span> <span class="nv">cons</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">sub</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nf">length-lst</span> <span class="nv">sub</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">sub</span><span class="p">)))</span> <span class="nv">lst</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">encode</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">a</span>  <span class="nv">a</span>  <span class="nv">b</span> <span class="nv">b</span> <span class="nv">b</span> <span class="nv">b</span>  <span class="nv">p</span> <span class="nv">c</span> <span class="nv">c</span>   <span class="nv">d</span> <span class="nv">d</span>  <span class="nv">a</span> <span class="nv">a</span> <span class="nv">a</span>  <span class="nv">e</span> <span class="nv">f</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P12  Modified run-length encoding.</h2>
+
+<p>  ;;;;Modify the result of problem P10 in such a way that if an element has no duplicates it is
+  ;;;simply copied into the result list. Only elements with duplicates are transferred as (N E) lists.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">encode-upgrade</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nf">general-process</span> <span class="nv">cons</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">sub</span><span class="p">)</span>
+</span><span class='line'>                                     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nf">length-lst</span> <span class="nv">sub</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">;;;; 我们做了额外的操作,如果他们只是1的话,就保持原样输出</span>
+</span><span class='line'>                                        <span class="p">(</span><span class="nb">car </span><span class="nv">sub</span><span class="p">)</span>
+</span><span class='line'>                                        <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nf">length-lst</span> <span class="nv">sub</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">sub</span><span class="p">))))</span> <span class="nv">lst</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">encode-upgrade</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">a</span>  <span class="nv">a</span>  <span class="nv">b</span> <span class="nv">b</span> <span class="nv">b</span> <span class="nv">b</span>  <span class="nv">p</span> <span class="nv">c</span> <span class="nv">c</span>   <span class="nv">d</span> <span class="nv">d</span>  <span class="nv">a</span> <span class="nv">a</span> <span class="nv">a</span>  <span class="nv">e</span> <span class="nv">f</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>  ;;;;然而这时候我们  又需要尝试反着去处理那些数据</p>
+
+<h2>P13  Decode a run-length encoded list.</h2>
+
+<p>  ;;;Given a run-length code list generated as specified in problem P11. Construct its uncompressed version</p>
+
+<h3>这是一个不好的定义,对于宏这一大块 暂时有点模糊</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">loop</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span> <span class="nv">y</span> <span class="nv">fn</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&lt;= </span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+</span><span class='line'>         <span class="p">(</span><span class="k">begin </span><span class="p">(</span><span class="nf">fn</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">lst</span><span class="p">))</span> <span class="p">(</span><span class="k">set! </span><span class="nv">x</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>               <span class="p">(</span><span class="nf">loop</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))</span> <span class="o">&#39;</span><span class="p">())))</span>
+</span><span class='line'> <span class="c1">;;(loop 1 (car &#39;(3 a)) cons &#39;(3 a 4 b))</span>
+</span><span class='line'>  <span class="c1">;Perhaps the best you can do, at least with syntax-rules, </span>
+</span><span class='line'><span class="c1">;  is to use the macro to capture only the expressions to run, </span>
+</span><span class='line'>  <span class="c1">;and use non-macro code to deal with the looping:</span>
+</span><span class='line'>  <span class="c1">;;(define-syntax-rule (id . pattern) template)</span>
+</span><span class='line'><span class="c1">;Equivalent to</span>
+</span><span class='line'><span class="c1">;(define-syntax id</span>
+</span><span class='line'> <span class="c1">; (syntax-rules ()</span>
+</span><span class='line'>  <span class="c1">; [(id . pattern) template]))</span>
+</span><span class='line'>  <span class="c1">;(define-syntax rotate</span>
+</span><span class='line'>  <span class="c1">;(syntax-rules ()</span>
+</span><span class='line'>   <span class="c1">; [(rotate a b) (swap a b)]   ;;模板1</span>
+</span><span class='line'>   <span class="c1">; [(rotate a b c) (begin         ;;;模板2</span>
+</span><span class='line'>    <span class="c1">;                 (swap a b)</span>
+</span><span class='line'>     <span class="c1">;                (swap b c))]))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;;;When a pattern variable like c is followed by ... </span>
+</span><span class='line'>  <span class="c1">;;in a pattern, then it must be followed by ... in a template, too. </span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define-syntax </span><span class="nv">forloop</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">syntax-rules </span><span class="p">()</span>
+</span><span class='line'>    <span class="p">((</span><span class="nf">forloop</span> <span class="nv">start</span> <span class="nv">stop</span> <span class="nv">exps</span> <span class="o">...</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">j</span> <span class="nv">stop</span><span class="p">))</span>
+</span><span class='line'>       <span class="p">(</span><span class="k">let </span><span class="nv">loop</span> <span class="p">((</span><span class="nf">i</span> <span class="nv">start</span><span class="p">))</span>
+</span><span class='line'>         <span class="p">(</span><span class="nf">when</span> <span class="p">(</span><span class="nb">&lt;= </span><span class="nv">i</span> <span class="nv">j</span><span class="p">)</span>
+</span><span class='line'>           <span class="nv">exps</span> <span class="o">...</span>
+</span><span class='line'>           <span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">i</span> <span class="mi">1</span><span class="p">))))))))</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">forloop</span> <span class="mi">6</span> <span class="mi">8</span> <span class="p">(</span><span class="nb">display </span><span class="ss">&#39;g</span><span class="p">))</span>
+</span><span class='line'>  <span class="c1">;;;;&gt; (forloop 6 8 (display &#39;g))</span>
+</span><span class='line'><span class="c1">;;;;ggg</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;;;Macros are expanded at compile time,(也就是说编译时候负责的是语法数的建立</span>
+</span><span class='line'> <span class="c1">;; 和展开,而在运行阶段runnable阶段才是求值阶段)</span>
+</span><span class='line'>  <span class="c1">;;thus something like (begin exps ... (forloop (+ start 1) stop exps ...)) </span>
+</span><span class='line'>  <span class="c1">;;will expand forloop again and again, regardless of what the value </span>
+</span><span class='line'>  <span class="c1">;;of (+ start 1) is (which is evaluated at runtime).</span>
+</span><span class='line'>  <span class="c1">;;;说得太对了!! 必须capture你所要重复的步骤,但不要加入foorloop</span>
+</span><span class='line'>  <span class="c1">;;;因为他会不断的展开,直到内存泄漏</span>
+</span><span class='line'>  <span class="c1">;;;就比如上面的forloop的不抓片段就是</span>
+</span><span class='line'>  <span class="c1">;; (let ((j stop))</span>
+</span><span class='line'>  <span class="c1">;;     (let loop ((i start))</span>
+</span><span class='line'>   <span class="c1">;;      (when (&lt;= i j)</span>
+</span><span class='line'>   <span class="c1">;;        exps ...</span>
+</span><span class='line'>   <span class="c1">;;        (loop (+ i 1))))))))  ;;;必须保证没有包含 forloop</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'> <span class="c1">;;;You can also use a do loop:</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define-syntax </span><span class="nv">forloop1</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">syntax-rules </span><span class="p">()</span>
+</span><span class='line'>    <span class="p">((</span><span class="nf">forloop</span> <span class="nv">start</span> <span class="nv">stop</span> <span class="nv">exps</span> <span class="o">...</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">j</span> <span class="nv">stop</span><span class="p">))</span>
+</span><span class='line'>       <span class="p">(</span><span class="k">do </span><span class="p">((</span><span class="nf">i</span> <span class="nv">start</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">i</span> <span class="mi">1</span><span class="p">)))</span>
+</span><span class='line'>           <span class="p">((</span><span class="nb">&gt; </span><span class="nv">i</span> <span class="nv">j</span><span class="p">))</span>
+</span><span class='line'>         <span class="nv">exps</span> <span class="o">...</span><span class="p">)))))</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">forloop1</span> <span class="mi">6</span> <span class="mi">8</span> <span class="p">(</span><span class="nb">display </span><span class="ss">&#39;g</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="c1">;;;现在返回到我们的整体 decode the encode list ----这边暂时留下一个疑问!</span>
+</span><span class='line'><span class="c1">;;;不知道如何实现http://blog.csdn.net/yuan_da_xing/article/details/8643869</span>
+</span><span class='line'><span class="c1">;;;P12的problem</span>
+</span><span class='line'><span class="c1">;;参考阅读http://blog.csdn.net/xiaojianpitt/article/details/7878429</span>
+</span><span class='line'><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">decode</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nf">reverse-lst-2</span> <span class="p">(</span><span class="nf">general-process</span> <span class="nv">ncons-true</span>
+</span><span class='line'>                   <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">elem</span><span class="p">)</span>
+</span><span class='line'>                       <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">e</span> <span class="p">(</span><span class="nb">car </span><span class="nv">elem</span><span class="p">)))</span>
+</span><span class='line'>                         <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">atom?</span> <span class="nv">e</span><span class="p">)</span>
+</span><span class='line'>                            <span class="p">(</span><span class="nb">list </span><span class="nv">e</span><span class="p">)</span>
+</span><span class='line'>                            <span class="c1">;;(forloop 1 (car e) (collect (cadr e))))))</span>
+</span><span class='line'>                            <span class="p">(</span><span class="nf">forloop</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">car </span><span class="nv">e</span><span class="p">)</span> <span class="p">(</span><span class="nb">display </span><span class="ss">&#39;e</span><span class="p">)))))</span>
+</span><span class='line'>                <span class="nv">lst</span><span class="p">)))</span>
+</span><span class='line'><span class="c1">;;;http://blog.csdn.net/xiaojianpitt/article/details/7878429</span>
+</span><span class='line'><span class="c1">;;重要定义了一个forloop的方法</span>
+</span><span class='line'><span class="c1">;;http://stackoverflow.com/questions/20810801/defining-a-for-loop-in-scheme# </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P14  Run-length encoding of a list (direct solution).</h2>
+
+<p>  Implement the so-called run-length encoding data compression
+  method directly. I.e. don&rsquo;t explicitly create the sublists
+  containing the duplicates, as in problem P09, but only
+  count them. As in problem P11,
+  simplify the result list by replacing the singleton lists (1 X) by X.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">encode-direct</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rec</span> <span class="nv">lst</span> <span class="nv">cur</span> <span class="nv">count</span> <span class="nv">acc</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nf">reverse-lst-2</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">list </span><span class="nv">count</span> <span class="nv">cur</span><span class="p">)</span>
+</span><span class='line'>                                             <span class="nv">acc</span><span class="p">)))</span>
+</span><span class='line'>           <span class="p">((</span><span class="nb">equal? </span><span class="nv">cur</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">))</span>
+</span><span class='line'>            <span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">cur</span> <span class="p">(</span><span class="nb">+ </span> <span class="mi">1</span> <span class="nv">count</span><span class="p">)</span> <span class="nv">acc</span><span class="p">))</span>
+</span><span class='line'>           <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)</span> <span class="mi">1</span>
+</span><span class='line'>                   <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">list </span><span class="nv">count</span> <span class="nv">cur</span><span class="p">)</span> <span class="nv">acc</span><span class="p">)))))</span> <span class="c1">;;; 目的是分好组 map的任务就是跳出</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">e</span><span class="p">)</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">car </span><span class="nv">e</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">e</span><span class="p">)</span> <span class="nv">e</span><span class="p">))</span>
+</span><span class='line'>        <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>           <span class="o">&#39;</span><span class="p">()</span>
+</span><span class='line'>           <span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)</span> <span class="mi">1</span> <span class="o">&#39;</span><span class="p">()))))</span>
+</span><span class='line'><span class="p">(</span><span class="nf">encode-direct</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">a</span> <span class="nv">a</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">c</span> <span class="nv">a</span> <span class="nv">a</span> <span class="nv">d</span> <span class="nv">e</span> <span class="nv">e</span> <span class="nv">e</span> <span class="nv">e</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>P15  Duplicate the elements of a list.</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="c1">;; ((lambda (x) (forloop 1 4 (begin (print   x) ))) &#39;(a b c))</span>
+</span><span class='line'><span class="c1">;;&#39;(a b c)&#39;(a b c)&#39;(a b c)&#39;(a b c)</span>
+</span><span class='line'><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fp</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">cond</span>
+</span><span class='line'>    <span class="p">((</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">())</span>
+</span><span class='line'>    <span class="c1">;(else (cons (fp (cdr lst)) ((lambda (x) (forloop 1 4  (collect (list x)))) (car lst))))))</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">fp</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">))</span> <span class="p">((</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">forloop</span> <span class="mi">1</span> <span class="mi">4</span>  <span class="p">(</span><span class="nf">print</span>  <span class="nv">x</span><span class="p">)))</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">))))))</span>
+</span><span class='line'><span class="p">(</span><span class="nf">fp</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="k">define </span><span class="nv">nums</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">fnums</span> <span class="nv">num1</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">num2</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">expt </span><span class="nv">num1</span> <span class="nv">num2</span><span class="p">)))</span>
+</span><span class='line'><span class="p">(</span><span class="k">define </span><span class="nv">ans</span> <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="nf">fnums</span> <span class="mi">5</span><span class="p">)</span> <span class="nv">nums</span><span class="p">))</span>
+</span><span class='line'><span class="nv">ans</span>
+</span><span class='line'><span class="c1">;;(map (lambda (x) (expt 5 x)) &#39;(1 2 3 4 5))</span>
+</span><span class='line'><span class="c1">;;&#39;(5 25 125 625 3125)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;;;;记住在Pairs and Lists有更多的关于列表的操作</span>
+</span><span class='line'><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">loop-until</span> <span class="nv">start</span> <span class="nv">end</span> <span class="nv">next</span> <span class="nv">f</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">loop</span> <span class="nv">i</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">cond</span>
+</span><span class='line'>      <span class="p">((</span><span class="nb">= </span> <span class="nv">i</span> <span class="nv">end</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">f</span> <span class="nv">i</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">()))</span>
+</span><span class='line'>      <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">f</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nf">next</span> <span class="nv">i</span><span class="p">))))))</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">loop</span> <span class="nv">start</span><span class="p">))</span>
+</span><span class='line'> <span class="c1">; (let loop ([i start])</span>
+</span><span class='line'> <span class="c1">;   (unless (done? i)</span>
+</span><span class='line'> <span class="c1">;     (if (&lt; i end) (cons (f i)  (loop (next i)))</span>
+</span><span class='line'> <span class="c1">;        (cons (f i) &#39;())) ;;;The last one! </span>
+</span><span class='line'>  <span class="c1">;       )))</span>
+</span><span class='line'><span class="p">(</span><span class="nf">loop-until</span> <span class="mi">1</span> <span class="mi">10</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">x</span> <span class="mi">1</span><span class="p">))</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="mi">2</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">decode1</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">next</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">i</span> <span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">identity</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span>
+</span><span class='line'>   <span class="c1">; (define (pick i lst)</span>
+</span><span class='line'>   <span class="c1">;   (if (= i 0) (car lst)</span>
+</span><span class='line'>   <span class="c1">;      (pick (- i 1) (cdr lst))))</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">loop-until-local</span> <span class="nv">start</span> <span class="nv">end</span> <span class="nv">next</span> <span class="nv">f</span> <span class="nv">atom1</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">loop</span> <span class="nv">i</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">(</span><span class="nf">cond</span>
+</span><span class='line'>         <span class="c1">;; ((=  i end) (cons (f (pick i lst)) &#39;()))</span>
+</span><span class='line'>           <span class="p">((</span><span class="nb">= </span> <span class="nv">i</span> <span class="nv">end</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">f</span> <span class="nv">atom1</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">()))</span>
+</span><span class='line'>          <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">f</span> <span class="nv">atom1</span><span class="p">)</span> <span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nf">next</span> <span class="nv">i</span><span class="p">))))))</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">loop</span> <span class="nv">start</span><span class="p">))</span>
+</span><span class='line'>  <span class="c1">;;;  (reverse-lst-2 (general-process ncons-true </span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">general-process</span> <span class="nv">ncons-true</span>
+</span><span class='line'>                       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">elem</span><span class="p">)</span>
+</span><span class='line'>                           <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">e</span> <span class="p">(</span><span class="nb">car </span><span class="nv">elem</span><span class="p">)))</span>
+</span><span class='line'>                             <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">atom?</span> <span class="nv">e</span><span class="p">)</span>
+</span><span class='line'>                                <span class="p">(</span><span class="nb">list </span><span class="nv">e</span><span class="p">)</span>
+</span><span class='line'>                                <span class="c1">;;(forloop 1 (car e) (collect (cadr e))))))</span>
+</span><span class='line'>                                <span class="p">(</span><span class="nf">loop-until-local</span> <span class="mi">1</span> <span class="p">(</span><span class="nb">car </span><span class="nv">e</span><span class="p">)</span> <span class="nv">next</span> <span class="nv">identity</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">e</span><span class="p">)))))</span>
+</span><span class='line'>                    <span class="nv">lst</span><span class="p">))</span>
+</span><span class='line'>  <span class="c1">;;;&gt; (decode1 &#39;(4 a))</span>
+</span><span class='line'><span class="c1">;;&#39;(a 4)</span>
+</span><span class='line'><span class="c1">;;&gt; (decode1 &#39;(a 4))</span>
+</span><span class='line'><span class="c1">;;&#39;(4 a)</span>
+</span><span class='line'><span class="c1">;; (decode1 &#39;((4 a) (2 e)))</span>
+</span><span class='line'><span class="c1">;;&#39;(a a a a e e)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">general-rep</span> <span class="nv">lst</span> <span class="nv">n</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">next</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="nv">i</span><span class="p">))</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">identity</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">x</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">loop-until-local</span> <span class="nv">start</span> <span class="nv">end</span> <span class="nv">next</span> <span class="nv">f</span> <span class="nv">atom1</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">loop</span> <span class="nv">i</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">(</span><span class="nf">cond</span>
+</span><span class='line'>         <span class="c1">;; ((=  i end) (cons (f (pick i lst)) &#39;()))</span>
+</span><span class='line'>           <span class="p">((</span><span class="nb">= </span> <span class="nv">i</span> <span class="nv">end</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">f</span> <span class="nv">atom1</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">()))</span>
+</span><span class='line'>          <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">f</span> <span class="nv">atom1</span><span class="p">)</span> <span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nf">next</span> <span class="nv">i</span><span class="p">))))))</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">loop</span> <span class="nv">start</span><span class="p">))</span>
+</span><span class='line'>    <span class="c1">;;(map (lambda (x) (loop-until-local 1 n next identity x)) lst))</span>
+</span><span class='line'>   <span class="c1">;; (compress (map (lambda (x) (loop-until-local 1 n next identity x)) lst))) ;;;想着让结果 只包含一个括号</span>
+</span><span class='line'>     <span class="p">(</span><span class="nf">my-flatten</span> <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">loop-until-local</span> <span class="mi">1</span> <span class="nv">n</span> <span class="nv">next</span> <span class="nv">identity</span> <span class="nv">x</span><span class="p">))</span> <span class="nv">lst</span><span class="p">)))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>P15 Duplicate the elements of a list</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">dupli</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">general-rep</span> <span class="nv">lst</span> <span class="mi">2</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">dupli</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>P16 Replicae the elements of a list a given number of times</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">repli</span> <span class="nv">lst</span> <span class="nv">n</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">general-rep</span> <span class="nv">lst</span> <span class="nv">n</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">repli</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span><span class="p">)</span> <span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P17 Drop every N&#8217;th element from a list</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">drop</span> <span class="nv">lst</span> <span class="nv">n</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rec</span> <span class="nv">lst</span> <span class="nv">i</span><span class="p">)</span>
+</span><span class='line'>              <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">())</span>
+</span><span class='line'>                   <span class="p">((</span><span class="nb">= </span><span class="nv">i</span> <span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>                   <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">i</span> <span class="mi">1</span><span class="p">))))))</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">rec</span> <span class="nv">lst</span> <span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">drop</span> <span class="o">&#39;</span><span class="p">(</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span>  <span class="p">)</span> <span class="mi">3</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">pick</span> <span class="nv">n</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>       <span class="p">(</span><span class="nf">pick</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>  <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">))))</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">pick</span> <span class="mi">3</span>  <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P18 Split a list into two parts ;the length of the first part is given</h2>
+
+<p> ;;;1  共有模式选取一个表 从0选到n即可
+  ;;2  提供一个表  利用nthcdr   该过程接受两个参数 第一个参数表示开始位置 第二个参数表示总表 ,截取到表的截止位置
+  ;;> (nthcdr 3 &lsquo;(a b c d e))  &mdash;&ndash;>测试成功
+;;;&rsquo;(d e)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">nthcdr</span> <span class="nv">n</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">cond</span>
+</span><span class='line'>    <span class="c1">;((null? lst) &#39;())</span>
+</span><span class='line'>    <span class="c1">;((&gt; n (length-lst lst)) &#39;())</span>
+</span><span class='line'>    <span class="p">((</span><span class="nb">null? </span><span class="nv">lst</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">())</span>
+</span><span class='line'>    <span class="p">((</span><span class="nb">&gt; </span><span class="nv">n</span> <span class="p">(</span><span class="nf">length-lst</span> <span class="nv">lst</span><span class="p">))</span> <span class="o">&#39;</span><span class="p">())</span>
+</span><span class='line'>    <span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span> <span class="nv">lst</span><span class="p">)</span> <span class="c1">;; bug修复; 因为第一个就是n=0只不过一直没有</span>
+</span><span class='line'>    <span class="c1">;((= n 1)  (cdr lst))</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">nthcdr</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)))))</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">copy-from</span> <span class="nv">lst</span> <span class="nv">start</span> <span class="nv">end</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">copy</span> <span class="nv">lst</span> <span class="nv">len</span> <span class="nv">acc</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">len</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="nb">reverse </span><span class="nv">acc</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="nf">copy</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="nv">len</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">acc</span><span class="p">))))</span>
+</span><span class='line'><span class="p">(</span><span class="nf">copy</span> <span class="p">(</span><span class="nf">nthcdr</span> <span class="nv">start</span> <span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="nv">end</span> <span class="nv">start</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">()))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">split</span> <span class="nv">lst</span> <span class="nv">cut-point</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nf">copy-from</span> <span class="nv">lst</span> <span class="mi">0</span> <span class="nv">cut-point</span><span class="p">)</span> <span class="p">(</span><span class="nf">copy-from</span> <span class="nv">lst</span> <span class="nv">cut-point</span> <span class="p">(</span><span class="nf">length-lst</span> <span class="nv">lst</span><span class="p">))))</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">split</span>  <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span> <span class="nv">f</span><span class="p">)</span> <span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="nf">split</span>  <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span> <span class="nv">f</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P19  Extract a slice from a list given tow indice,I and K ,the slice is the list containing the elements</h2>
+
+<pre><code>;; between the I'th and K'th element of the original list (both limits incluede);;类似于subseq
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">slice</span> <span class="nv">lst</span> <span class="nv">start</span> <span class="nv">end</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">copy-from</span> <span class="nv">lst</span> <span class="p">(</span><span class="nb">- </span><span class="nv">start</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">end</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="nf">slice</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span> <span class="nv">f</span>  <span class="nv">g</span><span class="p">)</span> <span class="mi">2</span> <span class="mi">4</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P20  rotate a list N places to the left</h2>
+
+<p>cut the table into two parts,then change the position</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rotate</span> <span class="nv">lst</span> <span class="nv">n</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">len</span> <span class="p">(</span><span class="nf">length-lst</span> <span class="nv">lst</span><span class="p">)))</span>
+</span><span class='line'>       <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">(</span><span class="nf">ncons-true</span> <span class="p">(</span><span class="nf">copy-from</span> <span class="nv">lst</span> <span class="nv">n</span> <span class="nv">len</span><span class="p">)</span> <span class="p">(</span><span class="nf">copy-from</span> <span class="nv">lst</span> <span class="mi">0</span> <span class="nv">n</span><span class="p">))</span> <span class="c1">;;正方向</span>
+</span><span class='line'>          <span class="p">(</span><span class="nf">ncons-true</span> <span class="p">(</span><span class="nf">copy-from</span> <span class="nv">lst</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">len</span> <span class="nv">n</span><span class="p">)</span> <span class="nv">len</span><span class="p">)</span> <span class="p">(</span><span class="nf">copy-from</span> <span class="nv">lst</span> <span class="mi">0</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">len</span> <span class="nv">n</span><span class="p">))))))</span> <span class="c1">;;;反方向</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="p">(</span><span class="nf">rotate</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span>  <span class="nv">f</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>   <span class="p">(</span><span class="nf">rotate</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span> <span class="nv">f</span><span class="p">)</span> <span class="mi">-2</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P21 Remove the Kth element from a list</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">remove-at</span> <span class="nv">lst</span> <span class="nv">n</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nf">remove-at</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))))</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="p">(</span><span class="nf">remove-at</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span>  <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span> <span class="nv">f</span><span class="p">)</span> <span class="mi">5</span><span class="p">)</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P22 Insert an element at a given position into a list</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">insert-at</span> <span class="nv">elem</span> <span class="nv">pos</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">pos</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">(</span><span class="nb">cons </span> <span class="nv">elem</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nf">insert-at</span> <span class="nv">elem</span> <span class="p">(</span><span class="nb">- </span><span class="nv">pos</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)))))</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="p">(</span><span class="nf">insert-at</span> <span class="ss">&#39;abc</span>  <span class="mi">2</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">))</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P23 Create a list containing all integers within a given range</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">range</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">next</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">i</span> <span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">f</span> <span class="nv">i</span><span class="p">)</span> <span class="nv">i</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">loop-until-local</span> <span class="nv">start</span> <span class="nv">end</span> <span class="nv">next</span> <span class="nv">f</span> <span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">loop</span> <span class="nv">i</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">(</span><span class="nf">cond</span>
+</span><span class='line'>         <span class="c1">;; ((=  i end) (cons (f (pick i lst)) &#39;()))</span>
+</span><span class='line'>           <span class="p">((</span><span class="nb">= </span> <span class="nv">i</span> <span class="nv">end</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">f</span> <span class="nv">i</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">()))</span>
+</span><span class='line'>          <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">f</span> <span class="nv">i</span><span class="p">)</span> <span class="p">(</span><span class="nf">loop</span> <span class="p">(</span><span class="nf">next</span> <span class="nv">i</span><span class="p">))))))</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">loop</span> <span class="nv">start</span><span class="p">))</span>
+</span><span class='line'>     <span class="p">(</span><span class="nf">loop-until-local</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">next</span> <span class="nv">f</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="p">(</span><span class="nf">range</span> <span class="mi">1</span> <span class="mi">10</span><span class="p">)</span>
+</span><span class='line'>   <span class="p">(</span><span class="nf">range</span> <span class="mi">4</span> <span class="mi">40</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P24 Extract a given number of randomly selected elements from a list</h2>
+
+<p>   随机抽取的元素放在list当中,洗牌算法</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rnd-select</span> <span class="nv">lst</span> <span class="nv">n</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>        <span class="o">&#39;</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">r</span> <span class="p">(</span><span class="nf">random</span> <span class="p">(</span><span class="nf">length-lst</span> <span class="nv">lst</span><span class="p">))))</span>
+</span><span class='line'>          <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nf">pick</span> <span class="nv">r</span> <span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nf">rnd-select</span> <span class="p">(</span><span class="nf">remove-at</span> <span class="nv">lst</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="nv">r</span><span class="p">))</span> <span class="p">(</span><span class="nb">- </span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))))))</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="p">(</span><span class="nf">rnd-select</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span> <span class="nv">f</span> <span class="nv">g</span> <span class="nv">h</span> <span class="nv">i</span> <span class="nv">j</span> <span class="nv">k</span><span class="p">)</span> <span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P25 Lotto:Draw  Ndifferent random numbers from the set 1&hellip;M</h2>
+
+<p>   组合P22 P23</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">lotto-select</span> <span class="nv">n</span> <span class="nv">m</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="nf">rnd-select</span> <span class="p">(</span><span class="nf">range</span> <span class="mi">1</span> <span class="nv">m</span><span class="p">)</span> <span class="nv">n</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="p">(</span><span class="nf">lotto-select</span> <span class="mi">6</span> <span class="mi">49</span><span class="p">)</span>
+</span><span class='line'>   <span class="c1">;;&#39;(12 10 5 39 37 1)   每次运行都是不一样的</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P26 使用random求解器  和rnd-select来让列表乱续</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">rnd-permu</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="nf">rnd-select</span> <span class="nv">lst</span> <span class="p">(</span><span class="nf">length-lst</span> <span class="nv">lst</span><span class="p">)))</span>
+</span><span class='line'>   <span class="p">(</span><span class="nf">rnd-permu</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span> <span class="nv">f</span> <span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="c1">;;&#39;(e d f b c a)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P27 Generate the combinations of K distinct objects chosen from the N elements of a list?</h2>
+
+<p>   in how many ways can a committee of 3 be chosen from a group of 12 people?
+   数学力的排列组合C(12,3)=220种可能。</p>
+
+<ol>
+<li>选择第0个元素,在剩下的链表中选取n-1个元素</li>
+<li>选择第1个元素,在剩下的链表中选取n-1个元素。。依次递归</li>
+<li>n=1 选取当前链表的第一个元素</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">combine-1</span> <span class="nv">lst</span> <span class="nv">n</span><span class="p">)</span>
+</span><span class='line'>                     <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="k">or </span><span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">length-lst</span> <span class="nv">lst</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nb">zero? </span><span class="nv">n</span><span class="p">))</span> <span class="o">&#39;</span><span class="p">())</span>
+</span><span class='line'>                          <span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>                           <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="nv">x</span><span class="p">))</span> <span class="nv">lst</span><span class="p">))</span>
+</span><span class='line'>                           <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">ncons-true</span> <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">elem</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">elem</span><span class="p">))</span>
+</span><span class='line'>                                            <span class="p">(</span><span class="nf">combine-1</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">- </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)))</span>
+</span><span class='line'>                                            <span class="p">(</span><span class="nf">combine-1</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">n</span><span class="p">)))))</span>
+</span><span class='line'>   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">combination</span> <span class="nv">n</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="nf">combine-1</span> <span class="nv">lst</span> <span class="nv">n</span><span class="p">))</span>
+</span><span class='line'> <span class="c1">;  (combination 3 &#39;(1 3 5 7 9 11 13 15))</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="c1">;;&gt; (apply + &#39;(3 6 22))</span>
+</span><span class='line'><span class="c1">;;31</span>
+</span><span class='line'>   <span class="c1">;;;终于解决了 我想要的,但是核心的combine-1还是得再去重新理解</span>
+</span><span class='line'>   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">select30</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">if </span> <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">apply </span><span class="nv">+</span> <span class="nv">lst</span><span class="p">)</span> <span class="mi">30</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="nv">lst</span> <span class="ss">&#39;correct</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="nv">lst</span> <span class="ss">&#39;false</span><span class="p">)))</span>
+</span><span class='line'>   <span class="p">(</span><span class="nb">map </span><span class="nv">select30</span>  <span class="p">(</span><span class="nf">combination</span> <span class="mi">3</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">3</span> <span class="mi">5</span> <span class="mi">7</span> <span class="mi">9</span> <span class="mi">11</span> <span class="mi">13</span> <span class="mi">15</span><span class="p">)))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>P28 Group the elements of a set into disjoint subsets</h2>
+
+<ul>
+<li><p>In how many ways can a group of 9 people work in 3 disjoint subgroups of 2,3 and 4 persons? write a function that generates all the possibilities and returns them in a list.</p></li>
+<li><p>Example
+  (group3 &lsquo;(aldo beat carla david evi flip gary hugo ida))
+  ( ( (ALDO BEAT) (CARLA DAVID EVI) (FLIP GARY HUGO IDA) )&hellip; )</p></li>
+<li><p>Generalize the above predicate in a way that we can specify a list of group sizes and the predicate will return a list of groups.</p>
+
+<p> Example:
+  (group &lsquo;(aldo beat carla david evi flip gary hugo ida) &rsquo;(2 2 5))<br/>
+  (((ALDO BEAT) (CARLA DAVID) (EVI FLIP GARY HUGO IDA) )&hellip; )</p>
+
+<p> <em>Note that we do not want permutations of the group members;</em> i.e. ((ALDO BEAT) &hellip;) is the same solution as ((BEAT ALDO) &hellip;).
+ However, we make a difference between ((ALDO BEAT) (CARLA DAVID) &hellip;) and ((CARLA DAVID) (ALDO BEAT) &hellip;).</p>
+
+<p> You may find more about this combinatorial problem in a good book on discrete mathematics under the term &ldquo;multinomial coefficients&rdquo;.
+ set-difference A B  找出A中元素不在B中的
+lstA lstB 都是一个lat</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">member?</span> <span class="nv">a</span> <span class="nv">lat</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="nf">cond</span>
+</span><span class='line'>       <span class="p">((</span><span class="nb">null? </span><span class="nv">lat</span><span class="p">)</span> <span class="no">#f</span><span class="p">)</span>
+</span><span class='line'>       <span class="p">((</span><span class="nb">equal? </span><span class="nv">a</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lat</span><span class="p">))</span> <span class="no">#t</span><span class="p">)</span>
+</span><span class='line'>       <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">member?</span> <span class="nv">a</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lat</span><span class="p">)))))</span>
+</span><span class='line'>   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">set-difference</span> <span class="nv">lstA</span> <span class="nv">lstB</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">(</span><span class="nf">cond</span>
+</span><span class='line'>       <span class="p">((</span><span class="nb">null? </span><span class="nv">lstA</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">())</span>
+</span><span class='line'>       <span class="p">((</span><span class="nb">null? </span><span class="nv">lstB</span><span class="p">)</span> <span class="nv">lstA</span><span class="p">)</span>
+</span><span class='line'>       <span class="p">((</span><span class="nf">member?</span> <span class="p">(</span><span class="nb">car </span><span class="nv">lstA</span><span class="p">)</span> <span class="nv">lstB</span><span class="p">)</span>  <span class="p">(</span><span class="nf">set-difference</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lstA</span><span class="p">)</span> <span class="nv">lstB</span><span class="p">))</span>
+</span><span class='line'>       <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">lstA</span><span class="p">)</span> <span class="p">(</span><span class="nf">set-difference</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lstA</span><span class="p">)</span> <span class="nv">lstB</span><span class="p">)))))</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="c1">;;正确实现了clisp的set-difference</span>
+</span><span class='line'>   <span class="p">(</span><span class="nf">set-difference</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span>  <span class="nv">d</span> <span class="nv">e</span> <span class="nv">g</span><span class="p">))</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">set-difference</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="p">(</span><span class="nf">b</span> <span class="nv">c</span><span class="p">)</span> <span class="nv">d</span> <span class="nv">e</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span> <span class="nv">g</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">set-difference</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">bc</span> <span class="p">)</span> <span class="o">&#39;</span><span class="p">())</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;;Break 7 [8]&gt; (reduce #&#39;append &#39;((a b) (c d)))</span>
+</span><span class='line'><span class="c1">;;(A B C D)</span>
+</span><span class='line'><span class="c1">;Break 7 [8]&gt; (reduce #&#39;append &#39;((a b c) (c d)))</span>
+</span><span class='line'><span class="c1">;(A B C C D)</span>
+</span><span class='line'><span class="c1">;Break 7 [8]&gt; (reduce #&#39;append &#39;((a b c) (c d) (e f))</span>
+</span><span class='line'><span class="c1">;)</span>
+</span><span class='line'><span class="c1">;(A B C C D E F)</span>
+</span><span class='line'><span class="c1">;Break 7 [8]&gt; (reduce #&#39;append &#39;((a b c) (c d) (e f) ((a c) (e f))))</span>
+</span><span class='line'><span class="c1">;(A B C C D E F (A C) (E F))</span>
+</span><span class='line'><span class="c1">;;;从这边可以看到reduce的作用就是开出一个括号来,其实相当于减1的效果</span>
+</span><span class='line'>  <span class="c1">;;;也就是原先一个括号的没有括号  原先两个括号的变成一个括号 ,原先是原子的则报错!必须具有一个括号!</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="err">然而</span><span class="nv">scheme</span><span class="err">提供了</span><span class="nv">fold-left</span>  <span class="nv">fold-right</span><span class="err">两个相似的过程</span>  <span class="nv">R6RS</span><span class="err">中才有</span><span class="nv">!!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>留下了很大的遗憾，P27 P28没有实现，贴上clisp版本</h1>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="nf">defun</span> <span class="nv">lenght-lst</span> <span class="p">(</span><span class="nf">lst</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">null</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'> <span class="mi">0</span>
+</span><span class='line'> <span class="p">(</span><span class="mi">1</span><span class="nv">+</span> <span class="p">(</span><span class="nf">lenght-lst</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)))))</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="nf">defun</span> <span class="nv">flatten-2</span> <span class="p">(</span><span class="nf">lst</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">remove-duplicates</span> <span class="p">(</span><span class="nf">reduce</span> <span class="o">#</span><span class="ss">&#39;append</span> <span class="nv">lst</span><span class="p">)))</span>
+</span><span class='line'><span class="p">(</span><span class="nf">defun</span> <span class="nv">get-n-elements-from</span> <span class="p">(</span><span class="nf">lst</span> <span class="nv">used</span> <span class="nv">n</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="k">let* </span><span class="p">((</span><span class="nf">f1</span> <span class="p">(</span><span class="nf">flatten-2</span> <span class="nv">used</span><span class="p">))</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">left</span> <span class="p">(</span><span class="nf">set-difference</span> <span class="nv">lst</span> <span class="nv">f1</span><span class="p">)))</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">labels</span> <span class="p">((</span><span class="nf">rec</span> <span class="p">(</span><span class="nf">lst</span> <span class="nv">n</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="k">or </span><span class="p">(</span><span class="nf">null</span> <span class="nv">lst</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="nb">&lt; </span><span class="p">(</span><span class="nf">lenght-lst</span> <span class="nv">lst</span><span class="p">)</span> <span class="nv">n</span><span class="p">))</span>
+</span><span class='line'> <span class="nv">nil</span><span class="p">)</span>
+</span><span class='line'> <span class="p">((</span><span class="nb">= </span><span class="nv">n</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">mapcar</span> <span class="o">#&#39;</span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="nb">list </span><span class="nv">x</span><span class="p">))</span>
+</span><span class='line'> <span class="nv">lst</span><span class="p">))</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">t</span> <span class="p">(</span><span class="nb">append </span>
+</span><span class='line'> <span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">mapcar</span> <span class="o">#&#39;</span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">lst</span><span class="p">)</span> <span class="nv">x</span><span class="p">))</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">lst</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span><span class="nv">-</span> <span class="nv">n</span><span class="p">))))))))</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">rec</span> <span class="nv">left</span> <span class="nv">n</span><span class="p">))))</span>
+</span><span class='line'><span class="p">(</span><span class="nf">defun</span> <span class="nv">group-list</span> <span class="p">(</span><span class="nf">lst</span> <span class="nv">ln</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">init</span> <span class="p">(</span><span class="nf">mapcar</span> <span class="o">#&#39;</span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">e</span><span class="p">)</span> <span class="p">(</span><span class="nb">list </span><span class="nv">e</span><span class="p">))</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">get-n-elements-from</span> <span class="nv">lst</span> <span class="nv">nil</span> <span class="p">(</span><span class="nb">car </span><span class="nv">ln</span><span class="p">)))))</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">labels</span> <span class="p">((</span><span class="nf">rec</span> <span class="p">(</span><span class="nf">ln</span> <span class="nv">acc</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">len</span> <span class="p">(</span><span class="nf">lenght-lst</span> <span class="nv">ln</span><span class="p">)))</span>
+</span><span class='line'> <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">= </span><span class="nv">len</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">mapcar</span> <span class="o">#&#39;</span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">e</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">nconc</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">get-n-elements-from</span> <span class="nv">lst</span>
+</span><span class='line'> <span class="nv">e</span> <span class="p">(</span><span class="nb">car </span><span class="nv">ln</span><span class="p">))</span>
+</span><span class='line'> <span class="nv">e</span><span class="p">))</span>
+</span><span class='line'> <span class="nv">acc</span><span class="p">))</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">t</span> <span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">ln</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">mapcan</span> <span class="o">#&#39;</span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">e</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">tlst</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">get-n-elements-from</span>
+</span><span class='line'> <span class="nv">lst</span>
+</span><span class='line'> <span class="nv">e</span>
+</span><span class='line'> <span class="p">(</span><span class="nb">car </span><span class="nv">ln</span><span class="p">))))</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">mapcar</span> <span class="o">#&#39;</span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">new</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="nb">cons </span><span class="nv">new</span> <span class="nv">e</span><span class="p">))</span>
+</span><span class='line'> <span class="nv">tlst</span><span class="p">)))</span>
+</span><span class='line'> <span class="nv">acc</span><span class="p">)))))))</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">rec</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">ln</span><span class="p">)</span> <span class="nv">init</span><span class="p">))))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="nf">defun</span> <span class="nv">group</span> <span class="p">(</span><span class="nf">lst</span> <span class="nv">lstn</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">mapcar</span> <span class="o">#&#39;</span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">e</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="nb">reverse </span><span class="nv">e</span><span class="p">))</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">group-list</span> <span class="nv">lst</span> <span class="nv">lstn</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'> <span class="p">(</span><span class="nf">defun</span> <span class="nv">group3</span> <span class="p">(</span><span class="nf">lst</span><span class="p">)</span>
+</span><span class='line'> <span class="p">(</span><span class="nf">group</span> <span class="nv">lst</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">)))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2015/05/14/ru-he-cong-%5B%3F%5D-ge-gei-ding-lie-biao-ti-qu-chu-wu-qiong-duo-zu-zu-he/'>http://jueqingsizhe66.github.io/blog/2015/05/14/ru-he-cong-%5B%3F%5D-ge-gei-ding-lie-biao-ti-qu-chu-wu-qiong-duo-zu-zu-he/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-14T16:42:39+08:00" pubdate data-updated="true">May 14<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/scheme/'>scheme</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/14/yu-yan-chou-xiang/" title="Previous Post: 语言抽象">&laquo; 语言抽象</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/16/haskellbi-ji/" title="Next Post: Haskell笔记">Haskell笔记 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><div class="ds-thread" > </div>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"f708708"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+  <p><img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> <!--不是他的原因-->
+ <!--而是yellow的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (3)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (22)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (3)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (18)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/physics-and-maths/">Physics and Maths</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/jump-out-of-ontology/">Jump Out of Ontology</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/machine-learning-some-search-record/">Machine Learning Some Search Record</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/graphviz-notebook/">Graphviz Notebook</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="1" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+
+</section>
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2015/05/14/ru-he-cong-%5B%3F%5D-ge-gei-ding-lie-biao-ti-qu-chu-wu-qiong-duo-zu-zu-he/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2015/05/14/ru-he-cong-%5B%3F%5D-ge-gei-ding-lie-biao-ti-qu-chu-wu-qiong-duo-zu-zu-he/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

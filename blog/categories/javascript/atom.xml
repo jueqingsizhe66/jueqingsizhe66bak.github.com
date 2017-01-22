@@ -1,0 +1,1118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: JavaScript | 网络书屋(Web Reading Room)]]></title>
+  <link href="http://jueqingsizhe66.github.io/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://jueqingsizhe66.github.io/"/>
+  <updated>2017-01-22T12:24:26+08:00</updated>
+  <id>http://jueqingsizhe66.github.io/</id>
+  <author>
+    <name><![CDATA[Ye Zhaoliang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Javascript闭包训练]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/05/11/javascriptbi-bao-xun-lian/"/>
+    <updated>2015-05-11T14:58:43+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/05/11/javascriptbi-bao-xun-lian</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<p>javascript  闭包训练</p>
+
+<p>闭包其实就是保存着内部定义函数的一张表，该表保存着函数头、函数变量（变量当前状态的值）、函数实现。</p>
+
+<p>利用  一个outFun 和一个innerFun进行实验《Learning jQuery 4th edition》</p>
+
+<p>case 1:  闭包传递，内部函数可以被传递到外头</p>
+
+<p>```javascript</p>
+
+<pre><code>  $(function(){
+    //函数被封在一个闭包中 可以像数据一样传来传去
+    var globalInner;
+    function outFun()
+    {
+
+      console.log('Inside the outFun');
+      function innerFun()
+      {
+        console.log('inside the innerFun of the OutFun');
+      }
+      globalInner=innerFun;
+      console.log('innerFun():');
+      innerFun();
+      console.log('return Begin')
+      return innerFun;
+    }
+
+    console.log('outFun:')
+    outFun();
+    console.log('globalInner:');
+    globalInner();
+    console.log('Test outFun return');
+    outFun()();
+
+  }) ;
+</code></pre>
+
+<p>```
+复制代码
+测试结果：</p>
+
+<p>outFun:
+TestCloser.html:12 Inside the outFun
+TestCloser.html:18 innerFun():
+TestCloser.html:15 inside the innerFun of the OutFun
+TestCloser.html:20 return Begin
+TestCloser.html:26 globalInner:
+TestCloser.html:15 inside the innerFun of the OutFun
+TestCloser.html:28 Test outFun return
+TestCloser.html:12 Inside the outFun
+TestCloser.html:18 innerFun():
+TestCloser.html:15 inside the innerFun of the OutFun
+TestCloser.html:20 return Begin
+TestCloser.html:15 inside the innerFun of the OutFun
+复制代码</p>
+
+<p>case 2:  内部变量 和外部变量的区别
+```javascript</p>
+
+<pre><code>  $(function(){
+    console.log('测试InnerFunPig的局部变量');
+    //局部变量是存在的
+    //alert('hhell');
+    function outFunPig()
+    {
+
+      function innerFunPig()
+      {
+        //局部变量 重新赋值
+        var innerVar=1;
+        console.log('innerVar:'+innerVar);
+        innerVar++;
+
+      }
+      return innerFunPig;
+    }
+
+    var out1= outFunPig();
+    out1();
+    out1();
+    var out2= outFunPig();
+    out2();
+    out2();
+
+    console.log('测试outFunCat的全局变量');
+    //测试全局变量
+    var globalVar=1;
+    function outFunCat()
+    {
+
+      function innerFunCat()
+      {
+        //局部变量 重新赋值
+        console.log('innerVar:'+ globalVar);
+        globalVar++;
+
+      }
+      return innerFunCat;
+    }
+
+    var out3= outFunCat();
+    out3();
+    out3();
+    var out4= outFunCat();
+    out4();
+    out4();
+
+    console.log('测试outFunDog的内部变量');
+    //测试半全局变量
+    function outFunDog()
+    {
+
+      //半全局变量
+      var semiGlobalVar=1;
+      function innerFunDog()
+      {
+        //局部变量 重新赋值
+        console.log('innerVar:'+ semiGlobalVar );
+         semiGlobalVar++;
+
+      }
+      return innerFunDog;
+    }
+
+    var out5= outFunDog();
+    out5();
+    out5();
+    var out6= outFunDog();
+    out6();
+    out6();
+
+
+
+  });
+</code></pre>
+
+<p>```
+测试结果2：
+测试InnerFunPig的局部变量
+4TestCloser.html:44 innerVar:1
+TestCloser.html:58 测试outFunCat的全局变量
+TestCloser.html:67 innerVar:1
+TestCloser.html:67 innerVar:2
+TestCloser.html:67 innerVar:3
+TestCloser.html:67 innerVar:4
+TestCloser.html:81 测试outFunDog的内部变量
+TestCloser.html:91 innerVar:1
+TestCloser.html:91 innerVar:2
+TestCloser.html:91 innerVar:1
+TestCloser.html:91 innerVar:2
+复制代码</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JavaScript1-6节笔记代码March26th]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/05/11/javascript1-6jie-bi-ji-dai-ma-march26th/"/>
+    <updated>2015-05-11T14:58:43+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/05/11/javascript1-6jie-bi-ji-dai-ma-march26th</id>
+    <content type="html"><![CDATA[<p>js 常见 Events
+属性        当以下情况发生时，出现此事件      <br/>
+onabort        图像加载被中断        元素失去焦点      <br/>
+onchange        用户改变域的内容
+onclick        鼠标点击某个对象
+ondblclick        鼠标双击某个对象      <br/>
+onerror        当加载文档或图像时发生某个错误      <br/>
+onfocus        元素获得焦点      <br/>
+onkeydown        某个键盘的键被按下      <br/>
+onkeypress        某个键盘的键被按下或按住      <br/>
+onkeyup        某个键盘的键被松开      <br/>
+onload        某个页面或图像被完成加载      <br/>
+onmousedown        某个鼠标按键被按下      <br/>
+onmousemove        鼠标被移动      <br/>
+onmouseout        鼠标从某元素移开      <br/>
+onmouseover        鼠标被移到某元素之上      <br/>
+onmouseup        某个鼠标按键被松开      <br/>
+onreset        重置按钮被点击      <br/>
+onresize        窗口或框架被调整尺寸      <br/>
+onselect        文本被选定      <br/>
+onsubmit        提交按钮被点击      <br/>
+onunload        用户退出页面 <br/>
+一、复习DOM</p>
+
+<pre><code>    1.对于JS来说，在Web中，最重要的应用之一就是DOM。
+    2.Dom是针对HTML和XML操作的一个API。
+    3.Dom将一个文档表示为一颗家族树（父，兄，子 节点）
+    4.几个常用的API。
+            getElementById 只能用document来使用，通过id查找一个节点。
+            getElementsByTagName  返回的是一个数组，通过指定的标签名去寻找，不必作用于整个文档。
+            hasChildNodes 调用的节点是否含有子节点。
+    5.Dom中的节点有文本节点（Text），属性节点（Attribute），元素节点（Element）。
+    6.以上3类节点中，都有如下属性：
+            nodeName：只读，标识的是给定节点的名字，该节点为只读属性。对于文本节点返回的是 #text 的字符串。
+            noteType：只读，返回值为int，标识节点的类型。元素节点 1，属性节点 2，文本节点 3。（从小到大的记忆顺序）
+            nodeValue: 可读，可写。返回当前节点的值，属性节点返回属性的值，文本节点返回文本的值，元素节点啥都没有。
+    7.Dom中常用方法：
+            replaceChild()：返回值是一个指向新的或者旧的节点。（？）作用是吧一个父元素中的子节点替换为另外一个子节点。
+                    ex:        var reference = element.replaceChild(newChild,oldChild);
+            getAttribute(): 返回的是指定元素的给凌属性的值。
+                    ex:        var attributeValue = element.getAttribute(attributeName);
+            setAttribute(key,value)：为指定的元素添加某个属性，如果此属性已经存在就刷新，如果不存在就添加。
+                    ex:      var para = document.createElement(“p”);           para.setAttribute(“id”,”fineprint”);
+            createElement(eleName):通过指定的标签名字来创建一个元素节点。这个新创建的节点没实际添加到某个节点上。
+                    ex:        var oP = document.createElement("p");
+            createTextNode()：创建一个包含指定文本的文本节点。返回值为一个指向新建文本节点的指针。
+                    ex: var oText=document.createTextNode("HEllo world");
+            appendChild()：为指定的元素添加一个节点到最后一个节点后。
+            insertBefore()：在指定的节点前面添加。
+                    ex:        var reference = element.insertBefore(newNode,targetNode);
+                    注：Dom没有提供insertAfter()方法：就是在插入节点的下一个节点之前添加，就是在指定节点的前面添加。
+            removeChild()：在指定节点中的子节点删除一个节点。
+                    注：一定要是父节点去调用然后括号里面是自己点。
+                    ex： var message = document.getElementById(“fineprint”);
+                                    var container = message.parentNode;
+                                    container.removeChild(message);
+    8.Dom中常用属性
+            ChildNodes：返回的是指定父节点的所有子节点。
+                    注：文本节点和属性节点，肯定不含有子节点了，如果调用这个属性，会返回空数组。
+            firstChild:返回的是指定元素的第一个子节点。
+                    ex:node.ChileNodes[0]和firstChild 是相同的。
+            lastChild:和first想法，最后一个。
+            nextSibling：指定节点的下一个子节点。
+            previousSibling:指定节点的上一个子节点。
+            parentNode：返回的是指定节点的父节点。
+</code></pre>
+
+<p>二、JavaScript练习总结</p>
+
+<pre><code>    1.window.onload=function(){...}表示的是在页面加载完成后便开始运行。
+    2.node.insertBefor(new node,null)。这样调用就可以在指定的前面添加了!
+    3.如果网页乱码，可以在&lt;head&gt;&lt;/head&gt;之间加上：  &lt;meta http-equiv="content-type" content="text/html; charset=utf-8"/&gt;
+    4.特别说明：insertBefor这个方法。3个参数：  paraentNode.insertBefor(newNode,childNodeInParaNode);
+            就是说哪个Node来调用insertBefore方法就是在那个Node的子节点中插入，其中第一个参数是要插入的节点，第二个参数是自己点中要在哪个指定的子元素前面。
+            注：第二个节点可是是null，就表示在最后添加，同AppendChild。特别注意了。
+    5.getElementByTagName("标签")，这个里面输入的是HTML的标签。
+    6.对于元素节点的nodeName，其返回值永远是大小的标签。
+    7.忘记nodeValue吧，使用value就够了，前面的需要区分下。
+    8.value这个属性可读可写。
+    9.对于使用firstChild和lastChild不是我们所见的第一个。这个特别注意了。
+    10.通常来说firstNode和lastNode获取的是文本节点。
+    11.对于文本节点，如果要设置他的值，需要使用nodeValue而不是value。比如说firstChild和lastChild获取的都是属于文本节点。
+    12.为某一个节点添加 可以使用innderHtml也可以使用 创建一个TextNode然后添加到某个节点上去。
+    13.对于replaceChild，parentNode.replaceChild(newChild，childInParane).这个方法的作用是父节点调用替换某个子节点，第一个节点一般都是新的节点，第二个节点
+    14.几个不加括号的地方:
+            window.onload=function myFunc(){...}
+    15.在JS中，方法带了括号表示运行。
+    16.
+</code></pre>
+
+<p>三、问题</p>
+
+<pre><code>    2.innerHtml和innerText的区别？
+    3.window.onload=function(){} 在一个页面只能写一次。
+    4.关于parenNode和parentElement区别？
+</code></pre>
+
+<p>2.innerHtml和innerText的区别？
+从字面意义来讲 innerHtml操作标签内的html代码 , 而innerText操作标签内的文本 , 当标签内只有文本时这两个方法是一样的 , 区别就在标签内还要子标签时,写代码测试就知道了</p>
+
+<p>3.window.onload=function(){} 在一个页面只能写一次。
+这个是"重量级"的加载完成事件 , 只能注册一次,jQuery的ready()就很方便</p>
+
+<p>4.关于parenNode和parentElement区别？
+parentNode 是Node类的属性 , 而parentElement是Element类的属性 , 很多情况下可以通用,只是属于两个不同的体系,使用时尝试着看看效果就好</p>
+
+<p>```html</p>
+
+<p><Html>
+<Head></p>
+
+<!--script 一定要小写-->
+
+
+<script type="text/javascript">
+//javascript内部注释使用//表示单行注释  /**/表示快注释
+//javascript大小写敏感
+//javascript可以用var表示所有数值类型，代替int,String,boolean等
+//按F5刷新，进行调试
+//变量和数组的定义
+//变量定义
+
+
+var name='字符串';
+var age=39;
+
+//数组定义
+//一定要数组用  [] 进行定义，元素之间用逗号隔开   []吃过亏
+//map数组用{} 定义 键值对之间用逗号隔开
+var apples=['ap1','ap2'];
+var arr={"name":'张三','age':45};
+
+//打印alert
+alert(name);
+alert(age);
+for(var i=0;i<apples.length;i++)
+{
+    alert(apples[i]);
+}
+
+for(var key in arr)
+{
+    alert(key+'==='+arr[key]);
+}
+
+//数值类型的转换
+var n = 'fsf';
+if(isNaN(n))
+  {
+    alert('不能使用');
+  }else
+    {
+      alert('可以使用');
+    }
+var num='100'
+var n = Number(num);
+alert(n);
+
+alert(parseFloat('100.3'));//转小数
+alert(parseInt('100'))//转整数
+
+//函数定义  及参数获取
+// 在浏览器的源码窗口中 ，加入 断点，进行断点调试,单步调试(F8 快捷键 在Opera中）
+
+function sum()
+{
+  var apple=0;
+  //循环语句的使用
+  //内置变量arguments的调用
+  for(var i=0;i<arguments.length;i++)
+  {
+    apple+=arguments[i];
+  }
+  //不加入return 没有返回值 则sumofmoney=undefined
+  return apple;
+}
+
+var sumOfMoney=sum(1,3,4,5,6,2);
+alert('1+2+3+4+5+6+2=='+sumOfMoney);
+
+
+//注意转义字符
+alert("D:\\Program Files \\ok\\fd");
+alert('D:\\Program Files \\ok\\fd');
+
+
+//匿名方法是需要着重学习的
+//1
+var ff = function()
+{
+  alert('go home!');
+}
+ff();
+
+//一个易错点
+//btn.onclick=function(){} onclick后面不能家少年宫()
+//2
+(function(n1,n2)
+{
+   alert(n1+n2);
+}
+)(1,2);
+//3
+onload=function()
+{
+  document.getElementById('btn').onClick=function()
+  {
+    alert("You are clicking  the button")
+  }
+};
+
+
+
+//字符串的常用方法
+alert('I am from the God'.length);
+alert('I am from the God'.charAt(3));
+alert('I am from the God'.charAt(9));
+alert('I am from the God'.substring(3,9));
+alert('I am from the God'.indexOf('t'));
+var  names = 'I am from the God'.split(' ');
+for(var name in names)
+  {
+    alert(name+'='+names[name]);
+  }
+for(var i=0;i<names.length;i++)
+{
+  alert(names[i]);
+}
+
+//杨老师练习1
+alert('杨1');
+window.onload=function()
+{
+  var buttons=document.getElementsByName('button1');
+  for(var i=0;  i < buttons.length;i++)
+  {
+    //alert(buttons[i]   onclick不能写成onClick  大小写敏感
+    buttons[i].onclick=function()
+    {
+        alert(i);
+    };
+  }
+}
+//杨老师练习2
+alert('杨2');
+function aa()
+{
+  alert('aaa');
+  return function(){alert('bbb');};
+}
+alert(aa);
+alert(aa());
+// alert(aa());打印是aaa,和function(){alert("bbb");}以为执行函数方法题内容,返回的是一个匿名函数,返回的是函数体字符串. 
+alert(aa()());
+//alert(aa()());打印的是aaa,bbb,undefined ,先执行aa()，函数体内容aaa，返回字符串function(){alert("bbb");}，再执行function(){alert("bbb");}()，
+//这时该方法名是：function(){alert("bbb");}，先打印bbb，在打印undefined，因为该方法名未定义， 
+//杨老师练习3
+alert('杨3');
+//每隔1s重复的执行  烦人，注释掉
+//setInterval(aa,1000);
+//setInterval(aa(),1000);
+//杨老师练习4
+alert('杨4');
+//setInterval(alert('a'),1000); //每隔1s显示a
+//setInterval(function(){alert("a");},1000);  //返回一个函数 因为未被执行，这个函数没有任何东西
+//杨老师练习5
+alert('杨5');
+var s1="aaa";
+var s2=new String("aaa");
+alert(s1 instanceof Object); //false
+alert(s2 instanceof Object);//true
+alert(s1 instanceof String);//false
+alert(s2 instanceof String);// true
+alert(typeof(s1));  //string
+alert(typeof(s2)); //object
+//杨老师练习6
+alert('杨6');
+var x=1;
+var y=0;
+var z=0;
+function add(n)
+{
+  n=n+1;
+  return n;
+}
+y=add(x);
+//js只会用最新的函数定义
+function add(n)
+{
+  n=n+3;
+  return n;
+}
+
+z=add(x);
+alert('y='+y+'z='+z);//y-4  z=4  只用最新的
+//杨老师练习7
+alert('杨7');
+var add1=function(n)
+{
+   n = n+1;
+   return n;
+}
+y=add1(x);
+add1 =function(n)
+{
+  n= n +3;
+  return n;
+}
+z= add1(x);
+alert('y='+y+' z='+z);
+//杨老师练习8
+alert('杨8');
+var s1="aaa"; // -------------------->是String类型 非对象
+var s2= new String('aaa');
+alert(s1 instanceof Object);
+alert(s2 instanceof Object);
+alert(s1 instanceof String);
+alert(s2 instanceof String);
+alert(typeof(s1));
+alert(typeof(s2));
+
+
+//杨老师练习9
+alert('杨9');
+alert('易错点： btn.onclick=function(){}  onclick后面别跟()')
+
+</script>
+
+
+<p></Head></p>
+
+<p><Body>
+  <Div></p>
+
+<pre><code>&lt;Input type="button" name="button1" value="按钮1"/&gt;
+&lt;Input type="button" name="button1" value="按钮2"/&gt;
+&lt;Input type="button" name="button1" value="按钮3"/&gt;
+&lt;Input type="button" name="button1" value="按钮4"/&gt;
+&lt;Input type="button" name="button1" value="按钮5"/&gt;
+</code></pre>
+
+<p>  </Div>
+  <Div></p>
+
+<pre><code>&lt;Input type="button" name="name" value="click" id="btn"/&gt;
+</code></pre>
+
+<p>  </Div>
+  <Div></p>
+
+<pre><code>&lt;Br/&gt;
+&lt;Br/&gt;
+&lt;Br/&gt;
+&lt;A href="javascript:alert(new Date().toLocaleTimeString());"&gt;显示时间&lt;/A&gt;
+&lt;/Br&gt;
+&lt;A href="javascript:void(0);"&gt;显示时间&lt;/A&gt;
+&lt;/Br&gt;
+&lt;Input type="button" name="name" value="显示时间",onclick="alert(new Date().toLocaleTimeString());"/&gt;
+</code></pre>
+
+<p>  <Div>
+</Body>
+</Html>
+```</p>
+
+<p>为什么jquery.js有那么多的<br/>
+name : function(){}, 的写法？ 他们是什么意思？</p>
+
+<p>JQuery.js中出现如下的书写方式：</p>
+
+<p>success：function(data){}
+类似于function success(data){}
+不过是面向对象的写法，把这个方法当成一个prototype对象</p>
+
+<p>引入JSON对象
+JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式，易于阅读和编写，同时也易于机器解析和生成。{a:&ldquo;a&rdquo;}这就是一
+个JSON数据。 JSON数据是用键值对的形式存储的。冒号（:）前面的是键，冒号后面的是值。JSON,的每一个值之间可以用分号（;）隔
+开。大的类可以用{}大括号包围他其中的值，集合可以用[]中括号，包围值
+&ldquo;名称/值"对的集合 不同语言中，它被理解为对象(object)，记录(record)，结构(struct)，字典(dictionary)，哈希表(hash table)，键列表(keyed list)等
+值的有序列表 多数语言中被理解为数组(array)</p>
+
+<p>使用：
+JSON以一种特定的字符串形式来表示 JavaScript 对象。如果将具有这样一种形式的字符串赋给任意一个 JavaScript 变量，那么该变</p>
+
+<p>量会变成一个对象引用.
+比如：
+您可以使用以下JSON形式来表示User对象：
+{&ldquo;UserID&rdquo;:11, &ldquo;Name&rdquo;:&ldquo;tht&rdquo;, &ldquo;Email&rdquo;:&ldquo;18039010◎qq.com&rdquo;};
+然后如果把这一字符串赋予一个JavaScript变量，那么就可以直接使用对象的任一属性了。</p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;script type="text/javascript"&gt;
+    var User={"UserId":11,"Name":"Ye Zhaoliang","Email":"977962857@qq.com"};
+    alert(User.Name);
+
+    //利用JSon对象方式  定义两个User对象
+    var User1={"UserId":12,"Name":{"FirstName":"Ye","LastName":"Zhaoliang"},"Email":"977962857@qq.com"};
+    var User2={"UserId":13,"Name":{"FirstName":"Ye","LastName":"Wangliang"},"Email":"977962859@qq.com"};
+    alert(User1.Name.LastName+" love you!");
+
+    //用数组存储一个用户列表
+    var Users=[User1,User2];
+    alert(Users.length);
+    for(var i=0;i&lt;Users.length;i++)
+    {
+      alert(Users[i].UserId+" "+Users[i].Name.LastName);
+    }
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head>
+  <Body></p>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>由此引出面向对象的JavaScript编程。</p>
+
+<p>![./image/java/object.gif][JSON对象的格式描述，用逗号分隔开多个对象，一个对象用{}组合，每个对象的属性用:分隔，冒号前面表示属性 &hellip;]</p>
+
+<p>![./image/java/array.gif][用[]表达多个数组元素，元素之间不分类型，用逗号分隔元素]</p>
+
+<p>1: JS中单引号和双引号有什么区别？为什么在字符串中用单引号括起来，而不是双引号？</p>
+
+<pre><code>       一方面因为Html代码的属性值一般是使用双引号。
+       JSON的数据格式一般是使用双引号的。
+
+       再进行字符串拼接的一般原则是： 单引号的内部可包含双引号（如若包含则加转义字符），双引号的内部可包含单引号（如若包含则加转义字符）
+</code></pre>
+
+<p>所以字符串如果用单引号修饰就可以内部引用Html的属性。
+比如</p>
+
+<p><Div class="global-notify" id="global-message">
+var str=&lsquo;<Div class="global-notify" id="global-message">&rsquo;
+复制代码
+更多的是考虑到前端，会使用HTML的属性值，而Html的属性值都是用双引号包裹，所以如果再用单引号括起来不需要进行转义。
+另外可能就是大家习惯。</p>
+
+<p>2：Javascript也有事件编程</p>
+
+<p>button中的onclick=&ldquo;js代码&rdquo;</p>
+
+<p><input type=“button” onclick=“ js代码" />
+复制代码</p>
+
+<p>href超链接的特殊的调用事件的方法：</p>
+
+<p><a href=“javascript:js代码”>热点文字</a>
+复制代码</p>
+
+<pre><code>      只有超链接的href中的JavaScript中才需要加“javascript:”，因为它不是事件，而是把”javascript:”看成像“http:”、“ftp:”、“thunder://”、“ed2k://”、“mailto:”一样的网络协议，交             由js解析引擎处理。只有href中，这是一个特例。
+</code></pre>
+
+<p>3：数据类型
+基本数据类型：
+Boolean
+Number   &mdash;&mdash;>小数和整数</p>
+
+<pre><code>    ----parseInt('')
+    ----parseFloat('')
+</code></pre>
+
+<p>String
+Null  &mdash;&mdash;>
+Undefined &mdash;&ndash;>未定义(未初始化)</p>
+
+<pre><code>           var ul ;    ---&gt;ul is undefined
+                typeof(ul) ----&gt;undefined
+                typeof(null)----&gt;null
+
+  == 非严格等于
+  ===严格等于
+     null==undefined -----&gt;true
+     null===undefined-----&gt;false
+      为什么？
+      ===先判断类型是否一致，再判断值
+       null对象是有着特殊意义的值，此时变量的值是"已知状态"(这和mysql的null不太一样，mysql直接就是不知道，那肯定就是无法判断）
+</code></pre>
+
+<p>引用数据类型：
+Object &mdash;&mdash;>函数</p>
+
+<pre><code>      ----&gt; new Date()
+      ----&gt; 数组    var apple=['shanxi','yantai'];
+      ----&gt;null 
+</code></pre>
+
+<p>方法：
+instanceof &mdash;&mdash;&ndash;>属于某种类型？
+typeof(object) &mdash;&mdash;&mdash;&ndash;>是什么类型的？</p>
+
+<p>4：javascript中没有方法重载</p>
+
+<p>所以在运行时候会事先确定好函数，一般是最靠近调用函数的函数定义</p>
+
+<pre><code>    function f1()
+    {
+      alert('ell');
+    }
+    function f1(name)
+    {
+      alert(name);
+    }
+    // f1();  得到undefined  ，直接选择最新的当做 f1的函数
+    //这点和java很不一样
+    f1('fd'); //得到fd
+</code></pre>
+
+<p>复制代码</p>
+
+<p>5：String  Boolean  Number 等可以拓展其方法，使用类的静态属性prototype进行设置
+比如：
+String.prototype.IseMaile = function ()
+复制代码</p>
+
+<p>6：js文件引入javascript的好处是?      1:多文档共享  js</p>
+
+<pre><code>  2:减少网络流量
+</code></pre>
+
+<p>  使用方法 ： &lt;Link src=&ldquo;*.js&rdquo; type=&ldquo;text/javascript&rdquo;</p>
+
+<p>存在疑问：Dom  and Bom的区别？</p>
+
+<p>Broser object model (BOM)
+Document object model(Dom)
+Bom模型有window对象  ，而Dom没有。</p>
+
+<p>Bom对象结构：</p>
+
+<p>Window  &mdash;&ndash; document  &mdash;&mdash;&mdash;authors</p>
+
+<pre><code>                              ------forms
+                              ------images
+                             -------links
+                             -------location ...
+        ---- frames
+        ---- history
+        ---- location
+        ---- navigator
+        ---- screen
+</code></pre>
+
+<p>根节点是：window</p>
+
+<pre><code>  window对象是Bom模型的核心，包含6个对象，document,frames,history,location,navigator,screen对象
+</code></pre>
+
+<p>Dom对象结构：</p>
+
+<p>document  &mdash;&mdash;&mdash;authors</p>
+
+<pre><code>            ------forms
+            ------images
+            -------links
+            -------location...
+</code></pre>
+
+<p>根节点是:document</p>
+
+<p>联系：
+<code>html
+document.write('test');
+window.document.write('test');
+</code></p>
+
+<p>![./images/java/dom.png][某个dom的树状节点层次图（可以进行实例化]</p>
+
+<p>14.this事件
+事件中的this。除了可以使用event.srcElement</p>
+
+<p>在事件响应函数中，this表示发生事件的控件。</p>
+
+<p>只有在事件响应函数才能使用this获得发生事件</p>
+
+<p>的控件，在事件响应函数调用的函数中不能使用</p>
+
+<p>（这里的this表示window对象），如果要使用则</p>
+
+<p>要将this传递给函数或者使用event.srcElement</p>
+
+<p>。(*)this和event.srcElement的语义是不一样</p>
+
+<p>的，this就是表示当前监听事件的这个对象，</p>
+
+<p>event.srcElement是引发事件的对象：事件冒泡</p>
+
+<p>。</p>
+
+<p>14.动态创建元素
+Element(元素)
+document.write只能在页面加载过程中才能动态</p>
+
+<p>创建。
+可以调用document的createElement方法来创建</p>
+
+<p>具有指定标签的DOM对象，然后通过调用某个元素</p>
+
+<p>的appendChild();方法将新创建元素添加到相应</p>
+
+<p>的元素下。//父元素对象.removeChild(子元素</p>
+
+<p>对象);删除元素。
+createElement(‘element’);创建一个节点
+appendChild(node); 追加一个节点
+removeChild(node);移除一个节点
+replaceChild(new,old);替换一个节点
+insertBefore(new,参照);把节点加到前面（插</p>
+
+<p>到某个节点前面）
+方法：
+属性：
+firstChild
+lastChild</p>
+
+<p>15.getElementsByTagName() 方法可返回带有指</p>
+
+<p>定标签名的对象的集合。
+16.IE中body的事件范围
+IE中如果在body上添加onclick、onmousemove等</p>
+
+<p>事件响应，那么如果页面没有满，则 “body 中</p>
+
+<p>最后一个元素以下（横向不限制）” 的部分是无</p>
+
+<p>法响应事件的，必须使用代码在document上监听</p>
+
+<p>那些事件，比如document.onmousemove =</p>
+
+<p>MovePic
+document.body.onmousedown=function(){}
+document.onmousedown=function(){}
+注意加文档定义与不加文档定义的也不一样。
+如果为整个文档注册事件可以使用：</p>
+
+<p>document.onxxxx事件。
+17.onmouseover事件会在鼠标指针移动到指定的</p>
+
+<p>对象上时触发事件发生
+element.setAttribute()        把指定属性设置或更</p>
+
+<p>改为指定值。
+18. dvObj.style.width=&lsquo;300px&rsquo;;
+   dvObj.style.height=&lsquo;200px&rsquo;;
+   dvObj.style.border=&lsquo;1px solid red&rsquo;;
+加'&lsquo;的是因为给变量赋值必须是一个正确的类型</p>
+
+<p>。数字就是数字字符串就是字符串
+19.<p> 标签定义段落。
+border:1px solid green; 边框：1像素，实心</p>
+
+<p>，绿色
+20.form对象
+document.getElementById(‘btn1’).click()</p>
+
+<p>。搜索引擎的，智能提示，点击后相当于点击了</p>
+
+<p>“搜索”按钮。
+常用：click(),focus(),blur();//相当于通过</p>
+
+<p>程序来触发元素的单击、获得焦点以及失去焦点</p>
+
+<p>的事件。
+form对象是表单的Dom对象。
+方法：submit()提交表单，但是不会触发</p>
+
+<p>onsubmit事件。
+实现autopost，也就是焦点离开控件以后页面立</p>
+
+<p>即提交，而不是只有提交submit按钮以后才提交</p>
+
+<p>，当光标离开的时候触发onblur事件，在onblur</p>
+
+<p>中调用form的submit方法。
+在点击submit后form的onsubmit事件被触发，在</p>
+
+<p>onsubmit中可以进行数据校验，如果数据有问题</p>
+
+<p>，返回false即可取消提交</p>
+
+<p>21.不同浏览器的差异
+<form> 标签用于为用户输入创建 HTML 表单。</p>
+
+<p>表单能够包含 input 元素，比如文本字段、复选</p>
+
+<p>框、单选框、提交按钮等等。表单还可以包含</p>
+
+<p>menus、textarea、fieldset、legend 和</p>
+
+<p>label 元素。表单用于向服务器传输数据。
+onsubmit 事件会在表单中的确认按钮(Submit)被点击时发生。
+submit() 提交表单。 是form中的一个方法
+onsubmit 在提交表单之前调用。是一个事件</p>
+
+<p>1: js的for循环的var i = 0的再认识
+经过var定义的是一个全局变量
+```html</p>
+
+<pre><code>    //一个重要错误   var i =0 其实就是定义了一个全局变量i = 0
+    //所有的js都可以调用
+    for(var i=0;i&lt;Users.length;i++)
+    {
+      alert(Users[i].UserId+" "+Users[i].Name.LastName);
+    }
+</code></pre>
+
+<p>```
+也就是for之后alert(i)的值是 Users.length</p>
+
+<p>所以可以在for之前直接定义 var i = 0;即可</p>
+
+<p>2：以二进制读取，10进制输出
+```html</p>
+
+<pre><code>    alert(parseInt('100',8));//以8进制
+    alert(parseInt('100',2));// 以2进制读取，并10进制显示
+    alert(parseInt('100',10));// 以10进制 默认方式
+    alert(parseInt('100',16));// 以16进制
+</code></pre>
+
+<p><code>
+3： onload在页面加载完后在加载的部分js
+</code>html</p>
+
+<pre><code>    //很重要  onload  只在页面加载完控件才执行，所以确保id有效！！
+    //否则可能报错
+    onload=function()
+    {
+      document.getElementById('btn').onclick=function()
+      {
+        alert('hello');
+      };
+    }
+</code></pre>
+
+<p>```
+4：Html的事件在学习</p>
+
+<p>```html</p>
+
+<pre><code>  &lt;Input type="button" name="time" value="show current time" onclick="alert(new Date().toLocaleTimeString());"/&gt;
+  &lt;!--会跳转到最前面   #z只是一个页面最前面的一个锚--&gt;
+  &lt;A href="#" onclick="alert(new Date().toLocaleTimeString());"&gt;百度&lt;/A&gt;
+  &lt;br/&gt;&lt;br/&gt;
+</code></pre>
+
+<p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<!--直接在当前位置打印出时间： javascript: 类似于http://  ftp://-->
+<A href="javascript:alert(new Date().toLocaleTimeString());">网易</A>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<A href="javascript:void(0);" onclick="alert(new Date().toLocaleTimeString());">新浪</A>
+<A href>
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JavaScript 7-11节笔记代码March28th]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/05/11/javascript-7-11jie-bi-ji-dai-ma-march28th/"/>
+    <updated>2015-05-11T14:58:43+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/05/11/javascript-7-11jie-bi-ji-dai-ma-march28th</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<p>function串讲笔记</p>
+
+<p>1：function是什么？</p>
+
+<pre><code> JS的function类似于java和.Net的方法
+</code></pre>
+
+<p>2：对比JS版本和Java版本的两个变量的求和，得出三个不同点。
+JS版本：
+```html
+function sum(num1,num2)
+{</p>
+
+<pre><code>var ret = num1+num2;
+return ret;
+</code></pre>
+
+<p>}
+<code>
+Java版本：
+</code>html
+public int sum(int num1,int num2)
+{
+   int ret= num1+num2;
+  return ret;
+}
+```</p>
+
+<p>相同点：
+函数名字
+参数列表
+变量声明
+返回值
+不同点：
+JS的函数声明没有修饰符
+JS的函数声明没有返回值
+JS的函数声明的参数列表没有变量类型</p>
+
+<p>由这三个不同点我们可以提出三个问题
+为什么没有修饰符？
+为什么没有返回值类型？
+为什么参数列表没有变量类型？</p>
+
+<p>3：JS为什么没有修饰符？
+Js不是面向对象的语言，虽然有对象但不是真正的对象。</p>
+
+<p>Js的对象是模拟出来的，没有封装的概念，所以不需要使用修饰符（修饰符只是针对于对象）</p>
+
+<p>4：JS为什么没有返回值类型和参数列表变量类型？
+这两个问题是一样的道理，都是弱类型的原因
+5：由参数列表引入一个arguments对象，what is it?
+  在开始了解arguments对象之前，必须说明函数的四种定义方式，如下所示：
+5.1最一般的函数定义方法：
+有function
+有函数名称sum
+有参数列表 num1,num2
+可有可无的return语句
+```html
+function sum(num1,num2)
+{</p>
+
+<pre><code>var ret = num1+num2;
+return ret
+}
+</code></pre>
+
+<p><code>
+5.2最常见的匿名类函数调用方法：
+有function
+没有函数名称
+有变量泪飚 num1,num2
+可有可无的return语句
+通过一个var sum函数类型变量获得该类型，并使得sum变量具有可调用的属性。
+</code>html
+var sum = function(num1,num2)
+{</p>
+
+<pre><code>var ret = num1+num2;
+return ret
+}
+</code></pre>
+
+<p><code>
+规律：页面中的js代码执行之前，浏览器会先扫描全部的js代码，遇到一个函数声明，就把此函数的声明加到全局域，从上到下扫描，若函数名称一样，后声明的函数会覆盖掉前面。
+5.3较特殊的匿名类函数的声明和使用：
+两个括号()()
+第一个括号是匿名类函数的声明
+第二个括号是匿名类的函数实参
+</code>html
+(function(num1,num2)
+{
+   var ret=num1+num2;
+   return ret;
+})(3,2);
+```
+特点：只会执行一次。</p>
+
+<p>5.4较少用的Function类产生函数对象</p>
+
+<p>```html
+var sum = new Function();形式
+var sum = Function(&ldquo;n1&rdquo;,&ldquo;n2&rdquo;,&ldquo;alert(n1+n2); var a=3;var b=4;alert(a+b);&rdquo;)</p>
+
+<p>sum(3,3);//和其他函数声明的调用一样。
+```</p>
+
+<p>这也是为什么匿名函数可以赋值给一个变量的原因，因为Function类可以产生对象，对象可以赋值给一个变量（对象只是一个引用）。
+特点：效率低效。</p>
+
+<p>上面的五种函数声明方式都涉及到参数列表，而JS使用arguments可以获得任意长度的参数列表。
+比如：
+```javascript
+var sum = function()
+{</p>
+
+<pre><code>var ret=0;
+</code></pre>
+
+<p>   for(var i=0;i&lt;arguments.length;i++)
+  {</p>
+
+<pre><code>ret = ret+arguments[i];  
+</code></pre>
+
+<p>   }</p>
+
+<pre><code>return ret;
+</code></pre>
+
+<p>}</p>
+
+<p>sum(1,2);
+sum(1,5,68,98);
+sum(4,45,7,8,3,23,7,9);
+```</p>
+
+<p>而正因为arguments的作用导致了js不能重载。</p>
+
+<p>6：JS为什么不能重载？
+存在arguments对象，导致参数列表可以任意长度。
+弱类型决定了参数列表的变量不需要类型修饰。</p>
+
+<p>7：函数调用的两种方式？
+标签的事件
+```javascript
+&lt;button id =”btn” onclick=”alert(4);var  a =3; var b=4; alert(a+b);”)
+复制代码</p>
+
+<p>Dom的window.onload=function(){}方式，通过document的方法获得标签地址
+Window.onload=function()
+{
+Window.document.getElementById(“btn”).onclick=function()
+{</p>
+
+<pre><code>Show();
+</code></pre>
+
+<p>}
+}
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

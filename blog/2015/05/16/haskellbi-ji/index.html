@@ -1,0 +1,1500 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Haskell笔记 - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="2001年，出生于荷兰的计算机大师、图灵奖获得者EdsgerW.Dijkstra给德州大学预算委员会写信，力劝不要将计算机入门课程改为Java。不幸的是，学校最终还是用Java课程替换了Haskell。Haskell真的不行了？国内有些人的评论 Haskell:函数式编程语言
+Java : &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2015/05/16/haskellbi-ji">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Haskell笔记</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-16T14:30:22+08:00" pubdate data-updated="true">May 16<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>2001年，出生于荷兰的计算机大师、图灵奖获得者<strong>EdsgerW.Dijkstra</strong>给德州大学预算委员会写信，力劝不要将计算机入门课程改为Java。不幸的是，学校最终还是用Java课程替换了Haskell。Haskell真的不行了？国内有些人的<a href="http://www.vaikan.com/why-haskell-is-worth-learning/">评论</a></p>
+
+<ul>
+<li>Haskell:函数式编程语言</li>
+<li><p>Java  : 命令编程语言
+尽管Haskell不完美，但仍然比Java好几个数量级，Java就是一个大杂烩(它是通过大范围的广告和销售员夸张的宣传才达到它的商业接受)。</p></li>
+<li><p>如果别人问你Haskell能够做什么？
+ 一个能够编程的编程语言，高级函数编程语言</p></li>
+<li><p>如果别人问你Haskell和scheme有什么区别？
+ 比scheme更强调类型理论，但是相对scheme由于对于type theory的过度追求
+反而更加难于编程</p></li>
+</ul>
+
+
+<!--more-->
+
+
+<h3>如果别人问你Haskell 如何实现冒泡法  直接排序  快速排序？</h3>
+
+<h4>冒泡排序</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">sort1</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="ow">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+</span><span class='line'><span class="nf">sort1</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">x1</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span>  <span class="cm">{-选取了一个x1temp 值  x当做首数，x1:temp-}</span>
+</span><span class='line'>    <span class="o">|</span> <span class="n">x</span><span class="o">&gt;</span><span class="n">x1</span> <span class="ow">=</span> <span class="n">x1</span><span class="kt">:</span><span class="n">sort1</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span>
+</span><span class='line'>    <span class="o">|</span> <span class="n">otherwise</span> <span class="ow">=</span> <span class="n">x</span><span class="kt">:</span><span class="n">sort1</span> <span class="p">(</span><span class="n">x1</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span>
+</span><span class='line'><span class="nf">mpsort</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class='line'><span class="nf">mpsort</span> <span class="n">x</span> <span class="ow">=</span> <span class="kr">let</span> <span class="n">tmp</span> <span class="ow">=</span> <span class="n">sort1</span> <span class="n">x</span> <span class="kr">in</span>
+</span><span class='line'>           <span class="n">mpsort</span> <span class="p">(</span><span class="n">init</span> <span class="n">tmp</span><span class="p">)</span> <span class="o">++</span> <span class="p">[(</span><span class="n">last</span> <span class="n">tmp</span><span class="p">)]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>直接排序</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">import</span> <span class="nn">Data.List</span>
+</span><span class='line'><span class="nf">selectsort</span><span class="ow">::</span><span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span>
+</span><span class='line'><span class="nf">selectsort</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class='line'><span class="nf">selectsort</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="ow">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+</span><span class='line'><span class="nf">selectsort</span> <span class="n">xs</span> <span class="ow">=</span> <span class="n">minimum</span> <span class="n">xs</span> <span class="kt">:</span> <span class="n">selectsort</span> <span class="p">(</span> <span class="n">delete</span> <span class="p">(</span> <span class="n">minimum</span> <span class="n">xs</span> <span class="p">)</span>  <span class="n">xs</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>快速排序1</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">quicksort</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+</span><span class='line'><span class="nf">quicksort</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class='line'><span class="nf">quicksort</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="ow">=</span>
+</span><span class='line'>  <span class="kr">let</span> <span class="n">smallerSorted</span> <span class="ow">=</span> <span class="n">quicksort</span> <span class="p">[</span><span class="n">a</span> <span class="o">|</span> <span class="n">a</span> <span class="ow">&lt;-</span> <span class="n">xs</span><span class="p">,</span> <span class="n">a</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">]</span>
+</span><span class='line'>      <span class="n">biggerSorted</span> <span class="ow">=</span> <span class="n">quicksort</span> <span class="p">[</span><span class="n">a</span> <span class="o">|</span> <span class="n">a</span> <span class="ow">&lt;-</span> <span class="n">xs</span><span class="p">,</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">x</span><span class="p">]</span>
+</span><span class='line'>  <span class="kr">in</span> <span class="n">smallerSorted</span> <span class="o">++</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">++</span> <span class="n">biggerSorted</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>快速排序2</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">quicksort</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+</span><span class='line'><span class="nf">quicksort</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class='line'><span class="nf">quicksort</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="ow">=</span>
+</span><span class='line'>    <span class="kr">let</span> <span class="n">smallerSorted</span> <span class="ow">=</span> <span class="n">quicksort</span> <span class="p">(</span><span class="n">filter</span> <span class="p">(</span><span class="o">&lt;=</span><span class="n">x</span><span class="p">)</span> <span class="n">xs</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">biggerSorted</span> <span class="ow">=</span> <span class="n">quicksort</span> <span class="p">(</span><span class="n">filter</span> <span class="p">(</span><span class="o">&gt;</span><span class="n">x</span><span class="p">)</span> <span class="n">xs</span><span class="p">)</span>
+</span><span class='line'>    <span class="kr">in</span>  <span class="n">smallerSorted</span> <span class="o">++</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">++</span> <span class="n">biggerSorted</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如果别人问你递归是如何实现的？</h3>
+
+<h3>如果别人问你如何构造Fibonaaci数？</h3>
+
+<h3>如果别人问你::  => &ndash;>是什么意思？</h3>
+
+<p>(==) :: Eq a => a &ndash;> a &ndash;> Bool
+可以这样阅读：  相当函数的两个相同的类型值作为参数并返回一个bool值，而这两个参数的类型同在Eq类之中(即类型约束）
+eq这一类型 提供了判断相等性的接口，凡是可以比较相等性的类型嗯必属于Eq类
+（=>左边的部分叫做类型约束）
+a表示人意的类型 &mdash;&mdash;&mdash;&mdash;-泛形 &mdash;-多态函数挂钩。。。。</p>
+
+<p>::  读作他的类型为   （类似 !! 从list去除 第几个元素   &lt;&ndash; 属于  <code>elem</code>是什么的元素   <code>mod</code> 可以和什么除。。</p>
+
+<h3>如果有人问你如何用haskell编写函数？</h3>
+
+<p>他和scheme有很大的不同，scheme用的是(define)
+而haskell用的是模式匹配，比如下面的求最大值的程序</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">maximum&#39;</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+</span><span class='line'><span class="nf">maximum&#39;</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;maximum of empty list&quot;</span>
+</span><span class='line'><span class="nf">maximum&#39;</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="ow">=</span> <span class="n">x</span>
+</span><span class='line'><span class="nf">maximum&#39;</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span>
+</span><span class='line'>    <span class="o">|</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">maxTail</span> <span class="ow">=</span> <span class="n">x</span>
+</span><span class='line'>    <span class="o">|</span> <span class="n">otherwise</span> <span class="ow">=</span> <span class="n">maxTail</span>
+</span><span class='line'>    <span class="kr">where</span> <span class="n">maxTail</span> <span class="ow">=</span> <span class="n">maximum&#39;</span> <span class="n">xs</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如果别人叫你简化上面的maximum程序</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">maximum&#39;</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+</span><span class='line'><span class="nf">maximum&#39;</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;maximum of empty list&quot;</span>
+</span><span class='line'><span class="nf">maximum&#39;</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="ow">=</span> <span class="n">x</span>
+</span><span class='line'><span class="nf">maximum&#39;</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">max</span> <span class="n">x</span> <span class="p">(</span><span class="n">maximum&#39;</span> <span class="n">xs</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如果别人问你Haskell到底长成啥子样子？</h3>
+
+<p>你会告诉他他涨起来真的是一节一节的，一段一段的，有棱有角</p>
+
+<h3>如果有人问你replicate 3 5是如何实现的？</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">replicate&#39;</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Num</span> <span class="n">i</span><span class="p">,</span> <span class="kt">Ord</span> <span class="n">i</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">i</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+</span><span class='line'><span class="nf">replicate&#39;</span> <span class="n">n</span> <span class="n">x</span>
+</span><span class='line'><span class="o">|</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">0</span>    <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class='line'><span class="o">|</span> <span class="n">otherwise</span> <span class="ow">=</span> <span class="n">x</span><span class="kt">:</span><span class="n">replicate&#39;</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">x</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如果有人问你take是如何实现的呢？ drop?</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">take&#39;</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Num</span> <span class="n">i</span><span class="p">,</span> <span class="kt">Ord</span> <span class="n">i</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">i</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+</span><span class='line'><span class="nf">take&#39;</span> <span class="n">n</span> <span class="kr">_</span>
+</span><span class='line'><span class="o">|</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">0</span>   <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class='line'><span class="nf">take&#39;</span> <span class="kr">_</span> <span class="kt">[]</span>     <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class='line'><span class="nf">take&#39;</span> <span class="n">n</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">x</span> <span class="kt">:</span> <span class="n">take&#39;</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">xs</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如果有人问你_ 下划线表示什么意思？</h3>
+
+<p>_ 代表任意东西</p>
+
+<h3>如果有人问你reverse如何实现？</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">reverse&#39;</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+</span><span class='line'><span class="nf">reverse&#39;</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class='line'><span class="nf">reverse&#39;</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">reverse&#39;</span> <span class="n">xs</span> <span class="o">++</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如果有人问你repeat如何实现？</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">repeat&#39;</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+</span><span class='line'><span class="nf">repeat&#39;</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">x</span><span class="kt">:</span><span class="n">repeat&#39;</span> <span class="n">x</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如果有人做了一个tuple ，想要用zip产生更多tuples？</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">zip&#39;</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)]</span>
+</span><span class='line'><span class="nf">zip&#39;</span> <span class="kr">_</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class='line'><span class="nf">zip&#39;</span> <span class="kt">[]</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class='line'><span class="nf">zip&#39;</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="p">(</span><span class="n">y</span><span class="kt">:</span><span class="n">ys</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="kt">:</span><span class="n">zip&#39;</span> <span class="n">xs</span> <span class="n">ys</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如果有人问你mod的类似函数  elem的实现？</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">elem&#39;</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
+</span><span class='line'><span class="nf">elem&#39;</span> <span class="n">a</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="kt">False</span>
+</span><span class='line'><span class="nf">elem&#39;</span> <span class="n">a</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span>
+</span><span class='line'><span class="o">|</span> <span class="n">a</span> <span class="o">==</span> <span class="n">x</span>    <span class="ow">=</span> <span class="kt">True</span>
+</span><span class='line'><span class="o">|</span> <span class="n">otherwise</span> <span class="ow">=</span> <span class="n">a</span> <span class="p">`</span><span class="n">elem&#39;</span><span class="p">`</span> <span class="n">xs</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如果有人问你typeclass有哪里类？</h3>
+
+<p>利用 type 自己查去</p>
+
+<h3>如果有人问你Haskell有没有类似scheme的lambda函数？</h3>
+
+<p>告诉他有，而且更加直接，虽然刚开始书写起来不方便</p>
+
+<p>scheme版的lambda:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="p">(</span><span class="n">lambda</span> <span class="p">(</span><span class="n">x</span> <span class="n">y</span><span class="p">)</span>
+</span><span class='line'>   <span class="p">(</span><span class="o">+</span> <span class="n">x</span> <span class="n">y</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Haskell版的lambda:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="p">(</span><span class="nf">\</span><span class="n">y</span> <span class="ow">-&gt;</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">3</span><span class="err">）</span>
+</span><span class='line'><span class="err">其中</span><span class="nf">\</span><span class="err">后面跟着参数</span>  <span class="ow">-&gt;</span><span class="err">后面跟着函数体</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>18.如果有人问haskell有没有存在高阶函数？</h3>
+
+<p>有 。 map ,filter</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">y</span><span class="ow">-&gt;</span> <span class="n">y</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>19.如果有人问你flip有什么含义？</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">let</span> <span class="n">f</span> <span class="n">x</span>  <span class="n">y</span> <span class="ow">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">y</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">map</span> <span class="p">(</span><span class="n">f</span> <span class="mi">2</span><span class="p">)</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+</span><span class='line'><span class="p">[</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.6666666666666666</span><span class="p">]</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">map</span> <span class="p">(</span><span class="n">flip</span> <span class="n">f</span> <span class="mi">2</span><span class="p">)</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+</span><span class='line'><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.5</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>20. 如何有人问 如何运行 2048</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">$</span> <span class="n">runhaskell</span> <span class="n">putchar_test</span><span class="o">.</span><span class="n">hs</span>
+</span><span class='line'><span class="nf">use</span> <span class="n">runhaskell</span> <span class="n">to</span> <span class="n">run</span> <span class="n">the</span> <span class="o">*.</span><span class="n">hs</span> <span class="n">programme</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>21. 如果有人问haskell实现递归的自然表达式？</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">quicksort</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="ow">=</span>
+</span><span class='line'><span class="nf">elem&#39;</span> <span class="n">a</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">zip&#39;</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="p">(</span><span class="n">y</span><span class="kt">:</span><span class="n">ys</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="kt">:</span><span class="n">zip&#39;</span> <span class="n">xs</span> <span class="n">ys</span>
+</span><span class='line'><span class="nf">reverse&#39;</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">reverse&#39;</span> <span class="n">xs</span> <span class="o">++</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">take&#39;</span> <span class="n">n</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">x</span> <span class="kt">:</span> <span class="n">take&#39;</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">xs</span>
+</span><span class='line'><span class="nf">maximum&#39;</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">max</span> <span class="n">x</span> <span class="p">(</span><span class="n">maximum&#39;</span> <span class="n">xs</span><span class="p">)</span>
+</span><span class='line'><span class="nf">maximum&#39;</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你可以看见每一个形式都有函数名,函数使用方式,函数的参数表  <br/>
+这是一种<strong>模式</strong>,因为Haskell使用函数的时候，先写出函数，然后空格 写出变量 紧接着其他可选变量
+所以你也函数匹配模式 也应该是这样来写
+基于这种思想，你重新回过头看函数定义，你会发现还真的是这样额？！
+从函数的定义知道他的用法，这就是Haskell与众不同的一点。</p>
+
+<h3>22. 如果有人问如何写出阶乘形式？</h3>
+
+<p>告诉他用函数，告诉他用函数匹配，告诉他用递归。。。。。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">factorial</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Integral</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+</span><span class='line'><span class="nf">factorial</span> <span class="mi">0</span> <span class="ow">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="nf">factorial</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">factorial</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>23. 如果别人问你Haskell如何新建一中类型？</h3>
+
+<p>暂时不太懂
+但是我知道 Haskell使用 data来定义类别
+julia使用type来定义</p>
+
+<h3>24. 如果别人问你monads 是什么玩意？</h3>
+
+<p>其实这个是更加深层次的运用Haskell,在scheme也有. 比如IO monad,可以想象为一种抽象数据类型。</p>
+
+<h3>25. 如果别人问你如何学习haskell？</h3>
+
+<p>告诉他有一篇文章叫做 如此有趣的学习Haskell
+Haskell趣學指南   <a href="http://learnyouahaskell-zh-tw.csie.org/zh-cn/chapters.html">http://learnyouahaskell-zh-tw.csie.org/zh-cn/chapters.html</a>
+还不错 ，这个教程</p>
+
+<p>学习Haskell ，要是你能够对于空格特别敏感，会对你有所好处，因为很多地方都是用空格分开
+而不是（）  [] 之类的。空格有实际意义，分开不同的字段</p>
+
+<h3>26. 如果别人问你 | 有什么意义？</h3>
+
+<p>分类说明</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">bmiTell</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">RealFloat</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">bmiTell</span> <span class="n">weight</span> <span class="n">height</span>
+</span><span class='line'>    <span class="o">|</span> <span class="n">weight</span> <span class="o">/</span> <span class="n">height</span> <span class="o">^</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="mf">18.5</span> <span class="ow">=</span> <span class="s">&quot;You&#39;re underweight, you emo, you!&quot;</span>
+</span><span class='line'>    <span class="o">|</span> <span class="n">weight</span> <span class="o">/</span> <span class="n">height</span> <span class="o">^</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="mf">25.0</span> <span class="ow">=</span> <span class="s">&quot;You&#39;re supposedly normal. Pffft, I bet you&#39;re ugly!&quot;</span>
+</span><span class='line'>    <span class="o">|</span> <span class="n">weight</span> <span class="o">/</span> <span class="n">height</span> <span class="o">^</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="mf">30.0</span> <span class="ow">=</span> <span class="s">&quot;You&#39;re fat! Lose some weight, fatty!&quot;</span>
+</span><span class='line'>    <span class="o">|</span> <span class="n">otherwise</span>                   <span class="ow">=</span> <span class="s">&quot;You&#39;re a whale, congratulations!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>每一个函数定义的时候，在Haskell看来只是其中的一种模式，一个模式下可以有很多的分类，如果他找不到模式
+就说找不到，所以定义的时候，尽可能的完善定义。
+比如下面的lucky函数 和sayMe 函数
+lucky函数:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">lucky</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Integral</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">lucky</span> <span class="mi">7</span> <span class="ow">=</span> <span class="s">&quot;LUCKY NUMBER SEVEN!&quot;</span>
+</span><span class='line'><span class="nf">lucky</span> <span class="n">x</span> <span class="ow">=</span> <span class="s">&quot;Sorry, you&#39;re out of luck, pal!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>sayme函数:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">sayMe</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Integral</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">sayMe</span> <span class="mi">1</span> <span class="ow">=</span> <span class="s">&quot;One!&quot;</span>
+</span><span class='line'><span class="nf">sayMe</span> <span class="mi">2</span> <span class="ow">=</span> <span class="s">&quot;Two!&quot;</span>
+</span><span class='line'><span class="nf">sayMe</span> <span class="mi">3</span> <span class="ow">=</span> <span class="s">&quot;Three!&quot;</span>
+</span><span class='line'><span class="nf">sayMe</span> <span class="mi">4</span> <span class="ow">=</span> <span class="s">&quot;Four!&quot;</span>
+</span><span class='line'><span class="nf">sayMe</span> <span class="mi">5</span> <span class="ow">=</span> <span class="s">&quot;Five!&quot;</span>
+</span><span class='line'><span class="nf">sayMe</span> <span class="n">x</span> <span class="ow">=</span> <span class="s">&quot;Not between 1 and 5&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>27. 如果别人叫你简化bmiTell函数</h3>
+
+<p>使用where</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">bmiTell</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">RealFloat</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">bmiTell</span> <span class="n">weight</span> <span class="n">height</span>
+</span><span class='line'>    <span class="o">|</span> <span class="n">bmi</span> <span class="o">&lt;=</span> <span class="mf">18.5</span> <span class="ow">=</span> <span class="s">&quot;You&#39;re underweight, you emo, you!&quot;</span>
+</span><span class='line'>    <span class="o">|</span> <span class="n">bmi</span> <span class="o">&lt;=</span> <span class="mf">25.0</span> <span class="ow">=</span> <span class="s">&quot;You&#39;re supposedly normal. Pffft, I bet you&#39;re ugly!&quot;</span>
+</span><span class='line'>    <span class="o">|</span> <span class="n">bmi</span> <span class="o">&lt;=</span> <span class="mf">30.0</span> <span class="ow">=</span> <span class="s">&quot;You&#39;re fat! Lose some weight, fatty!&quot;</span>
+</span><span class='line'>    <span class="o">|</span> <span class="n">otherwise</span>   <span class="ow">=</span> <span class="s">&quot;You&#39;re a whale, congratulations!&quot;</span>
+</span><span class='line'>    <span class="kr">where</span> <span class="n">bmi</span> <span class="ow">=</span> <span class="n">weight</span> <span class="o">/</span> <span class="n">height</span> <span class="o">^</span> <span class="mi">2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>28. 如果别人问你 where可以跟多少个变量 ？</h3>
+
+<p>跟他说 很多个。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">bmiTell</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">RealFloat</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">bmiTell</span> <span class="n">weight</span> <span class="n">height</span>
+</span><span class='line'>    <span class="o">|</span> <span class="n">bmi</span> <span class="o">&lt;=</span> <span class="n">skinny</span> <span class="ow">=</span> <span class="s">&quot;You&#39;re underweight, you emo, you!&quot;</span>
+</span><span class='line'>    <span class="o">|</span> <span class="n">bmi</span> <span class="o">&lt;=</span> <span class="n">normal</span> <span class="ow">=</span> <span class="s">&quot;You&#39;re supposedly normal. Pffft, I bet you&#39;re ugly!&quot;</span>
+</span><span class='line'>    <span class="o">|</span> <span class="n">bmi</span> <span class="o">&lt;=</span> <span class="n">fat</span>    <span class="ow">=</span> <span class="s">&quot;You&#39;re fat! Lose some weight, fatty!&quot;</span>
+</span><span class='line'>    <span class="o">|</span> <span class="n">otherwise</span>     <span class="ow">=</span> <span class="s">&quot;You&#39;re a whale, congratulations!&quot;</span>
+</span><span class='line'>    <span class="kr">where</span> <span class="n">bmi</span> <span class="ow">=</span> <span class="n">weight</span> <span class="o">/</span> <span class="n">height</span> <span class="o">^</span> <span class="mi">2</span>
+</span><span class='line'>          <span class="n">skinny</span> <span class="ow">=</span> <span class="mf">18.5</span>
+</span><span class='line'>          <span class="n">normal</span> <span class="ow">=</span> <span class="mf">25.0</span>
+</span><span class='line'>          <span class="n">fat</span> <span class="ow">=</span> <span class="mf">30.0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>函数在 where 绑定中定义的名字只对本函数可见，因此我们不必担心它会污染其他函数的命名空间。注意，其中的名字
+都是一列垂直排开，如果不这样规范，Haskell 就搞不清楚它们在哪个地方了</p>
+
+<h3>29. 如果有人问你 where当中可以使用模式匹配吗？</h3>
+
+<p>可以。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">where</span> <span class="n">bmi</span> <span class="ow">=</span> <span class="n">weight</span> <span class="o">/</span> <span class="n">height</span> <span class="o">^</span> <span class="mi">2</span>
+</span><span class='line'><span class="p">(</span><span class="n">skinny</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">fat</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="mf">18.5</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>30. 如果别人叫你写一个show类型的函数？</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">tell</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Show</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">tell</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="s">&quot;The list is empty&quot;</span>
+</span><span class='line'><span class="nf">tell</span> <span class="p">(</span><span class="n">x</span><span class="kt">:[]</span><span class="p">)</span> <span class="ow">=</span> <span class="s">&quot;The list has one element: &quot;</span> <span class="o">++</span> <span class="n">show</span> <span class="n">x</span>
+</span><span class='line'><span class="nf">tell</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">y</span><span class="kt">:[]</span><span class="p">)</span> <span class="ow">=</span> <span class="s">&quot;The list has two elements: &quot;</span> <span class="o">++</span> <span class="n">show</span> <span class="n">x</span> <span class="o">++</span> <span class="s">&quot; and &quot;</span> <span class="o">++</span> <span class="n">show</span> <span class="n">y</span>
+</span><span class='line'><span class="nf">tell</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">y</span><span class="kt">:</span><span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="s">&quot;This list is long. The first two elements are: &quot;</span> <span class="o">++</span> <span class="n">show</span> <span class="n">x</span> <span class="o">++</span> <span class="s">&quot; and &quot;</span> <span class="o">++</span> <span class="n">show</span> <span class="n">y</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个函数顾及了空 List，单元素 List，双元素 List 以及较长的 List，所以这个函数很安全。(x:[]) 与 (x:y:[]) 也可以写作 [x] 和 [x,y] (有了语法糖，我们不必多加括号)。不过 (x:y:_)这样的模式就不行了，因为它匹配的 List 长度不固定。</p>
+
+<h3>31. 如果别人问你Int 和Integer的区别？</h3>
+
+<p>Int 有上下线  Integer没有</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">minBound</span> <span class="ow">::</span> <span class="kt">Int</span>
+</span><span class='line'><span class="o">-</span><span class="mi">9223372036854775808</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">min</span>
+</span><span class='line'><span class="nf">min</span>       <span class="n">minBound</span>  <span class="n">minimum</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">minBound</span>  <span class="ow">::</span> <span class="kt">Integer</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">interactive</span><span class="o">&gt;:</span><span class="mi">247</span><span class="kt">:</span><span class="mi">1</span><span class="kt">:</span>
+</span><span class='line'>    <span class="kt">No</span> <span class="kr">instance</span> <span class="n">for</span> <span class="p">(</span><span class="kt">Bounded</span> <span class="kt">Integer</span><span class="p">)</span> <span class="n">arising</span> <span class="n">from</span> <span class="n">a</span> <span class="n">use</span> <span class="kr">of</span> <span class="p">`</span><span class="n">minBound&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>32. 如果别人问你char and [char] 的区别？</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="kt">:</span><span class="n">t</span> <span class="n">&#39;a&#39;</span>
+</span><span class='line'><span class="n">&#39;a&#39;</span> <span class="ow">::</span> <span class="kt">Char</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="kt">:</span><span class="n">t</span> <span class="s">&quot;a&quot;</span>
+</span><span class='line'><span class="s">&quot;a&quot;</span> <span class="ow">::</span> <span class="p">[</span><span class="kt">Char</span><span class="p">]</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="kt">:</span><span class="n">t</span> <span class="s">&quot;dfasdf&quot;</span>
+</span><span class='line'><span class="s">&quot;dfasdf&quot;</span> <span class="ow">::</span> <span class="p">[</span><span class="kt">Char</span><span class="p">]</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>33. 如果别人问你变量有类型，那么函数是不是也有类型？</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">removeNonUppercase</span> <span class="ow">::</span> <span class="p">[</span><span class="kt">Char</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">Char</span><span class="p">]</span>
+</span><span class='line'><span class="nf">removeNonUppercase</span> <span class="n">st</span> <span class="ow">=</span> <span class="p">[</span> <span class="n">c</span> <span class="o">|</span> <span class="n">c</span> <span class="ow">&lt;-</span> <span class="n">st</span><span class="p">,</span> <span class="n">c</span> <span class="p">`</span><span class="n">elem</span><span class="p">`</span> <span class="p">[</span><span class="sc">&#39;A&#39;</span><span class="o">..</span><span class="sc">&#39;Z&#39;</span><span class="p">]]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>removeNonUppercase 的类型为 [Char]&ndash;>[Char]，从它的参数和回传值的类型上可以看出，
+它将一个字串映射为另一个字串。[Char] 与 String 是等价的，但使用 String 会更清晰：
+removeNonUppercase :: String &ndash;> String。编译器会自动检测出它的类型，我们还是标明了
+它的类型声明。要是多个参数的函数该怎样？如下便是一个将三个整数相加的简单函数
+参数之间由 &ndash;> 分隔，而与回传值之间并无特殊差异</p>
+
+<h3>34. 如果别人问你有没有比较好用的编程工具？</h3>
+
+<p>告诉他Haskell！</p>
+
+<p>该如何学习？
+告诉他安装 ghci,并且在软件中输入 :brower  就能观察到很多的类型
+并且支持tab键。
+:brower 会列出内置函数的 类型，以及他的基本使用方法</p>
+
+<h3>35. 如果别人问你高阶函数是如何定义？</h3>
+
+<p>高阶函数</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">map</span> <span class="n">f</span> <span class="n">lst</span> <span class="c1">--将lst按照函数f映射得到一个新的数列</span>
+</span><span class='line'><span class="nf">map</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a</span><span class="ow">-&gt;</span><span class="n">b</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span>
+</span><span class='line'><span class="nf">map</span> <span class="n">f</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class='line'><span class="nf">map</span> <span class="n">f</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">x</span> <span class="kt">:</span> <span class="n">map</span> <span class="n">f</span> <span class="n">xs</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>36. 如果别人问你如何使用 :brower 提供的函数类型？</h3>
+
+<p>比如：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="mf">36.1</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="kt">:</span><span class="n">t</span> <span class="n">product</span>
+</span><span class='line'><span class="nf">product</span> <span class="ow">::</span> <span class="kt">Num</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">product</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+</span><span class='line'><span class="mi">30</span>
+</span><span class='line'><span class="mf">36.2</span>
+</span><span class='line'><span class="nf">readFile</span> <span class="ow">::</span> <span class="kt">FilePath</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">String</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">readFile</span> <span class="s">&quot;/tmp/a.txt&quot;</span>
+</span><span class='line'><span class="s">&quot;fdsf&quot;</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="kr">let</span>  <span class="n">d</span><span class="ow">=</span><span class="n">readFile</span> <span class="s">&quot;/tmp/a.txt&quot;</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">d</span>
+</span><span class='line'><span class="s">&quot;fdsf&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>37.  如果别人问你如何切断一个数组在某个位置？</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">splitAt</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">([</span><span class="n">a</span><span class="p">],</span> <span class="p">[</span><span class="n">a</span><span class="p">])</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">splitAt</span> <span class="mi">3</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+</span><span class='line'><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>38.  如果别人问你为什么你这样使用subtract?</h3>
+
+<p>告诉他，我是看着定义来使用的。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">subtract</span> <span class="ow">::</span> <span class="kt">Num</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">subtract</span> <span class="mi">20</span> <span class="mi">3</span>
+</span><span class='line'><span class="o">-</span><span class="mi">17</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">subtract</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>39.  如果别人问你 zip相关的函数？</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">unzip</span> <span class="p">[(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)]</span>
+</span><span class='line'><span class="p">([</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">])</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">unzip</span> <span class="p">[(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">)]</span>
+</span><span class='line'><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">])</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">unzip</span> <span class="p">[(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">),(</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">)]</span>
+</span><span class='line'><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">unzip</span> <span class="p">[(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">),(</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">)]</span>
+</span><span class='line'><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">unzip</span> <span class="p">[((</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">)),((</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">))]</span>
+</span><span class='line'><span class="p">([(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">)],[(</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">),(</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">)])</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">unzip3</span> <span class="ow">::</span> <span class="p">[(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)]</span> <span class="ow">-&gt;</span> <span class="p">([</span><span class="n">a</span><span class="p">],</span> <span class="p">[</span><span class="n">b</span><span class="p">],</span> <span class="p">[</span><span class="n">c</span><span class="p">])</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">unzip3</span> <span class="p">[(</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">)]</span>
+</span><span class='line'><span class="p">([</span><span class="mi">3</span><span class="p">],[</span><span class="mi">6</span><span class="p">],[</span><span class="mi">3</span><span class="p">])</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">unzip3</span> <span class="p">[(</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">)]</span>
+</span><span class='line'><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">unzip3</span> <span class="p">[(</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">),(</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">0</span><span class="p">)]</span>
+</span><span class='line'><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">unzip3</span> <span class="p">[(</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">),(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">)]</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">interactive</span><span class="o">&gt;:</span><span class="mi">172</span><span class="kt">:</span><span class="mi">9</span><span class="kt">:</span>
+</span><span class='line'>    <span class="kt">Couldn&#39;t</span> <span class="n">match</span> <span class="n">expected</span> <span class="kr">type</span> <span class="p">`(</span><span class="n">a0</span><span class="p">,</span> <span class="n">b0</span><span class="p">,</span> <span class="n">c0</span><span class="p">)</span><span class="sc">&#39;</span>
+</span><span class='line'><span class="sc">                with actual type `(t0, t1, t2, t3)&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>40. 如果别人问你un相关的函数？</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">unlines</span> <span class="p">[</span><span class="s">&quot;ds&quot;</span><span class="p">,</span><span class="s">&quot;dfsf&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="s">&quot;ds</span><span class="se">\n</span><span class="s">dfsf</span><span class="se">\n</span><span class="s">&quot;</span>
+</span><span class='line'><span class="nf">until</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+</span><span class='line'><span class="nf">unwords</span> <span class="ow">::</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">unwords</span> <span class="p">[</span><span class="s">&quot;dsf&quot;</span><span class="p">,</span><span class="s">&quot;fdsf&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="s">&quot;dsf fdsf&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>41. 如果比人问你如何使用 sin等三角函数？</h3>
+
+<p>转换为弧度制</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">sin</span> <span class="p">(</span><span class="mi">45</span><span class="o">/</span><span class="mi">180</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span>
+</span><span class='line'><span class="mf">0.7071067811865475</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">sin</span> <span class="p">(</span><span class="mi">45</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span>
+</span><span class='line'><span class="mf">0.7071067811865475</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>42. 如果别人问你Haskell针对字符的函数？</h3>
+
+<p>Haskell中预定义的针对字符的函数有:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'>   <span class="n">isAscii</span><span class="p">,</span> <span class="n">isLatin1</span><span class="p">,</span> <span class="n">isControl</span><span class="p">,</span> <span class="n">isPrint</span><span class="p">,</span> <span class="n">isSpace</span><span class="p">,</span> <span class="n">isUpper</span><span class="p">,</span> <span class="n">isLower</span><span class="p">,</span>
+</span><span class='line'>   <span class="n">isAlpha</span><span class="p">,</span> <span class="n">isDigit</span><span class="p">,</span> <span class="n">isOctDigit</span><span class="p">,</span> <span class="n">isHexDigit</span><span class="p">,</span> <span class="n">isAlphaNum</span><span class="p">,</span>
+</span><span class='line'>   <span class="n">digitToInt</span><span class="p">,</span> <span class="n">intToDigit</span><span class="p">,</span>
+</span><span class='line'>   <span class="n">toUpper</span><span class="p">,</span> <span class="n">toLower</span><span class="p">,</span>
+</span><span class='line'>   <span class="n">ord</span><span class="p">,</span> <span class="n">chr</span><span class="p">,</span><span class="err">等</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>   ord将字母转换为数字, chr反之.</p>
+
+<h3>43. 如果别人问你构造数组的几种方式？</h3>
+
+<p>数列是通过[]来进行描述的</p>
+
+<h4>43.1 数组构造</h4>
+
+<p>数列是用[]和(:)构造的, []是一个空的数列, x:xs的含义是元素x附加到数列xs的前面组成一个更长的数列.
+比如, 1:[] 等于[1], 2:3:1:[]等于[2,3,1], 运算符(:)是从右向左运算的. 所有的数列都可以看作是从[]开始,
+将各元素用(:)附到上面形成的. 在实际编程中有一些简记法可以快速地构造数列.</p>
+
+<h4>43.2 列举法</h4>
+
+<p>将数列的元素一一列举, 比如: [1,2,3], [&lsquo;A&rsquo;,&lsquo;B&rsquo;,&rsquo;d&#8217;], [[1,2], [4,5,6]]等等,
+数列的类型用&#8221;[元素类型]&ldquo;来表示, 这几个例子的类型依次为: [Int], [Char], [[Int]].</p>
+
+<h4>43.3 范围法</h4>
+
+<p>适用于构造等差数列, 比如: [1..5]等于[1,2,3,4,5], [&lsquo;a&rsquo;..&rsquo;d&#8217;]等于[&lsquo;a&rsquo;,&lsquo;b&rsquo;,&lsquo;c&rsquo;,&rsquo;d&#8217;]等于&#8221;abcd&#8221;因为type String=[Char].
+默认的等差为1, 也可以给出前两个元素指定等差, 比如: [2,4..8]等于[2,4,6,8], [2,4..7]等于[2,4,6], [2.5,4..9.5]等于
+[2.5,4.0,5.5,7.0,8.5,10.0].</p>
+
+<h3>43.3 描述法</h3>
+
+<p>描述法给出数列中元素取值的范围以及所满足的条件, 与数学中集合的描述法是一样的. 例如:
+[3*x+2| x&lt;&ndash;[3,6,9]] &mdash;记号&#8221;&lt;&ndash;&ldquo;表示属于,x依次取3,6,9,代入3*x+2,得到数列[11,20,29]
+[x*x| x&lt;&ndash;[1..9], x `rem` 3==1] &mdash;给出x的范围,还限定x除3余1
+[(x,y)|x&lt;&ndash;[1,2,3],y&lt;&ndash;[x..3]] &mdash;等于 [(1,1),(1,2),(1,3),(2,2),(2,3),(3,3)]</p>
+
+<h3>44. 如果别人跟你说Haskell可以write poet?</h3>
+
+<p>第一次语文  数学   计算机的结合</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span>  <span class="kr">let</span> <span class="n">nouns</span> <span class="ow">=</span> <span class="p">[</span><span class="s">&quot;he&quot;</span><span class="p">,</span><span class="s">&quot;she&quot;</span><span class="p">,</span><span class="s">&quot;I&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="kr">let</span> <span class="n">adjectives</span><span class="ow">=</span><span class="p">[</span><span class="s">&quot;lazy&quot;</span><span class="p">,</span><span class="s">&quot;handsome&quot;</span><span class="p">,</span><span class="s">&quot;something&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">adjective</span> <span class="o">++</span> <span class="s">&quot; &quot;</span> <span class="o">++</span> <span class="n">noun</span> <span class="o">|</span> <span class="n">adjective</span> <span class="ow">&lt;-</span><span class="n">adjectives</span> <span class="p">,</span><span class="n">noun</span><span class="ow">&lt;-</span><span class="n">nouns</span><span class="p">]</span>
+</span><span class='line'><span class="p">[</span><span class="s">&quot;lazy he&quot;</span><span class="p">,</span><span class="s">&quot;lazy she&quot;</span><span class="p">,</span><span class="s">&quot;lazy I&quot;</span><span class="p">,</span><span class="s">&quot;handsome he&quot;</span><span class="p">,</span><span class="s">&quot;handsome she&quot;</span><span class="p">,</span><span class="s">&quot;handsome I&quot;</span><span class="p">,</span><span class="s">&quot;something he&quot;</span><span class="p">,</span><span class="s">&quot;something she&quot;</span><span class="p">,</span><span class="s">&quot;something I&quot;</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">*</span><span class="kt">Main</span><span class="o">&gt;</span> <span class="kr">let</span> <span class="n">nouns</span> <span class="ow">=</span> <span class="p">[</span><span class="s">&quot;he&quot;</span><span class="p">,</span><span class="s">&quot;she&quot;</span><span class="p">,</span><span class="s">&quot;I&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="o">*</span><span class="kt">Main</span><span class="o">&gt;</span> <span class="kr">let</span> <span class="n">adjectives</span><span class="ow">=</span><span class="p">[</span><span class="s">&quot;lazy&quot;</span><span class="p">,</span><span class="s">&quot;handsome&quot;</span><span class="p">,</span><span class="s">&quot;something&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="o">*</span><span class="kt">Main</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">adjective</span> <span class="o">++</span> <span class="s">&quot; &quot;</span> <span class="o">++</span> <span class="n">noun</span> <span class="o">|</span> <span class="n">adjective</span> <span class="ow">&lt;-</span><span class="n">adjectives</span> <span class="p">,</span><span class="n">noun</span><span class="ow">&lt;-</span><span class="n">nouns</span><span class="p">]</span>
+</span><span class='line'><span class="p">[</span><span class="s">&quot;lazy he&quot;</span><span class="p">,</span><span class="s">&quot;lazy she&quot;</span><span class="p">,</span><span class="s">&quot;lazy I&quot;</span><span class="p">,</span><span class="s">&quot;handsome he&quot;</span><span class="p">,</span><span class="s">&quot;handsome she&quot;</span><span class="p">,</span><span class="s">&quot;handsome I&quot;</span><span class="p">,</span><span class="s">&quot;something he&quot;</span><span class="p">,</span><span class="s">&quot;something she&quot;</span><span class="p">,</span><span class="s">&quot;something I&quot;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>45. 如果别人跟你说Haskell可以跟几何并轨？</h3>
+
+<p>第一次和几何的触碰</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span>  <span class="kr">let</span> <span class="n">triangels</span><span class="ow">=</span><span class="p">[(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span><span class="o">|</span><span class="n">c</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">],</span><span class="n">b</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="n">c</span><span class="p">],</span><span class="n">a</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="n">b</span><span class="p">],</span><span class="n">c</span><span class="o">^</span><span class="mi">2</span><span class="o">==</span><span class="n">a</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="n">b</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">+</span><span class="n">c</span><span class="o">==</span><span class="mi">24</span><span class="p">]</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="n">triangels</span>
+</span><span class='line'><span class="p">[(</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">)]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>46. 如果别人问你Haskell的cabal是什么？</h3>
+
+<p>类似于ubuntu的apt-get <br/>
+scilab  的atoms
+python的 easy_install  或者pip
+redhat 的yum</p>
+
+<h3>47. 如果别人问你有几个基本的TypeClass?</h3>
+
+<p>类型类是haskell中站在较高位置的语言认识。几种基本的类型类包括Eq,Ord,Show,Read,Enum等。</p>
+
+<h4>47.1 Eq</h4>
+
+<p>包含可判断相等性的类型。提供实现的函数是 == 和 /=。所以，
+只要一个函数有Eq类的类型限制，那么它就必定在定义中用到了 == 和 /=</p>
+
+<h4>47.2 Ord</h4>
+
+<p>包含可比较大小的类型。除了函数以外，我们目前所谈到的所有类型都属于 Ord 类。Ord 包中包含了
+&lt;, >, &lt;=, >= 之类用于比较大小的函数。compare 函数取两个
+Ord 类中的相同类型的值作参数，回传比较的结果。这个结果是如下三种类型之一：GT, LT, EQ。</p>
+
+<h4>47.3 Show</h4>
+
+<p>的成员为可用字串表示的类型。目前为止，除函数以外的所有类型都是 Show 的成员。
+操作 Show Typeclass，最常用的函数表示 show。它可以取任一Show的成员类型并将其转为字串</p>
+
+<h4>47.4 Read</h4>
+
+<p>是与 Show 相反的 Typeclass。read 函数可以将一个字串转为 Read 的某成员类型。</p>
+
+<h4>47.5 Enum</h4>
+
+<p>的成员都是连续的类型 &mdash; 也就是可枚举。Enum 类存在的主要好处就在于我们可以在 Range 中用到它的成员类型：
+每个值都有后继子 (successer) 和前置子 (predecesor)，分别可以通过 succ 函数和 pred 函数得到。
+该 Typeclass 包含的类型有：(), Bool, Char, Ordering, Int, Integer, Float 和 Double。</p>
+
+<h4>47.6 Bounded</h4>
+
+<p>的成员都有一个上限和下限。</p>
+
+<h4>47.7 Num</h4>
+
+<p>Num 是表示数字的 Typeclass，它的成员类型都具有数字的特征。检查一个数字的类型：</p>
+
+<h4>47.8 Integral</h4>
+
+<p>同样是表示数字的 Typeclass。Num 包含所有的数字：实数和整数。而 Integral 仅包含整数，其中的成员类型有 Int 和 Integer。</p>
+
+<h4>47.9 Floating</h4>
+
+<p>仅包含浮点类型：Float 和 Double。
+可以用一张图来表示：
+<img src="/images/classes.gif" alt="类图" /></p>
+
+<h4>48. 我想用Haskell产生一个三角形</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">let</span> <span class="n">triangels</span><span class="ow">=</span><span class="p">[(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span><span class="o">|</span><span class="n">c</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">],</span><span class="n">b</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">],</span><span class="n">a</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">]]</span>
+</span><span class='line'><span class="kr">let</span> <span class="n">righttriangels</span><span class="ow">=</span><span class="p">[(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span><span class="o">|</span><span class="n">c</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">],</span><span class="n">b</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="n">c</span><span class="p">],</span><span class="n">a</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="n">b</span><span class="p">],</span><span class="n">a</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="n">b</span><span class="o">^</span><span class="mi">2</span><span class="o">==</span><span class="n">c</span><span class="o">^</span><span class="mi">2</span><span class="p">]</span>
+</span><span class='line'><span class="kr">let</span> <span class="n">righttriangelsc</span><span class="ow">=</span><span class="p">[(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span><span class="o">|</span><span class="n">c</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">],</span><span class="n">b</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="n">c</span><span class="p">],</span><span class="n">a</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="n">b</span><span class="p">],</span><span class="n">a</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="n">b</span><span class="o">^</span><span class="mi">2</span><span class="o">==</span><span class="n">c</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">+</span><span class="n">c</span><span class="o">==</span><span class="mi">24</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>49. 如果别人问你如何表示数学的集合？</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">x</span><span class="o">*</span><span class="mi">2</span><span class="o">|</span><span class="n">x</span> <span class="ow">&lt;-</span> <span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">]]</span>
+</span><span class='line'><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">20</span><span class="p">]</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">x</span><span class="o">*</span><span class="mi">2</span><span class="o">|</span><span class="n">x</span><span class="ow">&lt;-</span> <span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">],</span><span class="n">x</span><span class="o">*</span><span class="mi">2</span> <span class="o">&gt;=</span><span class="mi">12</span> <span class="p">]</span>
+</span><span class='line'><span class="p">[</span><span class="mi">12</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">20</span><span class="p">]</span>
+</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">x</span> <span class="o">|</span> <span class="n">x</span> <span class="ow">&lt;-</span> <span class="p">[</span><span class="mi">50</span><span class="o">..</span><span class="mi">100</span><span class="p">],</span> <span class="n">x</span> <span class="p">`</span><span class="n">mod</span><span class="p">`</span> <span class="mi">7</span> <span class="o">==</span><span class="mi">3</span><span class="p">]</span>
+</span><span class='line'><span class="p">[</span><span class="mi">52</span><span class="p">,</span><span class="mi">59</span><span class="p">,</span><span class="mi">66</span><span class="p">,</span><span class="mi">73</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">87</span><span class="p">,</span><span class="mi">94</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>50. 如果别人问你!! 代表什么东西？</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span> <span class="o">!!</span><span class="mi">2</span>
+</span><span class='line'><span class="o">*</span><span class="kt">Main</span><span class="o">&gt;</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span> <span class="o">!!</span><span class="mi">2</span>
+</span><span class='line'><span class="mi">6</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>51. 几个常用的数组提取函数？</h4>
+
+<p>并且是从0开始的
+常用几个list函数</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">*</span><span class="kt">Main</span><span class="o">&gt;</span> <span class="n">head</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+</span><span class='line'><span class="mi">5</span>
+</span><span class='line'><span class="o">*</span><span class="kt">Main</span><span class="o">&gt;</span> <span class="n">last</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+</span><span class='line'><span class="mi">4</span>
+</span><span class='line'><span class="o">*</span><span class="kt">Main</span><span class="o">&gt;</span> <span class="n">tail</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+</span><span class='line'><span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+</span><span class='line'><span class="o">*</span><span class="kt">Main</span><span class="o">&gt;</span> <span class="n">init</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">43</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+</span><span class='line'><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">43</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>length  null  reverse  take等函数  具体说一下take</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">*</span><span class="kt">Main</span><span class="o">&gt;</span> <span class="n">take</span> <span class="mi">4</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+</span><span class='line'><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+</span><span class='line'><span class="o">*</span><span class="kt">Main</span><span class="o">&gt;</span> <span class="n">take</span> <span class="mi">3</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+</span><span class='line'><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+</span><span class='line'><span class="o">*</span><span class="kt">Main</span><span class="o">&gt;</span> <span class="n">take</span> <span class="mi">2</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+</span><span class='line'><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+</span><span class='line'><span class="o">*</span><span class="kt">Main</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同理类似的drop</p>
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2015/05/16/haskellbi-ji/'>http://jueqingsizhe66.github.io/blog/2015/05/16/haskellbi-ji/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-16T14:30:22+08:00" pubdate data-updated="true">May 16<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/haskell/'>Haskell</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/14/ru-he-cong-%5B%3F%5D-ge-gei-ding-lie-biao-ti-qu-chu-wu-qiong-duo-zu-zu-he/" title="Previous Post: 如何从一个给定列表提取出无穷多组组合">&laquo; 如何从一个给定列表提取出无穷多组组合</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/16/language-limits-the-world-of-you/" title="Next Post: language limits the world of you">language limits the world of you &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><div class="ds-thread" > </div>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"f708708"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+  <p><img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> <!--不是他的原因-->
+ <!--而是yellow的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (3)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (22)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (3)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (18)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/physics-and-maths/">Physics and Maths</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/jump-out-of-ontology/">Jump Out of Ontology</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/machine-learning-some-search-record/">Machine Learning Some Search Record</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/graphviz-notebook/">Graphviz Notebook</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="1" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+
+</section>
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2015/05/16/haskellbi-ji/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2015/05/16/haskellbi-ji/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

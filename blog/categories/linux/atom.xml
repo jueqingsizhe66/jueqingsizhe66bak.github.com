@@ -1,0 +1,845 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Linux | 网络书屋(Web Reading Room)]]></title>
+  <link href="http://jueqingsizhe66.github.io/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://jueqingsizhe66.github.io/"/>
+  <updated>2017-01-22T12:24:26+08:00</updated>
+  <id>http://jueqingsizhe66.github.io/</id>
+  <author>
+    <name><![CDATA[Ye Zhaoliang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Bash Special Annotation]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2016/09/25/bash-special-annotation/"/>
+    <updated>2016-09-25T23:15:01+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2016/09/25/bash-special-annotation</id>
+    <content type="html"><![CDATA[<p>关于shell的summary参看<a href="http://jueqingsizhe66.github.io/blog/2016/08/06/linux-shell-summary/#kernel">Linux Shell Summary</a></p>
+
+<p>以下是关于bash的一些比较特殊的地方。</p>
+
+<!--more-->
+
+
+<h2>1. bash数组再理解</h2>
+
+<p><code>declare -a</code>表示声明一个数组，类似于 <code>declare -i</code> 声明一个整数和<code>declare -x</code>声明一个环境变量。</p>
+
+<p><font color="red">bash数组定义时候使用小括号来赋值，而在引用数组的时候反而使用中括号（不同于其他编程语言)</font></p>
+
+<h3>定义数组</h3>
+
+<p><code>sh
+bash2=("34","5","5","4")
+</code></p>
+
+<h3>引用数组</h3>
+
+<p><code>`` sh
+echo ${array[n]}
+遍历数组：
+filename=(</code>ls`)
+for var in ${filename[@]};do
+echo $var
+done</p>
+
+<p>```</p>
+
+<h3>添加数组</h3>
+
+<p><code>sh
+bash1+="45"; #赋值两边不能有空格
+</code></p>
+
+<h2>2. bash变量截取和变量替换</h2>
+
+<p><font color="red">bash使用井号代表开头(这和正则表达式有点不同，使用caret)
+而结尾则使用百分号(不同于正则表达式的dollar符号$)。并且在当使用两个重叠的井号，表示最大长度（从头开始的最大删除都删掉）
+而使用两个百分号则表达反方向的最大长度删除（从尾到头删除匹配字符串）</p>
+
+<ol>
+<li>#表示正向最短匹配，##表示正向最大匹配</li>
+<li>%表示反向最短匹配，%%表示反向最大匹配</li>
+</ol>
+
+
+<p>而这一点也体现在变量替换当中，</p>
+
+<p>```
+子串替换：
+${string/substring/replacement}
+使用$replacement来替换第一个匹配的$substring.</p>
+
+<p>${string//substring/replacement}
+使用$replacement来替换所有匹配的$substring.</p>
+
+<p>${string/#substring/replacement}
+如果$substring匹配$string的开头部分, 那么就用$replacement来替换$substring.</p>
+
+<p>${string/%substring/replacement}
+如果$substring匹配$string的结尾部分, 那么就用$replacement来替换$substring.</p>
+
+<p>子串提取的方法主要有：直接到指定位置求子串，字符匹配求子串。
+${string:position}
+在$string中从位置$position开始提取子串.</p>
+
+<p>如果$string是"*&ldquo;或者&rdquo;@&ldquo;, 那么将会提取从位置$position开始的位置参数.<a href="http://jueqingsizhe66.github.io/blog/2016/08/06/linux-shell-summary/#kernel">1</a></p>
+
+<p>${string:position:length}
+在$string中从位置$position开始提取$length长度的子串.</p>
+
+<p>```</p>
+
+<ol>
+<li>除号表示最短替换，双除号表示最长替换</li>
+<li>匹配项第一个位置出现#井号表示开头部分</li>
+<li>匹配项最后一个位置出现%百分号表示结尾部分</li>
+</ol>
+
+
+<h2>3. bash接受键盘操作</h2>
+
+<p>用一个read命令即可(类似于matlab的input命令)
+通常的风格是 <code>read -p "prompt for reminding" variable-name</code></p>
+
+<p>``` sh
+接收键盘输入：
+    read [选项] [变量名]
+    选项：
+        -p &ldquo;提示信息"：在等待read输入时，输出提示信息
+        -t 秒数：read命令会一直等待用户输入，使用此选项可以指定等待时间
+        -n 字符数：read命令只接受指定的字符数，就会执行
+        -s：隐藏输入的数据，适用于机密信息的输入</p>
+
+<p>read.sh：</p>
+
+<h1>!/bin/bash</h1>
+
+<p>read -p &ldquo;please input your name:&rdquo; -t 30 name
+echo $name</p>
+
+<p>read -p &ldquo;please input your passwd:&rdquo; -s passwd
+echo -e &ldquo;\n&rdquo;
+echo $passwd</p>
+
+<p>read -p &ldquo;please input your sex [M/F]:&rdquo; sex
+echo -e &ldquo;\n&rdquo;
+echo $sex</p>
+
+<p>```</p>
+
+<h2>4. tac反向</h2>
+
+<p>cat在bash中是打印文本信息的作用，而<a href="http://bbs.chinaunix.net/thread-250407-1-1.html">tac</a>则是反向输出文件流</p>
+
+<p>``` sh
+cat old_file|awk &lsquo;{print NR,$0}&rsquo;|sort -r -n|awk &lsquo;{print $2}&rsquo;</p>
+
+<p>```</p>
+
+<ol>
+<li>添加每行的行号</li>
+<li>逆向排列</li>
+<li>输出每行</li>
+</ol>
+
+
+<h2>5. if当中也可以使用双括号进行算术判断</h2>
+
+<p>if并不是支持正则表达式？还是只有变量支持？
+``` sh
+root at javazhao-N53SM [13:26:46ä��午] in /MyBashWork/clean on git:develop?
+$ if [ -f &ldquo;All.sh&rdquo; ] ;then echo &ldquo;hei&rdquo;; else echo &ldquo;no&rdquo; ;fi;</p>
+
+<p>hei</p>
+
+<p>root at javazhao-N53SM [13:26:52ä��午] in /MyBashWork/clean on git:develop?
+$ if [ -f &ldquo;*.sh&rdquo; ] ;then echo &ldquo;hei&rdquo;; else echo &ldquo;no&rdquo; ;fi;</p>
+
+<p>no</p>
+
+<p>但是对于变量是可以的
+[root@bj_manager ~]# a=123a;if [[ $a =~ ^[0-9]+$ ]]; then echo ok; fi
+[root@bj_manager ~]# a=123;if [[ $a =~ ^[0-9]+$ ]]; then echo ok; fi<br/>
+```</p>
+
+<p><font color="red">实际情况是只有在双中括号的时候才支持正则表达式</font>。<font color="green">一般是使用双中括号进行文件判断，目录判断，
+文件大小判断等</font></p>
+
+<p>if另外一个特殊地方就是使用双括号执行算术比较</p>
+
+<p>```
+708@708-PC MINGW64 /e/plGraphViz (master)
+  if (( 1&lt;2 )) ;then echo &ldquo;zero&rdquo;;   echo &ldquo;a=2&rdquo;; echo &ldquo;a=3&rdquo; ;else echo &ldquo;no&rdquo;; fi;
+zero
+a=2
+a=3</p>
+
+<p>708@708-PC MINGW64 /e/dot(1)/testByYe
+$   if [[ 1&lt;2 ]] ;then echo &ldquo;zero&rdquo;;   echo &ldquo;a=2&rdquo;; echo &ldquo;a=3&rdquo; ;else echo &ldquo;no&rdquo;; fi;
+bash: unexpected token 284 in conditional command
+bash: syntax error near `1&lt;'</p>
+
+<p>```</p>
+
+<p>而bash也一般是使用<code>$((...))</code> 进行算术的运算.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ydiff单文件夹的所有scm文件比较]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2016/02/26/ydiffdan-wen-jian-jia-de-suo-you-scmwen-jian-bi-jiao/"/>
+    <updated>2016-02-26T18:29:08+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2016/02/26/ydiffdan-wen-jian-jia-de-suo-you-scmwen-jian-bi-jiao</id>
+    <content type="html"><![CDATA[<p>关于YDIff处理已经在<a href="http://jueqingsizhe66.github.io/blog/2016/02/22/shi-yong-ydiffgong-ju-sheng-cheng-wen-jian-chai-yi-bi-jiao-wen-jian/">使用Ydiff工具生成文件差异比较文件</a>中提及，但是只是比较了两个文件夹之间的文件，
+而如果是较为简单的单个文件的所有文件的比较？类似思路如下所示，</p>
+
+<!--more-->
+
+
+<p>一定要注意数组使用的是小括号包括起来，否则程序有问题。</p>
+
+<p>``` sh</p>
+
+<h1>遍历当前目录下的所有文件 并进行比较 最终结果存入final-result</h1>
+
+<h1>array1=<code>ls *.scm</code></h1>
+
+<p>array1=(<code>ls *.scm</code>)  # 必须加上括号
+mkdir final-result
+for i in <code>seq 0 $((${#array1[@]}-1))</code>; do</p>
+
+<pre><code>#遍历从i之后的文件
+for j in ${array1[@]:$i+1:${#array1[@]}}; do 
+    #echo ${array1[$i]},$j;
+    dir1=${array1[$i]};
+    dir2=$j;
+    # 选取对应文件夹下的scm文件
+        #export TestVari=$i
+        /home/happycamp-of-lisp/wangying/ydiff/diff-lisp $dir1 ${dir2}
+
+done;
+</code></pre>
+
+<p>done;</p>
+
+<pre><code>    mv *.html final-result
+    cp ./nav.js ./diff.css final-result
+</code></pre>
+
+<p>```</p>
+
+<p>ls会找出当前文件夹下的所有scm文件，然后利用bash中的数组操作，使用双重
+循环进行遍历即可。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用Ydiff工具生成文件差异比较文件]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2016/02/22/shi-yong-ydiffgong-ju-sheng-cheng-wen-jian-chai-yi-bi-jiao-wen-jian/"/>
+    <updated>2016-02-22T19:24:53+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2016/02/22/shi-yong-ydiffgong-ju-sheng-cheng-wen-jian-chai-yi-bi-jiao-wen-jian</id>
+    <content type="html"><![CDATA[<p>Ydiff是一个不错的lisp语法分析工具(<a href="https://github.com/yinwang0/ydiff">王垠编制</a>).下面是该工具简单用途和使用说明。</p>
+
+<!--more-->
+
+
+<ol>
+<li><p>用途
+主要是js，cpp，和lisp的分析，现在也有<a href="https://github.com/yinwang0/pysonar2">python</a>,<a href="https://github.com/yinwang0/pysonar2">ruby</a>的分析工具。</p></li>
+<li><p>使用说明</p></li>
+</ol>
+
+
+<p>编译的时候仅仅在项目下载之后，make一下即可生成对应的diff-cpp,diff-js,diff-lisp分析工具.
+文件分为单文件和文件夹两种。</p>
+
+<h2>单文件使用说明</h2>
+
+<p><code>sh
+ diff-lisp *.scm *1.scm
+</code></p>
+
+<h2>文件夹使用方式</h2>
+
+<p>保存下面源代码为process-lisp.sh
+``` sh</p>
+
+<p>dir1=let-lang
+dir2=letrec-lang
+for i in <code>ls ${dir1}/*.scm</code>
+do</p>
+
+<pre><code>export TestVari=$i
+/home/happycamp-of-lisp/wangying/ydiff/diff-lisp $i ${dir2}/${TestVari##*\/}
+</code></pre>
+
+<p>done</p>
+
+<p>```</p>
+
+<p>当然也可以改为
+``` sh</p>
+
+<p>dir1=let-lang
+dir2=letrec-lang
+for i in <code>ls ${dir1}/*.scm</code>
+do</p>
+
+<pre><code>/home/happycamp-of-lisp/wangying/ydiff/diff-lisp $i ${dir2}/${i##*\/}
+</code></pre>
+
+<p>done</p>
+
+<p>```
+只要修改对应的文件夹dir1,dir2,就可以分析对应文件夹的scm所有文件,然后运用下面命令行，即可生成
+对应的html文件,方便阅读</p>
+
+<p><code>
+bash process-lisp.sh
+</code></p>
+
+<h2>数组引入进一步修改处理程序</h2>
+
+<p>数组的shell操作参考<a href="http://blog.csdn.net/liufei_learning/article/details/8000570">如下</a>,</p>
+
+<ul>
+<li>定义的时候通过小括号包裹</li>
+<li>调用的时候通过${}</li>
+</ul>
+
+
+<p>注意 <a href="http://blog.csdn.net/flowingflying/article/details/5146160">数据运算</a>和判断(<strong>注意只有在双括号的小于号才是小于号</strong>)的两个中括号
+```
+seq 1 $((${#array1[@]}-1))</p>
+
+<p>```</p>
+
+<p>测试过很多错误的情况，比如</p>
+
+<p><code>``
+array1=(</code>ls -l|grep ^d|awk &lsquo;{print $9}&rsquo;`);
+echo ${array1[@]:0:${#array1[@]}-1};
+export length1=${!array1[@]};
+for i in ${array1[@]:1:length1-1}; do</p>
+
+<pre><code>for j in ${array1[@]:$i:length1}; do 
+    echo $i,$j;
+done;
+</code></pre>
+
+<p>done;</p>
+
+<p><code>
+原因在于,${!}操作并不是把它当作数组形式，所以改为数组即可，使用seq。
+</code>
+length1=${!array1[@]}
+echo $length1</p>
+
+<pre><code>0 1 2 3
+</code></pre>
+
+<p>echo ${#length1[@]}</p>
+
+<pre><code>1
+</code></pre>
+
+<p>```</p>
+
+<p>正确的过程(<strong>注意$i+1</strong>)
+<code>``
+array1=(</code>ls -l|grep ^d|awk &lsquo;{print $9}&rsquo;<code>);  
+for i in</code>seq 1 $((${#array1[@]}-1))`; do</p>
+
+<pre><code>for j in ${array1[@]:$i+1:${#array1[@]}}; do 
+    echo ${array1[$i]},$j;
+done;
+</code></pre>
+
+<p>done;</p>
+
+<p>```</p>
+
+<p>结果,满足组合公式
+```
+1,letrec-lang
+1,lexaddr-lang
+1,proc-lang
+2,lexaddr-lang
+2,proc-lang
+3,proc-lang</p>
+
+<p>```</p>
+
+<h2>批处理解析scm文件</h2>
+
+<p>当文件夹下存在如下文件下，则可以进一步利用<a href="#pi">程序</a>进行分析，注意拷贝nav.js和diff.css进行渲染
+```
+ls┌─[root][canbetter-N53SM][±][master ?:10 ✗][2.2.1][/home/happycamp-of-lisp/EOPL2014/DF-eopl/chapter3/proc-lang/ds-rep]
+└─➞ ls
+compiled  data-structures.scm  drscheme-init.scm  environments.scm  interp.scm  lang.scm  tests.scm  top.scm</p>
+
+<p>```</p>
+
+<h3 id="pi">批处理程序</h3>
+
+
+<p><code>``
+array1=(</code>ls -l|grep ^d|awk &lsquo;{print $9}&rsquo;`);</p>
+
+<h1>遍历所有文件夹 除了最后一个</h1>
+
+<p>for i in <code>seq 1 $((${#array1[@]}-1))</code>; do</p>
+
+<pre><code>#遍历从i之后的文件
+for j in ${array1[@]:$i:${#array1[@]}}; do 
+    #echo ${array1[$i]},$j;
+    dir1=${array1[$i]};
+    dir2=$j;
+    mkdir ${dir1}-${dir2}
+    # 选取对应文件夹下的scm文件
+    for k in `ls ${dir1}/*.scm`
+    do
+        #export TestVari=$i
+        /home/happycamp-of-lisp/wangying/ydiff/diff-lisp $k ${dir2}/${k##*\/} 
+    done
+
+    mv *.html ${dir1}-${dir2}
+    cp ./nav.js ./diff.css ${dir1}-${dir2}
+done;
+</code></pre>
+
+<p>done;</p>
+
+<p>```</p>
+
+<p>然后可以在terminal运行
+```
+python -m SimpleHTTPServer
+Serving HTTP on 0.0.0.0 port 8000 &hellip;</p>
+
+<p>```
+在浏览器输入</p>
+
+<pre><code>http://localhost:8000/ 
+</code></pre>
+
+<h3>有问题的数组下标</h3>
+
+<p>数组下表是从0开始的！
+``` sh</p>
+
+<p>array1=(<code>ls -l|grep ^d|awk '{print $9}'</code>);</p>
+
+<h1>遍历所有文件夹 除了最后一个</h1>
+
+<p>for i in <code>seq 0 $((${#array1[@]}-1))</code>; do</p>
+
+<pre><code>#遍历从i之后的文件
+for j in ${array1[@]:$i+1:${#array1[@]}}; do 
+    #echo ${array1[$i]},$j;
+    dir1=${array1[$i]};
+    dir2=$j;
+    mkdir ${dir1}-${dir2}
+    # 选取对应文件夹下的scm文件
+    for k in `ls ${dir1}/*.scm`
+    do
+        #export TestVari=$i
+        /home/happycamp-of-lisp/wangying/ydiff/diff-lisp $k ${dir2}/${k##*\/} 
+    done
+
+    mv *.html ${dir1}-${dir2}
+    cp ./nav.js ./diff.css ${dir1}-${dir2}
+done;
+</code></pre>
+
+<p>done;</p>
+
+<p>mkdir final-result
+for i in <code>seq 0 $((${#array1[@]}-1))</code>; do</p>
+
+<pre><code>#遍历从i之后的文件
+for j in ${array1[@]:$i+1:${#array1[@]}}; do 
+    #echo ${array1[$i]},$j;
+    dir1=${array1[$i]};
+    dir2=$j;
+    mv ${dir1}-${dir2} final-result
+done;
+</code></pre>
+
+<p>done;</p>
+
+<p>```</p>
+
+<p>这样就完成了文件夹下所有的文件对比操作，当然得确保该文件夹下存在scm文件。</p>
+
+<h2>进一步修改YDiff？</h2>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Bash Array 和拓展的pattern Match]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/10/24/bash-array-he-tuo-zhan-de-pattern-match/"/>
+    <updated>2015-10-24T15:36:57+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/10/24/bash-array-he-tuo-zhan-de-pattern-match</id>
+    <content type="html"><![CDATA[<p>通过<a href="http://jueqingsizhe66.github.io/blog/2015/10/23/bash-support-idede-xin-fa-xian/">Bash_It</a>的学习，第一次意识到Shell数组的不一样的写法。
+并且也看到Pattern Match的一些用途。</p>
+
+<!--more-->
+
+
+<h2>1 Array</h2>
+
+<h3>1.1 Bash数组定义</h3>
+
+<p>通过(1,2,3)区分于fortran语言的(/1,2,3/).</p>
+
+<p>bash1=(34,5,6,4)</p>
+
+<p>bash2=(&ldquo;34&rdquo;,&ldquo;5&rdquo;,&ldquo;5&rdquo;,&ldquo;4&rdquo;)</p>
+
+<h3>1.2 Bash关联数组定义</h3>
+
+<p>通过 -A开关选项定义一个关联数组。</p>
+
+<p>declare -A bash1</p>
+
+<p>bash1[&ldquo;34&rdquo;]=&ldquo;53&rdquo;</p>
+
+<p>bash1[&ldquo;56&rdquo;]=&ldquo;45&rdquo;</p>
+
+<p>```
+declare -A array
+for subscript in a b c d e</p>
+
+<pre><code> do
+     array[$subscript]="$subscript $RANDOM"
+ done
+</code></pre>
+
+<p>```</p>
+
+<p>也可以在<em>命令行使用</em></p>
+
+<p>```
+  a=($(ls))  #而不是a=$(ls)</p>
+
+<p>  #这样就可以使用
+  ${a<a href="http://jueqingsizhe66.github.io/blog/2015/10/23/bash-support-idede-xin-fa-xian/">1</a>}
+```</p>
+
+<h3>1.3 Bash数组添加数据</h3>
+
+<p>bash1+=&ldquo;54&rdquo;</p>
+
+<h3>1.4 Bash数组显示数据和便利</h3>
+
+<p>```</p>
+
+<h2>单个显示</h2>
+
+<p>printf &ldquo;%s\n&rdquo; &ldquo;${array["c&rdquo;]}"</p>
+
+<h2>遍历</h2>
+
+<p>printf &ldquo;%s\n&rdquo; &ldquo;${array[@]}&rdquo;
+printf &ldquo;%s\n&rdquo; &ldquo;${array[*]}&rdquo;</p>
+
+<p>```</p>
+
+<h3>1.5 拓展的操作</h3>
+
+<p>#表示长度的作用</p>
+
+<ol>
+<li>${#array<a href="http://www.gnu.org/">2</a>}  现实第二个数组元素的长度</li>
+<li>${#array[@]}   显示全部数组元素的长度</li>
+<li>${#array[*]}  显示全部数组元素的长度</li>
+<li>${#array[@]:2:3}  获取第2个到3个的长度</li>
+<li>${!array[@]} !的作用是现实所有的key在数组当中。</li>
+</ol>
+
+
+<p>进一步参考</p>
+
+<p><a href="http://www.apress.com/9781484201220">pro_Bash_programming</a>第五章 array部分</p>
+
+<hr />
+
+<h2>2. PATTERN MATCH</h2>
+
+<p><code>
+?(pattern-list)   Matches zero or one occurrence of the given patterns
+*(pattern-list)   Matches zero or more occurrences of the given patterns
++(pattern-list)   Matches one or more occurrences of the given patterns
+@(pattern-list)   Matches one of the given patterns
+!(pattern-list)   Matches anything except one of the given patterns
+</code></p>
+
+<p>比如：
+<code>
+  $ ls +(ab|def)*+(.jpg|.gif)
+</code></p>
+
+<p>进一步参考  ls使用<a href="http://www.linuxjournal.com/content/bash-extended-globbing">PATTERN-MATCH</a></p>
+
+<hr />
+
+<p>Linux基础资料参考</p>
+
+<p><a href="http://www.gnu.org/">GNU官网</a></p>
+
+<p><a href="http://linux.vbird.org/linux_basic/">鸟哥论坛</a></p>
+
+<p><a href="http://linux.about.com/">Linux_About</a></p>
+
+<p><a href="http://www.cnblogs.com/bluebbc/tag/linux">CN_Blogs的一个收集</a></p>
+
+<h2>3 事情流程</h2>
+
+<ol>
+<li>认定你的事情</li>
+<li>做</li>
+<li>检验</li>
+</ol>
+
+
+<p>拓展为:</p>
+
+<ol>
+<li>认清楚这件事情；</li>
+<li>分析与这件事情有关的一切的一切；</li>
+<li>制定做好这件事情的计划；</li>
+<li>实施计划；</li>
+<li>验证这件事情的结果；</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Bash Support IDE的新发现]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/10/23/bash-support-idede-xin-fa-xian/"/>
+    <updated>2015-10-23T00:28:00+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/10/23/bash-support-idede-xin-fa-xian</id>
+    <content type="html"><![CDATA[<p><a href="http://www.vim.org/scripts/script.php?script_id=365">Bash Support</a>实现一个vim的bash IDE工具。好处式可以较快捷的
+输入命令和编程以及调试(bashdb)。</p>
+
+<!--more-->
+
+
+<h2>支持的几种后缀文件</h2>
+
+<ol>
+<li>c 的.c  c++ 的.cc  .cpp  cc</li>
+<li>perl 的.pl</li>
+<li>awk的.awk</li>
+<li>shell的.sh</li>
+<li>vim的.vim文件</li>
+</ol>
+
+
+<h2>查看系统的各种template</h2>
+
+<p> 一定要记住的一个命令 \ntl,通过它可以知道各个template系统文件
+ 都在干什么，以及如何使用那些快捷命令，比如\ckc \css \cfu \cc \cs  \se \sf 等。</p>
+
+<h2>几个常见的Macro</h2>
+
+<ol>
+<li>|FILENAME|</li>
+<li>|AUTHOR|</li>
+<li>|DATE|</li>
+<li>|TIME|</li>
+<li>|EMAIL|</li>
+<li>|ORGANIZATION|</li>
+<li>|AUTHORREF|</li>
+</ol>
+
+
+<h2>css 的程序几个大的部分的注释</h2>
+
+<p>当你敲入\css会在vim的下端出现一个输入栏，有下面几个选项</p>
+
+<ol>
+<li>&lsquo;GLOBAL DECLARATIONS&rsquo;     : &lsquo;GLOBAL DECLARATIONS&rsquo;,</li>
+<li>&lsquo;COMMAND LINE PROCESSING&rsquo; : &lsquo;COMMAND LINE PROCESSING&rsquo;,</li>
+<li>&lsquo;SANITY CHECKS&rsquo;           : &lsquo;SANITY CHECKS&rsquo;,</li>
+<li>&lsquo;FUNCTION DEFINITIONS&rsquo;    : &lsquo;FUNCTION DEFINITIONS&rsquo;,</li>
+<li>&lsquo;TRAPS&rsquo;                   : &lsquo;TRAPS&rsquo;,</li>
+<li>&lsquo;MAIN SCRIPT&rsquo;             : &lsquo;MAIN SCRIPT&rsquo;,</li>
+<li>&lsquo;STATISTICS AND CLEAN-UP&rsquo; : &lsquo;STATISTICS AND CLEAN-UP&rsquo;,</li>
+</ol>
+
+
+<p>  <em>技巧可以通过 G然后TAB就可以直接补全了。</em>
+  之所以说他特别好是因为，根据<a href="http://www.apress.com/9781430219972/">《Pro Bash Programming》</a>, 提出的关于
+  写更好的shell script的建议，如下所示：</p>
+
+<ol>
+<li>Comments  文件开头的注释，以及单行注释、函数注释、块注释</li>
+<li>Initialization of variables  变量声明</li>
+<li>Function definitions  函数定义</li>
+<li>Runtime configuration (parse options, read configuration file, and so on) 通过getopt解析脚本选项和运行所需的配置文件的导入</li>
+<li>Sanity check (are all values reasonable?)   一些判断、检查</li>
+<li>Command Run  程序运行</li>
+<li>Process information (calculate, slice and dice lines, I/O, and so on)</li>
+</ol>
+
+
+<p>``` sh</p>
+
+<h1>:    Title: wfe &ndash; List words ending with PATTERN</h1>
+
+<h1>: Synopsis: wfe [-c|-h|-v] REGEX</h1>
+
+<h1>:     Date: 2009-04-13</h1>
+
+<h1>:  Version: 1.0</h1>
+
+<h1>:   Author: Chris F.A. Johnson</h1>
+
+<h1>:  Options: -c &ndash; Include compound words</h1>
+
+<h1>:           -h &ndash; Print usage information</h1>
+
+<h1>:           -v &ndash; Print version number</h1>
+
+<p>set -x
+export PS4=&lsquo;+ $LINENO : &rsquo;</p>
+
+<h2>Script metadata</h2>
+
+<p>scriptname=${0##*/}
+description=&ldquo;List words ending with REGEX&rdquo;
+usage=&ldquo;$scriptname [-c|-h|-v] REGEX&rdquo;
+date_of_creation=2009-04-13
+version=1.0
+author=&ldquo;Chris F.A. Johnson&rdquo;</p>
+
+<h2>File locations</h2>
+
+<p>dict=$HOME/words
+wordfile=$dict/singlewords
+compoundfile=$dict/Compounds</p>
+
+<h2>Default is not to show compound words</h2>
+
+<p>compounds=</p>
+
+<h2>Reular expression supplied on the command line</h2>
+
+<p>pattern=$1</p>
+
+<h2>Function definitions</h2>
+
+<p>die() #@ DESCRIPTION: print error message and exit with supplied return code
+{     #@ USAGE: die STATUS [MESSAGE]
+  error=$1
+  shift
+  [ -n &ldquo;$<em>&rdquo; ] printf &ldquo;%s\n&rdquo; &ldquo;$</em>&rdquo; >&amp;2
+  exit &ldquo;$error&rdquo;
+}</p>
+
+<p>usage() #@ DESCRIPTION: print usage information
+{       #@ USAGE: usage</p>
+
+<pre><code>    #@ REQUIRES: variable defined: $scriptname
+</code></pre>
+
+<p>  printf &ldquo;%s &ndash; %s\n&rdquo; &ldquo;$scriptname&rdquo; &ldquo;$description&rdquo;
+  printf &ldquo;USAGE: %s\n&rdquo; &ldquo;$usage&rdquo;
+}</p>
+
+<p>version() #@ DESCRIPTION: print version information
+{          #@ USAGE: version</p>
+
+<pre><code>       #@ REQUIRES: variables defined: $scriptname, $author and $version
+</code></pre>
+
+<p>  printf &ldquo;%s version %s\n&rdquo; &ldquo;$scriptname&rdquo; &ldquo;$version&rdquo;
+  printf &ldquo;by %s, %d\n&rdquo; &ldquo;$author&rdquo; &ldquo;${date_of_creation%%&ndash;<em>}&rdquo;
+  #printf &ldquo;by %s, %d\n&rdquo; &ldquo;$author&rdquo; &ldquo;${date_of_creation%%&ndash;</em>&rdquo;   指的那边错误不是真正的错误！一般需要往上找
+}</p>
+
+<h2>parse command-line options, -c, -h, and -v</h2>
+
+<p>echo $(( $OPTIND ))
+while getopts chv var
+do
+   case $var in</p>
+
+<pre><code> c) compounds=$compoundfile ;;
+ h) usage; exit ;;
+ v) version; exit ;;
+</code></pre>
+
+<p>   esac
+done
+shift $(( $OPTIND &ndash; 1 ))  ## move out one parameter and then position to the right by one step</p>
+
+<pre><code>                      ## 右移操作
+</code></pre>
+
+<p>regex=$1
+echo $(( $regex ))</p>
+
+<h2>sanity check</h2>
+
+<p>if [ -z &ldquo;$pattern&rdquo; ]
+then</p>
+
+<pre><code>{
+    echo "Search term missing"
+    usage
+} &gt;&amp;2
+exit 1
+</code></pre>
+
+<p>fi</p>
+
+<h2>Search $wordfile and $compounds if it is defined</h2>
+
+<p>{
+   cat &ldquo;$wordfile&rdquo;
+   if [ -n &ldquo;$compounds&rdquo; ]  # not null  -n ~ -z   n :nonzero  z:zero
+   then</p>
+
+<pre><code>  cut -f1 "$compounds"
+</code></pre>
+
+<p>   fi</p>
+
+<h1>}| grep -i &ldquo;.$regex$&rdquo; |sort -fu   #errror</h1>
+
+<p>}| grep -i &ldquo;.$regex$&rdquo; |sort -fu</p>
+
+<h2>Case-insensitive sort; remove duplicates</h2>
+
+<p>```</p>
+
+<hr />
+
+<h2>ckc的几种注释关键字</h2>
+
+<p>当你敲入\ckc会在vim的下端出现一个输入栏，有下面几个选项</p>
+
+<ol>
+<li>&lsquo;bug&rsquo;         : &lsquo;:BUG:|DATE| |TIME|:|AUTHORREF|: <CURSOR>&rsquo;,</li>
+<li>&lsquo;todo&rsquo;        : &lsquo;:TODO:|DATE| |TIME|:|AUTHORREF|: <CURSOR>&rsquo;,</li>
+<li>&lsquo;tricky&rsquo;      : &lsquo;:TRICKY:|DATE| |TIME|:|AUTHORREF|: <CURSOR>&rsquo;,</li>
+<li>&lsquo;warning&rsquo;     : &lsquo;:WARNING:|DATE| |TIME|:|AUTHORREF|: <CURSOR>&rsquo;,</li>
+<li>&lsquo;workaround&rsquo;  : &lsquo;:WORKAROUND:|DATE| |TIME|:|AUTHORREF|: <CURSOR>&rsquo;,</li>
+<li>&lsquo;new keyword&rsquo; : &lsquo;:<CURSOR>:|DATE| |TIME|:|AUTHORREF|: {+COMMENT+}&rsquo;,</li>
+</ol>
+
+
+<p>进一步的帮助参考<a href="https://lug.fh-swf.de/vim/vim-bash/StyleGuideShell.en.pdf">Bash Style Guide</a></p>
+]]></content>
+  </entry>
+  
+</feed>

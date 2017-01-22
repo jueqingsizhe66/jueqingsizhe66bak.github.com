@@ -1,0 +1,1387 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>1月25日Java班笔记试题 - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="一、IO基础 1.File在Java中，既可以表示文件，也可以表示目录。可以通过File对象来判定文件是否可读，可写，存在等。 2.File对象的mkdirs()推荐使用这个方法，此方法可以创建多层次的目录。而mkdir()只能一层一层创建。 3.File的createNewfile() &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2015/05/11/1yue-25ri-javaban-bi-ji-shi-ti">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">1月25日Java班笔记试题</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:40+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--more-->
+
+
+<p>一、IO基础</p>
+
+<pre><code>    1.File在Java中，既可以表示文件，也可以表示目录。可以通过File对象来判定文件是否可读，可写，存在等。
+    2.File对象的mkdirs()推荐使用这个方法，此方法可以创建多层次的目录。而mkdir()只能一层一层创建。
+    3.File的createNewfile()是创建的文件。
+    4.File的delete()删除的File的构造函数String的那最后的一级，如果是文件，可以删除。如果是目录，需要这个目录是空的才能够删除。
+    5.File的listFiles()返回的是File构造函数指定路径下的所有File对象，包括了目录，也包括了文件。
+    6.File的静态方法，listRoots()可以获取所有的盘符。
+    7.OutputStream和InputStream都是字节流。
+    8.以后对于流的关闭等操作，还是使用JDK1.6的形式。1.7的怕以后公司不用。
+    9.NullPointerException是空指针异常。
+    10.当通过InputStream的read()方法读取值的时候他是一个byte一个byte的读取的，所以对于汉字读取会出现乱码。
+    11.java中数字是1个byte，汉字和汉字标点是2个byte。
+    12.可以通过System.currentTimMillis()来获取1970年1月1日到现在的毫秒数。
+    13.在Java中，字节流的读取推荐使用read方法，对于read方法，是把一个流的内容读取到byte[] 这种缓冲区中。且如果读取到了最后，返回值是-1.C#是0.所以如果使用do-while需要判定下！
+    14.缓冲区也不是越大越好！一般来说1M就够了！1024*1024
+    15.closeable为哪些可以关闭流的接口。所以封装finally中的close方法的时候，可以使用closeable的多态来表示完成。
+    16.对于output流，不用写创建一个File。会自动覆盖。
+    17.对于InputStream每次读取的是一个byte，就是一个byte一个byte的读，本质来说，其实是非常费时间的。
+    18.FileInputStream在read到最后返回值是-1.如果不是-1的话，那么返回值为int。int代表的是ASCII(?)的char。所以强制转成char就可以获取汉字。
+    19.InputStream在读取汉字的时候，内部是在做判定的，本质来说他也是一个byte一个byte的在读，但是没读取一个byte，他会判定是否是中文特征码，如果是那么会在读下一个byte。合起来返回一个char。
+    20.为了规避乱码问题，用什么编码来写，就用什么编码来读。
+    21.ANSI编码不是一种真正意义上的编码，而是根据不同的操作系统来设定不同的编码。就是default编码。
+    22.关于字符串编码的设置是在InputStreamReader或者OutputStreamWriter中。
+    23.在关闭流的时候，推荐从外到内依次关闭。
+    24.BufferedReader读取到最后，返回时是null。
+    25.获取默认编码的2个方法 System.getProperty("file.encoding")  还有一个是 Charset.defaultCharset().toString()
+</code></pre>
+
+<ol>
+<li>文件夹的遍历  可以通过listFiles(), 如果是文件夹，则递归调用该定义方法
+27.BufferedReader 需要一个Reader对象充当其参数，一般是InputStreamReader, 而InputStreamReader又需要一个InputStream（抽象方法不能new处对象）类的对象，一般采用InputStream的子类FileInputStream，类似的BufferedWriter
+28.通过创建Properties对象可以载入项目的配置文件。一般有两种方法载入文件 ，1是 直接通过项目文件载入 调用当前类的getClass方法，并接着调用getResourceAsStream载入文件流  ，通过Properites对象的load方法载入 。（得写好b.properties的路径  com/rupeng/b.properties 表示在com.rupeng这个包下的b.properties文件） 2 直接通过FileInputStream创建一个文件流，然后再用Properties对象的load方法载入。两者区别未知，效果一样。</li>
+</ol>
+
+
+<p>CommonsIO的学习
+统一说明：
+import org.apache.commons.io.IOUtils; // 加载类库
+import org.apache.commons.io.FilesUtils; // 加载类库</p>
+
+<p>1： IOUtils
+案例1：从一个URL中读取字节并打印
+主要代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>                <span class="k">try</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">&quot;http://www.rupeng.com&quot;</span><span class="o">).</span><span class="na">openStream</span><span class="o">();</span>
+</span><span class='line'>                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">IOUtils</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">in</span><span class="o">,</span><span class="s">&quot;utf-8&quot;</span><span class="o">));</span>
+</span><span class='line'>                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">MalformedURLException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="c1">// TODO 自动生成的 catch 块</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="c1">// TODO 自动生成的 catch 块</span>
+</span><span class='line'>                        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>                <span class="o">}</span><span class="k">finally</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">IOUtils</span><span class="o">.</span><span class="na">closeQuietly</span><span class="o">(</span><span class="n">in</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在大多数的运用领域，上述的CommonsIO操作是非常常见的，并且会节省很多的时间。对于工具代码，比如IOUtils,灵活性和速度
+占据主要的作用。然而，在使用过程中也需要注意他的缺点，比如如果使用上述的技术读取一个1GB的大文件，将导致产生一个
+1GB的字符串对象。</p>
+
+<p>案例2:复制文件
+主要代码</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>            <span class="k">try</span>
+</span><span class='line'>            <span class="o">{</span>
+</span><span class='line'>                    <span class="n">fis</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="s">&quot;e://a.txt&quot;</span><span class="o">);</span>
+</span><span class='line'>                    <span class="n">fos</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="s">&quot;e://acopyByStream.txt&quot;</span><span class="o">);</span>
+</span><span class='line'>                    <span class="n">IOUtils</span><span class="o">.</span><span class="na">copy</span><span class="o">(</span><span class="n">fis</span><span class="o">,</span> <span class="n">fos</span><span class="o">);</span> <span class="c1">// 把e盘下的a.txt复制到e://的acopyByStream.txt</span>
+</span><span class='line'>            <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2：FileUtils
+案例1：复制url内容链接到文件
+主要代码</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">URL</span> <span class="n">url1</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>                <span class="n">File</span> <span class="n">newFile</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;e://rupeng.html&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="k">try</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">url1</span>  <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">&quot;http://www.rupeng.com&quot;</span><span class="o">);</span>
+</span><span class='line'>                        <span class="n">FileUtils</span><span class="o">.</span><span class="na">copyURLToFile</span><span class="o">(</span><span class="n">url1</span><span class="o">,</span> <span class="n">newFile</span><span class="o">);</span> <span class="c1">//把如鹏网首页写入e盘下的rupeng.html</span>
+</span><span class='line'>                <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>案例2：复制文本、文件夹
+主要代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>            <span class="c1">// TODO 自动生成的方法存根</span>
+</span><span class='line'>            <span class="n">File</span> <span class="n">input</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;e://a.txt&quot;</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">File</span> <span class="n">output</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;e://acopy.txt&quot;</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">File</span> <span class="n">Input1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;e://a&quot;</span><span class="o">);</span>  <span class="c1">//文件夹</span>
+</span><span class='line'>            <span class="n">File</span> <span class="n">Output1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;e://TestFile&quot;</span><span class="o">);</span><span class="c1">//文件夹</span>
+</span><span class='line'>            <span class="n">String</span> <span class="n">loveWord</span> <span class="o">=</span> <span class="s">&quot;love you,my girl&quot;</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">try</span>
+</span><span class='line'>            <span class="o">{</span>
+</span><span class='line'>                    <span class="c1">//FileUtils.cleanDirectory(readyToDeleteDir); // 保留文件夹</span>
+</span><span class='line'>                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;目录e://a的大小：&quot;</span><span class="o">+</span><span class="n">FileUtils</span><span class="o">.</span><span class="na">sizeOfDirectory</span><span class="o">(</span><span class="n">readyToDeleteDir</span><span class="o">)/</span><span class="mf">1024.0</span><span class="o">+</span><span class="s">&quot;KB&quot;</span><span class="o">);</span>
+</span><span class='line'>                    <span class="c1">//FileUtils.deleteDirectory(readyToDeleteDir); // 连文件夹多没有</span>
+</span><span class='line'>                    <span class="n">FileUtils</span><span class="o">.</span><span class="na">copyFile</span><span class="o">(</span><span class="n">input</span><span class="o">,</span> <span class="n">output</span><span class="o">);</span>  <span class="c1">//复制文件</span>
+</span><span class='line'>                    <span class="n">FileUtils</span><span class="o">.</span><span class="na">copyDirectory</span><span class="o">(</span><span class="n">Input1</span><span class="o">,</span> <span class="n">Output1</span><span class="o">);</span> <span class="c1">//复制文件夹</span>
+</span><span class='line'>                    <span class="n">FileUtils</span><span class="o">.</span><span class="na">copyFileToDirectory</span><span class="o">(</span><span class="n">input</span><span class="o">,</span> <span class="n">Output1</span><span class="o">);</span> <span class="c1">//复制文件到文件夹</span>
+</span><span class='line'>                    <span class="n">FileUtils</span><span class="o">.</span><span class="na">writeStringToFile</span><span class="o">(</span><span class="n">output</span><span class="o">,</span> <span class="n">loveWord</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span> <span class="c1">// 追加写入</span>
+</span><span class='line'>            <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>IOUtils是采用流方式进行复制，FileUtils把文本文件作为参数（省去中间流的创建，估计有）</p>
+
+<p>3：Directory-walker
+DirectoryWalker 是一个抽象类，无法直接创建对象。通过创建一个继承类，并实现类中的抽象方法。
+案例1：递归删除某个文件夹下的文件
+全部代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">* @author 叶昭良</span>
+</span><span class='line'><span class="cm">*</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.io.*</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Collection</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Iterator</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.apache.commons.io.DirectoryWalker</span><span class="o">;</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestCommonIODiretoryWalk</span> <span class="kd">extends</span> <span class="n">DirectoryWalker</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * @param args</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="nf">TestCommonIODiretoryWalk</span><span class="o">()</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                     <span class="kd">super</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="n">List</span> <span class="nf">reName</span><span class="o">(</span><span class="n">File</span> <span class="n">startDirectory</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">List</span> <span class="n">results</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">();</span>
+</span><span class='line'>                <span class="k">try</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">walk</span><span class="o">(</span><span class="n">startDirectory</span><span class="o">,</span><span class="n">results</span>        <span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="c1">// TODO 自动生成的 catch 块</span>
+</span><span class='line'>                        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">results</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">handleDirectory</span><span class="o">(</span><span class="n">File</span> <span class="n">directory</span><span class="o">,</span><span class="kt">int</span> <span class="n">depth</span><span class="o">,</span><span class="n">Collection</span> <span class="n">results</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="c1">//save.svn directories and then skip 不会删除.svn文件夹下的任何信息</span>
+</span><span class='line'>                <span class="k">if</span><span class="o">(</span><span class="s">&quot;fasf&quot;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">directory</span><span class="o">.</span><span class="na">getName</span><span class="o">()))</span> <span class="c1">// 如果你想要保存某个文件夹</span>
+</span><span class='line'>                                                        <span class="c1">//就添加elseif即可！！当然文件架构还在</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">directory</span><span class="o">.</span><span class="na">delete</span><span class="o">();</span>
+</span><span class='line'>                        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>                <span class="o">}</span><span class="k">else</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">handleFile</span><span class="o">(</span><span class="n">File</span> <span class="n">file</span><span class="o">,</span><span class="kt">int</span> <span class="n">depth</span><span class="o">,</span> <span class="n">Collection</span> <span class="n">results</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">file</span><span class="o">.</span><span class="na">delete</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">results</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">file</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="c1">// 使用Directory Walker来遍历一个目录并进行相应操作步骤如下</span>
+</span><span class='line'>        <span class="c1">// 1:创建一个继承DirectoryWalker的类，并在构造函数调用super()</span>
+</span><span class='line'>        <span class="c1">// 2:定义一个业务入口方法，比如clean，这个方法调用walk方法</span>
+</span><span class='line'>        <span class="c1">// 3:重写handleDiretory方法  提供相应的业务逻辑</span>
+</span><span class='line'>        <span class="c1">// 4:重写handleFile方法，提供相应处理逻辑</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// 其中最为关键的是walk方法，该方法制定入口路径，</span>
+</span><span class='line'>        <span class="c1">// 并提供一个用于接受处理结构的参数。</span>
+</span><span class='line'>        <span class="c1">// 在walk方法的内部：针对目录对象调用handleDirectory</span>
+</span><span class='line'>        <span class="c1">//                       文件对象调用handleFile</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="c1">// TODO 自动生成的方法存根</span>
+</span><span class='line'>                <span class="n">TestCommonIODiretoryWalk</span> <span class="n">dw</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TestCommonIODiretoryWalk</span><span class="o">()</span> <span class="o">;</span>
+</span><span class='line'>                <span class="n">List</span> <span class="n">l1</span> <span class="o">=</span> <span class="n">dw</span><span class="o">.</span><span class="na">reName</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;e://b&quot;</span><span class="o">));</span>
+</span><span class='line'>                <span class="n">Iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="n">l1</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+</span><span class='line'>                <span class="k">while</span><span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">next</span><span class="o">());</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>案例2：修改一个文件加下的所有以txt结尾的修改为doc结尾的
+主要代码：（基本上 框架类似于案例1  主要修改handleFile的子程序 其他地方不需要怎么修改）</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">handleFile</span><span class="o">(</span><span class="n">File</span> <span class="n">file</span><span class="o">,</span><span class="kt">int</span> <span class="n">depth</span><span class="o">,</span> <span class="n">Collection</span> <span class="n">results</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">String</span> <span class="n">banana</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">String</span> <span class="n">newFilename</span><span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="na">getParent</span><span class="o">()+</span><span class="n">File</span><span class="o">.</span><span class="na">separator</span><span class="o">+</span><span class="n">banana</span><span class="o">.</span><span class="na">replaceAll</span><span class="o">(</span><span class="s">&quot;.txt&quot;</span><span class="o">+</span><span class="s">&quot;[        DISCUZ_CODE_5        ]quot;, &quot;</span><span class="o">.</span><span class="na">doc</span><span class="err">&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">file</span><span class="o">.</span><span class="na">renameTo</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">newFilename</span><span class="o">));</span>
+</span><span class='line'>                <span class="n">results</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">file</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>4.Filters
+过滤器：过滤在这边的意思是指保留那些满足某个条件的文件(而不是取消）
+Org.apache.commons.io.filefilter 包定义了一个接口（IOFileFilter）用于连接java.io.FileFilter和java.io.FilenameFilter.除了这个之外，包中提供了一系列可以使用的IOFileFilter接口的实现，包括允许你连接其他过滤器的实现。这些过滤器可以被用于列出文件或者在FileDialog
+全部代码</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">* @author 叶昭良</span>
+</span><span class='line'><span class="cm">*</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.io.File</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.io.FilenameFilter</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.apache.commons.io.filefilter.SuffixFileFilter</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.apache.commons.io.filefilter.IOFileFilter</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.apache.commons.io.filefilter.NotFileFilter</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.apache.commons.io.filefilter.OrFileFilter</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.apache.commons.io.filefilter.AndFileFilter</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.apache.commons.io.filefilter.DirectoryFileFilter</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.io.*</span><span class="o">;</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestCommonIOgetTxtFiles</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * @param args</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="c1">// TODO 自动生成的方法存根</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">File</span> <span class="n">rootDir</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;e://&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">// 列出所有的java结尾的所有文件（当前目录）</span>
+</span><span class='line'>                <span class="c1">// SuffixFileFilter的使用，定义了一个FilenameFilter接口</span>
+</span><span class='line'>                <span class="n">FilenameFilter</span> <span class="n">fileFilter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SuffixFileFilter</span><span class="o">(</span><span class="s">&quot;.java&quot;</span><span class="o">);</span> <span class="c1">// 满足.java结尾的文件，这也正好符合过滤在当前情况下的定义。</span>
+</span><span class='line'>                <span class="n">String</span><span class="o">[]</span> <span class="n">txtFiles</span> <span class="o">=</span> <span class="n">rootDir</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">fileFilter</span><span class="o">);</span>
+</span><span class='line'>                <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">txtFiles</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">rootDir</span><span class="o">+</span><span class="n">File</span><span class="o">.</span><span class="na">separator</span><span class="o">+</span><span class="n">txtFiles</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>                <span class="c1">// 列出所有的html和htm的文件（在当前文件目录下）</span>
+</span><span class='line'>                <span class="c1">// IOFileFilter、OrFileFilter、NotFileFilter、AndFileFilter的使用（and or 逻辑）</span>
+</span><span class='line'>                <span class="n">IOFileFilter</span> <span class="n">htmlFilter</span> <span class="o">=</span>   <span class="c1">// 定义了一个IOFileFilter接口接口</span>
+</span><span class='line'>                                <span class="k">new</span> <span class="nf">OrFileFilter</span><span class="o">(</span><span class="k">new</span> <span class="n">SuffixFileFilter</span><span class="o">(</span><span class="s">&quot;.html&quot;</span><span class="o">),</span><span class="k">new</span> <span class="n">SuffixFileFilter</span><span class="o">(</span><span class="s">&quot;.htm&quot;</span><span class="o">));</span>  <span class="c1">// 为什么有时候用IOFileFilter 而有时候用FilenameFilter?</span>
+</span><span class='line'>                <span class="n">IOFileFilter</span> <span class="n">notDirectory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NotFileFilter</span><span class="o">(</span><span class="n">DirectoryFileFilter</span><span class="o">.</span><span class="na">INSTANCE</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">// 拒绝选择目录</span>
+</span><span class='line'>                <span class="n">FilenameFilter</span> <span class="n">fileFilter1</span><span class="o">=</span> <span class="k">new</span> <span class="n">AndFileFilter</span><span class="o">(</span><span class="n">htmlFilter</span><span class="o">,</span><span class="n">notDirectory</span><span class="o">);</span> <span class="c1">// 利用AndFileFilter连接两个过滤器接口</span>
+</span><span class='line'>                <span class="n">File</span><span class="o">[]</span> <span class="n">htmlfiles</span> <span class="o">=</span> <span class="n">rootDir</span><span class="o">.</span><span class="na">listFiles</span><span class="o">(</span><span class="n">fileFilter1</span><span class="o">);</span>
+</span><span class='line'>                <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">htmlfiles</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">htmlfiles</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>代码说明：
+接口是一个更高级别的类，所以可以定义类型变量。具体看filename.gif</p>
+
+<p>案例2： 当前文件夹下的一天前的所有文件
+AgeFileFilter : 通过一个cutoff截止时间来过滤文件，可以过滤出更新的 更旧的 或者就是某一个时间点的信息。
+比如下面的  打印所有当前文件夹内的早于一天前创建的文件和文件夹
+主要代码：
+查看主要代码的图片。</p>
+
+<p>案例3： 获取文件夹下的可读 可写   目录文件（普通文件类似） 空文件  隐藏文件
+说明：最好是在打印时候(for 循环)加上异常的判断（NullPointerException)
+主要代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">org.apache.commons.io.filefilter.CanReadFileFilter</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.apache.commons.io.filefilter.CanWriteFileFilter</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.apache.commons.io.filefilter.DirectoryFileFilter</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.apache.commons.io.filefilter.EmptyFileFilter</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.apache.commons.io.filefilter.HiddenFileFilter</span><span class="o">;</span>
+</span><span class='line'>                <span class="c1">// TODO 自动生成的方法存根</span>
+</span><span class='line'>                 <span class="n">File</span> <span class="n">dirBanana</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;E:\\测试目录&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="n">String</span><span class="o">[]</span> <span class="n">filesBanana</span> <span class="o">=</span> <span class="n">dirBanana</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">CanReadFileFilter</span><span class="o">.</span><span class="na">CAN_READ</span><span class="o">);</span>
+</span><span class='line'>                 <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">filesBanana</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+</span><span class='line'>                 <span class="o">{</span>
+</span><span class='line'>                         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Banana可读文件:&quot;</span><span class="o">+</span><span class="n">filesBanana</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span><span class='line'>                 <span class="o">}</span>
+</span><span class='line'>                 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;分割线--------------------------&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="n">File</span> <span class="n">dirOrange</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;E:\\测试目录&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="n">String</span><span class="o">[]</span> <span class="n">filesOrange</span> <span class="o">=</span> <span class="n">dirOrange</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">CanReadFileFilter</span><span class="o">.</span><span class="na">READ_ONLY</span><span class="o">);</span>
+</span><span class='line'>                 <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">filesOrange</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+</span><span class='line'>                 <span class="o">{</span>
+</span><span class='line'>                         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Orange只读文件:&quot;</span><span class="o">+</span><span class="n">filesOrange</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span><span class='line'>                 <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>                 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;分割线--------------------------&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="n">File</span> <span class="n">dirApple</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;E:\\测试目录&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="n">String</span><span class="o">[]</span> <span class="n">filesApple</span> <span class="o">=</span> <span class="n">dirApple</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">CanReadFileFilter</span><span class="o">.</span><span class="na">CANNOT_READ</span><span class="o">);</span>
+</span><span class='line'>                 <span class="k">if</span><span class="o">(</span><span class="n">filesApple</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+</span><span class='line'>                 <span class="o">{</span>
+</span><span class='line'>                          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Apple未找到不可读文件&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="o">}</span><span class="k">else</span>
+</span><span class='line'>                 <span class="o">{</span>
+</span><span class='line'>                         <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">filesApple</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+</span><span class='line'>                         <span class="o">{</span>
+</span><span class='line'>                                 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Apple不可读文件:&quot;</span><span class="o">+</span><span class="n">filesApple</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span><span class='line'>                         <span class="o">}</span>
+</span><span class='line'>                 <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                 <span class="n">File</span> <span class="n">dirEgg</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;E:\\测试目录&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="n">String</span><span class="o">[]</span> <span class="n">filesEgg</span> <span class="o">=</span> <span class="n">dirEgg</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">CanWriteFileFilter</span><span class="o">.</span><span class="na">CAN_WRITE</span><span class="o">);</span>
+</span><span class='line'>                 <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">filesEgg</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+</span><span class='line'>                 <span class="o">{</span>
+</span><span class='line'>                         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Egg 找到了可写文件:&quot;</span><span class="o">+</span><span class="n">filesEgg</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span><span class='line'>                 <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>                 <span class="n">File</span> <span class="n">dirChichen</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;E:\\测试目录&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="n">String</span><span class="o">[]</span> <span class="n">filesChichen</span> <span class="o">=</span> <span class="n">dirChichen</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">CanWriteFileFilter</span><span class="o">.</span><span class="na">CANNOT_WRITE</span><span class="o">);</span>
+</span><span class='line'>                 <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">filesChichen</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+</span><span class='line'>                 <span class="o">{</span>
+</span><span class='line'>                         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Chichen 找到了不可写文件:&quot;</span><span class="o">+</span><span class="n">filesChichen</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span><span class='line'>                 <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>                 <span class="n">File</span> <span class="n">dirDirectory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;E:\\&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="n">String</span><span class="o">[]</span> <span class="n">filesDirectory</span> <span class="o">=</span> <span class="n">dirDirectory</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">DirectoryFileFilter</span><span class="o">.</span><span class="na">INSTANCE</span><span class="o">);</span>
+</span><span class='line'>                 <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">filesDirectory</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+</span><span class='line'>                 <span class="o">{</span>
+</span><span class='line'>                         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;列出所有E盘下的文件夹名字:&quot;</span><span class="o">+</span><span class="n">filesDirectory</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span><span class='line'>                 <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>                 <span class="n">File</span> <span class="n">dirEmpty</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;E:\\&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="n">String</span><span class="o">[]</span> <span class="n">filesEmpty</span> <span class="o">=</span> <span class="n">dirEmpty</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">EmptyFileFilter</span><span class="o">.</span><span class="na">EMPTY</span><span class="o">);</span>
+</span><span class='line'>                 <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">filesEmpty</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+</span><span class='line'>                 <span class="o">{</span>
+</span><span class='line'>                         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;dirEmpty列出所有E盘下的空文件名字（包括空文件夹）:&quot;</span><span class="o">+</span><span class="n">filesEmpty</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span><span class='line'>                 <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>                 <span class="n">File</span> <span class="n">dirNotEmpty</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;E:\\&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="n">String</span><span class="o">[]</span> <span class="n">filesNotEmpty</span> <span class="o">=</span> <span class="n">dirNotEmpty</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">EmptyFileFilter</span><span class="o">.</span><span class="na">NOT_EMPTY</span><span class="o">);</span>
+</span><span class='line'>                 <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">filesNotEmpty</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+</span><span class='line'>                 <span class="o">{</span>
+</span><span class='line'>                         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;dirNotEmpty列出所有E盘下的非空文件名字（包括空文件夹）:&quot;</span><span class="o">+</span><span class="n">filesNotEmpty</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span><span class='line'>                 <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>                 <span class="n">File</span> <span class="n">dirHidden</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;E:\\测试目录&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="n">String</span><span class="o">[]</span> <span class="n">filesHidden</span> <span class="o">=</span> <span class="n">dirHidden</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">HiddenFileFilter</span><span class="o">.</span><span class="na">HIDDEN</span><span class="o">);</span>
+</span><span class='line'>                 <span class="k">try</span>
+</span><span class='line'>                 <span class="o">{</span>
+</span><span class='line'>                         <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">filesHidden</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+</span><span class='line'>                         <span class="o">{</span>
+</span><span class='line'>                                 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;dirHidden列出所有E盘下的隐藏名字（包括空文件夹）:&quot;</span><span class="o">+</span><span class="n">filesHidden</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span><span class='line'>                         <span class="o">}</span>
+</span><span class='line'>                 <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">NullPointerException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                 <span class="o">{</span>
+</span><span class='line'>                         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;未找到任何隐藏文件 在测试目录下&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>                 <span class="n">File</span> <span class="n">dirVisible</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;E:\\测试目录&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="n">String</span><span class="o">[]</span> <span class="n">filesVisible</span> <span class="o">=</span> <span class="n">dirHidden</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">HiddenFileFilter</span><span class="o">.</span><span class="na">VISIBLE</span><span class="o">);</span>
+</span><span class='line'>                 <span class="k">try</span>
+</span><span class='line'>                 <span class="o">{</span>
+</span><span class='line'>                         <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">filesVisible</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+</span><span class='line'>                         <span class="o">{</span>
+</span><span class='line'>                                 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;dirHidden列出所有E盘下的隐藏名字（包括空文件夹）:&quot;</span><span class="o">+</span><span class="n">filesHidden</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span><span class='line'>                         <span class="o">}</span>
+</span><span class='line'>                 <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">NullPointerException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                 <span class="o">{</span>
+</span><span class='line'>                         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;未找到任何隐藏文件 在测试目录下&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>文件过滤器的规律是: 都是以FileFilter结尾的 比如SuffixFileFilter   AndFileFilter,OrFileFilter, NotFileFilter,AgeFileFilter,CanWriteFileFilter,CanReadFileFilter,DirectoryFileFilter,FileFileFilter,NameFileFilter,WildcardFileFilter。。。
+有些接口需要new出来一个对象，比如new  SuffixFileFilter(&ldquo;.txt&rdquo;)  ,new NameFileFilter(&ldquo;TestFile&rdquo;) 、new SizeFileFilter(1024*1024) 、new And,Or,NotFileFilter&hellip;等有些接口是直接使用，比如HiddenFileFilter.HIDDEN|VISIBLE   CanReadFileFilter.CANREAD|CANNOTREAD     CanWriteFileFilter.CANWRITE|CANNOTWRITE   EmptyFileFilter.EMPTY|NOTEMPTY   DirectoryFileFilter.INSTANCE   FileFileFilter.FILE等</p>
+
+<p>5.Stream部分：
+主要测试了CountingInputStream 、  CountingOutputStream、TeeOutputStream、TeeInputStream</p>
+
+<p>CountingInputStream :统计输出流的字节个数（Counting InputStream），可用于网络收费
+CountingOutputStream:测量输入流的统计，可用于网络收费
+TeeOutputStream:需要输入两个OutputStreams，同时输出到两个硬盘文件
+TeeOutputStream：一个inputStream 一个OutputStream,在读取InputStream的同时，也输出到硬盘上的另一个文件，充当备份。</p>
+
+<p>TeeInputStream:
+CommonsIO刚刚接触，只是一些浅显的知识，跟大家分享了,可以通过比较传统的IO流的实现，
+CommonsIO流的确为我们封装了很多有用而且快捷的类方法，当然前提是得对基本的IO流有一定的基础性认识。
+有问题的，求指教。
+<img src="/images/java/filename.gif" alt="过滤器接口的说明" />
+<img src="/images/java/%E4%B8%BB%E8%A6%81%E4%BB%A3%E7%A0%81.gif" alt="打印所有当前文件夹内的早于一天前创建的文件和文件夹" /></p>
+
+<p>另外的,WildcardFileFilter类似于RegexFileFilter可以模糊的定位当前文件夹下的所有符合模糊条件的文件，
+比如</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">WildcardFileFilter</span>
+</span><span class='line'>         <span class="c1">//列出所有的文件大小大于*test*.java*的文件</span>
+</span><span class='line'>                 <span class="n">File</span> <span class="n">dirWildcard</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;E:\\测试目录&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="n">String</span><span class="o">[]</span> <span class="n">filesWildcard</span> <span class="o">=</span> <span class="n">dirWildcard</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="k">new</span> <span class="n">WildcardFileFilter</span><span class="o">(</span><span class="s">&quot;*test*.java*&quot;</span><span class="o">));</span> <span class="c1">//正则表达式</span>
+</span><span class='line'>                 <span class="k">try</span>
+</span><span class='line'>                 <span class="o">{</span>
+</span><span class='line'>                         <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">filesWildcard</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+</span><span class='line'>                         <span class="o">{</span>
+</span><span class='line'>                                 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;dirWildcard列出所有E盘下的隐藏名字（包括空文件夹）:&quot;</span><span class="o">+</span><span class="n">filesWildcard</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span><span class='line'>                         <span class="o">}</span>
+</span><span class='line'>                 <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">NullPointerException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                 <span class="o">{</span>
+</span><span class='line'>                         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;未找到任何普通文件 在测试目录下&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>RegexFileFilter:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="c1">//列出所有的文件包含*test*.java的文件</span>
+</span><span class='line'>                 <span class="n">File</span> <span class="n">dirRegex</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;E:\\测试目录&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="n">FileFilter</span> <span class="n">ff</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RegexFileFilter</span><span class="o">(</span><span class="s">&quot;.*test.*\\.java.*&quot;</span><span class="o">);</span> <span class="c1">//正则表达式 不能写成*test*</span>
+</span><span class='line'>                 <span class="n">File</span><span class="o">[]</span> <span class="n">filesRegex</span> <span class="o">=</span> <span class="n">dirRegex</span><span class="o">.</span><span class="na">listFiles</span><span class="o">(</span><span class="n">ff</span><span class="o">);</span>
+</span><span class='line'>                 <span class="k">try</span>
+</span><span class='line'>                 <span class="o">{</span>
+</span><span class='line'>                         <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">filesRegex</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+</span><span class='line'>                         <span class="o">{</span>
+</span><span class='line'>                                 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;dirRegex列出所有E盘下的隐藏名字（包括空文件夹）:&quot;</span><span class="o">+</span><span class="n">filesRegex</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span><span class='line'>                         <span class="o">}</span>
+</span><span class='line'>                 <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">NullPointerException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                 <span class="o">{</span>
+</span><span class='line'>                         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;未找到任何普通文件 在测试目录下&quot;</span><span class="o">);</span>
+</span><span class='line'>                 <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>说明：FileFilter ff = new RegexFileFilter(&ldquo;.<em>test.</em>&#46;java&rdquo;);  ff可以作为listFiles的参数类型，但是RegexFileFilter这个FileFilter的子类产生的对象无法充当listFiles的参数，这边体现着多态的概念，而且是接口的多态。有一个问题：不明白为什么不能用RegexFileFilter 的对象？？？？ RegexFileFilter查阅源码的确是继承FileFilter和FilenameFilter的，难道是说多态一般只是使用在赋值语句，而在构造函数必须使用对应的类型   listFiles函数的声明为 public File[] listFiles(FileFilter filter){..}  或者public File[] listFiles(FilenameFilter filter){..} ）   求指教~&ndash;~</p>
+
+<p>首先感谢杨老师的远控解决了我的一个困惑。
+其实自己也应该猜到，分享一下讲解过程
+public class RegexFileFilter extends AbstractFileFilter<br/>
+复制代码
+RegexFileFilter继承了AbstractFileFilter</p>
+
+<p>public abstract class AbstractFileFilter implements IOFileFilter
+复制代码</p>
+
+<p>AbstractFileFilter实现了IOFileFilter  接口可以实现多继承，于是进一步观看了IOFileFilter
+public interface IOFileFilter extends FileFilter, FilenameFilter
+复制代码</p>
+
+<p>IOFileFilter又继承了FileFilter和FilenameFilter这两个接口，并且这两个接口已经是祖先级的接口</p>
+
+<p>之前我一直用RegexFileFilter定义ff变量，传到listFiles()中死活报错，如下：
+RegexFileFilter ff = new RegexFileFilter(&ldquo;.<em>test.</em>&#46;java.*&rdquo;);
+复制代码
+原因是RegexFileFilter继承了两个接口FileFilter,FilenameFilter,而listFiles也是实现了两种方式的重载（可以进入listFiles类，利用神健组合ctrl+o观看到   listFiles(FileFilte)  listFiles(FileFilename))
+所以如果ff不显示指定的话，listFiles怎么知道要重载哪个函数？</p>
+
+<p>三种解决方法：
+1：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>   <span class="n">File</span><span class="o">[]</span> <span class="n">filesRegex</span> <span class="o">=</span> <span class="n">dirRegex</span><span class="o">.</span><span class="na">listFiles</span><span class="o">((</span><span class="n">FilenameFilter</span><span class="o">)</span><span class="n">ff</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>   <span class="n">File</span><span class="o">[]</span> <span class="n">filesRegex</span> <span class="o">=</span> <span class="n">dirRegex</span><span class="o">.</span><span class="na">listFiles</span><span class="o">((</span><span class="n">FileFilter</span><span class="o">)</span><span class="n">ff</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>都是可以的，也可以用上面的多态的方法
+3：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>   <span class="n">FileFilter</span> <span class="n">ff</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RegexFileFilter</span><span class="o">(</span><span class="s">&quot;.*test.*\\.java&quot;</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>问题的根源：重载+显示指定类型</p>
+
+<hr />
+
+<p>学习了    /<strong>  然后摁下 Enter键 在eclipse中自动加入注释段，并且 敲击@可以产生想要的注释字段。
+较专业写法，代码的注释，必须学习
+/</strong></p>
+
+<pre><code>     * 输入流中的内容到输出流去
+     * @param input
+     * @param out
+     * @throws Exception
+     */
+</code></pre>
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2015/05/11/1yue-25ri-javaban-bi-ji-shi-ti/'>http://jueqingsizhe66.github.io/blog/2015/05/11/1yue-25ri-javaban-bi-ji-shi-ti/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:40+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javabasic/'>JavaBasic</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/05/19/sheng-huo-zhong-de-qing-gan-yuan-su-gao-xing/" title="Previous Post: 生活中的情感元素:高兴">&laquo; 生活中的情感元素:高兴</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/11/1yue-26ri-javaban-bi-ji/" title="Next Post: 1月26日Java班笔记">1月26日Java班笔记 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><div class="ds-thread" > </div>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"f708708"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+  <p><img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> <!--不是他的原因-->
+ <!--而是yellow的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (3)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (22)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (3)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (18)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/physics-and-maths/">Physics and Maths</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/jump-out-of-ontology/">Jump Out of Ontology</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/machine-learning-some-search-record/">Machine Learning Some Search Record</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/graphviz-notebook/">Graphviz Notebook</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="1" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+
+</section>
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2015/05/11/1yue-25ri-javaban-bi-ji-shi-ti/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2015/05/11/1yue-25ri-javaban-bi-ji-shi-ti/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,3007 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>1月31日Java班笔记作业 - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="第一部分：笔记
+First: SpinBox
+背景：spinButton 控制了文本框的数字，所以不需要研究entry的数字限制形式 第一点：微调按钮（SpinButton）从GtkEntry继承，只能输入数字。
+基本函数使用说明：
+1. int &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2015/05/11/1yue-31ri-javaban-bi-ji-zuo-ye">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">1月31日Java班笔记作业</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:40+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--more-->
+
+
+<p>第一部分：笔记
+First: SpinBox
+背景：spinButton 控制了文本框的数字，所以不需要研究entry的数字限制形式</p>
+
+<p>第一点：微调按钮（SpinButton）从GtkEntry继承，只能输入数字。
+基本函数使用说明：
+1.         int gtk_spin_button_new_with_range(double  min,double  max,double  step)  创建实例。min最小值、max最大值、单步变化值。double可以用来表示小数。
+2.        double gtk_spin_button_get_value(int spin_button)  获得double类型的值。
+int gtk_spin_button_get_value_as_int(int spin_button) 以整数类型获得值，小数部分忽略。
+void gtk_spin_button_set_value(int spin_button,double value)  设置值</p>
+
+<p>学会：解决问题的能力。1 .查文档  2.google+baidu  3.FAQ</p>
+
+<p>Second: ComboBox
+第一点：GtkComboBoxText从GtkComboBox继承，GtkComboBoxText子类定义ComboBox.
+基本函数：(使用说明)
+第一步： int gtk_combo_box_text_new()创建一个ComboBoxText；
+第二部： void gtk_combo_box_text_append(int combo_box,String id, String text) 附加一个文本，并且给它设定一个自定义id（String类型）。
+第三步：
+String gtk_combo_box_get_active_id(int combo_box)得到选中行的自定义id
+gtk_combo_box_set_active_id(int combo_box,String active_id)设定自定义id等于active_id的项被选中
+void gtk_combo_box_text_remove_all(int combo_box)清除所有内容
+第四步  当选中一行的时候会发出“changed”信号 GTK.g_signal_connect(….);</p>
+
+<p>Third: GTKIMAGE
+第一点：GtkImage 可以分为三种方式加载图片资源，包括：磁盘文件（file），项目资源（resource），内置图片（STOCK），对应三个
+家在函数gtk_image_set_from_file，gtk_image_set_from_resource，gtk_image_set_from_stock。</p>
+
+<p>基本函数使用说明：
+1.        void gtk_image_set_from_file(int image, String filename)从文件全路径为filename的文件中加载图片。注意文件路径的转义问题，“\”因为“\”有特殊含义，后面讲字符串会详细讲。</p>
+
+<ol>
+<li><pre><code>  void gtk_image_set_from_resource(int image, String resName)从项目资源中加载图片，格式"com/rupeng/1.jpg"（其中com/rupeng表示com.rupeng包），不要以/开头，把资源放在src里面！！！
+</code></pre>
+
+<p>png可以背景透明，jpg、jpege压缩图片, Gif  动态图片</p></li>
+<li><pre><code>  GTK.gtk_image_new_from_stock(GTK.GTK_STOCK_ABOUT, GTK.GTK_ICON_SIZE_LARGE_TOOLBAR); 从GTK的内置图片载入图片。
+</code></pre>
+
+<p>设置按钮图片一般是    GTK.GTK_STOCK*
+设置大小的时候  利用GTK.GTK_ICON就可以弹出几个。。。</p></li>
+</ol>
+
+
+<p>Fourth: GTKIMAGE的简单调研</p>
+
+<pre><code>    /**
+     * 把资源resName保存到临时文件夹，返回值为临时文件的全路径
+     * 
+     * @param resName
+     *            com/rupeng/a.mp3这样的格式，注意不以/开头
+     * @return
+     */
+    public synchronized static String saveResourceToTemp(String resName)
+    {
+            // 如果resname之前释放到过临时文件，并且临时文件还存在，则不再重复释放，直接返回之前的文件，以提高性能
+            if (resourceCache.containsKey(resName)) //资源缓存中判断是否存在图片
+            {
+                    String cachedFileName = resourceCache.get(resName);//从资源缓存中获取图片
+                    if (new File(cachedFileName).exists())
+                    {
+                            return cachedFileName;
+                    } else
+                    {
+                            resourceCache.remove(resName);
+                    }
+            }
+            // 获取文件扩展名
+            String[] strs = resName.split("\\."); //利用字符串的split函数
+            String extesion = strs[strs.length - 1]; //获取最后一个
+
+            InputStream inStream = GTK.class.getClassLoader().getResourceAsStream(resName);//ClassLoader.getSystemResourceAsStream(resName);
+</code></pre>
+
+<p>//通过反射机制 自动载入图片资源的ＩｎｐｕｔＳｔｒｅａｍ ！！！利用文件名字，这也是一个悬念</p>
+
+<pre><code>    if (inStream == null)
+            {
+                    throw new RuntimeException("找不到资源" + resName);
+            }
+            try
+            {                        
+                    //java 1.6后，运行在Windows下，如果启用了Guest账户，则由于createTempFile调用了SecureRandom 会卡5秒钟
+                    //因此第一次运行createTempFile会非常慢
+                    //参考：http://stackoverflow.com/questions/2608763/why-does-first-call-to-java-io-file-createtempfilestring-string-file-take-5-se
+                    //File tempFile = File.createTempFile("temp", "." + extesion);
+                    //因此不用createTempFile，改用存到项目的restemp文件夹下
+                    File resDir = new File(System.getProperty("user.dir"), "gtk/temp");// *.dll放的文件夹
+                    if (!resDir.exists())
+                    {
+                            resDir.mkdirs();//创建临时文件夹
+                    }
+                    inStream.mark(Integer.MAX_VALUE);　／／不清楚作何用
+                    String md5 = Utils.getMD5(inStream);//用md5值做文件名
+                    inStream.reset();//指针复位到mark标记的位置，便于后面保存文件        
+
+                    // 如果不加扩展名，mci_send_command则无法识别文件类型
+                    File tempFile = new File(resDir,md5+"."+extesion); //创建一个File
+                    FileOutputStream outStream = new FileOutputStream(tempFile); //写出一个文件
+                    Utils.copy(inStream,outStream); //把当前的图片资源靠背出去
+                    inStream.close();
+                    outStream.close();
+
+                    resourceCache.put(resName, tempFile.getAbsolutePath());//放到绝对路径下
+                    return tempFile.getAbsolutePath(); //最终返回图片
+            } catch (IOException e)
+            {
+                    throw new RuntimeException(e);
+            }
+    }
+
+    /**
+     * 从java资源中加载资源图片生成image。不是gtk提供的native方法
+     * 
+     * @param resName
+     * @return
+     */
+    public static int gtk_image_new_from_resource(String resName)
+    {
+            return gtk_image_new_from_file(saveResourceToTemp(resName));
+</code></pre>
+
+<p>复制代码</p>
+
+<p>Fifth: TextView
+背景：先前entry是当行文本框
+TextView基本函数使用说明：
+第一步： 创建多行文本夹</p>
+
+<pre><code>        int gtk_text_view_new()创建多行文本
+</code></pre>
+
+<p>第二步： 进行接本的设置</p>
+
+<pre><code>      void gtk_text_view_set_wrap_mode(int text_view,int wrap_mode) 设置自动换行模式。wrap_mode可选值：GTK_WRAP_NONE(不自动换行)；GTK_WRAP_CHAR(在任意字符换行)；GTK_WRAP_WORD(保持单词完整性换行，)；GTK_WRAP_WORD_CHAR (尽量保持单词完整性，实在不行也可以在任意字符换行)
+</code></pre>
+
+<p>第三步：  添加文字和读取文字</p>
+
+<pre><code>    读取文字
+    String text = GTK.gtk_text_buffer_get_text(textbuffer);
+</code></pre>
+
+<p>   添加文字
+GTK.gtk_text_buffer_set_text(textbuffer, loveWords)
+额外的标注：</p>
+
+<pre><code>  一般第三步采用的方式适合比较小的String，对于较大的情况可以再加一个TextIter类似可以在多行文本或者对话框
+</code></pre>
+
+<p>添加一个滚动条ScrolledBar
+TextIter使用说明：
+1：TextIter是对TextBuffer遍历的遍历器。
+2： int gtk_text_iter_new()创建一个空的TextIter，使用完后用gtk_text_iter_free(int iter)释放。
+3： void gtk_text_buffer_get_start_iter(int buffer,int iter)用buffer这个TextBuffer的开始位置去初始化iter这个TextIter（开头插入  或者用backward指针  向后读）</p>
+
+<pre><code> void gtk_text_buffer_get_end_iter(int buffer, int iter)用buffer这个TextBuffer的结束位置去初始化iter这个TextIter（结尾插入  或者也可以用forward指针 向前读）
+ (*)用gtk_text_buffer_get_iter_*系列方法移动迭代器的位置。
+</code></pre>
+
+<ol>
+<li> void gtk_text_buffer_insert(int buffer, int iter,String text)在buffer这个TextBuffer的iter这个TextIter的当前位置插入文本text</li>
+</ol>
+
+
+<p>5          gtk_text_iter_free(int iter)  释放textIter资源</p>
+
+<p>Sixth: Cairo
+1： 画布板   是一个框架，一般仅仅在第一步创建的时候使用 GTK.gtk_drawing_area();
+2： 画布环境(Cairo_t)，缺不了，在java的Cairo中直接在GTK.g_signal_connect中的draw时间中使用，对应execute函数的
+eventsData 即使Cairo_t ,基本上每一个Cairo函数都少不了ct
+3:  com.rupeng.gtk4j.Cairo简化了绘画的步骤，一般是
+3.1        设置画笔的大小  Cairo.cairo_set_font…
+3.2        设置画笔的颜色
+3.3        Cairo.cairo_move_to(cr…)
+3.4        Cairo.cairo_line_to(cr,,,)画直线
+3.5        Cairo.cairo_arc(cr,…)画圆弧   记住最好是分段绘制也就是每画一个加入 GTK.gtk_stroke() 或者GTK.gtk_fill();
+3.6        Cairo.cairo_rec  画矩形
+3.7        文字的绘制
+3.7.1        //画文字
+3.7.2        Cairo.cairo_move_to(eventData, 180, 260);
+3.7.3        Cairo.cairo_set_source_rgb(eventData, 0.4, 0.3, 0.2);
+3.7.4        Cairo.cairo_set_font_size(eventData, 16);
+3.7.5        //选择文字类型
+3.7.6        Cairo.cairo_select_font_face(eventData, &ldquo;宋体&rdquo;, Cairo.CAIRO_FONT_SLANT_ITALIC, Cairo.CAIRO_FONT_WEIGHT_BOLD);
+3.7.7        Cairo.cairo_show_text(eventData,&ldquo;三毛的自画像&rdquo;);
+3.7.8        //Cairo.cairo_stroke(eventData);  //不需要这句话也可以</p>
+
+<p>第二部分：作业
+First: SpinBox 的使用
+case1: 使用控件</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">com.rupeng.gtk4j.GTK</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">com.rupeng.gtk4j.IGCallBack</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">* @author 叶昭良</span>
+</span><span class='line'><span class="cm">* @version SpinBoxv1.0</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestGTKSPinBox</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * @param args</span>
+</span><span class='line'><span class="cm">         *  </span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">window</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">gridHouse</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="c1">// TODO 自动生成的方法存根</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_init</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">window</span>  <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_window_new</span><span class="o">(</span><span class="n">GTK</span><span class="o">.</span><span class="na">GTK_WINDOW_TOPLEVEL</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_window_set_title</span><span class="o">(</span><span class="n">window</span><span class="o">,</span> <span class="s">&quot;测试SpinBox&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">g_signal_connect</span><span class="o">(</span><span class="n">window</span><span class="o">,</span> <span class="s">&quot;destroy&quot;</span><span class="o">,</span> <span class="k">new</span> <span class="n">IGCallBack</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="nd">@Override</span>
+</span><span class='line'>                        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="kt">int</span> <span class="n">instance</span><span class="o">,</span> <span class="kt">int</span> <span class="n">eventData</span><span class="o">,</span> <span class="n">Object</span> <span class="n">object</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="c1">// TODO 自动生成的方法存根</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_main_quit</span><span class="o">();</span>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                <span class="o">},</span> <span class="kc">null</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">window</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//开始建立布局</span>
+</span><span class='line'>                 <span class="n">gridHouse</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_new</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">//开始插入控件</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span>
+</span><span class='line'>                <span class="n">createSpinbox</span><span class="o">(</span><span class="n">window</span><span class="o">,</span><span class="n">gridHouse</span><span class="o">,</span><span class="n">start</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_container_add</span><span class="o">(</span><span class="n">window</span><span class="o">,</span> <span class="n">gridHouse</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_main</span><span class="o">();</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param window     窗口标识</span>
+</span><span class='line'><span class="cm">         * @param gridHouse  整租房标识</span>
+</span><span class='line'><span class="cm">         * @param start      整租房的起始位置</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createSpinbox</span><span class="o">(</span><span class="kt">int</span> <span class="n">window</span><span class="o">,</span><span class="kt">int</span> <span class="n">gridHouse</span><span class="o">,</span><span class="kt">int</span> <span class="n">start</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="c1">//定义控件</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">label1</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_label_new</span><span class="o">(</span><span class="s">&quot;数字：0-9&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">label2</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_label_new</span><span class="o">(</span><span class="s">&quot;范围: -10~10&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="kd">final</span> <span class="kt">int</span> <span class="n">labelSpinbox</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_label_new</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="kd">final</span> <span class="kt">int</span> <span class="n">labelSpinboxApple</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_label_new</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="kd">final</span> <span class="kt">int</span> <span class="n">spinbox</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_spin_button_new_with_range</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="kd">final</span> <span class="kt">int</span> <span class="n">spinboxApple</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_spin_button_new_with_range</span><span class="o">(-</span><span class="mi">10</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mf">0.1</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//添加控件到整租房间</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">label1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">spinbox</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">label2</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">spinboxApple</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">labelSpinbox</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">start</span><span class="o">+</span><span class="mi">3</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">labelSpinboxApple</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">start</span><span class="o">+</span><span class="mi">4</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">//显示控件</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">label1</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">spinbox</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">label2</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">spinboxApple</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">labelSpinbox</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">labelSpinboxApple</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//添加事件</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">g_signal_connect</span><span class="o">(</span><span class="n">spinbox</span><span class="o">,</span> <span class="s">&quot;changed&quot;</span><span class="o">,</span> <span class="k">new</span> <span class="n">IGCallBack</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="nd">@Override</span>
+</span><span class='line'>                        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="kt">int</span> <span class="n">instance</span><span class="o">,</span> <span class="kt">int</span> <span class="n">eventData</span><span class="o">,</span> <span class="n">Object</span> <span class="n">object</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="c1">// TODO 自动生成的方法存根</span>
+</span><span class='line'>                                <span class="kt">double</span> <span class="n">apple</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_spin_button_get_value</span><span class="o">(</span><span class="n">spinbox</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_label_set_text</span><span class="o">(</span><span class="n">labelSpinbox</span><span class="o">,</span> <span class="s">&quot;您当前选择的数字式：&quot;</span><span class="o">+</span><span class="n">Double</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">apple</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                <span class="o">},</span> <span class="kc">null</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">g_signal_connect</span><span class="o">(</span><span class="n">spinboxApple</span><span class="o">,</span> <span class="s">&quot;changed&quot;</span><span class="o">,</span> <span class="k">new</span> <span class="n">IGCallBack</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="nd">@Override</span>
+</span><span class='line'>                        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="kt">int</span> <span class="n">instance</span><span class="o">,</span> <span class="kt">int</span> <span class="n">eventData</span><span class="o">,</span> <span class="n">Object</span> <span class="n">object</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="c1">// TODO 自动生成的方法存根</span>
+</span><span class='line'>                                <span class="kt">double</span> <span class="n">apple</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_spin_button_get_value</span><span class="o">(</span><span class="n">spinboxApple</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_label_set_text</span><span class="o">(</span><span class="n">labelSpinboxApple</span><span class="o">,</span> <span class="s">&quot;您当前选择的数字式：&quot;</span><span class="o">+</span><span class="n">Double</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">apple</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                <span class="o">},</span> <span class="kc">null</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>case2 ：建议四则运算器，加上指数和取余</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">com.rupeng.gtk4j.GTK</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">com.rupeng.gtk4j.IGCallBack</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">* @author 叶昭良</span>
+</span><span class='line'><span class="cm">* @version SpinBoxv1.0</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestGTKSPinBox</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * @param args</span>
+</span><span class='line'><span class="cm">         *  </span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">window</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">gridHouse</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="c1">// TODO 自动生成的方法存根</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_init</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">window</span>  <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_window_new</span><span class="o">(</span><span class="n">GTK</span><span class="o">.</span><span class="na">GTK_WINDOW_TOPLEVEL</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_window_set_title</span><span class="o">(</span><span class="n">window</span><span class="o">,</span> <span class="s">&quot;测试SpinBox&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">g_signal_connect</span><span class="o">(</span><span class="n">window</span><span class="o">,</span> <span class="s">&quot;destroy&quot;</span><span class="o">,</span> <span class="k">new</span> <span class="n">IGCallBack</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="nd">@Override</span>
+</span><span class='line'>                        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="kt">int</span> <span class="n">instance</span><span class="o">,</span> <span class="kt">int</span> <span class="n">eventData</span><span class="o">,</span> <span class="n">Object</span> <span class="n">object</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="c1">// TODO 自动生成的方法存根</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_main_quit</span><span class="o">();</span>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                <span class="o">},</span> <span class="kc">null</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">window</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//开始建立布局</span>
+</span><span class='line'>                 <span class="n">gridHouse</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_new</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">//开始插入控件</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span>
+</span><span class='line'>                <span class="n">createSpinbox</span><span class="o">(</span><span class="n">window</span><span class="o">,</span><span class="n">gridHouse</span><span class="o">,</span><span class="n">start</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_container_add</span><span class="o">(</span><span class="n">window</span><span class="o">,</span> <span class="n">gridHouse</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_main</span><span class="o">();</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param window     窗口标识</span>
+</span><span class='line'><span class="cm">         * @param gridHouse  整租房标识</span>
+</span><span class='line'><span class="cm">         * @param start      整租房的起始位置</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createSpinbox</span><span class="o">(</span><span class="kt">int</span> <span class="n">window</span><span class="o">,</span><span class="kt">int</span> <span class="n">gridHouse</span><span class="o">,</span><span class="kt">int</span> <span class="n">start</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="c1">//定义控件</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">label1</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_label_new</span><span class="o">(</span><span class="s">&quot;数字：0-9&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">label2</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_label_new</span><span class="o">(</span><span class="s">&quot;范围: -10~10&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="kd">final</span> <span class="kt">int</span> <span class="n">labelSpinbox</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_label_new</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="kd">final</span> <span class="kt">int</span> <span class="n">labelSpinboxApple</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_label_new</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="kd">final</span> <span class="kt">int</span> <span class="n">spinbox</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_spin_button_new_with_range</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="kd">final</span> <span class="kt">int</span> <span class="n">spinboxApple</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_spin_button_new_with_range</span><span class="o">(-</span><span class="mi">10</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mf">0.1</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//添加控件到整租房间</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">label1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">spinbox</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">label2</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">spinboxApple</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">labelSpinbox</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">start</span><span class="o">+</span><span class="mi">3</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">labelSpinboxApple</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">start</span><span class="o">+</span><span class="mi">4</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">//显示控件</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">label1</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">spinbox</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">label2</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">spinboxApple</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">labelSpinbox</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">labelSpinboxApple</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//添加事件</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">g_signal_connect</span><span class="o">(</span><span class="n">spinbox</span><span class="o">,</span> <span class="s">&quot;changed&quot;</span><span class="o">,</span> <span class="k">new</span> <span class="n">IGCallBack</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="nd">@Override</span>
+</span><span class='line'>                        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="kt">int</span> <span class="n">instance</span><span class="o">,</span> <span class="kt">int</span> <span class="n">eventData</span><span class="o">,</span> <span class="n">Object</span> <span class="n">object</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="c1">// TODO 自动生成的方法存根</span>
+</span><span class='line'>                                <span class="kt">double</span> <span class="n">apple</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_spin_button_get_value</span><span class="o">(</span><span class="n">spinbox</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_label_set_text</span><span class="o">(</span><span class="n">labelSpinbox</span><span class="o">,</span> <span class="s">&quot;您当前选择的数字式：&quot;</span><span class="o">+</span><span class="n">Double</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">apple</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                <span class="o">},</span> <span class="kc">null</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">g_signal_connect</span><span class="o">(</span><span class="n">spinboxApple</span><span class="o">,</span> <span class="s">&quot;changed&quot;</span><span class="o">,</span> <span class="k">new</span> <span class="n">IGCallBack</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="nd">@Override</span>
+</span><span class='line'>                        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="kt">int</span> <span class="n">instance</span><span class="o">,</span> <span class="kt">int</span> <span class="n">eventData</span><span class="o">,</span> <span class="n">Object</span> <span class="n">object</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="c1">// TODO 自动生成的方法存根</span>
+</span><span class='line'>                                <span class="kt">double</span> <span class="n">apple</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_spin_button_get_value</span><span class="o">(</span><span class="n">spinboxApple</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_label_set_text</span><span class="o">(</span><span class="n">labelSpinboxApple</span><span class="o">,</span> <span class="s">&quot;您当前选择的数字式：&quot;</span><span class="o">+</span><span class="n">Double</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">apple</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                <span class="o">},</span> <span class="kc">null</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="err">```</span>
+</span><span class='line'>
+</span><span class='line'><span class="nl">Second:</span> <span class="n">ComboBox</span>
+</span><span class='line'>
+</span><span class='line'><span class="nl">case1:</span> <span class="err">你想要购买的是什么水果？</span>  <span class="n">combobox</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;</p>
+
+<p>/<em>*
+* @author 叶昭良
+* @version ComboBoxText v1.0
+*
+</em>/
+public class TestGtkComboBoxText
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    static int window;
+    //static int box;
+    static int gridHouse;
+    public static void main(String[] args)
+    {
+            // TODO 自动生成的方法存根
+            GTK.gtk_init();
+            window = GTK.gtk_window_new(GTK.GTK_WINDOW_TOPLEVEL); 
+            GTK.gtk_window_set_title(window, "SpinBoxV1.0");
+            GTK.gtk_widget_show(window);
+            //安全关闭GTK
+            GTK.g_signal_connect(window, "destroy", new IGCallBack() 
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            GTK.gtk_main_quit();
+                    }
+            }, null);
+            String names[] = {"Andy","Jerry","laulence","Lucy","jack"};
+            // 创建布局
+            gridHouse =  GTK.gtk_grid_new();
+            GTK.gtk_widget_show(gridHouse);
+            createComboBoxText(window,gridHouse,0);  //yij
+            loadComboBox(window, names, gridHouse, 2); //之所以从2开始 是因为 0 1已经被使用
+            GTK.gtk_container_add(window,gridHouse);
+            //启动循环
+            GTK.gtk_main();
+    }
+
+    public static void createComboBoxText(int window,int gridHouse,int start)
+    {
+            final int comboBoxBig = GTK.gtk_combo_box_text_new();
+            GTK.gtk_combo_box_text_append_text(comboBoxBig, "苹果");
+            GTK.gtk_combo_box_text_append_text(comboBoxBig, "香蕉");
+            GTK.gtk_combo_box_text_append_text(comboBoxBig, "葡萄");
+            GTK.gtk_combo_box_text_append_text(comboBoxBig, "橘子");
+            GTK.gtk_combo_box_text_append_text(comboBoxBig, "蜜柚");
+            final int comboBoxApple = GTK.gtk_combo_box_text_new();
+            GTK.gtk_combo_box_text_append_text(comboBoxApple, "红苹果");
+            GTK.gtk_combo_box_text_append_text(comboBoxApple, "青苹果");
+            GTK.gtk_combo_box_text_append_text(comboBoxApple, "小苹果");
+            final int comboBoxBanana = GTK.gtk_combo_box_text_new();
+            GTK.gtk_combo_box_text_append_text(comboBoxBanana, "天宝蕉");
+            GTK.gtk_combo_box_text_append_text(comboBoxBanana, "竹蕉");
+            GTK.gtk_combo_box_text_append_text(comboBoxBanana, "大香蕉");
+            final int comboBoxGrape = GTK.gtk_combo_box_text_new();
+            GTK.gtk_combo_box_text_append_text(comboBoxGrape, "青葡萄");
+            GTK.gtk_combo_box_text_append_text(comboBoxGrape, "玫瑰香");
+            GTK.gtk_combo_box_text_append_text(comboBoxGrape, "巨峰");
+            GTK.gtk_combo_box_text_append_text(comboBoxGrape, "夏黑");
+            final int comboBoxOrange = GTK.gtk_combo_box_text_new();
+            GTK.gtk_combo_box_text_append_text(comboBoxOrange, "小橘子");
+            GTK.gtk_combo_box_text_append_text(comboBoxOrange, "大橘子");
+            GTK.gtk_combo_box_text_append_text(comboBoxOrange, "年橘");
+            final int comboBoxYouzi = GTK.gtk_combo_box_text_new();
+            GTK.gtk_combo_box_text_append_text(comboBoxYouzi, "白心蜜柚");
+            GTK.gtk_combo_box_text_append_text(comboBoxYouzi, "红心蜜柚");
+            GTK.gtk_combo_box_text_append_text(comboBoxYouzi, "臭蜜柚");
+
+    /*        int label1 = GTK.gtk_label_new("您当前想要购买的是"+GTK.gtk_combo_box_text_get_active_text(comboBoxBig)
+                            +"下的"+GTK.gtk_combo_box_text_get_active_text(comboBoxApple));*/
+            final int label1 = GTK.gtk_label_new("您当前想要购买的是?");
+
+            // 添加控件到整租房间
+
+            GTK.gtk_grid_attach(gridHouse, comboBoxBig, 0, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, comboBoxApple, 1, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, comboBoxBanana, 1, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, comboBoxGrape, 1, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, comboBoxOrange, 1, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, comboBoxYouzi, 1, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, label1, 0, start+1, 1, 1);
+
+            //显示控件
+            GTK.gtk_widget_show(comboBoxBig);
+            GTK.gtk_widget_show(comboBoxApple);
+            GTK.gtk_widget_show(label1);
+
+            //设置combobox的激活状态
+            GTK.gtk_combo_box_set_active(comboBoxBig, 0);
+            GTK.gtk_combo_box_set_active(comboBoxApple, 0);
+
+            //添加事件
+            GTK.g_signal_connect(comboBoxBig, "changed", new IGCallBack()
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            String fruit = GTK.gtk_combo_box_text_get_active_text(comboBoxBig);
+                            if(fruit.equalsIgnoreCase("苹果"))
+                            {
+                                    helpFunction(comboBoxApple,label1);
+                                    GTK.gtk_widget_hide(comboBoxBanana);
+                                    GTK.gtk_widget_hide(comboBoxGrape);
+                                    GTK.gtk_widget_hide(comboBoxOrange);
+                                    GTK.gtk_widget_hide(comboBoxYouzi);
+                            }else if(fruit.equalsIgnoreCase("香蕉"))
+                            {
+                                    helpFunction(comboBoxBanana,label1);
+                                    GTK.gtk_widget_hide(comboBoxApple);
+                                    GTK.gtk_widget_hide(comboBoxGrape);
+                                    GTK.gtk_widget_hide(comboBoxOrange);
+                                    GTK.gtk_widget_hide(comboBoxYouzi);
+                            }else if(fruit.equalsIgnoreCase("葡萄"))
+                            {
+                                    helpFunction(comboBoxGrape,label1);
+                                    GTK.gtk_widget_hide(comboBoxApple);
+                                    GTK.gtk_widget_hide(comboBoxBanana);
+                                    GTK.gtk_widget_hide(comboBoxOrange);
+                                    GTK.gtk_widget_hide(comboBoxYouzi);
+                            }else if(fruit.equalsIgnoreCase("橘子"))
+                            {
+                                    helpFunction(comboBoxOrange,label1);
+                                    GTK.gtk_widget_hide(comboBoxApple);
+                                    GTK.gtk_widget_hide(comboBoxBanana);
+                                    GTK.gtk_widget_hide(comboBoxGrape);
+                                    GTK.gtk_widget_hide(comboBoxYouzi);        
+                            }
+                            else if(fruit.equalsIgnoreCase("蜜柚"))
+                            {
+                                    helpFunction(comboBoxYouzi,label1);
+                                    GTK.gtk_widget_hide(comboBoxApple);
+                                    GTK.gtk_widget_hide(comboBoxBanana);
+                                    GTK.gtk_widget_hide(comboBoxGrape);
+                                    GTK.gtk_widget_hide(comboBoxOrange);        
+                            }
+                    }
+            }, null);
+
+    }
+
+    public static void helpFunction(final int comboBoxText,final int label1)
+    {
+            GTK.gtk_widget_show(comboBoxText);
+            GTK.gtk_combo_box_set_active(comboBoxText, 0);
+            GTK.g_signal_connect(comboBoxText, "changed", new IGCallBack() 
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object) 
+                    {
+                            String fruit = GTK.gtk_combo_box_text_get_active_text(comboBoxText);
+                            GTK.gtk_label_set_text(label1, "您想要购买的"+fruit+"没有了！请到别家购买");
+                    };
+            }, null);
+    }
+
+    public static void loadComboBox(int window,String[] names, int gridHouse,int start)
+    {
+            int cmbApple = GTK.gtk_combo_box_text_new();
+            for(int  i = 0 ; i &lt; names.length; i++)
+            {
+                    GTK.gtk_combo_box_text_append_text(cmbApple, names[i]);
+            }
+
+            GTK.gtk_widget_show(cmbApple);
+            GTK.gtk_grid_attach(gridHouse, cmbApple, 0, start, 1, 1);
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nl">case2:</span> <span class="err">省市联动器</span> <span class="err">（上一次的水果选择器，未使用</span><span class="n">id</span><span class="err">方法。。）</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;
+/<em>*
+*
+</em>/</p>
+
+<p>/<em>*
+* @author 叶昭良
+* @version 省市联动器 V1.0
+*
+</em>/
+public class ProvincedSelect
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    static int window;
+    static int gridHouse;
+    static int cmbProvince;
+    static int cmbCity;
+    static int labelShow;
+    public static void main(String[] args)
+    {
+            // TODO 自动生成的方法存根
+            //初始化
+            GTK.gtk_init();
+            //建立窗口
+            window = GTK.gtk_window_new(GTK.GTK_WINDOW_TOPLEVEL);
+            //显示窗口
+            GTK.gtk_widget_show(window);
+            // 安静关闭
+            GTK.g_signal_connect(window, "destroy", new IGCallBack()
+            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            GTK.gtk_main_quit();
+                    }
+
+            }, null);
+            //布局设置
+            gridHouse = GTK.gtk_grid_new();                        
+            GTK.gtk_widget_show(gridHouse);        
+            //包含整租房
+            GTK.gtk_container_add(window, gridHouse);
+            //创建控件
+            //
+            labelShow = GTK.gtk_label_new("");
+            cmbProvince = GTK.gtk_combo_box_text_new();
+            cmbCity     = GTK.gtk_combo_box_text_new();
+
+
+            int start =  0;
+            //添加控件
+            GTK.gtk_grid_attach(gridHouse, cmbProvince, 0, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, cmbCity, 0,start+1, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, labelShow, 1,start+2, 1, 1);
+
+            //显示控件
+
+            GTK.gtk_widget_show(cmbProvince);
+            GTK.gtk_widget_show(cmbCity);
+            GTK.gtk_widget_show(labelShow);
+            createProvince(window);
+
+
+
+            //启动循环
+            GTK.gtk_main();
+
+    }
+
+    public static void createProvince(int window)
+    {
+
+
+            GTK.gtk_combo_box_text_append(cmbProvince, "fj", "福建");
+            GTK.gtk_combo_box_text_append(cmbProvince, "bj", "北京");
+            //GTK.gtk_combo_box_text_append(cmbProvince, "sh", "上海");
+            GTK.gtk_combo_box_text_append(cmbProvince, "hn", "河南");
+            GTK.gtk_combo_box_text_append(cmbProvince, "hb", "河北");
+            GTK.gtk_combo_box_text_append(cmbProvince, "sd","山东");
+
+            GTK.gtk_combo_box_set_active_id(cmbProvince, "bj");
+</code></pre>
+
+<p>//添加事件</p>
+
+<pre><code>            GTK.g_signal_connect(cmbProvince, "changed", new IGCallBack() 
+            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+
+                            String province  =  GTK.gtk_combo_box_get_active_id(cmbProvince);
+                            if(province==null)return;
+                            System.out.println(province);
+                            GTK.gtk_combo_box_text_remove_all(cmbCity); //删除所有项
+                            //GTK.gtk_combo_box_text_remove_all(cmbCity); //删除所有项
+                            if(province.equals("fj"))
+                            {
+                                    System.out.println("福建测试中");
+                                    GTK.gtk_combo_box_text_append(cmbCity, "zhz", "漳州");
+                                    GTK.gtk_combo_box_text_append(cmbCity, "xm", "厦门");
+                                    GTK.gtk_combo_box_text_append(cmbCity, "fz", "福州");
+                                    GTK.gtk_combo_box_text_append(cmbCity, "qz", "泉州");
+
+                            }else if(province.equals("bj"))
+                            {
+                                    System.out.println("福建测试中");
+                                    GTK.gtk_combo_box_text_append(cmbCity, "cp", "昌平区");
+                                    GTK.gtk_combo_box_text_append(cmbCity, "hd", "海淀区");
+                                    GTK.gtk_combo_box_text_append(cmbCity, "tz", "通州区");
+                                    GTK.gtk_combo_box_text_append(cmbCity, "cy", "朝阳区");
+                            }else if(province.equals("hn"))
+                            {
+                                    System.out.println("福建测试中");
+                           GTK.gtk_combo_box_text_append(cmbCity, "zz", "郑州");
+                           GTK.gtk_combo_box_text_append(cmbCity, "zmd", "驻马店");
+                           GTK.gtk_combo_box_text_append(cmbCity, "ny", "南阳");
+                            }else if(province.equals("hb"))
+                            {
+                                    System.out.println("福建测试中");
+                           GTK.gtk_combo_box_text_append(cmbCity, "sjz", "石家庄");
+                           GTK.gtk_combo_box_text_append(cmbCity, "ts", "唐山");
+                           GTK.gtk_combo_box_text_append(cmbCity, "qhd", "秦皇岛");
+                            }else if(province.equals("sd"))
+                            {
+                                    System.out.println("福建测试中");
+                               GTK.gtk_combo_box_text_append(cmbCity, "jn", "济南");
+                           GTK.gtk_combo_box_text_append(cmbCity, "qd", "青岛");
+                           GTK.gtk_combo_box_text_append(cmbCity, "yt", "烟台");
+                            }
+                    }        
+            }, null);
+
+            //原来remove之后 也是会促发cmbCity的 信号  而导致改变 ，根源在于这个
+            GTK.g_signal_connect(cmbCity, "changed", new IGCallBack()
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                             String tempProvince = GTK.gtk_combo_box_text_get_active_text(cmbProvince);
+
+                            int  apple  = GTK.gtk_combo_box_get_active(cmbCity);
+                            if(apple &lt; 0)
+                            {
+                                    System.out.println("nothing in the city");
+                                    return;
+                            }
+
+                            String tempCity = GTK.gtk_combo_box_text_get_active_text(cmbCity);
+                            if(tempProvince==null||tempCity==null)return;
+                            //GTK.gtk_label_set_text(labelShow, "你准备去"+tempProvince+tempCity);
+                            GTK.gtk_label_set_text(labelShow,tempProvince+tempCity);
+                            System.out.println(tempProvince);
+                            System.out.println(tempCity);
+
+                    }
+            }, null);
+
+
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nl">Third:</span> <span class="n">GTKIMAGE</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">case1</span>  <span class="err">三种方式读入</span><span class="n">Image</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;</p>
+
+<p>/<em>*
+* @author 叶昭良
+* @version GtkImage v1.0
+*
+</em>/
+public class TestGtkImage
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    static int window;
+    static int gridHouse;
+    public static void main(String[] args)
+    {
+            // TODO 自动生成的方法存根
+            // TODO 自动生成的方法存根
+            GTK.gtk_init();
+            window = GTK.gtk_window_new(GTK.GTK_WINDOW_TOPLEVEL); 
+            GTK.gtk_window_set_title(window, "GtkImage V1.0");
+            GTK.gtk_widget_show(window);
+            //安全关闭GTK
+            GTK.g_signal_connect(window, "destroy", new IGCallBack() 
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            GTK.gtk_main_quit();
+                    }
+            }, null);
+            // 创建布局
+            gridHouse =  GTK.gtk_grid_new();
+            GTK.gtk_widget_show(gridHouse);
+
+            int start  = 0;
+            createGtkImage(window,gridHouse,start);
+            GTK.gtk_container_add(window,gridHouse);
+            //启动循环
+            GTK.gtk_main();
+    }
+
+    public static void createGtkImage(int window,int gridHouse,int start)
+    {
+            int imgWall = GTK.gtk_image_new_from_file("E:\\娱乐频道\\图片频道\\xin\\greatWall.jpg");
+            int imgHun = GTK.gtk_image_new_from_resource("yumufeng.jpg");
+            int imgStock = GTK.gtk_image_new_from_stock(GTK.GTK_STOCK_ABOUT, GTK.GTK_ICON_SIZE_LARGE_TOOLBAR);
+
+
+            int labelWall = GTK.gtk_label_new("通过磁盘文件读入长城照片");
+            int labelHun = GTK.gtk_label_new("通过项目文件读入婚纱照片");
+            int labelStock = GTK.gtk_label_new("通过GTK内置图片文件读入关于照片");
+
+            //添加到整租房间
+            GTK.gtk_grid_attach(gridHouse, imgWall, 0, start+1, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, imgHun, 1, start+1, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, imgStock, 2, start+1, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, labelWall, 0, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, labelHun, 1, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, labelStock, 2, start, 1, 1);
+
+            //显示控件
+            GTK.gtk_widget_show(imgWall);
+            GTK.gtk_widget_show(imgHun);
+            GTK.gtk_widget_show(imgStock);
+            GTK.gtk_widget_show(labelWall);
+            GTK.gtk_widget_show(labelHun);
+            GTK.gtk_widget_show(labelStock);
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">case2</span>  <span class="err">按钮图片</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;</p>
+
+<p>/<em>*
+* @author 叶昭良
+* @version ButtonImage v1.0
+*
+</em>/
+public class TestGtkButtonImage
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    static int window;
+    static int gridHouse;
+    public static void main(String[] args)
+    {
+            // TODO 自动生成的方法存根
+            // TODO 自动生成的方法存根
+            // TODO 自动生成的方法存根
+            GTK.gtk_init();
+            window = GTK.gtk_window_new(GTK.GTK_WINDOW_TOPLEVEL); 
+            GTK.gtk_window_set_title(window, "ButtonImage V1.0");
+            GTK.gtk_widget_show(window);
+            //安全关闭GTK
+            GTK.g_signal_connect(window, "destroy", new IGCallBack() 
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            GTK.gtk_main_quit();
+                    }
+            }, null);
+            // 创建布局
+            gridHouse =  GTK.gtk_grid_new();
+            GTK.gtk_widget_show(gridHouse);
+
+            int start  = 0;
+            createButtonImage(window,gridHouse,start);
+            GTK.gtk_container_add(window,gridHouse);
+            //启动循环
+            GTK.gtk_main();
+    }
+
+    public static void createButtonImage(int window,int gridHouse,int start)
+    {
+            int imgOpen = GTK.gtk_image_new_from_stock(GTK.GTK_STOCK_OPEN, GTK.GTK_ICON_SIZE_BUTTON);
+            int imgClosed = GTK.gtk_image_new_from_stock(GTK.GTK_STOCK_CLOSE, GTK.GTK_ICON_SIZE_BUTTON);
+            int imgFile = GTK.gtk_image_new_from_stock(GTK.GTK_STOCK_FILE, GTK.GTK_ICON_SIZE_BUTTON);
+            int btnCommon = GTK.gtk_button_new_with_label("普通按钮");
+            int btnOpen = GTK.gtk_button_new_with_label("打开");
+            int btnClosed = GTK.gtk_button_new_with_label("关闭");
+            int btnFile = GTK.gtk_button_new_with_label("文件");
+            GTK.gtk_button_set_image(btnOpen, imgOpen);
+            GTK.gtk_button_set_image(btnClosed, imgClosed);
+            GTK.gtk_button_set_image(btnFile, imgFile);
+            //添加控件 
+            //GTK.gtk_grid_attach(gridHouse, imgOpen, 0, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, btnCommon, 0, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, btnOpen, 1, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, btnClosed,2, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, btnFile,3, start, 1, 1);
+            //显示控件
+            GTK.gtk_widget_show(btnOpen);
+            GTK.gtk_widget_show(btnClosed);
+            GTK.gtk_widget_show(btnCommon);
+            GTK.gtk_widget_show(btnFile);
+
+            GTK.gtk_button_set_image_position(btnClosed, GTK.GTK_POS_TOP); //GTK_POS
+            GTK.gtk_button_set_image_position(btnFile, GTK.GTK_POS_RIGHT);
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nl">Fourth:</span> <span class="n">TextView</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">case1</span> <span class="err">女神表达神器：</span><span class="n">Love</span> <span class="n">you</span> <span class="o">!</span><span class="n">My</span> <span class="n">Girl</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;</p>
+
+<p>/<em>*
+* @author 叶昭良
+* @version  TestView v1.0
+</em>/
+public class GTKTestTextView
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    static int window;
+    static int gridHouse;
+    public static void main(String[] args)
+    {
+            // TODO 自动生成的方法存根
+            GTK.gtk_init();
+            window = GTK.gtk_window_new(GTK.GTK_WINDOW_TOPLEVEL); 
+            GTK.gtk_window_set_title(window, "女朋友告白神器 V1.0");
+            GTK.gtk_widget_show(window);
+            //安全关闭GTK
+            GTK.g_signal_connect(window, "destroy", new IGCallBack() 
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            GTK.gtk_main_quit();
+                    }
+            }, null);
+            // 创建布局
+            gridHouse =  GTK.gtk_grid_new();
+            GTK.gtk_widget_show(gridHouse);
+
+            int start  = 0;
+            createTextView(window,gridHouse,start);
+            GTK.gtk_container_add(window,gridHouse);
+            //启动循环
+            GTK.gtk_main();
+    }
+
+    public static void createTextView(int window, int gridHouse, int start)
+    {
+            int imgYumu = GTK.gtk_image_new_from_resource("yumufeng.jpg");
+            int tvGirl = GTK.gtk_text_view_new();
+            final int label = GTK.gtk_label_new("");
+            int btnShow = GTK.gtk_button_new_with_label("显示");
+            GTK.gtk_text_view_set_wrap_mode(tvGirl, GTK.GTK_WRAP_WORD);
+
+            //添加控件
+            GTK.gtk_grid_attach(gridHouse, imgYumu, 0, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, tvGirl, 0, start+1, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, label, 0 ,start+2, 1,1);
+            GTK.gtk_grid_attach(gridHouse, btnShow, 1 ,start+2, 1,1);
+            //显示控件
+            GTK.gtk_widget_show(imgYumu);
+            GTK.gtk_widget_show(tvGirl);
+            GTK.gtk_widget_show(label);
+            GTK.gtk_widget_show(btnShow);
+
+            //读取文本框里面的内容 ，只适用小量的文本，一般用迭代器
+            //方法1   先从TextView获取int TextBuffer 
+                //    然后再从TextBuffer获取text
+            final int textbuffer= GTK.gtk_text_view_get_buffer(tvGirl);
+            String loveWords = "你就像那天上星星，点缀着我们两的星空，璀璨夺目；"
+                            + "我愿与你携手共同奋进，原因和你共育我们的sons and grils,"
+                            + "建立起一个幸福的家庭";
+
+            //可以直接通过缓冲区编号  设置信息
+            GTK.gtk_text_buffer_set_text(textbuffer, loveWords);
+            //添加按钮事件
+            GTK.g_signal_connect(btnShow, "clicked", new IGCallBack() 
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            String text = GTK.gtk_text_buffer_get_text(textbuffer);
+                            GTK.gtk_label_set_text(label, text);
+                    }
+            }, null);
+
+
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">case2</span> <span class="o">:</span> <span class="n">TextIter</span>  <span class="err">实现添加</span><span class="n">love</span> <span class="n">you</span> <span class="err">字符串</span>  <span class="err">并加入了滚动条，实现女神表达器的升级版</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;</p>
+
+<p>/<em>*
+* @author 叶昭良
+* @version  TestView+TestIter v1.0
+* @version  TestView+TestIter v2.0 加入了滚动条操作。
+</em>/
+public class GTKTestTextIter
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    static int window;
+    static int gridHouse;
+    static int scrolledBar;
+    public static void main(String[] args)
+    {
+            // TODO 自动生成的方法存根
+            GTK.gtk_init();
+            window = GTK.gtk_window_new(GTK.GTK_WINDOW_TOPLEVEL); 
+            GTK.gtk_window_set_title(window, "女朋友告白神器 V1.0");
+            GTK.gtk_widget_show(window);
+            //安全关闭GTK
+            GTK.g_signal_connect(window, "destroy", new IGCallBack() 
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            GTK.gtk_main_quit();
+                    }
+            }, null);
+            // 创建布局
+            gridHouse =  GTK.gtk_grid_new();
+            GTK.gtk_widget_show(gridHouse);
+
+            int start  = 0;
+            createTextView(window,gridHouse,start);
+            GTK.gtk_container_add(window,gridHouse);
+            //启动循环
+            GTK.gtk_main();
+    }
+
+    public static void createTextView(int window, int gridHouse, int start)
+    {
+            int imgYumu = GTK.gtk_image_new_from_resource("yumufeng.jpg");
+            final int tvGirl = GTK.gtk_text_view_new();
+            final int label = GTK.gtk_label_new("");
+            final int labelIter = GTK.gtk_label_new("");
+            int btnShow = GTK.gtk_button_new_with_label("显示");
+            int btnShowIter = GTK.gtk_button_new_with_label("迭代器插入");
+            GTK.gtk_text_view_set_wrap_mode(tvGirl, GTK.GTK_WRAP_WORD);
+            int scrollBar = 0 ;
+            //添加控件
+            GTK.gtk_grid_attach(gridHouse, imgYumu, 0, start, 1, 1);
+            createScrollBar(scrollBar,tvGirl,gridHouse,start);
+            //GTK.gtk_grid_attach(gridHouse, tvGirl, 0, start+1, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, label, 0 ,start+2, 1,1);
+            GTK.gtk_grid_attach(gridHouse, labelIter, 0 ,start+3, 1,1);
+            GTK.gtk_grid_attach(gridHouse, btnShow, 1 ,start+2, 1,1);
+            GTK.gtk_grid_attach(gridHouse, btnShowIter, 1 ,start+3, 1,1);
+            //显示控件
+            GTK.gtk_widget_show(imgYumu);
+            GTK.gtk_widget_show(tvGirl);
+            GTK.gtk_widget_show(label);
+            GTK.gtk_widget_show(btnShow);
+            GTK.gtk_widget_show(labelIter);
+            GTK.gtk_widget_show(btnShowIter);
+
+            //读取文本框里面的内容 ，只适用小量的文本，一般用迭代器
+            //方法1   先从TextView获取int TextBuffer 
+                //    然后再从TextBuffer获取text
+            final int textbuffer= GTK.gtk_text_view_get_buffer(tvGirl);
+            String loveWords = "你就像那天上星星，点缀着我们两的星空，璀璨夺目；"
+                            + "我愿与你携手共同奋进，原因和你共育我们的sons and grils,"
+                            + "建立起一个幸福的家庭";
+
+            //可以直接通过缓冲区编号  设置信息
+            GTK.gtk_text_buffer_set_text(textbuffer, loveWords);
+            //添加按钮事件
+            GTK.g_signal_connect(btnShow, "clicked", new IGCallBack() 
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            String text = GTK.gtk_text_buffer_get_text(textbuffer);
+                            GTK.gtk_label_set_text(label, text);
+                    }
+            }, null);
+
+
+            GTK.g_signal_connect(btnShowIter, "clicked", new IGCallBack() 
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            helpFunction(tvGirl);
+                    }
+            }, null);
+
+    }
+    //如何遍历读取textview信息？？ 当前只能插入？
+    public static void helpFunction(int textview)
+    {
+            //TextIter是一个TextView的迭代器。
+            int textBuffer =  GTK.gtk_text_view_get_buffer(textview);
+            int textIter = GTK.gtk_text_iter_new();  //这是一个空的iter，需要用textBuffer进行赋值
+            GTK.gtk_text_buffer_get_end_iter(textBuffer, textIter);// 或者textview的textBuffer的末尾！
+            GTK.gtk_text_buffer_insert(textBuffer, textIter, "I love you! Xinran");
+
+            //GTK.gtk_text_buffer_g
+            GTK.gtk_text_iter_free(textIter);
+
+    }
+
+    public static void createScrollBar(int scrolledBar,int textview,int gridHouse,int start)
+    {
+            scrolledBar = GTK.gtk_scrolled_window_new();
+            GTK.gtk_widget_show(scrolledBar);
+            GTK.gtk_grid_attach(gridHouse, scrolledBar, 0, start+1, 1, 1);
+            GTK.gtk_widget_set_size_request(scrolledBar, 300, 50);
+            GTK.gtk_container_add(scrolledBar,textview);
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">case3</span> <span class="o">:</span> <span class="err">计算器</span><span class="n">version</span> <span class="mf">3.0</span>   <span class="err">加入了一些</span><span class="n">Sin</span><span class="err">等计算符</span>   <span class="err">以及</span><span class="n">TextView</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+/<em>*
+* @author 叶昭良
+* @version : 计算器v1.0
+* @version : 计算器v 2.0  替换掉entry 采用了SpinBox和ComboBox
+* @version : 计算器v 3.0<br/>
+*              1.使用button触发计算事件  加入了三角函数、对数函数等的计算，
+*              2.使用TextView  and TextIter把结果输入到其中。。
+*              3.对于       <br/>
+*
+</em>/
+import javax.swing.JOptionPane;</p>
+
+<p>import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;
+//import java.math.*;</p>
+
+<p>public class TestCalc3
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    static int window;
+    static boolean isEnter = false;
+
+    public static void main(String[] args)
+    {
+            // TODO 自动生成的方法存根
+            //初始化
+            GTK.gtk_init();
+            //建立窗口  设置成static int window变量
+            window = GTK.gtk_window_new(GTK.GTK_WINDOW_TOPLEVEL);
+            //设置窗口名称
+            GTK.gtk_window_set_title(window, "计算器v3.0");
+            //添加窗口
+            GTK.gtk_widget_show(window);
+
+            //关闭对话框
+            GTK.g_signal_connect(window, "destroy", new IGCallBack() 
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            GTK.gtk_main_quit();
+                    }
+            }, null);
+
+            //网格布局
+        int houseGrid = GTK.gtk_grid_new();
+        //载入计算机控件
+
+        Calc(window,houseGrid,0); //有两行
+        specialCal(window,houseGrid,2); //有两行
+        //载入到windows当中
+            GTK.gtk_container_add(window, houseGrid);
+            //启动循环
+            GTK.gtk_main();
+
+    }
+    /**
+     * 
+     * @param window     窗口的标识
+      * @param houseGrid  整租房间的标识
+     * @param start      设置整租房间的起始行数
+     */
+    public static void Calc(int window,int houseGrid,int start)
+    {
+            final int sbOne = GTK.gtk_spin_button_new_with_range(-32768, 32767, 1);
+            final int sbAnother = GTK.gtk_spin_button_new_with_range(-32768, 32767, 1);
+            GTK.gtk_spin_button_set_value(sbOne, 12.0);
+            GTK.gtk_spin_button_set_value(sbAnother, 4.0);
+            final int cbbOperator = GTK.gtk_combo_box_text_new();
+            GTK.gtk_combo_box_text_append_text(cbbOperator, "+");
+            GTK.gtk_combo_box_text_append_text(cbbOperator, "-");
+            GTK.gtk_combo_box_text_append_text(cbbOperator, "*");
+            GTK.gtk_combo_box_text_append_text(cbbOperator, "/");
+            GTK.gtk_combo_box_text_append_text(cbbOperator, "%");
+            GTK.gtk_combo_box_text_append_text(cbbOperator, "^");
+
+            GTK.gtk_combo_box_set_active(cbbOperator, 0);
+            int btnEquals = GTK.gtk_button_new_with_label("=");
+            final int label2 = GTK.gtk_label_new("我知道答案是什么");
+
+            int labelCommon = GTK.gtk_label_new("普通的四则运算：");
+            // Box用于存储  + - operator
+
+
+
+            //加入整租
+            GTK.gtk_grid_attach(houseGrid, labelCommon, 0, start, 1, 1);
+            //在下一行再添加
+            start= start + 1;
+            GTK.gtk_grid_attach(houseGrid, sbOne, 0, start, 1, 1);
+            GTK.gtk_grid_attach(houseGrid, cbbOperator, 1, start, 1, 1);
+</code></pre>
+
+<p>//                GTK.gtk_grid_attach(houseGrid, buttonPlus, 1, start, 1, 1);
+//                GTK.gtk_grid_attach(houseGrid, buttonMinus, 1, start+1, 1, 1);</p>
+
+<pre><code>            GTK.gtk_grid_attach(houseGrid, sbAnother, 2, start, 1, 1);
+            GTK.gtk_grid_attach(houseGrid, btnEquals, 3, start, 1, 1);
+            GTK.gtk_grid_attach(houseGrid, label2, 4, start, 1, 1);
+
+            //显示控件
+            GTK.gtk_widget_show(labelCommon);
+            GTK.gtk_widget_show(sbOne);
+            GTK.gtk_widget_show(sbAnother);
+            GTK.gtk_widget_show(cbbOperator);
+
+            GTK.gtk_widget_show(btnEquals);
+            GTK.gtk_widget_show(label2);
+            //GTK.gtk_widget_show(box);
+            GTK.gtk_widget_show(houseGrid);
+
+
+            //加入事件控制机制 
+            GTK.g_signal_connect(btnEquals, "clicked", new IGCallBack()
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+
+                            // TODO 自动生成的方法存根
+                            double plus1 = GTK.gtk_spin_button_get_value(sbOne);
+                            double plus2 = GTK.gtk_spin_button_get_value(sbAnother);
+
+                            //增加一个 只读模式的entry
+                            //GTK.gtk_editable_set_editable(entryOne, false); //只读不能写入。
+
+                            String cbbString = GTK.gtk_combo_box_text_get_active_text(cbbOperator);
+                            //panduan(plus1,entryOne);
+                            panduan(plus2,sbAnother);
+                            double sum1 = 0;
+                            if(cbbString.equalsIgnoreCase("+"))
+                            {
+                                     sum1 = plus1 + plus2;
+                                    GTK.gtk_label_set_text(label2, Double.toString(sum1));
+                            }else if(cbbString.equalsIgnoreCase("-"))
+                            {
+                                    sum1 = plus1 -plus2;
+                                    GTK.gtk_label_set_text(label2, Double.toString(sum1));
+                            }else if(cbbString.equalsIgnoreCase("*"))
+                            {
+                                    sum1 = plus1 * plus2;
+                                    GTK.gtk_label_set_text(label2, Double.toString(sum1));
+                            }else if(cbbString.equalsIgnoreCase("/"))
+                            {
+                                    panduan(plus2,sbAnother);
+                                    sum1 = plus1 / plus2;
+                                    GTK.gtk_label_set_text(label2, Double.toString(sum1));
+                            }else if(cbbString.equalsIgnoreCase("%"))
+                            {
+                                    panduan(plus2,sbAnother);
+                                    sum1 = plus1 % plus2;
+                                    GTK.gtk_label_set_text(label2, Double.toString(sum1));
+                            }else if(cbbString.equalsIgnoreCase("^"))
+                            {
+                                    //String temp = Double.toString(plus2);
+
+                                    sum1 = Math.pow(plus1,plus2);
+                                    GTK.gtk_label_set_text(label2, Double.toString(sum1));
+                            }
+                    }
+            }, null);        
+
+    }
+    /**
+     * 
+     * @param plus1  entry1的数字字符串
+     * @param entry1 entry1的标识
+     */
+    public static void panduan(double plus1,int sbAnother)
+    {
+            if(plus1 == 0)
+            {
+                    JOptionPane.showMessageDialog(null, "被除数不能为0,已经置为空 请重新输入");
+                    GTK.gtk_spin_button_set_value(sbAnother, 1.0);;
+                    return;
+            }
+    }
+    /**
+     * 
+     * @param window     计算器窗口的标识
+     * @param gridHouse  整租房的标识
+     * @param start      整租房的编号
+     */
+    public static void specialCal(int window,int gridHouse,int start)
+    {
+            // 建立控件
+            final int btnSin = GTK.gtk_button_new_with_label("sin");
+            final int btnCos = GTK.gtk_button_new_with_label("cos");
+            final int btnTan = GTK.gtk_button_new_with_label("tan");
+            final int btnAsin = GTK.gtk_button_new_with_label("asin");
+            final int btnAcos = GTK.gtk_button_new_with_label("acos");
+            final int btnAtan = GTK.gtk_button_new_with_label("atan");
+            final int btnLog = GTK.gtk_button_new_with_label("log");
+            final int btnSqrt = GTK.gtk_button_new_with_label("sqrt");
+            final int btnabs = GTK.gtk_button_new_with_label("abs");
+            final int btnFloor = GTK.gtk_button_new_with_label("floor");
+            final int btnCeil = GTK.gtk_button_new_with_label("ceil");
+            final int btnToDegree = GTK.gtk_button_new_with_label("弧度变角度");
+            final int btnToRadius = GTK.gtk_button_new_with_label("角度变弧度");
+            final int spinbox= GTK.gtk_spin_button_new_with_range(-32767, 32767, 0.1);
+            final int btnEquals = GTK.gtk_button_new_with_label("=");
+            final int tv1 = GTK.gtk_text_view_new();
+            final int labelSpecial = GTK.gtk_label_new("特殊的四则运算：(先点击运算符，再敲值，最后等号)");
+            //设置GTK TextView的模式
+            GTK.gtk_text_view_set_wrap_mode(tv1, GTK.GTK_WRAP_WORD);
+            //设置滚动条
+            final int scrolledBar = 0 ;
+
+
+            GTK.gtk_spin_button_set_value(spinbox, 44.0);
+            int innerGrid = GTK.gtk_grid_new();
+            //添加控件
+            GTK.gtk_grid_attach(innerGrid, btnSin, 0, 0, 1, 1);
+            GTK.gtk_grid_attach(innerGrid, btnCos, 1, 0, 1, 1);
+            GTK.gtk_grid_attach(innerGrid, btnTan, 2, 0, 1, 1);
+            GTK.gtk_grid_attach(innerGrid, btnAsin, 0, 1, 1, 1);
+            GTK.gtk_grid_attach(innerGrid, btnAcos, 1, 1, 1, 1);
+            GTK.gtk_grid_attach(innerGrid, btnAtan, 2, 1, 1, 1);
+            GTK.gtk_grid_attach(innerGrid, btnLog, 0, 2, 1, 1);
+            GTK.gtk_grid_attach(innerGrid, btnSqrt, 1, 2, 1, 1);
+            GTK.gtk_grid_attach(innerGrid, btnabs, 2, 2, 1, 1);
+            GTK.gtk_grid_attach(innerGrid, btnFloor, 0, 3, 1, 1);
+            GTK.gtk_grid_attach(innerGrid, btnCeil, 1, 3, 1, 1);
+            GTK.gtk_grid_attach(innerGrid, btnToDegree, 0, 4, 1, 1);
+            GTK.gtk_grid_attach(innerGrid, btnToRadius, 1, 4, 1, 1);
+
+            GTK.gtk_grid_attach(gridHouse,labelSpecial,0,start,1,1);
+
+            start = start + 1; //跳到下一行
+            GTK.gtk_grid_attach(gridHouse, innerGrid, 0, start, 3, 5);
+            GTK.gtk_grid_attach(gridHouse, spinbox, 3, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, btnEquals, 4, start, 1, 1);
+            // GTK.gtk_grid_attach(gridHouse, tv1, 4, start+1, 1, 1);
+            createScrollBar(scrolledBar,tv1,gridHouse,start);
+
+
+            //显示控件
+            GTK.gtk_widget_show(labelSpecial);
+            GTK.gtk_widget_show(btnSin);
+            GTK.gtk_widget_show(btnCos);
+            GTK.gtk_widget_show(btnTan);
+            GTK.gtk_widget_show(btnAsin);
+            GTK.gtk_widget_show(btnAcos);
+            GTK.gtk_widget_show(btnAtan);
+            GTK.gtk_widget_show(btnSqrt);
+            GTK.gtk_widget_show(btnLog);
+            GTK.gtk_widget_show(btnabs);
+            GTK.gtk_widget_show(btnCeil);
+            GTK.gtk_widget_show(btnFloor);
+            GTK.gtk_widget_show(btnToDegree);
+            GTK.gtk_widget_show(btnToRadius);
+            GTK.gtk_widget_show(tv1); //还是得先是  必须show 否则看不到
+            GTK.gtk_widget_show(spinbox);
+            GTK.gtk_widget_show(btnEquals);
+            //GTK.gtk_widget_show(scrolledBar);  //不要在这边show只在scrollbar区域，不然报错
+            GTK.gtk_widget_show(innerGrid);
+
+
+
+            //添加按钮事件
+            insertButtonEvent( btnSin,tv1);
+            insertButtonEvent( btnCos,tv1);
+            insertButtonEvent( btnTan,tv1);
+            insertButtonEvent( btnAsin,tv1);
+            insertButtonEvent( btnAcos,tv1);
+            insertButtonEvent( btnAtan,tv1);
+            insertButtonEvent( btnLog,tv1);
+            insertButtonEvent( btnabs,tv1);
+            insertButtonEvent( btnCeil,tv1);
+            insertButtonEvent( btnFloor,tv1);
+            insertButtonEvent( btnToDegree,tv1);
+            insertButtonEvent( btnToRadius,tv1);
+
+
+            GTK.g_signal_connect(spinbox,"changed",new IGCallBack() 
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            isEnter = true;
+                    }
+            },null);
+
+            GTK.g_signal_connect(btnEquals, "clicked", new IGCallBack() 
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            double sum1  = 0 ;
+                            double apple = GTK.gtk_spin_button_get_value(spinbox);
+                            if(isEnter == false)
+                            {
+                                    JOptionPane.showMessageDialog(null, "您未选择特殊操作符，请重新选择，并输入数字，进行运算");
+                                    GTK.gtk_spin_button_set_value(spinbox, 44.0);
+                                    return;
+                            }else
+                            {
+                                    String temp = GetStringFromTextViewFunction(tv1);
+                                    if(temp.equals("sin"))
+                                    {
+                                            double orange = Math.toRadians(apple);
+                                            sum1  = Math.sin(orange);
+                                            String finalResult = "("+apple+")"+" = "+sum1+"\n";
+                                            InsertStringToTextViewFunction(tv1,finalResult);
+                                    }else if(temp.equals("cos"))
+                                    {
+                                            double orange = Math.toRadians(apple);
+                                            sum1  = Math.cos(orange);
+                                            String finalResult = "("+apple+")"+" = "+sum1+"\n";
+                                            InsertStringToTextViewFunction(tv1,finalResult);
+                                    }else if(temp.equals("tan"))
+                                    {
+                                            double orange = Math.toRadians(apple);
+                                            sum1  = Math.tan(orange);
+                                            String finalResult = "("+apple+")"+" = "+sum1+"\n";
+                                            InsertStringToTextViewFunction(tv1,finalResult);
+                                    }else if(temp.equals("asin"))
+                                    {
+                                            double orange = Math.toRadians(apple);
+                                            sum1  = Math.asin(orange);
+                                            String finalResult = "("+apple+")"+" = "+sum1+"\n";
+                                            InsertStringToTextViewFunction(tv1,finalResult);
+                                    }else if(temp.equals("acos"))
+                                    {
+                                            double orange = Math.toRadians(apple);
+                                            sum1  = Math.acos(orange);
+                                            String finalResult = "("+apple+")"+" = "+sum1+"\n";
+                                            InsertStringToTextViewFunction(tv1,finalResult);
+                                    }else if(temp.equals("atan"))
+                                    {
+                                            double orange = Math.toRadians(apple);
+                                            sum1  = Math.atan(orange);
+                                            String finalResult = "("+apple+")"+" = "+sum1+"\n";
+                                            InsertStringToTextViewFunction(tv1,finalResult);
+                                    }else if(temp.equals("log"))
+                                    {
+                                            sum1  = Math.log(apple);
+                                            String finalResult = "("+apple+")"+" = "+sum1+"\n";
+                                            InsertStringToTextViewFunction(tv1,finalResult);
+                                    }else if(temp.equals("sqrt"))
+                                    {
+                                            sum1  = Math.sqrt(apple);
+                                            String finalResult = "("+apple+")"+" = "+sum1+"\n";
+                                            InsertStringToTextViewFunction(tv1,finalResult);
+                                    }else if(temp.equals("abs"))
+                                    {
+                                            sum1  = Math.abs(apple);
+                                            String finalResult = "("+apple+")"+" = "+sum1+"\n";
+                                            InsertStringToTextViewFunction(tv1,finalResult);
+                                    }else if(temp.equals("floor"))
+                                    {
+                                            sum1  = Math.floor(apple);
+                                            String finalResult = "("+apple+")"+" = "+sum1+"\n";
+                                            InsertStringToTextViewFunction(tv1,finalResult);
+                                    }else if(temp.equals("ceil"))
+                                    {
+                                            sum1  = Math.ceil(apple);
+                                            String finalResult = "("+apple+")"+" = "+sum1+"\n";
+                                            InsertStringToTextViewFunction(tv1,finalResult);
+                                    }else if(temp.equals("弧度变角度"))
+                                    {
+                                            sum1  = Math.toDegrees(apple);
+                                            String finalResult = "("+apple+")"+" = "+sum1+"\n";
+                                            InsertStringToTextViewFunction(tv1,finalResult);
+                                    }else if(temp.equals("角度变弧度"))
+                                    {
+                                            sum1  = Math.toRadians(apple);
+                                            String finalResult = "("+apple+")"+" = "+sum1+"\n";
+                                            InsertStringToTextViewFunction(tv1,finalResult);
+                                    }
+                            }
+                    }
+            }, null);
+
+    }
+
+    /**
+     * 
+     * @param scrolledBar  滚动条标识
+     * @param textview     多行文本标识
+     * @param gridHouse    整租房的标识
+     * @param start        整租房的初始开始处
+     */
+    public static void createScrollBar(int scrolledBar,int textview,int gridHouse,int start)
+    {
+            scrolledBar = GTK.gtk_scrolled_window_new();
+            GTK.gtk_widget_show(scrolledBar);
+            //滚动条是更大的容器
+            GTK.gtk_grid_attach(gridHouse, scrolledBar, 4, start+1, 1, 1); // 4改为0 报错
+            GTK.gtk_widget_set_size_request(scrolledBar, 300, 50);
+            GTK.gtk_container_add(scrolledBar,textview); // 添加textview到滚动条容器当中
+    }
+
+    /**
+     * 
+     * @param textview  多行文本TextView的标识
+     * @param temp      插入TextView 的字符串。
+     */
+    public static void InsertStringToTextViewFunction(int textview,String temp)
+    {
+            //TextIter是一个TextView的迭代器。
+            int textBuffer =  GTK.gtk_text_view_get_buffer(textview);
+            int textIter = GTK.gtk_text_iter_new();  //这是一个空的iter，需要用textBuffer进行赋值
+            //GTK.gtk_text_iter_forward_to_end(textIter);
+            GTK.gtk_text_buffer_get_end_iter(textBuffer, textIter);// 或者textview的textBuffer的末尾！
+            GTK.gtk_text_buffer_insert(textBuffer, textIter, temp);
+
+            //GTK.gtk_text_buffer_g
+            GTK.gtk_text_iter_free(textIter);
+
+    }
+    /**
+     * 
+     * @param textview   TextView的多行文本的标识
+     * @return           返回的字符串
+     */
+    public static String GetStringFromTextViewFunction(int textview)
+    {
+            //TextIter是一个TextView的迭代器。
+            int textBuffer =  GTK.gtk_text_view_get_buffer(textview);
+            int textIter = GTK.gtk_text_iter_new();  //这是一个空的iter，需要用textBuffer进行赋值
+            GTK.gtk_text_buffer_get_end_iter(textBuffer, textIter);// 或者textview的textBuffer的末尾！
+            String temp = GTK.gtk_text_buffer_get_text(textBuffer);
+
+            String[] splitArray = temp.split("\\n");
+            temp = splitArray[splitArray.length-1];
+            System.out.println(temp);
+            return temp;
+            //GTK.gtk_text_buffer_g
+            //GTK.gtk_text_iter_free(textIter);
+
+    }
+    /**
+     * 
+     * @param btnSin   按钮的标识
+     * @param tv1      textview的标识
+     */
+    public static void insertButtonEvent(final int btnSin,final int tv1)
+    {
+            GTK.g_signal_connect(btnSin, "clicked",new IGCallBack()
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            //double sbValue = GTK.gtk_spin_button_get_value(spinbox);
+                            String temp = GTK.gtk_button_get_label(btnSin);
+                            InsertStringToTextViewFunction(tv1,temp);
+                            isEnter = false;
+                    }
+            }, null);
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nl">Fifth:</span> <span class="n">Cairo</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">case1</span> <span class="o">:</span> <span class="err">三毛头部自画像</span> <span class="n">V1</span><span class="o">.</span><span class="mi">0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+/<em>*
+* @author 叶昭良
+* @version GTK+Cairo v1.0
+</em>/
+import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;
+import com.rupeng.gtk4j.Cairo;
+public class GTKTestCairo
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    static int window;
+    static int gridHouse;
+    public static void main(String[] args)
+    {
+            // TODO 自动生成的方法存根
+            //GTK初始化
+            GTK.gtk_init();
+            //窗口标识
+            window = GTK.gtk_window_new(GTK.GTK_WINDOW_TOPLEVEL);
+            //窗口标题
+            GTK.gtk_window_set_title(window, "简易画图板v1.0");
+            //显示窗口
+            GTK.gtk_widget_show(window);
+
+            GTK.g_signal_connect(window, "destroy", new IGCallBack()
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            GTK.gtk_main_quit();
+                    }
+            }, null);
+
+
+            //设置布局方式
+            gridHouse = GTK.gtk_grid_new();
+
+
+            //创建控件
+            int start = 0;
+            createDraw(window, gridHouse, start);
+            //circlePoint 原点设置为180
+            createDrawLaughFace(window,gridHouse,start+1,180);
+
+
+            GTK.gtk_widget_show(gridHouse);
+
+            GTK.gtk_container_add(window,gridHouse);
+            //启动循环
+            GTK.gtk_main();
+    }
+
+
+    public static void createDraw(int window,int gridHouse,int start) 
+    {
+            //创建画图板 或者叫画布
+            int  dan  = GTK.gtk_drawing_area_new();
+
+            int label = GTK.gtk_label_new("三毛");
+            //创建源
+            //添加控件
+            GTK.gtk_grid_attach(gridHouse, label, 0, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, dan, 1, start, 1, 1);
+            //显示画布
+            GTK.gtk_widget_show(dan);
+            GTK.gtk_widget_show(label);
+
+            //设置画布的大小
+            GTK.gtk_widget_set_size_request(dan, 300, 300);
+
+
+            //开始绘制  利用事件draw 来不断的绘制
+
+            GTK.g_signal_connect(dan, "draw",new IGCallBack() 
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            //eventDate才是画布源
+                            //设置画笔的颜色
+                            Cairo.cairo_set_source_rgb(eventData, 0.5, 0.6, 0.3);
+                            //设置画笔的大小
+                            Cairo.cairo_set_line_width(eventData, 3);
+
+
+
+                            //移动画笔点   画笔默认位置不是在（0,0）move_to不可少
+                            //Cairo.cairo_move_to(eventData, 0, 0);
+</code></pre>
+
+<p>/*                                //画一条线七点</p>
+
+<pre><code>                            Cairo.cairo_line_to(eventData, 50, 50);
+                            //画一条线重点
+                            Cairo.cairo_line_to(eventData,100,100);
+                            //接着划线
+                            Cairo.cairo_line_to(eventData, 120, 120);*/
+                            //画一个圆
+                            Cairo.cairo_arc(eventData, 180, 180, 60, 0, 2*3.1415926);
+                            //画一个圆弧
+                            //Cairo.cairo_arc(eventData, 200, 200, 70,1.5*3.1415925, 2*3.1415926);
+                            //显示画笔
+                            Cairo.cairo_stroke(eventData); //Cairo.cairo_fill(eventData)不同的效果
+
+
+                            //画一个圆弧  有下面实验知道是从x轴沿顺时针开始画图
+</code></pre>
+
+<p>/<em>                                Cairo.cairo_arc(eventData, 220, 220, 30,0, 0.5</em>3.1415926);</p>
+
+<pre><code>                            Cairo.cairo_fill(eventData); //Cairo.cairo_fill(eventData)不同的效果
+
+                            Cairo.cairo_arc(eventData, 220, 100, 30,0, 3.1415926);
+                            Cairo.cairo_stroke(eventData);
+                            Cairo.cairo_arc(eventData, 220, 30, 30,0, 1.5*3.1415926);
+                            Cairo.cairo_fill(eventData);*/
+                            //嘴巴的绘制
+                            double Pi = 3.1415926;
+                            Cairo.cairo_arc(eventData, 180, 180, 40, 0.25*Pi, 0.75*Pi);
+                            Cairo.cairo_fill(eventData);
+
+                            //绘制两只眼睛
+                            Cairo.cairo_arc(eventData, 160, 160, 10, 0, 2*Pi);
+                            Cairo.cairo_arc(eventData, 200, 160, 10, 0, 2*Pi);
+                            Cairo.cairo_fill(eventData);
+
+
+                            //绘制胡须
+                            Cairo.cairo_arc(eventData, 130, 160, 50, 0.166667*Pi, 0.6777777*Pi);
+
+                            Cairo.cairo_stroke(eventData);
+
+                            Cairo.cairo_arc(eventData, 230, 160, 50, 0.333333*Pi, 0.8333333*Pi);
+                            Cairo.cairo_stroke(eventData);
+
+                            //绘制头发
+                            Cairo.cairo_arc(eventData, 133.6, 136.72, 30,1.3333333*Pi ,1.833333*Pi );
+
+                            Cairo.cairo_stroke(eventData);
+
+                            Cairo.cairo_arc(eventData, 224.4, 136.72, 30, 1.166667*Pi, 1.6777777*Pi);
+                            Cairo.cairo_stroke(eventData);
+
+
+                            //移动画笔点   画笔默认位置不是在（0,0）move_to不可少
+                            Cairo.cairo_move_to(eventData, 180, 120);
+                        //画一条线七点
+                            Cairo.cairo_line_to(eventData, 180, 90);
+                            Cairo.cairo_stroke(eventData);
+                    }
+            }, null);
+
+
+    }
+
+    public static void createDrawLaughFace(int window,int gridHouse,int start,final int circlePoint) 
+    {
+            //创建画图板 或者叫画布
+            int  dan  = GTK.gtk_drawing_area_new();
+            int label = GTK.gtk_label_new("笑脸");
+            //创建源
+            //添加控件
+            GTK.gtk_grid_attach(gridHouse, label, 0, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, dan, 1, start, 1, 1);
+            //显示画布
+            GTK.gtk_widget_show(dan);
+            GTK.gtk_widget_show(label);
+
+
+            //设置画布的大小
+            GTK.gtk_widget_set_size_request(dan, 300, 300);
+
+
+            //开始绘制  利用事件draw 来不断的绘制
+
+            GTK.g_signal_connect(dan, "draw",new IGCallBack() 
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            //eventDate才是画布源
+                            //设置画笔的颜色
+                            Cairo.cairo_set_source_rgb(eventData, 0.5, 0.6, 0.3);
+                            //设置画笔的大小
+                            Cairo.cairo_set_line_width(eventData, 3);                        
+
+                            //画一个圆
+                            Cairo.cairo_arc(eventData, circlePoint, circlePoint, 60, 0, 2*3.1415926);
+                            //画一个圆弧
+                            //Cairo.cairo_arc(eventData, 200, 200, 70,1.5*3.1415925, 2*3.1415926);
+                            //显示画笔
+                            Cairo.cairo_stroke(eventData); //Cairo.cairo_fill(eventData)不同的效果
+
+
+                            //画一个圆弧  有下面实验知道是从x轴沿顺时针开始画图
+
+                            //嘴巴的绘制
+                            double Pi = 3.1415926;
+                            Cairo.cairo_arc(eventData, circlePoint, circlePoint, 40, 0.25*Pi, 0.75*Pi);
+                            Cairo.cairo_fill(eventData);
+
+                            //绘制两只眼睛
+                            Cairo.cairo_arc(eventData, circlePoint-20, circlePoint-20, 10, 0, 2*Pi);
+                            Cairo.cairo_arc(eventData, circlePoint+20, circlePoint-20, 10, 0, 2*Pi);
+                            Cairo.cairo_fill(eventData);
+                    }
+            }, null);
+
+
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">case2</span>  <span class="err">三毛头部自画像</span>  <span class="err">加入了文字的绘制</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+import com.rupeng.gtk4j.Cairo;
+import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;</p>
+
+<p>/<em>*
+*
+</em>/</p>
+
+<p>/<em>*
+* @author 叶昭良
+* @version GTKCairoText V1.0
+*
+</em>/
+public class GTKTestCairoText
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    static int window;
+    static int gridHouse;
+    public static void main(String[] args)
+    {
+            // TODO 自动生成的方法存根
+            //GTK初始化
+            GTK.gtk_init();
+            //窗口标识
+            window = GTK.gtk_window_new(GTK.GTK_WINDOW_TOPLEVEL);
+            //窗口标题
+            GTK.gtk_window_set_title(window, "简易画图板v2.0");
+            //显示窗口
+            GTK.gtk_widget_show(window);
+
+            GTK.g_signal_connect(window, "destroy", new IGCallBack()
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            GTK.gtk_main_quit();
+                    }
+            }, null);
+
+
+            //设置布局方式
+            gridHouse = GTK.gtk_grid_new();
+
+
+            //创建控件
+            int start = 0;
+            createDraw(window, gridHouse, start);
+            //circlePoint 原点设置为180
+
+
+
+            GTK.gtk_widget_show(gridHouse);
+
+            GTK.gtk_container_add(window,gridHouse);
+            //启动循环
+            GTK.gtk_main();
+    }
+
+    public static void createDraw(int window,int gridHouse,int start) 
+    {
+            //创建画图板 或者叫画布
+            int  dan  = GTK.gtk_drawing_area_new();
+
+            int label = GTK.gtk_label_new("三毛");
+            //创建源
+            //添加控件
+            GTK.gtk_grid_attach(gridHouse, label, 0, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, dan, 1, start, 1, 1);
+            //显示画布
+            GTK.gtk_widget_show(dan);
+            GTK.gtk_widget_show(label);
+
+            //设置画布的大小
+            GTK.gtk_widget_set_size_request(dan, 300, 300);
+
+
+            //开始绘制  利用事件draw 来不断的绘制
+
+            GTK.g_signal_connect(dan, "draw",new IGCallBack() 
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            //eventDate才是画布源
+                            //设置画笔的颜色
+                            Cairo.cairo_set_source_rgb(eventData, 0.5, 0.6, 0.3);
+                            //设置画笔的大小
+                            Cairo.cairo_set_line_width(eventData, 3);
+
+
+
+                            //移动画笔点   画笔默认位置不是在（0,0）move_to不可少
+                            //Cairo.cairo_move_to(eventData, 0, 0);
+
+                            //画一个圆
+                            Cairo.cairo_arc(eventData, 180, 180, 60, 0, 2*3.1415926);
+                            //画一个圆弧
+                            //Cairo.cairo_arc(eventData, 200, 200, 70,1.5*3.1415925, 2*3.1415926);
+                            //显示画笔
+                            Cairo.cairo_stroke(eventData); //Cairo.cairo_fill(eventData)不同的效果
+
+
+                            //画一个圆弧  有下面实验知道是从x轴沿顺时针开始画图
+
+                            //嘴巴的绘制
+                            double Pi = 3.1415926;
+                            Cairo.cairo_arc(eventData, 180, 180, 40, 0.25*Pi, 0.75*Pi);
+                            Cairo.cairo_fill(eventData);
+
+                            //绘制两只眼睛
+                            Cairo.cairo_arc(eventData, 160, 160, 10, 0, 2*Pi);
+                            Cairo.cairo_arc(eventData, 200, 160, 10, 0, 2*Pi);
+                            Cairo.cairo_fill(eventData);
+
+
+                            //绘制胡须
+                            Cairo.cairo_arc(eventData, 130, 160, 50, 0.166667*Pi, 0.6777777*Pi);
+
+                            Cairo.cairo_stroke(eventData);
+
+                            Cairo.cairo_arc(eventData, 230, 160, 50, 0.333333*Pi, 0.8333333*Pi);
+                            Cairo.cairo_stroke(eventData);
+
+                            //绘制头发
+                            Cairo.cairo_arc(eventData, 133.6, 136.72, 30,1.3333333*Pi ,1.833333*Pi );
+
+                            Cairo.cairo_stroke(eventData);
+
+                            Cairo.cairo_arc(eventData, 224.4, 136.72, 30, 1.166667*Pi, 1.6777777*Pi);
+                            Cairo.cairo_stroke(eventData);
+
+
+                            //移动画笔点   画笔默认位置不是在（0,0）move_to不可少
+                            Cairo.cairo_move_to(eventData, 180, 120);
+                        //画一条线七点
+                            Cairo.cairo_line_to(eventData, 180, 90);
+                            Cairo.cairo_stroke(eventData);
+
+
+                            //画文字
+                            Cairo.cairo_move_to(eventData, 180, 260);
+                            Cairo.cairo_set_source_rgb(eventData, 0.4, 0.3, 0.2);
+                            Cairo.cairo_set_font_size(eventData, 16);
+                            //选择文字类型
+                            Cairo.cairo_select_font_face(eventData, "宋体", Cairo.CAIRO_FONT_SLANT_ITALIC, Cairo.CAIRO_FONT_WEIGHT_BOLD);
+                            Cairo.cairo_show_text(eventData,"三毛的自画像");
+                            //Cairo.cairo_stroke(eventData);  //不需要这句话也可以
+                    }
+            }, null);
+
+
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">case3</span>  <span class="err">折线图</span>  <span class="err">复习了数组</span>  <span class="o">+</span> <span class="err">对称折线</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+/<em>*
+* @author    叶昭良
+* @time      2015年2月1日上午11:30:12
+* @version   TestLine V1.0
+</em>/
+import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;
+import com.rupeng.gtk4j.Cairo;</p>
+
+<p>public class TestLine
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    static int window;
+    static int gridHouse;
+    static int scrolledBar;
+    public static void main(String[] args)
+    {
+            // TODO 自动生成的方法存根
+            //初始化
+            GTK.gtk_init();
+            window = GTK.gtk_window_new(GTK.GTK_WINDOW_TOPLEVEL);
+            //添加窗口
+            GTK.gtk_widget_show(window);
+            //安静关闭
+            GTK.g_signal_connect(window, "destroy", new IGCallBack()
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            GTK.gtk_main_quit();
+                    }
+            }, null);
+</code></pre>
+
+<p>/*                //创建布局：</p>
+
+<pre><code>            gridHouse = GTK.gtk_grid_new();*/
+
+            int drawArea = GTK.gtk_drawing_area_new();
+            GTK.gtk_widget_set_size_request(drawArea, 500, 500);
+            //GTK.gtk_container_add(window, gridHouse);
+            GTK.gtk_container_add(window, drawArea);
+            GTK.g_signal_connect(drawArea, "draw", new IGCallBack()
+            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            Cairo.cairo_move_to(eventData, 0, 500);
+                            int[] arrApple = {50, 90, 80, 120, 10, 50};
+
+                            // 获取最大值
+                            int max = arrApple[0];
+                            for(int i = 1; i &lt; arrApple.length; i++)
+                            {
+                                    if(max &lt; arrApple[i])
+                                    {
+                                            max = arrApple[i];
+                                    }
+                            }
+                            // 
+                            for(int i = 0; i&lt;  arrApple.length; i++)
+                            {
+                                    // 获取坐标(x,y)
+                                    int  x =  (i+1)*50;
+                                    int  y =  500 - 500*arrApple[i]/max;
+                                    // 绘制坐标点
+                                    Cairo.cairo_line_to(eventData, x, y);
+                            }
+                            // 创建绘画
+                            Cairo.cairo_stroke(eventData);
+                    }
+
+            }, null);
+             createDraw( window, drawArea, gridHouse,0);
+            GTK.gtk_widget_show(drawArea);
+            //添加循环
+            GTK.gtk_main();
+    }
+
+    public static void createDraw(int window, int drawArea,int gridHouse,int start)
+    {
+            GTK.g_signal_connect(drawArea, "draw", new IGCallBack()
+            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            Cairo.cairo_move_to(eventData, 0, 0);
+                            int[] arrApple = {50, 90, 80, 120, 10, 50};
+
+                            // 获取最大值
+                            int max = arrApple[0];
+                            for(int i = 1; i &lt; arrApple.length; i++)
+                            {
+                                    if(max &lt; arrApple[i])
+                                    {
+                                            max = arrApple[i];
+                                    }
+                            }
+                            // 
+                            for(int i = 0; i&lt;  arrApple.length; i++)
+                            {
+                                    // 获取坐标(x,y)
+                                    int  x =  (i+1)*50;
+                                    //int  y =  300 - 300*arrApple[i]/max;
+                                    int  y =  500*arrApple[i]/max;
+                                    // 绘制坐标点
+                                    Cairo.cairo_line_to(eventData, x, y);
+                            }
+                            // 创建绘画
+                            Cairo.cairo_stroke(eventData);
+                    }
+
+            }, null);
+            //createScrolledBar(window,drawArea,scrolledBar,start);
+    }
+</code></pre>
+
+<p>/*         //滚动条无法用于drawArea</p>
+
+<pre><code>    public static void createScrolledBar(int window,int drawArea,int scrolledBar,int start) 
+    {
+            scrolledBar = GTK.gtk_scrolled_window_new();
+            GTK.gtk_widget_set_size_request(scrolledBar, 300, 100);
+            GTK.gtk_widget_show(scrolledBar);
+            GTK.gtk_container_add(scrolledBar,drawArea);
+            GTK.gtk_grid_attach(gridHouse, scrolledBar, 0, start, 1, 1);
+
+    }*/
+</code></pre>
+
+<p>}
+&#8220;`
+<img src="/images/java/sanmao.gif" alt="三毛的自画像" />
+<img src="/images/java/jianyi.gif" alt="三毛+笑脸" />
+<img src="/images/java/ButtonImage.gif" alt="图片按钮" />
+<img src="/images/java/calc2.gif" alt="计算器v2.0 使用spinbox" />
+<img src="/images/java/spinbox1.gif" alt="spinbox的数字范围" />
+<img src="/images/java/nvshen2.gif" alt="女神告白神器2 加入了迭代插入" />
+<img src="/images/java/nvshen.gif" alt="女神告白神奇 TextView的初次使用" />
+<img src="/images/java/shuiguo.gif" alt="水果购买选择器" />
+<img src="/images/java/province.gif" alt="省市联动器" />
+<img src="/images/java/huizhide.png" alt="笑脸的绘制测量" />
+<img src="/images/java/symmetry.gif" alt="对称折线图" /></p>
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2015/05/11/1yue-31ri-javaban-bi-ji-zuo-ye/'>http://jueqingsizhe66.github.io/blog/2015/05/11/1yue-31ri-javaban-bi-ji-zuo-ye/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:40+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javabasic/'>JavaBasic</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/11/1yue-28ri-javaban-bi-ji-ti-jiao-tie/" title="Previous Post: 1月28日Java班笔记提交帖">&laquo; 1月28日Java班笔记提交帖</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/11/2yue-14ri-javaban-mysql/" title="Next Post: 2月14日Java班mysql">2月14日Java班mysql &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><div class="ds-thread" > </div>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"f708708"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+  <p><img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> <!--不是他的原因-->
+ <!--而是yellow的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (3)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (22)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (3)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (18)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/physics-and-maths/">Physics and Maths</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/jump-out-of-ontology/">Jump Out of Ontology</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/machine-learning-some-search-record/">Machine Learning Some Search Record</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/graphviz-notebook/">Graphviz Notebook</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="1" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+
+</section>
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2015/05/11/1yue-31ri-javaban-bi-ji-zuo-ye/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2015/05/11/1yue-31ri-javaban-bi-ji-zuo-ye/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

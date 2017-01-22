@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://jueqingsizhe66.github.io/sitemap.xml 

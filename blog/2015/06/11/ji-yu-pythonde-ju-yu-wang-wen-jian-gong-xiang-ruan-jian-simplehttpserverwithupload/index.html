@@ -1,0 +1,1209 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>基于python的局域网文件共享软件SimpleHTTPServerWithUpload - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="我有两台电脑，都有IP，处于相同的局域网。
+我想传递文件，然而我又不想用U盘，我也不想用teamview，更不想用比如百度盘、新浪盘，有道云笔记等。
+我想要用命令行解决。python提供了一种解决方案。 python内部支持Simplehttpserver服务，所以只要装上python即可 1 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2015/06/11/ji-yu-pythonde-ju-yu-wang-wen-jian-gong-xiang-ruan-jian-simplehttpserverwithupload">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">基于python的局域网文件共享软件SimpleHTTPServerWithUpload</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-11T23:00:09+08:00" pubdate data-updated="true">Jun 11<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>我有两台电脑，都有IP，处于相同的局域网。
+我想传递文件，然而我又不想用U盘，我也不想用teamview，更不想用比如百度盘、新浪盘，有道云笔记等。
+我想要用命令行解决。python提供了一种解决方案。
+<img src="/images/shangchuan.png" alt="上传" /></p>
+
+<!--more-->
+
+
+<p>python内部支持Simplehttpserver服务，所以只要装上python即可</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>python Simplehttpserver
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p> 默认浏览器打开  127.0.0.1:8000
+当然你也是可以指定端口比如801</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>python Simplehttpserver -m 801
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>此时打开浏览器输入：
+127.0.0.1:801</p>
+
+<p>当然如果本机的Ip为121.195.172.217那么，另一台电脑的浏览器只需要输入
+121.195.172.217:801即可打开本机的共享目录，非常方便。</p>
+
+<h2>升级版的Simplehttpserver 支持上传</h2>
+
+<p>把下面的源代码保存为Simplehttpserverwithupload.py即可，然后运行他</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+<span class='line-number'>201</span>
+<span class='line-number'>202</span>
+<span class='line-number'>203</span>
+<span class='line-number'>204</span>
+<span class='line-number'>205</span>
+<span class='line-number'>206</span>
+<span class='line-number'>207</span>
+<span class='line-number'>208</span>
+<span class='line-number'>209</span>
+<span class='line-number'>210</span>
+<span class='line-number'>211</span>
+<span class='line-number'>212</span>
+<span class='line-number'>213</span>
+<span class='line-number'>214</span>
+<span class='line-number'>215</span>
+<span class='line-number'>216</span>
+<span class='line-number'>217</span>
+<span class='line-number'>218</span>
+<span class='line-number'>219</span>
+<span class='line-number'>220</span>
+<span class='line-number'>221</span>
+<span class='line-number'>222</span>
+<span class='line-number'>223</span>
+<span class='line-number'>224</span>
+<span class='line-number'>225</span>
+<span class='line-number'>226</span>
+<span class='line-number'>227</span>
+<span class='line-number'>228</span>
+<span class='line-number'>229</span>
+<span class='line-number'>230</span>
+<span class='line-number'>231</span>
+<span class='line-number'>232</span>
+<span class='line-number'>233</span>
+<span class='line-number'>234</span>
+<span class='line-number'>235</span>
+<span class='line-number'>236</span>
+<span class='line-number'>237</span>
+<span class='line-number'>238</span>
+<span class='line-number'>239</span>
+<span class='line-number'>240</span>
+<span class='line-number'>241</span>
+<span class='line-number'>242</span>
+<span class='line-number'>243</span>
+<span class='line-number'>244</span>
+<span class='line-number'>245</span>
+<span class='line-number'>246</span>
+<span class='line-number'>247</span>
+<span class='line-number'>248</span>
+<span class='line-number'>249</span>
+<span class='line-number'>250</span>
+<span class='line-number'>251</span>
+<span class='line-number'>252</span>
+<span class='line-number'>253</span>
+<span class='line-number'>254</span>
+<span class='line-number'>255</span>
+<span class='line-number'>256</span>
+<span class='line-number'>257</span>
+<span class='line-number'>258</span>
+<span class='line-number'>259</span>
+<span class='line-number'>260</span>
+<span class='line-number'>261</span>
+<span class='line-number'>262</span>
+<span class='line-number'>263</span>
+<span class='line-number'>264</span>
+<span class='line-number'>265</span>
+<span class='line-number'>266</span>
+<span class='line-number'>267</span>
+<span class='line-number'>268</span>
+<span class='line-number'>269</span>
+<span class='line-number'>270</span>
+<span class='line-number'>271</span>
+<span class='line-number'>272</span>
+<span class='line-number'>273</span>
+<span class='line-number'>274</span>
+<span class='line-number'>275</span>
+<span class='line-number'>276</span>
+<span class='line-number'>277</span>
+<span class='line-number'>278</span>
+<span class='line-number'>279</span>
+<span class='line-number'>280</span>
+<span class='line-number'>281</span>
+<span class='line-number'>282</span>
+<span class='line-number'>283</span>
+<span class='line-number'>284</span>
+<span class='line-number'>285</span>
+<span class='line-number'>286</span>
+<span class='line-number'>287</span>
+<span class='line-number'>288</span>
+<span class='line-number'>289</span>
+<span class='line-number'>290</span>
+<span class='line-number'>291</span>
+<span class='line-number'>292</span>
+<span class='line-number'>293</span>
+<span class='line-number'>294</span>
+<span class='line-number'>295</span>
+<span class='line-number'>296</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/usr/bin/env python</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&quot;&quot;&quot;Simple HTTP Server With Upload.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">This module builds on BaseHTTPServer by implementing the standard GET</span>
+</span><span class='line'><span class="s2">and HEAD requests in a fairly straightforward manner.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nv">__version__</span> <span class="o">=</span> <span class="s2">&quot;0.1&quot;</span>
+</span><span class='line'><span class="nv">__all__</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;SimpleHTTPRequestHandler&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="nv">__author__</span> <span class="o">=</span> <span class="s2">&quot;bones7456&quot;</span>
+</span><span class='line'><span class="nv">__home_page__</span> <span class="o">=</span> <span class="s2">&quot;http://li2z.cn/&quot;</span>
+</span><span class='line'>
+</span><span class='line'>import os
+</span><span class='line'>import posixpath
+</span><span class='line'>import BaseHTTPServer
+</span><span class='line'>import urllib
+</span><span class='line'>import cgi
+</span><span class='line'>import shutil
+</span><span class='line'>import mimetypes
+</span><span class='line'>import re
+</span><span class='line'>try:
+</span><span class='line'>    from cStringIO import StringIO
+</span><span class='line'>except ImportError:
+</span><span class='line'>    from StringIO import StringIO
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>class SimpleHTTPRequestHandler<span class="o">(</span>BaseHTTPServer.BaseHTTPRequestHandler<span class="o">)</span>:
+</span><span class='line'>
+</span><span class='line'>    <span class="s2">&quot;&quot;&quot;Simple HTTP request handler with GET/HEAD/POST commands.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">    This serves files from the current directory and any of its</span>
+</span><span class='line'><span class="s2">    subdirectories.  The MIME type for files is determined by</span>
+</span><span class='line'><span class="s2">    calling the .guess_type() method. And can reveive file uploaded</span>
+</span><span class='line'><span class="s2">    by client.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">    The GET/HEAD/POST requests are identical except that the HEAD</span>
+</span><span class='line'><span class="s2">    request omits the actual contents of the file.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">    &quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nv">server_version</span> <span class="o">=</span> <span class="s2">&quot;SimpleHTTPWithUpload/&quot;</span> + __version__
+</span><span class='line'>
+</span><span class='line'>    def do_GET<span class="o">(</span>self<span class="o">)</span>:
+</span><span class='line'>        <span class="s2">&quot;&quot;&quot;Serve a GET request.&quot;&quot;&quot;</span>
+</span><span class='line'>        <span class="nv">f</span> <span class="o">=</span> self.send_head<span class="o">()</span>
+</span><span class='line'>        <span class="k">if </span>f:
+</span><span class='line'>            self.copyfile<span class="o">(</span>f, self.wfile<span class="o">)</span>
+</span><span class='line'>            f.close<span class="o">()</span>
+</span><span class='line'>
+</span><span class='line'>    def do_HEAD<span class="o">(</span>self<span class="o">)</span>:
+</span><span class='line'>        <span class="s2">&quot;&quot;&quot;Serve a HEAD request.&quot;&quot;&quot;</span>
+</span><span class='line'>        <span class="nv">f</span> <span class="o">=</span> self.send_head<span class="o">()</span>
+</span><span class='line'>        <span class="k">if </span>f:
+</span><span class='line'>            f.close<span class="o">()</span>
+</span><span class='line'>
+</span><span class='line'>    def do_POST<span class="o">(</span>self<span class="o">)</span>:
+</span><span class='line'>        <span class="s2">&quot;&quot;&quot;Serve a POST request.&quot;&quot;&quot;</span>
+</span><span class='line'>        r, <span class="nv">info</span> <span class="o">=</span> self.deal_post_data<span class="o">()</span>
+</span><span class='line'>        print r, info, <span class="s2">&quot;by: &quot;</span>, self.client_address
+</span><span class='line'>        <span class="nv">f</span> <span class="o">=</span> StringIO<span class="o">()</span>
+</span><span class='line'>        f.write<span class="o">(</span><span class="s1">&#39;&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 3.2 Final//EN&quot;&gt;&#39;</span><span class="o">)</span>
+</span><span class='line'>        f.write<span class="o">(</span><span class="s2">&quot;&lt;html&gt;\n&lt;title&gt;Upload Result Page&lt;/title&gt;\n&quot;</span><span class="o">)</span>
+</span><span class='line'>        f.write<span class="o">(</span><span class="s2">&quot;&lt;body&gt;\n&lt;h2&gt;Upload Result Page&lt;/h2&gt;\n&quot;</span><span class="o">)</span>
+</span><span class='line'>        f.write<span class="o">(</span><span class="s2">&quot;&lt;hr&gt;\n&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="k">if </span>r:
+</span><span class='line'>            f.write<span class="o">(</span><span class="s2">&quot;&lt;strong&gt;Success:&lt;/strong&gt;&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="k">else</span>:
+</span><span class='line'>            f.write<span class="o">(</span><span class="s2">&quot;&lt;strong&gt;Failed:&lt;/strong&gt;&quot;</span><span class="o">)</span>
+</span><span class='line'>        f.write<span class="o">(</span>info<span class="o">)</span>
+</span><span class='line'>        f.write<span class="o">(</span><span class="s2">&quot;&lt;br&gt;&lt;a href=\&quot;%s\&quot;&gt;back&lt;/a&gt;&quot;</span> % self.headers<span class="o">[</span><span class="s1">&#39;referer&#39;</span><span class="o">])</span>
+</span><span class='line'>        f.write<span class="o">(</span><span class="s2">&quot;&lt;hr&gt;&lt;small&gt;Powered By: bones7456, check new version at &quot;</span><span class="o">)</span>
+</span><span class='line'>        f.write<span class="o">(</span><span class="s2">&quot;&lt;a href=\&quot;http://li2z.cn/?s=SimpleHTTPServerWithUpload\&quot;&gt;&quot;</span><span class="o">)</span>
+</span><span class='line'>        f.write<span class="o">(</span><span class="s2">&quot;here&lt;/a&gt;.&lt;/small&gt;&lt;/body&gt;\n&lt;/html&gt;\n&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="nv">length</span> <span class="o">=</span> f.tell<span class="o">()</span>
+</span><span class='line'>        f.seek<span class="o">(</span>0<span class="o">)</span>
+</span><span class='line'>        self.send_response<span class="o">(</span>200<span class="o">)</span>
+</span><span class='line'>        self.send_header<span class="o">(</span><span class="s2">&quot;Content-type&quot;</span>, <span class="s2">&quot;text/html&quot;</span><span class="o">)</span>
+</span><span class='line'>        self.send_header<span class="o">(</span><span class="s2">&quot;Content-Length&quot;</span>, str<span class="o">(</span>length<span class="o">))</span>
+</span><span class='line'>        self.end_headers<span class="o">()</span>
+</span><span class='line'>        <span class="k">if </span>f:
+</span><span class='line'>            self.copyfile<span class="o">(</span>f, self.wfile<span class="o">)</span>
+</span><span class='line'>            f.close<span class="o">()</span>
+</span><span class='line'>
+</span><span class='line'>    def deal_post_data<span class="o">(</span>self<span class="o">)</span>:
+</span><span class='line'>        <span class="nv">boundary</span> <span class="o">=</span> self.headers.plisttext.split<span class="o">(</span><span class="s2">&quot;=&quot;</span><span class="o">)[</span>1<span class="o">]</span>
+</span><span class='line'>        <span class="nv">remainbytes</span> <span class="o">=</span> int<span class="o">(</span>self.headers<span class="o">[</span><span class="s1">&#39;content-length&#39;</span><span class="o">])</span>
+</span><span class='line'>        <span class="nv">line</span> <span class="o">=</span> self.rfile.readline<span class="o">()</span>
+</span><span class='line'>        remainbytes -<span class="o">=</span> len<span class="o">(</span>line<span class="o">)</span>
+</span><span class='line'>        <span class="k">if </span>not boundary in line:
+</span><span class='line'>            <span class="k">return</span> <span class="o">(</span>False, <span class="s2">&quot;Content NOT begin with boundary&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="nv">line</span> <span class="o">=</span> self.rfile.readline<span class="o">()</span>
+</span><span class='line'>        remainbytes -<span class="o">=</span> len<span class="o">(</span>line<span class="o">)</span>
+</span><span class='line'>        <span class="nv">fn</span> <span class="o">=</span> re.findall<span class="o">(</span>r<span class="s1">&#39;Content-Disposition.*name=&quot;file&quot;; filename=&quot;(.*)&quot;&#39;</span>, line<span class="o">)</span>
+</span><span class='line'>        <span class="k">if </span>not fn:
+</span><span class='line'>            <span class="k">return</span> <span class="o">(</span>False, <span class="s2">&quot;Can&#39;t find out file name...&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="nv">path</span> <span class="o">=</span> self.translate_path<span class="o">(</span>self.path<span class="o">)</span>
+</span><span class='line'>        <span class="nv">fn</span> <span class="o">=</span> os.path.join<span class="o">(</span>path, fn<span class="o">[</span>0<span class="o">])</span>
+</span><span class='line'>        <span class="k">while </span>os.path.exists<span class="o">(</span>fn<span class="o">)</span>:
+</span><span class='line'>            fn +<span class="o">=</span> <span class="s2">&quot;_&quot;</span>
+</span><span class='line'>        <span class="nv">line</span> <span class="o">=</span> self.rfile.readline<span class="o">()</span>
+</span><span class='line'>        remainbytes -<span class="o">=</span> len<span class="o">(</span>line<span class="o">)</span>
+</span><span class='line'>        <span class="nv">line</span> <span class="o">=</span> self.rfile.readline<span class="o">()</span>
+</span><span class='line'>        remainbytes -<span class="o">=</span> len<span class="o">(</span>line<span class="o">)</span>
+</span><span class='line'>        try:
+</span><span class='line'>            <span class="nv">out</span> <span class="o">=</span> open<span class="o">(</span>fn, <span class="s1">&#39;wb&#39;</span><span class="o">)</span>
+</span><span class='line'>        except IOError:
+</span><span class='line'>            <span class="k">return</span> <span class="o">(</span>False, <span class="s2">&quot;Can&#39;t create file to write, do you have permission to write?&quot;</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nv">preline</span> <span class="o">=</span> self.rfile.readline<span class="o">()</span>
+</span><span class='line'>        remainbytes -<span class="o">=</span> len<span class="o">(</span>preline<span class="o">)</span>
+</span><span class='line'>        <span class="k">while </span>remainbytes &gt; 0:
+</span><span class='line'>            <span class="nv">line</span> <span class="o">=</span> self.rfile.readline<span class="o">()</span>
+</span><span class='line'>            remainbytes -<span class="o">=</span> len<span class="o">(</span>line<span class="o">)</span>
+</span><span class='line'>            <span class="k">if </span>boundary in line:
+</span><span class='line'>                <span class="nv">preline</span> <span class="o">=</span> preline<span class="o">[</span>0:-1<span class="o">]</span>
+</span><span class='line'>                <span class="k">if </span>preline.endswith<span class="o">(</span><span class="s1">&#39;\r&#39;</span><span class="o">)</span>:
+</span><span class='line'>                    <span class="nv">preline</span> <span class="o">=</span> preline<span class="o">[</span>0:-1<span class="o">]</span>
+</span><span class='line'>                out.write<span class="o">(</span>preline<span class="o">)</span>
+</span><span class='line'>                out.close<span class="o">()</span>
+</span><span class='line'>                <span class="k">return</span> <span class="o">(</span>True, <span class="s2">&quot;File &#39;%s&#39; upload success!&quot;</span> % fn<span class="o">)</span>
+</span><span class='line'>            <span class="k">else</span>:
+</span><span class='line'>                out.write<span class="o">(</span>preline<span class="o">)</span>
+</span><span class='line'>                <span class="nv">preline</span> <span class="o">=</span> line
+</span><span class='line'>        <span class="k">return</span> <span class="o">(</span>False, <span class="s2">&quot;Unexpect Ends of data.&quot;</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>    def send_head<span class="o">(</span>self<span class="o">)</span>:
+</span><span class='line'>        <span class="s2">&quot;&quot;&quot;Common code for GET and HEAD commands.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">        This sends the response code and MIME headers.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">        Return value is either a file object (which has to be copied</span>
+</span><span class='line'><span class="s2">        to the outputfile by the caller unless the command was HEAD,</span>
+</span><span class='line'><span class="s2">        and must be closed by the caller under all circumstances), or</span>
+</span><span class='line'><span class="s2">        None, in which case the caller has nothing further to do.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">        &quot;&quot;&quot;</span>
+</span><span class='line'>        <span class="nv">path</span> <span class="o">=</span> self.translate_path<span class="o">(</span>self.path<span class="o">)</span>
+</span><span class='line'>        <span class="nv">f</span> <span class="o">=</span> None
+</span><span class='line'>        <span class="k">if </span>os.path.isdir<span class="o">(</span>path<span class="o">)</span>:
+</span><span class='line'>            <span class="k">if </span>not self.path.endswith<span class="o">(</span><span class="s1">&#39;/&#39;</span><span class="o">)</span>:
+</span><span class='line'>                <span class="c"># redirect browser - doing basically what apache does</span>
+</span><span class='line'>                self.send_response<span class="o">(</span>301<span class="o">)</span>
+</span><span class='line'>                self.send_header<span class="o">(</span><span class="s2">&quot;Location&quot;</span>, self.path + <span class="s2">&quot;/&quot;</span><span class="o">)</span>
+</span><span class='line'>                self.end_headers<span class="o">()</span>
+</span><span class='line'>                <span class="k">return </span>None
+</span><span class='line'>            <span class="k">for </span>index in <span class="s2">&quot;index.html&quot;</span>, <span class="s2">&quot;index.htm&quot;</span>:
+</span><span class='line'>                <span class="nv">index</span> <span class="o">=</span> os.path.join<span class="o">(</span>path, index<span class="o">)</span>
+</span><span class='line'>                <span class="k">if </span>os.path.exists<span class="o">(</span>index<span class="o">)</span>:
+</span><span class='line'>                    <span class="nv">path</span> <span class="o">=</span> index
+</span><span class='line'>                    <span class="nb">break</span>
+</span><span class='line'><span class="nb">            </span><span class="k">else</span>:
+</span><span class='line'>                <span class="k">return </span>self.list_directory<span class="o">(</span>path<span class="o">)</span>
+</span><span class='line'>        <span class="nv">ctype</span> <span class="o">=</span> self.guess_type<span class="o">(</span>path<span class="o">)</span>
+</span><span class='line'>        try:
+</span><span class='line'>            <span class="c"># Always read in binary mode. Opening files in text mode may cause</span>
+</span><span class='line'>            <span class="c"># newline translations, making the actual size of the content</span>
+</span><span class='line'>            <span class="c"># transmitted *less* than the content-length!</span>
+</span><span class='line'>            <span class="nv">f</span> <span class="o">=</span> open<span class="o">(</span>path, <span class="s1">&#39;rb&#39;</span><span class="o">)</span>
+</span><span class='line'>        except IOError:
+</span><span class='line'>            self.send_error<span class="o">(</span>404, <span class="s2">&quot;File not found&quot;</span><span class="o">)</span>
+</span><span class='line'>            <span class="k">return </span>None
+</span><span class='line'>        self.send_response<span class="o">(</span>200<span class="o">)</span>
+</span><span class='line'>        self.send_header<span class="o">(</span><span class="s2">&quot;Content-type&quot;</span>, ctype<span class="o">)</span>
+</span><span class='line'>        <span class="nv">fs</span> <span class="o">=</span> os.fstat<span class="o">(</span>f.fileno<span class="o">())</span>
+</span><span class='line'>        self.send_header<span class="o">(</span><span class="s2">&quot;Content-Length&quot;</span>, str<span class="o">(</span>fs<span class="o">[</span>6<span class="o">]))</span>
+</span><span class='line'>        self.send_header<span class="o">(</span><span class="s2">&quot;Last-Modified&quot;</span>, self.date_time_string<span class="o">(</span>fs.st_mtime<span class="o">))</span>
+</span><span class='line'>        self.end_headers<span class="o">()</span>
+</span><span class='line'>        <span class="k">return </span>f
+</span><span class='line'>
+</span><span class='line'>    def list_directory<span class="o">(</span>self, path<span class="o">)</span>:
+</span><span class='line'>        <span class="s2">&quot;&quot;&quot;Helper to produce a directory listing (absent index.html).</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">        Return value is either a file object, or None (indicating an</span>
+</span><span class='line'><span class="s2">        error).  In either case, the headers are sent, making the</span>
+</span><span class='line'><span class="s2">        interface the same as for send_head().</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">        &quot;&quot;&quot;</span>
+</span><span class='line'>        try:
+</span><span class='line'>            <span class="nv">list</span> <span class="o">=</span> os.listdir<span class="o">(</span>path<span class="o">)</span>
+</span><span class='line'>        except os.error:
+</span><span class='line'>            self.send_error<span class="o">(</span>404, <span class="s2">&quot;No permission to list directory&quot;</span><span class="o">)</span>
+</span><span class='line'>            <span class="k">return </span>None
+</span><span class='line'>        list.sort<span class="o">(</span><span class="nv">key</span><span class="o">=</span>lambda a: a.lower<span class="o">())</span>
+</span><span class='line'>        <span class="nv">f</span> <span class="o">=</span> StringIO<span class="o">()</span>
+</span><span class='line'>        <span class="nv">displaypath</span> <span class="o">=</span> cgi.escape<span class="o">(</span>urllib.unquote<span class="o">(</span>self.path<span class="o">))</span>
+</span><span class='line'>        f.write<span class="o">(</span><span class="s1">&#39;&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 3.2 Final//EN&quot;&gt;&#39;</span><span class="o">)</span>
+</span><span class='line'>        f.write<span class="o">(</span><span class="s2">&quot;&lt;html&gt;\n&lt;title&gt;Directory listing for %s&lt;/title&gt;\n&quot;</span> % displaypath<span class="o">)</span>
+</span><span class='line'>        f.write<span class="o">(</span><span class="s2">&quot;&lt;body&gt;\n&lt;h2&gt;Directory listing for %s&lt;/h2&gt;\n&quot;</span> % displaypath<span class="o">)</span>
+</span><span class='line'>        f.write<span class="o">(</span><span class="s2">&quot;&lt;hr&gt;\n&quot;</span><span class="o">)</span>
+</span><span class='line'>        f.write<span class="o">(</span><span class="s2">&quot;&lt;form ENCTYPE=\&quot;multipart/form-data\&quot; method=\&quot;post\&quot;&gt;&quot;</span><span class="o">)</span>
+</span><span class='line'>        f.write<span class="o">(</span><span class="s2">&quot;&lt;input name=\&quot;file\&quot; type=\&quot;file\&quot;/&gt;&quot;</span><span class="o">)</span>
+</span><span class='line'>        f.write<span class="o">(</span><span class="s2">&quot;&lt;input type=\&quot;submit\&quot; value=\&quot;upload\&quot;/&gt;&lt;/form&gt;\n&quot;</span><span class="o">)</span>
+</span><span class='line'>        f.write<span class="o">(</span><span class="s2">&quot;&lt;hr&gt;\n&lt;ul&gt;\n&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="k">for </span>name in list:
+</span><span class='line'>            <span class="nv">fullname</span> <span class="o">=</span> os.path.join<span class="o">(</span>path, name<span class="o">)</span>
+</span><span class='line'>            <span class="nv">displayname</span> <span class="o">=</span> <span class="nv">linkname</span> <span class="o">=</span> name
+</span><span class='line'>            <span class="c"># Append / for directories or @ for symbolic links</span>
+</span><span class='line'>            <span class="k">if </span>os.path.isdir<span class="o">(</span>fullname<span class="o">)</span>:
+</span><span class='line'>                <span class="nv">displayname</span> <span class="o">=</span> name + <span class="s2">&quot;/&quot;</span>
+</span><span class='line'>                <span class="nv">linkname</span> <span class="o">=</span> name + <span class="s2">&quot;/&quot;</span>
+</span><span class='line'>            <span class="k">if </span>os.path.islink<span class="o">(</span>fullname<span class="o">)</span>:
+</span><span class='line'>                <span class="nv">displayname</span> <span class="o">=</span> name + <span class="s2">&quot;@&quot;</span>
+</span><span class='line'>                <span class="c"># Note: a link to a directory displays with @ and links with /</span>
+</span><span class='line'>            f.write<span class="o">(</span><span class="s1">&#39;&lt;li&gt;&lt;a href=&quot;%s&quot;&gt;%s&lt;/a&gt;\n&#39;</span>
+</span><span class='line'>                    % <span class="o">(</span>urllib.quote<span class="o">(</span>linkname<span class="o">)</span>, cgi.escape<span class="o">(</span>displayname<span class="o">)))</span>
+</span><span class='line'>        f.write<span class="o">(</span><span class="s2">&quot;&lt;/ul&gt;\n&lt;hr&gt;\n&lt;/body&gt;\n&lt;/html&gt;\n&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="nv">length</span> <span class="o">=</span> f.tell<span class="o">()</span>
+</span><span class='line'>        f.seek<span class="o">(</span>0<span class="o">)</span>
+</span><span class='line'>        self.send_response<span class="o">(</span>200<span class="o">)</span>
+</span><span class='line'>        self.send_header<span class="o">(</span><span class="s2">&quot;Content-type&quot;</span>, <span class="s2">&quot;text/html&quot;</span><span class="o">)</span>
+</span><span class='line'>        self.send_header<span class="o">(</span><span class="s2">&quot;Content-Length&quot;</span>, str<span class="o">(</span>length<span class="o">))</span>
+</span><span class='line'>        self.end_headers<span class="o">()</span>
+</span><span class='line'>        <span class="k">return </span>f
+</span><span class='line'>
+</span><span class='line'>    def translate_path<span class="o">(</span>self, path<span class="o">)</span>:
+</span><span class='line'>        <span class="s2">&quot;&quot;&quot;Translate a /-separated PATH to the local filename syntax.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">        Components that mean special things to the local file system</span>
+</span><span class='line'><span class="s2">        (e.g. drive or directory names) are ignored.  (XXX They should</span>
+</span><span class='line'><span class="s2">        probably be diagnosed.)</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">        &quot;&quot;&quot;</span>
+</span><span class='line'>        <span class="c"># abandon query parameters</span>
+</span><span class='line'>        <span class="nv">path</span> <span class="o">=</span> path.split<span class="o">(</span><span class="s1">&#39;?&#39;</span>,1<span class="o">)[</span>0<span class="o">]</span>
+</span><span class='line'>        <span class="nv">path</span> <span class="o">=</span> path.split<span class="o">(</span><span class="s1">&#39;#&#39;</span>,1<span class="o">)[</span>0<span class="o">]</span>
+</span><span class='line'>        <span class="nv">path</span> <span class="o">=</span> posixpath.normpath<span class="o">(</span>urllib.unquote<span class="o">(</span>path<span class="o">))</span>
+</span><span class='line'>        <span class="nv">words</span> <span class="o">=</span> path.split<span class="o">(</span><span class="s1">&#39;/&#39;</span><span class="o">)</span>
+</span><span class='line'>        <span class="nv">words</span> <span class="o">=</span> filter<span class="o">(</span>None, words<span class="o">)</span>
+</span><span class='line'>        <span class="nv">path</span> <span class="o">=</span> os.getcwd<span class="o">()</span>
+</span><span class='line'>        <span class="k">for </span>word in words:
+</span><span class='line'>            drive, <span class="nv">word</span> <span class="o">=</span> os.path.splitdrive<span class="o">(</span>word<span class="o">)</span>
+</span><span class='line'>            head, <span class="nv">word</span> <span class="o">=</span> os.path.split<span class="o">(</span>word<span class="o">)</span>
+</span><span class='line'>            <span class="k">if </span>word in <span class="o">(</span>os.curdir, os.pardir<span class="o">)</span>: <span class="k">continue</span>
+</span><span class='line'><span class="k">            </span><span class="nv">path</span> <span class="o">=</span> os.path.join<span class="o">(</span>path, word<span class="o">)</span>
+</span><span class='line'>        <span class="k">return </span>path
+</span><span class='line'>
+</span><span class='line'>    def copyfile<span class="o">(</span>self, <span class="nb">source</span>, outputfile<span class="o">)</span>:
+</span><span class='line'>        <span class="s2">&quot;&quot;&quot;Copy all data between two file objects.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">        The SOURCE argument is a file object open for reading</span>
+</span><span class='line'><span class="s2">        (or anything with a read() method) and the DESTINATION</span>
+</span><span class='line'><span class="s2">        argument is a file object open for writing (or</span>
+</span><span class='line'><span class="s2">        anything with a write() method).</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">        The only reason for overriding this would be to change</span>
+</span><span class='line'><span class="s2">        the block size or perhaps to replace newlines by CRLF</span>
+</span><span class='line'><span class="s2">        -- note however that this the default server uses this</span>
+</span><span class='line'><span class="s2">        to copy binary data as well.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">        &quot;&quot;&quot;</span>
+</span><span class='line'>        shutil.copyfileobj<span class="o">(</span><span class="nb">source</span>, outputfile<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>    def guess_type<span class="o">(</span>self, path<span class="o">)</span>:
+</span><span class='line'>        <span class="s2">&quot;&quot;&quot;Guess the type of a file.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">        Argument is a PATH (a filename).</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">        Return value is a string of the form type/subtype,</span>
+</span><span class='line'><span class="s2">        usable for a MIME Content-type header.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">        The default implementation looks the file&#39;s extension</span>
+</span><span class='line'><span class="s2">        up in the table self.extensions_map, using application/octet-stream</span>
+</span><span class='line'><span class="s2">        as a default; however it would be permissible (if</span>
+</span><span class='line'><span class="s2">        slow) to look inside the data to make a better guess.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">        &quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'>        base, <span class="nv">ext</span> <span class="o">=</span> posixpath.splitext<span class="o">(</span>path<span class="o">)</span>
+</span><span class='line'>        <span class="k">if </span>ext in self.extensions_map:
+</span><span class='line'>            <span class="k">return </span>self.extensions_map<span class="o">[</span>ext<span class="o">]</span>
+</span><span class='line'>        <span class="nv">ext</span> <span class="o">=</span> ext.lower<span class="o">()</span>
+</span><span class='line'>        <span class="k">if </span>ext in self.extensions_map:
+</span><span class='line'>            <span class="k">return </span>self.extensions_map<span class="o">[</span>ext<span class="o">]</span>
+</span><span class='line'>        <span class="k">else</span>:
+</span><span class='line'>            <span class="k">return </span>self.extensions_map<span class="o">[</span><span class="s1">&#39;&#39;</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if </span>not mimetypes.inited:
+</span><span class='line'>        mimetypes.init<span class="o">()</span> <span class="c"># try to read system mime.types</span>
+</span><span class='line'>    <span class="nv">extensions_map</span> <span class="o">=</span> mimetypes.types_map.copy<span class="o">()</span>
+</span><span class='line'>    extensions_map.update<span class="o">({</span>
+</span><span class='line'>        <span class="s1">&#39;&#39;</span>: <span class="s1">&#39;application/octet-stream&#39;</span>, <span class="c"># Default</span>
+</span><span class='line'>        <span class="s1">&#39;.py&#39;</span>: <span class="s1">&#39;text/plain&#39;</span>,
+</span><span class='line'>        <span class="s1">&#39;.c&#39;</span>: <span class="s1">&#39;text/plain&#39;</span>,
+</span><span class='line'>        <span class="s1">&#39;.h&#39;</span>: <span class="s1">&#39;text/plain&#39;</span>,
+</span><span class='line'>        <span class="o">})</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>def <span class="nb">test</span><span class="o">(</span><span class="nv">HandlerClass</span> <span class="o">=</span> SimpleHTTPRequestHandler,
+</span><span class='line'>         <span class="nv">ServerClass</span> <span class="o">=</span> BaseHTTPServer.HTTPServer<span class="o">)</span>:
+</span><span class='line'>    BaseHTTPServer.test<span class="o">(</span>HandlerClass, ServerClass<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if </span><span class="nv">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span>:
+</span><span class='line'>    <span class="nb">test</span><span class="o">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2015/06/11/ji-yu-pythonde-ju-yu-wang-wen-jian-gong-xiang-ruan-jian-simplehttpserverwithupload/'>http://jueqingsizhe66.github.io/blog/2015/06/11/ji-yu-pythonde-ju-yu-wang-wen-jian-gong-xiang-ruan-jian-simplehttpserverwithupload/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-11T23:00:09+08:00" pubdate data-updated="true">Jun 11<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/11/pandoc-markdownzhu-yi-dian/" title="Previous Post: pandoc markdown注意点">&laquo; pandoc markdown注意点</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/13/ba-shi-jian-he-jian-pan-xie-jin-script/" title="Next Post: 把时间和键盘写进script">把时间和键盘写进script &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><div class="ds-thread" > </div>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"f708708"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+  <p><img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> <!--不是他的原因-->
+ <!--而是yellow的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (3)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (22)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (3)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (18)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/physics-and-maths/">Physics and Maths</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/jump-out-of-ontology/">Jump Out of Ontology</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/machine-learning-some-search-record/">Machine Learning Some Search Record</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/graphviz-notebook/">Graphviz Notebook</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="1" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+
+</section>
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2015/06/11/ji-yu-pythonde-ju-yu-wang-wen-jian-gong-xiang-ruan-jian-simplehttpserverwithupload/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2015/06/11/ji-yu-pythonde-ju-yu-wang-wen-jian-gong-xiang-ruan-jian-simplehttpserverwithupload/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

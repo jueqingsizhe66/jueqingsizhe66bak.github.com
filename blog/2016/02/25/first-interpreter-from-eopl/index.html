@@ -1,0 +1,2079 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>First Interpreter From EOPL - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="这是EOPL一个最为基本的解释器，后面的解释器都在此基础上进行改造，所以
+得理解各个部分，并知道如何使用和改造。最终告诉的是解释器如何解释表达式(每一种语言的表达式)。
+解释器解释表达式的问题。 1. 测试Interpreter程序
+2. 测试结果
+3. 反思结果 3.1 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2016/02/25/first-interpreter-from-eopl">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">First Interpreter From EOPL</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-02-25T11:20:09+08:00" pubdate data-updated="true">Feb 25<span>th</span>, 2016</time>
+        
+
+         
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>这是EOPL一个最为基本的解释器，后面的解释器都在此基础上进行改造，所以
+得理解各个部分，并知道如何使用和改造。最终告诉的是解释器如何解释表达式(每一种语言的表达式)。
+<strong>解释器解释表达式的问题</strong>。</p>
+
+<!--more-->
+
+
+<ul>
+<li><a href="#1">1. 测试Interpreter程序</a></li>
+<li><a href="#2">2. 测试结果</a></li>
+<li><a href="#3">3. 反思结果</a>
+
+<ul>
+<li><a href="#3.1">3.1 非expressions部分</a></li>
+<li><a href="#3.2">3.2 expressions部分</a></li>
+</ul>
+</li>
+<li><a href="#4">4. 是解决问题，还是抽象问题？科学性何在?</a>
+
+<ul>
+<li><a href="#4.1">4.1 科学性问题何在？</a></li>
+<li><a href="#4.2">4.2 一个解释器该解决哪些问题？</a></li>
+<li><a href="#4.3">4.3 抽象的目的是什么</a></li>
+</ul>
+</li>
+<li><a href="#5">5.一个解释器的具体实现</a>
+
+<ul>
+<li><a href="#5.1">5.1 语言前端表现形式</a> lang</li>
+<li><a href="#5.2">5.2 语言数据结构</a> data-structures</li>
+<li><a href="#5.3">5.3 语言中间阶段</a> environments</li>
+<li><a href="#5.4">5.4 语言核心阶段</a> interpreter</li>
+<li><a href="#5.5">5.5 语言的初始化</a> drscheme-init</li>
+<li><a href="#5.6">5.6 语言的测试程序</a> tests</li>
+<li><a href="#5.7">5.7 语言前端封装测试</a>Top</li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<h2 id="1"> 1. 测试Interpreter程序</h2>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>;;测试一个
+</span><span class='line'>(run-tests! run equal-answer? 
+</span><span class='line'>   '(
+</span><span class='line'>      (positive "11" 11)
+</span><span class='line'>    ))
+</span><span class='line'>
+</span><span class='line'>;;测试二个
+</span><span class='line'>(run-tests! run-fn equal-answer? 
+</span><span class='line'>   '(
+</span><span class='line'>     (positive "11" 11)   
+</span><span class='line'>     (if-eval-test-true "if zero?(-(11,11)) then 3 else 4" 3)
+</span><span class='line'>    ))
+</span><span class='line'>   </span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h2 id="2"> 2. 测试结果</h2>
+
+
+<ul>
+<li>one test: positive</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>test: positive
+</span><span class='line'>correct
+</span><span class='line'>
+</span><span class='line'>no bugs found
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>two tests:positive if-else</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>test: positive
+</span><span class='line'>correct
+</span><span class='line'>
+</span><span class='line'>test: if-eval-test-true
+</span><span class='line'>correct
+</span><span class='line'>
+</span><span class='line'>no bugs found</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h2 id="3"> 3. 反思结果</h2>
+
+
+<p>结果测试很理想并没有错误，并且可以在test中不断增加判断语句。
+而run-test的解析分为两个部分</p>
+
+<ul>
+<li>expressions 这部分的工作主要是value-of</li>
+<li>非expressions  这部分的主要工作就是sligen通过the-grammer的定义进行解析</li>
+</ul>
+
+
+<h3 id="3.1"> 3.1 非expressions部分</h3>
+
+
+<p>这部分需要配合value-of的define-datatype进行对应的变化，且看the-grammer代码</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">the-grammar</span>
+</span><span class='line'>    <span class="o">&#39;</span><span class="p">((</span><span class="nf">program</span> <span class="p">(</span><span class="nf">expression</span><span class="p">)</span> <span class="nv">a-program</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">(</span><span class="nf">expression</span> <span class="p">(</span><span class="nf">number</span><span class="p">)</span> <span class="nv">const-exp</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">expression</span>
+</span><span class='line'>        <span class="p">(</span><span class="s">&quot;-&quot;</span> <span class="s">&quot;(&quot;</span> <span class="nv">expression</span> <span class="s">&quot;,&quot;</span> <span class="nv">expression</span> <span class="s">&quot;)&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="nv">diff-exp</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">(</span><span class="nf">expression</span>
+</span><span class='line'>       <span class="p">(</span><span class="s">&quot;zero?&quot;</span> <span class="s">&quot;(&quot;</span> <span class="nv">expression</span> <span class="s">&quot;)&quot;</span><span class="p">)</span>
+</span><span class='line'>       <span class="nv">zero?-exp</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">(</span><span class="nf">expression</span>
+</span><span class='line'>       <span class="p">(</span><span class="s">&quot;if&quot;</span> <span class="nv">expression</span> <span class="s">&quot;then&quot;</span> <span class="nv">expression</span> <span class="s">&quot;else&quot;</span> <span class="nv">expression</span><span class="p">)</span>
+</span><span class='line'>       <span class="nv">if-exp</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">(</span><span class="nf">expression</span> <span class="p">(</span><span class="nf">identifier</span><span class="p">)</span> <span class="nv">var-exp</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">(</span><span class="nf">expression</span>
+</span><span class='line'>       <span class="p">(</span><span class="s">&quot;let&quot;</span> <span class="nv">identifier</span> <span class="s">&quot;=&quot;</span> <span class="nv">expression</span> <span class="s">&quot;in&quot;</span> <span class="nv">expression</span><span class="p">)</span>
+</span><span class='line'>       <span class="nv">let-exp</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以看到if,then,else都被当作不变的地方，而其中三个expressions被传动到value-of做进一步的解析。</p>
+
+<h3 id="3.2"> 3. expressions部分</h3>
+
+
+<p>继续看value-of的部分，则是对if-exp,var-exp,let-exp,letrec-exp,diff-exp,zerp?-exp?等进行解析的过程。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="k">define </span><span class="nv">value-of</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nb">exp </span><span class="nv">env</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">cases</span> <span class="nv">expression</span> <span class="nv">exp</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">(</span><span class="nf">const-exp</span> <span class="p">(</span><span class="nf">num</span><span class="p">)</span> <span class="p">(</span><span class="nf">num-val</span> <span class="nv">num</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">(</span><span class="nf">var-exp</span> <span class="p">(</span><span class="nf">var</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-env</span> <span class="nv">env</span> <span class="nv">var</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">(</span><span class="nf">diff-exp</span> <span class="p">(</span><span class="nf">exp1</span> <span class="nv">exp2</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">val1</span> <span class="p">(</span><span class="nf">value-of</span> <span class="nv">exp1</span> <span class="nv">env</span><span class="p">))</span>
+</span><span class='line'>                <span class="p">(</span><span class="nf">val2</span> <span class="p">(</span><span class="nf">value-of</span> <span class="nv">exp2</span> <span class="nv">env</span><span class="p">)))</span>
+</span><span class='line'>            <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">num1</span> <span class="p">(</span><span class="nf">expval-&gt;num</span> <span class="nv">val1</span><span class="p">))</span>
+</span><span class='line'>                  <span class="p">(</span><span class="nf">num2</span> <span class="p">(</span><span class="nf">expval-&gt;num</span> <span class="nv">val2</span><span class="p">)))</span>
+</span><span class='line'>              <span class="p">(</span><span class="nf">num-val</span>
+</span><span class='line'>                <span class="p">(</span><span class="nb">- </span><span class="nv">num1</span> <span class="nv">num2</span><span class="p">)))))</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">(</span><span class="nf">zero?-exp</span> <span class="p">(</span><span class="nf">exp1</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">val1</span> <span class="p">(</span><span class="nf">value-of</span> <span class="nv">exp1</span> <span class="nv">env</span><span class="p">)))</span>
+</span><span class='line'>            <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">num1</span> <span class="p">(</span><span class="nf">expval-&gt;num</span> <span class="nv">val1</span><span class="p">)))</span>
+</span><span class='line'>              <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">zero? </span><span class="nv">num1</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">(</span><span class="nf">bool-val</span> <span class="no">#t</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">(</span><span class="nf">bool-val</span> <span class="no">#f</span><span class="p">)))))</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">(</span><span class="nf">if-exp</span> <span class="p">(</span><span class="nf">exp1</span> <span class="nv">exp2</span> <span class="nv">exp3</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">val1</span> <span class="p">(</span><span class="nf">value-of</span> <span class="nv">exp1</span> <span class="nv">env</span><span class="p">)))</span>
+</span><span class='line'>            <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">expval-&gt;bool</span> <span class="nv">val1</span><span class="p">)</span>
+</span><span class='line'>              <span class="p">(</span><span class="nf">value-of</span> <span class="nv">exp2</span> <span class="nv">env</span><span class="p">)</span>
+</span><span class='line'>              <span class="p">(</span><span class="nf">value-of</span> <span class="nv">exp3</span> <span class="nv">env</span><span class="p">))))</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">(</span><span class="nf">let-exp</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">exp1</span> <span class="nv">body</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">val1</span> <span class="p">(</span><span class="nf">value-of</span> <span class="nv">exp1</span> <span class="nv">env</span><span class="p">)))</span>
+</span><span class='line'>            <span class="p">(</span><span class="nf">value-of</span> <span class="nv">body</span>
+</span><span class='line'>              <span class="p">(</span><span class="nf">extend-env</span> <span class="nv">var</span> <span class="nv">val1</span> <span class="nv">env</span><span class="p">))))</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">)))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以参考<a href="http://jueqingsizhe66.github.io/blog/2016/02/19/the-implementation-of-define-datetype/">cases的实现</a>,以及<a href="http://jueqingsizhe66.github.io/blog/2016/02/23/casesde-zuo-yong/">cases的作用</a>
+当然<a href="http://jueqingsizhe66.github.io/blog/2016/02/09/its-a-dead-program-dot-how-to-let-it-alive/#1">TLS</a>也提供了比如*const,*application等的定义</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="c1">;第一大部分 定义好整体框架</span>
+</span><span class='line'><span class="p">(</span><span class="k">define </span><span class="nv">value</span>
+</span><span class='line'> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">e</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">meaning</span> <span class="nv">e</span> <span class="p">(</span><span class="k">quote </span><span class="p">()))))</span>
+</span><span class='line'><span class="p">(</span><span class="k">define </span><span class="nv">meaning</span>
+</span><span class='line'> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">e</span> <span class="nv">table</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">((</span><span class="nf">expression-to-action</span> <span class="nv">e</span><span class="p">)</span> <span class="nv">e</span> <span class="nv">table</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中的<code>(expression-to-action)</code>就会产生对应的<code>*const*,*identifier*,*lambda*
+,*cond*,*quote*,*application*</code>以及<a href="http://jueqingsizhe66.github.io/blog/2016/02/09/its-a-dead-program-dot-how-to-let-it-alive/#2">TSS</a>中新增加的<code>*set*,*define*,*let*</code>。</p>
+
+<p>这两个部分是比较有趣的地方，规范了语言的前端部分，犹如左右手交换来交换去和penrose-stair<img src="/images/penrose-stair.png" alt="penrose-stair" />
+,进一步可以看看<a href="http://df.xq0510.blog.163.com/blog/static/16013465820108704920944/">盗墓笔记(inception)的评述</a></p>
+
+<h2 id="4"> 4. 是解决问题，还是抽象问题？科学性何在?</h2>
+
+
+<p>科学进步的每一步发展，不是通过不断抽象来直觉抽取出进步，而是通过直觉发现问题，在利用抽象的方式进行求解，从而获得进步。
+而抽象其实就是通过<strong>interface</strong>和<strong>implementation</strong>来进行，</p>
+
+<ul>
+<li>interface的定义就是通过<a href="http://jueqingsizhe66.github.io/blog/2016/02/19/the-implementation-of-define-datetype/">define-datatype</a>进行，</li>
+<li>implementation则是通过cases进行。</li>
+</ul>
+
+
+<h3 id="4.1">4.1 科学性问题何在？</h3>
+
+
+<p>现象和本质的探寻，透过现象看到本质，现象的产生都有其内在的原理，科学关注的是内在的本质联系。
+scheme这门语言可以透过不断的抽象，产生许许多多的语言，但是这些语言层是否真的对科学问题有帮助，
+这是值得怀疑的地方！科学必须要有怀疑！科学必须找寻问题所在，从而探索产生原因（持保留意见）。</p>
+
+<h3 id="4.2">4.2 一个解释器该解决哪些问题？</h3>
+
+
+<p>最基本的我觉得应该有两个：</p>
+
+<ul>
+<li>词法解析问题
+  解决我输入的字符串，该如何由scan&amp;parse进行解析</li>
+<li>语义解析问题
+  解决我得到的表达式(expression),它怎么由value-of进行解析，到底是const-exp,var-exp,proc-exp,let-exp等</li>
+</ul>
+
+
+<p>其实语言系列的表达主要有</p>
+
+<ol>
+<li>imperative language(C,fortran)</li>
+<li>functional programming language(Lisp,ML,Haskell,Scheme)</li>
+<li>message passing language(OOP: Java,C++,)</li>
+</ol>
+
+
+<p>他们在解析程序的过程中都离不开上述的两个基本问题的解析，他们也被叫做<strong>前端(front-end)</strong>。<img src="/images/lisp/front-end.png" alt="front-end" /></p>
+
+<p>而任何语言如果仅仅有这个value的过程，而不会产生任何的effects，
+比如：</p>
+
+<ul>
+<li>print</li>
+<li>read</li>
+<li>modify the memory state or file system</li>
+</ul>
+
+
+<p>那就太没有意思了，所以语言的完成需要他拓充到操作系统的处理、IO处理、显示处理，增加它的趣味性，而不是一味的解决问题（持保留意见）</p>
+
+<ul>
+<li>词法解析使我们获得从字符串到对应的语言的const-exp等的exp形式</li>
+<li>语义解析部分则是我们对const-exp等的具体实现部分</li>
+</ul>
+
+
+<p>所以本质上来说这两点也是抽象的组成部分（<a href="http://jueqingsizhe66.github.io/blog/2016/02/15/data-representation-the-same-interface-with-different-implementation/">接口和实现</a>）,所以本质上解决解释器的实现问题，其实就是<strong>如何抽象的问题?</strong>。</p>
+
+<h3 id="4.3">4.3 抽象的目的是什么？</h3>
+
+
+<p>在于解决现实出现的科学问题。
+也就是这些问题都能够被设定的接口和实现通过递归进行解释，并最终获得结果(result or outcome)。</p>
+
+<p>而为什么要绕来绕去的谈这些问题呢？ 因为interpreter的实现过程本质也是递归的思想，在不断规约到一个结论。</p>
+
+<h2 id="5">5. 一个解释器的具体实现</h2>
+
+
+<p>参考EOPL第三章.</p>
+
+<p>一般过程是先思考新语言的表现形式lang.scm，设定几个数据类型放入data-structures.scm中,
+然后我们需要给这两个阶段设定bridge，也就是环境封装.这样我们就可以写一个解释器interpreter,解释并获得最终结果。
+简而言之，其实我们就是想看看计算机是如何解释我们输入的这句话，具体就是<a href="https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-35.html#%_sec_5.5"><strong>解释器如何解析输入的表达式</strong></a></p>
+
+<ol>
+<li>语言<a href="#5.1">前端表现形式</a> lang</li>
+<li>语言<a href="#5.2">数据结构</a> data-structures</li>
+<li>语言<a href="#5.3">中间阶段</a> environments</li>
+<li>语言<a href="#5.4">核心阶段</a> interpreter</li>
+<li>语言的<a href="#5.5">初始化</a> drscheme-init</li>
+<li>语言的<a href="#5.6">测试程序</a> tests</li>
+<li>语言<a href="#5.7">前端封装测试</a>Top</li>
+</ol>
+
+
+<h3 id="5.1">5.1 前端表现形式</h3>
+
+
+<p>保存为lang.scm</p>
+
+<p>该阶段的主要目的就是定义新生成的语言该是如何使用的？也就是语法部分。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="nf">module</span> <span class="nv">lang</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; grammar for the LET language</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">lib</span> <span class="s">&quot;eopl.ss&quot;</span> <span class="s">&quot;eopl&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">require</span> <span class="s">&quot;drscheme-init.scm&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">provide</span> <span class="p">(</span><span class="nf">all-defined-out</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;;;;;;;;;;;;;;;; grammatical specification ;;;;;;;;;;;;;;;;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">the-lexical-spec</span>
+</span><span class='line'>    <span class="o">&#39;</span><span class="p">((</span><span class="nf">whitespace</span> <span class="p">(</span><span class="nf">whitespace</span><span class="p">)</span> <span class="nv">skip</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">comment</span> <span class="p">(</span><span class="s">&quot;%&quot;</span> <span class="p">(</span><span class="nf">arbno</span> <span class="p">(</span><span class="nb">not </span><span class="sc">#\newline</span><span class="p">)))</span> <span class="nv">skip</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">identifier</span>
+</span><span class='line'>       <span class="p">(</span><span class="nf">letter</span> <span class="p">(</span><span class="nf">arbno</span> <span class="p">(</span><span class="k">or </span><span class="nv">letter</span> <span class="nv">digit</span> <span class="s">&quot;_&quot;</span> <span class="s">&quot;-&quot;</span> <span class="s">&quot;?&quot;</span><span class="p">)))</span>
+</span><span class='line'>       <span class="nv">symbol</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">number</span> <span class="p">(</span><span class="nf">digit</span> <span class="p">(</span><span class="nf">arbno</span> <span class="nv">digit</span><span class="p">))</span> <span class="nv">number</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">number</span> <span class="p">(</span><span class="s">&quot;-&quot;</span> <span class="nv">digit</span> <span class="p">(</span><span class="nf">arbno</span> <span class="nv">digit</span><span class="p">))</span> <span class="nv">number</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">the-grammar</span>
+</span><span class='line'>    <span class="o">&#39;</span><span class="p">((</span><span class="nf">program</span> <span class="p">(</span><span class="nf">expression</span><span class="p">)</span> <span class="nv">a-program</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">(</span><span class="nf">expression</span> <span class="p">(</span><span class="nf">number</span><span class="p">)</span> <span class="nv">const-exp</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">expression</span>
+</span><span class='line'>        <span class="p">(</span><span class="s">&quot;-&quot;</span> <span class="s">&quot;(&quot;</span> <span class="nv">expression</span> <span class="s">&quot;,&quot;</span> <span class="nv">expression</span> <span class="s">&quot;)&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="nv">diff-exp</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">(</span><span class="nf">expression</span>
+</span><span class='line'>       <span class="p">(</span><span class="s">&quot;zero?&quot;</span> <span class="s">&quot;(&quot;</span> <span class="nv">expression</span> <span class="s">&quot;)&quot;</span><span class="p">)</span>
+</span><span class='line'>       <span class="nv">zero?-exp</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">(</span><span class="nf">expression</span>
+</span><span class='line'>       <span class="p">(</span><span class="s">&quot;if&quot;</span> <span class="nv">expression</span> <span class="s">&quot;then&quot;</span> <span class="nv">expression</span> <span class="s">&quot;else&quot;</span> <span class="nv">expression</span><span class="p">)</span>
+</span><span class='line'>       <span class="nv">if-exp</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">(</span><span class="nf">expression</span> <span class="p">(</span><span class="nf">identifier</span><span class="p">)</span> <span class="nv">var-exp</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">(</span><span class="nf">expression</span>
+</span><span class='line'>       <span class="p">(</span><span class="s">&quot;let&quot;</span> <span class="nv">identifier</span> <span class="s">&quot;=&quot;</span> <span class="nv">expression</span> <span class="s">&quot;in&quot;</span> <span class="nv">expression</span><span class="p">)</span>
+</span><span class='line'>       <span class="nv">let-exp</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">sllgen:make-define-datatypes</span> <span class="nv">the-lexical-spec</span> <span class="nv">the-grammar</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">show-the-datatypes</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">()</span> <span class="p">(</span><span class="nf">sllgen:list-define-datatypes</span> <span class="nv">the-lexical-spec</span> <span class="nv">the-grammar</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">scan&amp;parse</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">sllgen:make-string-parser</span> <span class="nv">the-lexical-spec</span> <span class="nv">the-grammar</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">just-scan</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">sllgen:make-string-scanner</span> <span class="nv">the-lexical-spec</span> <span class="nv">the-grammar</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3 id="5.2">5.2 数据结构</h3>
+
+
+<p>保存为data-structures.scm</p>
+
+<p>该阶段的主要目的就是定义对应的类型该具有什么样的接口，这些接口的实现部分在第四部分有具体的体现。
+这部分就是程序的<strong>类型接口的转换部分</strong>。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="nf">module</span> <span class="nv">data-structures</span> <span class="p">(</span><span class="nf">lib</span> <span class="s">&quot;eopl.ss&quot;</span> <span class="s">&quot;eopl&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; data structures for let-lang.</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">provide</span> <span class="p">(</span><span class="nf">all-defined-out</span><span class="p">))</span>               <span class="c1">; too many things to list</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;;;;;;;;;;;;;;;; expressed values ;;;;;;;;;;;;;;;;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;;; an expressed value is either a number, a boolean or a procval.</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">define-datatype</span> <span class="nv">expval</span> <span class="nv">expval?</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">num-val</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">value</span> <span class="nv">number?</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">(</span><span class="nf">bool-val</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">boolean</span> <span class="nv">boolean?</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;;; extractors:</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; expval-&gt;num : ExpVal -&gt; Int</span>
+</span><span class='line'>  <span class="c1">;; Page: 70</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">expval-&gt;num</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">v</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">cases</span> <span class="nv">expval</span> <span class="nv">v</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">num-val</span> <span class="p">(</span><span class="nf">num</span><span class="p">)</span> <span class="nv">num</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">expval-extractor-error</span> <span class="ss">&#39;num</span> <span class="nv">v</span><span class="p">)))))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; expval-&gt;bool : ExpVal -&gt; Bool</span>
+</span><span class='line'>  <span class="c1">;; Page: 70</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">expval-&gt;bool</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">v</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">cases</span> <span class="nv">expval</span> <span class="nv">v</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">bool-val</span> <span class="p">(</span><span class="nf">bool</span><span class="p">)</span> <span class="nv">bool</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">expval-extractor-error</span> <span class="ss">&#39;bool</span> <span class="nv">v</span><span class="p">)))))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">expval-extractor-error</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">variant</span> <span class="nv">value</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">eopl:error</span> <span class="ss">&#39;expval-extractors</span> <span class="s">&quot;Looking for a ~s, found ~s&quot;</span>
+</span><span class='line'>  <span class="nv">variant</span> <span class="nv">value</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;;;;;;;;;;;;;;;; environment structures ;;;;;;;;;;;;;;;;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;; example of a data type built without define-datatype</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">empty-env-record</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">()</span>
+</span><span class='line'>      <span class="o">&#39;</span><span class="p">()))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">extended-env-record</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">sym</span> <span class="nv">val</span> <span class="nv">old-env</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">list </span><span class="nv">sym</span> <span class="nv">val</span><span class="p">)</span> <span class="nv">old-env</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">empty-env-record?</span> <span class="nv">null?</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">environment?</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="nf">empty-env-record?</span> <span class="nv">x</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">(</span><span class="k">and </span><span class="p">(</span><span class="nb">pair? </span><span class="nv">x</span><span class="p">)</span>
+</span><span class='line'>               <span class="p">(</span><span class="nb">symbol? </span><span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">car </span><span class="nv">x</span><span class="p">)))</span>
+</span><span class='line'>               <span class="p">(</span><span class="nf">expval?</span> <span class="p">(</span><span class="nb">cadr </span><span class="p">(</span><span class="nb">car </span><span class="nv">x</span><span class="p">)))</span>
+</span><span class='line'>               <span class="p">(</span><span class="nf">environment?</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">x</span><span class="p">))))))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">extended-env-record-&gt;sym</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">r</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nb">car </span><span class="p">(</span><span class="nb">car </span><span class="nv">r</span><span class="p">))))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">extended-env-record-&gt;val</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">r</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nb">cadr </span><span class="p">(</span><span class="nb">car </span><span class="nv">r</span><span class="p">))))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">extended-env-record-&gt;old-env</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">r</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nb">cdr </span><span class="nv">r</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h3 id="5.3">5.3 中间阶段</h3>
+
+
+<p>保存为environments.scm</p>
+
+<p>该阶段的主要目的是为了解释当遇到一些变量或者之后的解释器的lambda（将在下一个版本解释器体现），如何保存下来
+，并供对应程序使用。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="nf">module</span> <span class="nv">environments</span> <span class="p">(</span><span class="nf">lib</span> <span class="s">&quot;eopl.ss&quot;</span> <span class="s">&quot;eopl&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; builds environment interface, using data structures defined in</span>
+</span><span class='line'>  <span class="c1">;; data-structures.scm. </span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">require</span> <span class="s">&quot;data-structures.scm&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">provide</span> <span class="nv">init-env</span> <span class="nv">empty-env</span> <span class="nv">extend-env</span> <span class="nv">apply-env</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;;;;;;;;;;;;;;;; initial environment ;;;;;;;;;;;;;;;;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; init-env : () -&gt; Env</span>
+</span><span class='line'>  <span class="c1">;; usage: (init-env) = [i=1, v=5, x=10]</span>
+</span><span class='line'>  <span class="c1">;; (init-env) builds an environment in which i is bound to the</span>
+</span><span class='line'>  <span class="c1">;; expressed value 1, v is bound to the expressed value 5, and x is</span>
+</span><span class='line'>  <span class="c1">;; bound to the expressed value 10.</span>
+</span><span class='line'>  <span class="c1">;; Page: 69</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">init-env</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">()</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">extend-env</span>
+</span><span class='line'>       <span class="ss">&#39;i</span> <span class="p">(</span><span class="nf">num-val</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>       <span class="p">(</span><span class="nf">extend-env</span>
+</span><span class='line'>        <span class="ss">&#39;v</span> <span class="p">(</span><span class="nf">num-val</span> <span class="mi">5</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">(</span><span class="nf">extend-env</span>
+</span><span class='line'>         <span class="ss">&#39;x</span> <span class="p">(</span><span class="nf">num-val</span> <span class="mi">10</span><span class="p">)</span>
+</span><span class='line'>         <span class="p">(</span><span class="nf">empty-env</span><span class="p">))))))</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;;;;;;;;;;;;;;;; environment constructors and observers ;;;;;;;;;;;;;;;;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">empty-env</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">()</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">empty-env-record</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">empty-env?</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">empty-env-record?</span> <span class="nv">x</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">extend-env</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">sym</span> <span class="nv">val</span> <span class="nv">old-env</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">extended-env-record</span> <span class="nv">sym</span> <span class="nv">val</span> <span class="nv">old-env</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">apply-env</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">env</span> <span class="nv">search-sym</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">empty-env?</span> <span class="nv">env</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">eopl:error</span> <span class="ss">&#39;apply-env</span> <span class="s">&quot;No binding for ~s&quot;</span> <span class="nv">search-sym</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">sym</span> <span class="p">(</span><span class="nf">extended-env-record-&gt;sym</span> <span class="nv">env</span><span class="p">))</span>
+</span><span class='line'>        <span class="p">(</span><span class="nf">val</span> <span class="p">(</span><span class="nf">extended-env-record-&gt;val</span> <span class="nv">env</span><span class="p">))</span>
+</span><span class='line'>        <span class="p">(</span><span class="nf">old-env</span> <span class="p">(</span><span class="nf">extended-env-record-&gt;old-env</span> <span class="nv">env</span><span class="p">)))</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">eqv? </span><span class="nv">search-sym</span> <span class="nv">sym</span><span class="p">)</span>
+</span><span class='line'>      <span class="nv">val</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">apply-env</span> <span class="nv">old-env</span> <span class="nv">search-sym</span><span class="p">))))))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h3 id="5.4">5.4 核心阶段</h3>
+
+
+<p>保存为interp.scm</p>
+
+<p>该阶段的主要目的就是编写针对第3阶段生成的var-exp、const-exp等expval的解析，算是核心部分，最终的结果的产生地，
+后面的几个阶段只不过是针对这部分内容做了一些前端的准备，算是死门，而这部分和前面的词法解析、类型转换接口算是一个语言的生门部分。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="nf">module</span> <span class="nv">interp</span> <span class="p">(</span><span class="nf">lib</span> <span class="s">&quot;eopl.ss&quot;</span> <span class="s">&quot;eopl&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; interpreter for the LET language.  The \commentboxes are the</span>
+</span><span class='line'>  <span class="c1">;; latex code for inserting the rules into the code in the book.</span>
+</span><span class='line'>  <span class="c1">;; These are too complicated to put here, see the text, sorry.</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">require</span> <span class="s">&quot;drscheme-init.scm&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">require</span> <span class="s">&quot;lang.scm&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">require</span> <span class="s">&quot;data-structures.scm&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">require</span> <span class="s">&quot;environments.scm&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">provide</span> <span class="nv">value-of-program</span> <span class="nv">value-of</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;;;;;;;;;;;;;;;; the interpreter ;;;;;;;;;;;;;;;;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; value-of-program : Program -&gt; ExpVal</span>
+</span><span class='line'>  <span class="c1">;; Page: 71</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">value-of-program</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">pgm</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">cases</span> <span class="nv">program</span> <span class="nv">pgm</span>
+</span><span class='line'>        <span class="p">(</span><span class="nf">a-program</span> <span class="p">(</span><span class="nf">exp1</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">(</span><span class="nf">value-of</span> <span class="nv">exp1</span> <span class="p">(</span><span class="nf">init-env</span><span class="p">))))))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; value-of : Exp * Env -&gt; ExpVal</span>
+</span><span class='line'>  <span class="c1">;; Page: 71</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">value-of</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nb">exp </span><span class="nv">env</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">cases</span> <span class="nv">expression</span> <span class="nv">exp</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">(</span><span class="nf">const-exp</span> <span class="p">(</span><span class="nf">num</span><span class="p">)</span> <span class="p">(</span><span class="nf">num-val</span> <span class="nv">num</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">(</span><span class="nf">var-exp</span> <span class="p">(</span><span class="nf">var</span><span class="p">)</span> <span class="p">(</span><span class="nf">apply-env</span> <span class="nv">env</span> <span class="nv">var</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">(</span><span class="nf">diff-exp</span> <span class="p">(</span><span class="nf">exp1</span> <span class="nv">exp2</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">val1</span> <span class="p">(</span><span class="nf">value-of</span> <span class="nv">exp1</span> <span class="nv">env</span><span class="p">))</span>
+</span><span class='line'>                <span class="p">(</span><span class="nf">val2</span> <span class="p">(</span><span class="nf">value-of</span> <span class="nv">exp2</span> <span class="nv">env</span><span class="p">)))</span>
+</span><span class='line'>            <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">num1</span> <span class="p">(</span><span class="nf">expval-&gt;num</span> <span class="nv">val1</span><span class="p">))</span>
+</span><span class='line'>                  <span class="p">(</span><span class="nf">num2</span> <span class="p">(</span><span class="nf">expval-&gt;num</span> <span class="nv">val2</span><span class="p">)))</span>
+</span><span class='line'>              <span class="p">(</span><span class="nf">num-val</span>
+</span><span class='line'>                <span class="p">(</span><span class="nb">- </span><span class="nv">num1</span> <span class="nv">num2</span><span class="p">)))))</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">(</span><span class="nf">zero?-exp</span> <span class="p">(</span><span class="nf">exp1</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">val1</span> <span class="p">(</span><span class="nf">value-of</span> <span class="nv">exp1</span> <span class="nv">env</span><span class="p">)))</span>
+</span><span class='line'>            <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">num1</span> <span class="p">(</span><span class="nf">expval-&gt;num</span> <span class="nv">val1</span><span class="p">)))</span>
+</span><span class='line'>              <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">zero? </span><span class="nv">num1</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">(</span><span class="nf">bool-val</span> <span class="no">#t</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">(</span><span class="nf">bool-val</span> <span class="no">#f</span><span class="p">)))))</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">(</span><span class="nf">if-exp</span> <span class="p">(</span><span class="nf">exp1</span> <span class="nv">exp2</span> <span class="nv">exp3</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">val1</span> <span class="p">(</span><span class="nf">value-of</span> <span class="nv">exp1</span> <span class="nv">env</span><span class="p">)))</span>
+</span><span class='line'>            <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">expval-&gt;bool</span> <span class="nv">val1</span><span class="p">)</span>
+</span><span class='line'>              <span class="p">(</span><span class="nf">value-of</span> <span class="nv">exp2</span> <span class="nv">env</span><span class="p">)</span>
+</span><span class='line'>              <span class="p">(</span><span class="nf">value-of</span> <span class="nv">exp3</span> <span class="nv">env</span><span class="p">))))</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">(</span><span class="nf">let-exp</span> <span class="p">(</span><span class="nf">var</span> <span class="nv">exp1</span> <span class="nv">body</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">val1</span> <span class="p">(</span><span class="nf">value-of</span> <span class="nv">exp1</span> <span class="nv">env</span><span class="p">)))</span>
+</span><span class='line'>            <span class="p">(</span><span class="nf">value-of</span> <span class="nv">body</span>
+</span><span class='line'>              <span class="p">(</span><span class="nf">extend-env</span> <span class="nv">var</span> <span class="nv">val1</span> <span class="nv">env</span><span class="p">))))</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h3 id="5.5">5.5 初始化</h3>
+
+
+<p>保存为drscheme-init.scm</p>
+
+<p>该阶段主要目的是编写测试需要的套件，提供测试是否成功的判断标准。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="c1">;; drscheme-init.scm - compatibility file for DrScheme</span>
+</span><span class='line'><span class="c1">;; usage: (require &quot;drscheme-init.scm&quot;)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;;; makes structs printable, and provides basic functionality for</span>
+</span><span class='line'><span class="c1">;;; testing.  This includes pretty-printing and tracing.</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="nf">module</span> <span class="nv">drscheme-init</span> <span class="nv">mzscheme</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; show the contents of define-datatype values</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">print-struct</span> <span class="no">#t</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">require</span> <span class="p">(</span><span class="nf">lib</span> <span class="s">&quot;pretty.ss&quot;</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">provide</span> <span class="p">(</span><span class="nf">all-from</span> <span class="p">(</span><span class="nf">lib</span> <span class="s">&quot;pretty.ss&quot;</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">require</span> <span class="p">(</span><span class="nf">lib</span> <span class="s">&quot;trace.ss&quot;</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">provide</span> <span class="p">(</span><span class="nf">all-from</span> <span class="p">(</span><span class="nf">lib</span> <span class="s">&quot;trace.ss&quot;</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">provide</span> <span class="nv">make-parameter</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">provide</span>
+</span><span class='line'>   <span class="nv">run-experiment</span>
+</span><span class='line'>   <span class="nv">run-tests!</span>
+</span><span class='line'>   <span class="nv">stop-after-first-error</span>
+</span><span class='line'>   <span class="nv">run-quietly</span>
+</span><span class='line'>   <span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; safely apply procedure fn to a list of args.</span>
+</span><span class='line'>  <span class="c1">;; if successful, return (cons #t val)</span>
+</span><span class='line'>  <span class="c1">;; if eopl:error is invoked, returns (cons #f string), where string is the</span>
+</span><span class='line'>  <span class="c1">;; format string generated by eopl:error.  If somebody manages to raise a </span>
+</span><span class='line'>  <span class="c1">;; value other than an exception, then the raised value is reported.</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">apply-safely</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">proc</span> <span class="nv">args</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">with-handlers</span> <span class="p">([(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">exn</span><span class="p">)</span> <span class="no">#t</span><span class="p">)</span>      <span class="c1">; catch any error</span>
+</span><span class='line'>                       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">exn</span><span class="p">)</span>          <span class="c1">; evaluate to a failed test result</span>
+</span><span class='line'>                         <span class="p">(</span><span class="nb">cons </span><span class="no">#f</span>
+</span><span class='line'>                               <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">exn?</span> <span class="nv">exn</span><span class="p">)</span>
+</span><span class='line'>                                   <span class="p">(</span><span class="nf">exn-message</span> <span class="nv">exn</span><span class="p">)</span>
+</span><span class='line'>                                   <span class="nv">exn</span><span class="p">)))])</span>
+</span><span class='line'>        <span class="p">(</span><span class="k">let </span><span class="p">([</span><span class="nv">actual</span> <span class="p">(</span><span class="nb">apply </span><span class="nv">proc</span> <span class="nv">args</span><span class="p">)])</span>
+</span><span class='line'>          <span class="p">(</span><span class="nb">cons </span><span class="no">#t</span> <span class="nv">actual</span><span class="p">)))))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; run-experiment :</span>
+</span><span class='line'>  <span class="c1">;;  ((a ...) -&gt; b) * (a ...) * b * (b * b -&gt; bool)</span>
+</span><span class='line'>  <span class="c1">;;  -&gt; (cons bool b)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; usage: (run-experiment fn args correct-answer equal-answer?)</span>
+</span><span class='line'>  <span class="c1">;; Applies fn to args.  Compares the result to correct-answer. </span>
+</span><span class='line'>  <span class="c1">;; Returns (cons bool b) where bool indicates whether the</span>
+</span><span class='line'>  <span class="c1">;; answer is correct.</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">run-experiment</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">fn</span> <span class="nv">args</span> <span class="nv">correct-answer</span> <span class="nv">equal-answer?</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">let*</span>
+</span><span class='line'>          <span class="p">((</span><span class="nf">result</span> <span class="p">(</span><span class="nf">apply-safely</span> <span class="nv">fn</span> <span class="nv">args</span><span class="p">))</span>
+</span><span class='line'>           <span class="c1">;; ans is either the answer or the args to eopl:error</span>
+</span><span class='line'>           <span class="p">(</span><span class="nf">error-thrown?</span> <span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nb">car </span><span class="nv">result</span><span class="p">)))</span>
+</span><span class='line'>           <span class="p">(</span><span class="nf">ans</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">result</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">(</span><span class="nf">cons</span>
+</span><span class='line'>         <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">eqv? </span><span class="nv">correct-answer</span> <span class="ss">&#39;error</span><span class="p">)</span>
+</span><span class='line'>             <span class="nv">error-thrown?</span>
+</span><span class='line'>             <span class="p">(</span><span class="nf">equal-answer?</span> <span class="nv">ans</span> <span class="nv">correct-answer</span><span class="p">))</span>
+</span><span class='line'>         <span class="nv">ans</span><span class="p">))))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">stop-after-first-error</span> <span class="p">(</span><span class="nf">make-parameter</span> <span class="no">#f</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">run-quietly</span> <span class="p">(</span><span class="nf">make-parameter</span> <span class="no">#t</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; run-tests! : (arg -&gt; outcome) * (any * any -&gt; bool) * (list-of test)</span>
+</span><span class='line'>  <span class="c1">;;             -&gt; unspecified</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; where:</span>
+</span><span class='line'>  <span class="c1">;; test ::= (name arg outcome)</span>
+</span><span class='line'>  <span class="c1">;; outcome ::= ERROR | any</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; usage: (run-tests! run-fn equal-answer? tests)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; for each item in tests, apply run-fn to the arg.  Check to see if</span>
+</span><span class='line'>  <span class="c1">;; the outcome is right, comparing values using equal-answer?.</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; print a log of the tests.</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; at the end, print either &quot;no bugs found&quot; or the list of tests</span>
+</span><span class='line'>  <span class="c1">;; failed. </span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; Normally, run-tests! will recover from any error and continue to</span>
+</span><span class='line'>  <span class="c1">;; the end of the test suite.  This behavior can be altered by</span>
+</span><span class='line'>  <span class="c1">;; setting (stop-after-first-error #t).</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">run-tests!</span> <span class="nv">run-fn</span> <span class="nv">equal-answer?</span> <span class="nv">tests</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">tests-failed</span> <span class="o">&#39;</span><span class="p">()))</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">for-each</span>
+</span><span class='line'>       <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">test-item</span><span class="p">)</span>
+</span><span class='line'>         <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">name</span> <span class="p">(</span><span class="nb">car </span><span class="nv">test-item</span><span class="p">))</span>
+</span><span class='line'>               <span class="p">(</span><span class="nf">pgm</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">test-item</span><span class="p">))</span>
+</span><span class='line'>               <span class="p">(</span><span class="nf">correct-answer</span> <span class="p">(</span><span class="nb">caddr </span><span class="nv">test-item</span><span class="p">)))</span>
+</span><span class='line'>           <span class="p">(</span><span class="nf">printf</span> <span class="s">&quot;test: ~a~%&quot;</span> <span class="nv">name</span><span class="p">)</span>
+</span><span class='line'>           <span class="p">(</span><span class="k">let* </span><span class="p">((</span><span class="nf">result</span>
+</span><span class='line'>                   <span class="p">(</span><span class="nf">run-experiment</span>
+</span><span class='line'>           <span class="nv">run-fn</span> <span class="p">(</span><span class="nb">list </span><span class="nv">pgm</span><span class="p">)</span> <span class="nv">correct-answer</span> <span class="nv">equal-answer?</span><span class="p">))</span>
+</span><span class='line'>                  <span class="p">(</span><span class="nf">correct?</span> <span class="p">(</span><span class="nb">car </span><span class="nv">result</span><span class="p">))</span>
+</span><span class='line'>                  <span class="p">(</span><span class="nf">actual-answer</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">result</span><span class="p">)))</span>
+</span><span class='line'>             <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">or</span>
+</span><span class='line'>                   <span class="p">(</span><span class="nb">not </span><span class="nv">correct?</span><span class="p">)</span>
+</span><span class='line'>                   <span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nf">run-quietly</span><span class="p">)))</span>
+</span><span class='line'>               <span class="p">(</span><span class="nf">begin</span>
+</span><span class='line'>                 <span class="p">(</span><span class="nf">printf</span> <span class="s">&quot;~a~%&quot;</span> <span class="nv">pgm</span><span class="p">)</span>
+</span><span class='line'>                 <span class="p">(</span><span class="nf">printf</span> <span class="s">&quot;correct outcome: ~a~%&quot;</span> <span class="nv">correct-answer</span><span class="p">)</span>
+</span><span class='line'>                 <span class="p">(</span><span class="nf">printf</span> <span class="s">&quot;actual outcome:  &quot;</span><span class="p">)</span>
+</span><span class='line'>                 <span class="p">(</span><span class="nf">pretty-display</span> <span class="nv">actual-answer</span><span class="p">)))</span>
+</span><span class='line'>             <span class="p">(</span><span class="k">if </span><span class="nv">correct?</span>
+</span><span class='line'>                 <span class="p">(</span><span class="nf">printf</span> <span class="s">&quot;correct~%~%&quot;</span><span class="p">)</span>
+</span><span class='line'>                 <span class="p">(</span><span class="nf">begin</span>
+</span><span class='line'>                   <span class="p">(</span><span class="nf">printf</span> <span class="s">&quot;incorrect~%~%&quot;</span><span class="p">)</span>
+</span><span class='line'>                   <span class="c1">;; stop on first error if stop-after-first? is set:</span>
+</span><span class='line'>                   <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">stop-after-first-error</span><span class="p">)</span>
+</span><span class='line'>                       <span class="p">(</span><span class="nf">error</span> <span class="nv">name</span> <span class="s">&quot;incorrect outcome detected&quot;</span><span class="p">))</span>
+</span><span class='line'>                   <span class="p">(</span><span class="k">set! </span><span class="nv">tests-failed</span>
+</span><span class='line'>                         <span class="p">(</span><span class="nb">cons </span><span class="nv">name</span> <span class="nv">tests-failed</span><span class="p">)))))))</span>
+</span><span class='line'>       <span class="nv">tests</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">tests-failed</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">(</span><span class="nf">printf</span> <span class="s">&quot;no bugs found~%&quot;</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">(</span><span class="nf">printf</span> <span class="s">&quot;incorrect answers on tests: ~a~%&quot;</span>
+</span><span class='line'>            <span class="p">(</span><span class="nb">reverse </span><span class="nv">tests-failed</span><span class="p">)))))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h3 id="5.6">5.6 测试程序</h3>
+
+
+<p>保存为tests.scm</p>
+
+<p>该阶段的主要目的就是编写测试语句，包括常量、变量、表达式、if、diff、let等语句的使用。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="nf">module</span> <span class="nv">tests</span> <span class="nv">mzscheme</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">provide</span> <span class="nv">test-list</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;;;;;;;;;;;;;;;; tests ;;;;;;;;;;;;;;;;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">test-list</span>
+</span><span class='line'>    <span class="o">&#39;</span><span class="p">(</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">;; simple arithmetic</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">positive-const</span> <span class="s">&quot;11&quot;</span> <span class="mi">11</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">negative-const</span> <span class="s">&quot;-33&quot;</span> <span class="mi">-33</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">simple-arith-1</span> <span class="s">&quot;-(44,33)&quot;</span> <span class="mi">11</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">;; nested arithmetic</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">nested-arith-left</span> <span class="s">&quot;-(-(44,33),22)&quot;</span> <span class="mi">-11</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">nested-arith-right</span> <span class="s">&quot;-(55, -(22,11))&quot;</span> <span class="mi">44</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">;; simple variables</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">test-var-1</span> <span class="s">&quot;x&quot;</span> <span class="mi">10</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">test-var-2</span> <span class="s">&quot;-(x,1)&quot;</span> <span class="mi">9</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">test-var-3</span> <span class="s">&quot;-(1,x)&quot;</span> <span class="mi">-9</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">;; simple unbound variables</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">test-unbound-var-1</span> <span class="s">&quot;foo&quot;</span> <span class="nv">error</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">test-unbound-var-2</span> <span class="s">&quot;-(x,foo)&quot;</span> <span class="nv">error</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">;; simple conditionals</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">if-true</span> <span class="s">&quot;if zero?(0) then 3 else 4&quot;</span> <span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">if-false</span> <span class="s">&quot;if zero?(1) then 3 else 4&quot;</span> <span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">;; test dynamic typechecking</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">no-bool-to-diff-1</span> <span class="s">&quot;-(zero?(0),1)&quot;</span> <span class="nv">error</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">no-bool-to-diff-2</span> <span class="s">&quot;-(1,zero?(0))&quot;</span> <span class="nv">error</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">no-int-to-if</span> <span class="s">&quot;if 1 then 2 else 3&quot;</span> <span class="nv">error</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">;; make sure that the test and both arms get evaluated</span>
+</span><span class='line'>      <span class="c1">;; properly. </span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">if-eval-test-true</span> <span class="s">&quot;if zero?(-(11,11)) then 3 else 4&quot;</span> <span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">if-eval-test-false</span> <span class="s">&quot;if zero?(-(11, 12)) then 3 else 4&quot;</span> <span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">;; and make sure the other arm doesn&#39;t get evaluated.</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">if-eval-test-true-2</span> <span class="s">&quot;if zero?(-(11, 11)) then 3 else foo&quot;</span> <span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">if-eval-test-false-2</span> <span class="s">&quot;if zero?(-(11,12)) then foo else 4&quot;</span> <span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">;; simple let</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">simple-let-1</span> <span class="s">&quot;let x = 3 in x&quot;</span> <span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">;; make sure the body and rhs get evaluated</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">eval-let-body</span> <span class="s">&quot;let x = 3 in -(x,1)&quot;</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">eval-let-rhs</span> <span class="s">&quot;let x = -(4,1) in -(x,1)&quot;</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">;; check nested let and shadowing</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">simple-nested-let</span> <span class="s">&quot;let x = 3 in let y = 4 in -(x,y)&quot;</span> <span class="mi">-1</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">check-shadowing-in-body</span> <span class="s">&quot;let x = 3 in let x = 4 in x&quot;</span> <span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">check-shadowing-in-rhs</span> <span class="s">&quot;let x = 3 in let x = -(x,1) in x&quot;</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">))</span>
+</span><span class='line'>  <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h3 id="5.7">5.7 前端封装测试</h3>
+
+
+<p>保存为top.scm</p>
+
+<p>该阶段的目的就是测试这个新的解释器语言到底有没有用？他是否能够解释从tests中导入的
+程序片段？是否测试通过。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="nf">module</span> <span class="nv">top</span> <span class="p">(</span><span class="nf">lib</span> <span class="s">&quot;eopl.ss&quot;</span> <span class="s">&quot;eopl&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; top level module.  Loads all required pieces.</span>
+</span><span class='line'>  <span class="c1">;; Run the test suite with (run-all).</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">require</span> <span class="s">&quot;drscheme-init.scm&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">require</span> <span class="s">&quot;data-structures.scm&quot;</span><span class="p">)</span>  <span class="c1">; for expval constructors</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">require</span> <span class="s">&quot;lang.scm&quot;</span><span class="p">)</span>             <span class="c1">; for scan&amp;parse</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">require</span> <span class="s">&quot;interp.scm&quot;</span><span class="p">)</span>           <span class="c1">; for value-of-program</span>
+</span><span class='line'>  <span class="p">(</span><span class="nf">require</span> <span class="s">&quot;tests.scm&quot;</span><span class="p">)</span>            <span class="c1">; for test-list</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; since this is the top-level module, we don&#39;t really need to</span>
+</span><span class='line'>  <span class="c1">;; provide anything, but we do so just in case.  </span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">provide</span> <span class="nv">run</span> <span class="nv">run-all</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="nf">provide</span> <span class="nv">test-all</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">test-all</span><span class="p">)</span> <span class="p">(</span><span class="nf">run-all</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; here are some other things that could be provided:</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;;   (provide (all-defined-out))</span>
+</span><span class='line'>  <span class="c1">;;   (provide (all-from &quot;interp.scm&quot;))</span>
+</span><span class='line'>  <span class="c1">;;   (provide (all-from &quot;lang.scm&quot;))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;;;;;;;;;;;;;;;; interface to test harness ;;;;;;;;;;;;;;;;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; run : String -&gt; ExpVal</span>
+</span><span class='line'>  <span class="c1">;; Page: 71</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">run</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">string</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">value-of-program</span> <span class="p">(</span><span class="nf">scan&amp;parse</span> <span class="nv">string</span><span class="p">))))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; run-all : () -&gt; unspecified</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; runs all the tests in test-list, comparing the results with</span>
+</span><span class='line'>  <span class="c1">;; equal-answer?  </span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">run-all</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">()</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">run-tests!</span> <span class="nv">run</span> <span class="nv">equal-answer?</span> <span class="nv">test-list</span><span class="p">)))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">equal-answer?</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">ans</span> <span class="nv">correct-ans</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nb">equal? </span><span class="nv">ans</span> <span class="p">(</span><span class="nf">sloppy-&gt;expval</span> <span class="nv">correct-ans</span><span class="p">))))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">sloppy-&gt;expval</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">sloppy-val</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="nf">cond</span>
+</span><span class='line'>        <span class="p">((</span><span class="nb">number? </span><span class="nv">sloppy-val</span><span class="p">)</span> <span class="p">(</span><span class="nf">num-val</span> <span class="nv">sloppy-val</span><span class="p">))</span>
+</span><span class='line'>        <span class="p">((</span><span class="nb">boolean? </span><span class="nv">sloppy-val</span><span class="p">)</span> <span class="p">(</span><span class="nf">bool-val</span> <span class="nv">sloppy-val</span><span class="p">))</span>
+</span><span class='line'>        <span class="p">(</span><span class="nf">else</span>
+</span><span class='line'>         <span class="p">(</span><span class="nf">eopl:error</span> <span class="ss">&#39;sloppy-&gt;expval</span>
+</span><span class='line'>                     <span class="s">&quot;Can&#39;t convert sloppy value to expval: ~s&quot;</span>
+</span><span class='line'>                     <span class="nv">sloppy-val</span><span class="p">)))))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; run-one : symbol -&gt; expval</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; (run-one sym) runs the test whose name is sym</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">(</span><span class="k">define </span><span class="nv">run-one</span>
+</span><span class='line'>    <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">test-name</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">the-test</span> <span class="p">(</span><span class="nb">assoc </span><span class="nv">test-name</span> <span class="nv">test-list</span><span class="p">)))</span>
+</span><span class='line'>        <span class="p">(</span><span class="nf">cond</span>
+</span><span class='line'>          <span class="p">((</span><span class="nb">assoc </span><span class="nv">test-name</span> <span class="nv">test-list</span><span class="p">)</span>
+</span><span class='line'>           <span class="k">=&gt; </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">test</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">(</span><span class="nf">run</span> <span class="p">(</span><span class="nb">cadr </span><span class="nv">test</span><span class="p">))))</span>
+</span><span class='line'>          <span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">eopl:error</span> <span class="ss">&#39;run-one</span> <span class="s">&quot;no such test: ~s&quot;</span> <span class="nv">test-name</span><span class="p">))))))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">;; (run-all)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<hr />
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2016/02/25/first-interpreter-from-eopl/'>http://jueqingsizhe66.github.io/blog/2016/02/25/first-interpreter-from-eopl/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-02-25T11:20:09+08:00" pubdate data-updated="true">Feb 25<span>th</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/scheme/'>scheme</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/24/chicago-really-only-has-7-characters/" title="Previous Post: Chicago really only has 7 characters?">&laquo; Chicago really only has 7 characters?</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/26/some-notations-in-the-design-of-the-language/" title="Next Post: Some notations in the design of the language">Some notations in the design of the language &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><div class="ds-thread" > </div>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"f708708"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+  <p><img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> <!--不是他的原因-->
+ <!--而是yellow的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (3)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (22)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (3)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (18)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/physics-and-maths/">Physics and Maths</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/jump-out-of-ontology/">Jump Out of Ontology</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/machine-learning-some-search-record/">Machine Learning Some Search Record</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/graphviz-notebook/">Graphviz Notebook</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="1" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+
+</section>
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2016/02/25/first-interpreter-from-eopl/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2016/02/25/first-interpreter-from-eopl/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

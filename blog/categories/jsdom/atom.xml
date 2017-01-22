@@ -1,0 +1,2391 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: JSDom | 网络书屋(Web Reading Room)]]></title>
+  <link href="http://jueqingsizhe66.github.io/blog/categories/jsdom/atom.xml" rel="self"/>
+  <link href="http://jueqingsizhe66.github.io/"/>
+  <updated>2017-01-22T12:24:26+08:00</updated>
+  <id>http://jueqingsizhe66.github.io/</id>
+  <author>
+    <name><![CDATA[Ye Zhaoliang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[March15th]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/05/11/march15th/"/>
+    <updated>2015-05-11T14:58:44+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/05/11/march15th</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<p>一、练习总结</p>
+
+<pre><code>    1.利用jq插入节点有4个一致性很强的： append，prepend，after，before。其中append和prepend都是对于子节点的添加。after和befor是对于兄弟节点的添加。
+    2.ChildNode和Childen是不同的，因为ChildNode会把空格远算进去。那么Each遍历的是啥？
+    3.对于“：”不要乱用。要明确到底有哪些!
+    4.对于 ：什么的，都是起到一个修饰作用。
+    5. :even 是选择偶数  :odd是选择奇数  :eq(index)   :gt(index)   :lt(index)   关于gt理解是greate than 是大于，less than是小于。:not
+    6.Jq的索引是从0开始的。
+    7.子节点的事件会传递给父节点!？这个叫做事件冒泡.不懂。
+    8.对于冒号修饰符的使用，可以重复多个配合一起使用：比如。$("table:first  tr:even").css("background", "#ffaacc");
+    9.change是在文本域丢失焦点的时候才会触发的。
+    10.关于 $("ul li") 和 $("ul&gt;li")是不同的，前者的空格表示的是后台元素，而大于号表示的子代元素。后代元素是包括了子代孙元素的。而子代元素只有子代。
+    11.空格不要乱打!空格表示的是后代，不要忽略这个问题了。
+</code></pre>
+
+<p>一、前端知识</p>
+
+<pre><code>    1.Javascript刷新页面的几种方法：
+            1）  history.go(0) 
+            2）  location.reload() 
+            3)     location=location 
+            4)     location.assign(location) 
+            5)     document.execCommand('Refresh') 
+            6)     window.navigate(location) 
+            7）  location.replace(location) 
+            8） document.URL=location.href 
+            说明一下，jQuery没有发现刷新页面的方法。
+    2.remove() detach()都有移除的作用，且他们返回值都是这个被移除的对象。如果重新将这个添加上去，remove绑定的事件会消失，而detach的不会消失。
+    3.empty() 是清空所有的后台节点。
+    4.warp()是包裹的：ex $("#city").wrap("&lt;strong&gt;&lt;/strong&gt;");
+    5.clone()是克隆的意思，如果添加了true表示克隆事件，如果不加true只克隆外形不克隆事件。
+    6.repalceWith()，replaceAll()2个repalce方法是替换，需要注意的，一旦替换，之前的元素会消失。
+    7.关于val()和text()区别。对于input这种单标签而言，val()就是他们的值，对于&lt;li&gt;或者&lt;p&gt;这种双标签而言就是用text()。
+            注意了input的文本框的值是value。
+    8.对于focus和blur都是在刚触发事件的某一个时候触发的事件。
+    9.next()，pre()，siblings()，三个都是获取同辈元素。next是之后的，pre是之前的，sibling()是获取所有的同辈元素。
+    10.(selector).each(function(){     ....       });
+    11.$(selector).children(".bb")这个就是选出selector子节点中符合要求：类名为bb的所有节点。
+    12.window.onload 是在Dom加载完毕且关联元素加载完毕后才执行。而$(document).ready()是在DOM加载完毕后就执行，效率更高。
+    13.window.onload只执行一次，$(document).ready()执行多次。
+    14.JQ的事件比起JS来说，少了on这个2个前缀。
+    15.这2个状态不能记忆混淆了  :hiden :visible  一个是隐藏，一个是可见。 hide()   visible()
+    16.链式编程为同一个元素添加不同状态的方法可以分开写，也可以使用bind来把绑定不停形态下的方法，当然还有更简单的方法   
+     $("#panel .head").mouseover(function () { }).mouseleave(function () { });  
+    17.("selector").toggle(fun1,fun2,fun3,...);用于模拟在这个selector上的鼠标单击事件。表示的是这个对于这个selecor依次点击 会触发事件f1,f2,f3...触发完毕后会从头开始轮询。
+    18.return false 比 event.stopPropagation() 和 event.preventDefault()更好用。可以代替这2个。
+    19.事件冒泡是因为从小到大，都有某一个相同的事件被触发，会从里到外依次触发。
+    20.事件捕获和事件冒泡是一个相反的过程，捕获是从外到内，冒泡是从内到外。
+</code></pre>
+
+<p>一、JQ学习</p>
+
+<pre><code>    1.$(selector).bind(funName1,func1).bind(funName2,func2)... 这种写法不方便，JQ提供了一套简写的机制：$(selector).fucName1(func1).funName2(func2)
+    2.可以为一个selector绑定多个事件。
+    3.对于状态判定可以使用  $(selector).is(":visible")   注意了：visible 是可见的。
+    4.在this的写方法，又犯了一个经典错误：   $(this) 才是正确的。但是 $("this")就是错误的。this的理解应该是触发这个事件的对象。
+    5.JQ有2个合成事件，一个是hover一个是toggle，其中hover是鼠标的enter和leave，其写法为  $(selector).hover(enter,leave)
+            还有一个是toggle(fun1,fun2...)这个是模拟鼠标点击事件。
+    6.当某一个对象要解绑某个事件的时候，可以使用：  $(selector).unbind(funcName) 或者 $(selector).unbind() ，前者解绑某一个方法，后者解绑所有的方法。
+    7.one(funcName,func) 用在触发一次的事件上。
+    8.JQ中的动画有hide()和show()，要实现动画效果，括号中需要给毫秒为单位的值，就可以实现动画效果了。
+    9.fadeIn()和fadeOut()可以改变不透明度。括号中同样可以给出参数，fadeIn是慢慢显示，fadeOut是慢慢消失。
+    10.slideUp()，slideDown()分别是改变所选的宽度。
+    11.   :checked 被选中和  checked="checked"是有区别的。个人理解：被选中不一定会有checked="checked" 但是一定可以通过状态 :checked 来获取。
+    12.总结 ：对于要获取处于某个状态的元素，可以使用  :状态   来获取。
+    13.对于使用多个属性来取值，可以使用  $("selector[id=123][name=lcf]")
+    14.JQ中支持在Childen(":checked")来选取子元素中被选取了的元素。
+    15.JQ中，只有要括号，就可以在括号里面写筛选条件。
+    16.对于利用Jq添加上去的东西，可以为其添加一个id获取class，方便进行处理。
+    17.JQ中移除替换都会删除以前的元素。
+    18.$(selector).toggle 用于切换状态，当前显示就变成隐藏，当前隐藏就是变成显示。
+    19.$(selector).toggleClass("className")如果当前选择的有这个类就删除，没有就添加。
+
+
+
+    1.思考：要想实现Jquery这样的“链式编程”那么每个方法的返回值就应该是调用者本身，即return  this.
+    2.导入Jqeruy的时候，特别注意了，要有2个script，第一个script是利用src导入jquery的文件，不要在里面写jquery代码。第二个写script才开始写jquery代码。
+    3.Jqeruy中是可以有多个 $(document).ready(function(){.....});
+    4.如果某个函数在页面加载完了就执行了，考虑这个函数是不是没有放在括号里面的function(){写在这里};
+    5.Jqeruy中的事件和JS中不一样：
+            onClikc ---click
+    6.Jquery中事件的函数是写在里面的，比如规范写法如下：
+             $("#bj").click(function () {
+            alert("HH");
+        });
+       这个时候如果写成这样：
+        $("#bj").click(alert("HH"));
+        表示的意思就不一样了，这个就是说函数执行到这个地方就开始执行。而且没有绑定函数。
+    7.如果子元素为当前的this，那么next是父元素的下一个，而不是子元素的!？
+    8.再次强调，this是Dom对象，在Jquery使用的时候，要转换为Jquery对象$(this)
+    9.对于某个属性赋值或者获取值使用的是  attr("name","lcf")  或者 var myName=attr("name")
+    10.判断2个字符串相等使用的是==，且支持三目运算符。
+    11.JS中变量的类型：boolean 字符串  数值类型。
+</code></pre>
+
+<p>四、练习总结二</p>
+
+<pre><code>    1.Jquery中属性可以通过[ name=bb]  来匹配，也可以通过  .attr("bb") 来获取，同时 .attr("bb","love")来赋值;。
+    2.操作文本节点可以通过文本节点的父节点来操作。比如&lt;p id="mm"&gt;我爱你&lt;/p&gt;。通过id为mm获取到p然后text()就可以了。
+    3.在html中标签就是元素，元素就是标签，完全可以这么理解。
+    4.对于属性的操作可以使用attr来，如果要取值使用    $("#bb").attr("value") 可以获取id为bb的value值。如果要赋值  $("#bb").attr("value","我爱你");
+    5.对于value更有更简单的操作就是 val()。上面的等价于  $("#bb").val("123")这个赋值                 $("#bb").val();这个取值。
+    6.append是在被选定节点的内部添加上XXX，prepend是在某个元素前（仍然在内部）添加子节点。
+    7.after和append添加方式和6的append和prepend相同，但是这2个添加的是兄弟节点。
+    8.关于6和7，如果我们要添加一个东西就直接写就是了，比如：   $("#bj").after("&lt;li&gt;成都&lt;/li&gt;"); 这种形式。
+</code></pre>
+
+<p>1.对于JS来说，在Web中，最重要的应用之一就是DOM。</p>
+
+<pre><code>    2.Dom是针对HTML和XML操作的一个API。
+    3.Dom将一个文档表示为一颗家族树（父，兄，子 节点）
+    4.几个常用的API。
+            getElementById 只能用document来使用，通过id查找一个节点。
+            getElementsByTagName  返回的是一个数组，通过指定的标签名去寻找，不必作用于整个文档。
+            hasChildNodes 调用的节点是否含有子节点。
+    5.Dom中的节点有文本节点（Text），属性节点（Attribute），元素节点（Element）。
+    6.以上3类节点中，都有如下属性：
+            nodeName：只读，标识的是给定节点的名字，该节点为只读属性。对于文本节点返回的是 #text 的字符串。
+            noteType：只读，返回值为int，标识节点的类型。元素节点 1，属性节点 2，文本节点 3。（从小到大的记忆顺序）
+            nodeValue: 可读，可写。返回当前节点的值，属性节点返回属性的值，文本节点返回文本的值，元素节点啥都没有。
+    7.Dom中常用方法：
+            replaceChild()：返回值是一个指向新的或者旧的节点。（？）作用是吧一个父元素中的子节点替换为另外一个子节点。
+                    ex:        var reference = element.replaceChild(newChild,oldChild);
+            getAttribute(): 返回的是指定元素的给凌属性的值。
+                    ex:        var attributeValue = element.getAttribute(attributeName);
+            setAttribute(key,value)：为指定的元素添加某个属性，如果此属性已经存在就刷新，如果不存在就添加。
+                    ex:      var para = document.createElement(“p”);           para.setAttribute(“id”,”fineprint”);
+            createElement(eleName):通过指定的标签名字来创建一个元素节点。这个新创建的节点没实际添加到某个节点上。
+                    ex:        var oP = document.createElement("p");
+            createTextNode()：创建一个包含指定文本的文本节点。返回值为一个指向新建文本节点的指针。
+                    ex: var oText=document.createTextNode("HEllo world");
+            appendChild()：为指定的元素添加一个节点到最后一个节点后。
+            insertBefore()：在指定的节点前面添加。
+                    ex:        var reference = element.insertBefore(newNode,targetNode);
+                    注：Dom没有提供insertAfter()方法：就是在插入节点的下一个节点之前添加，就是在指定节点的前面添加。
+            removeChild()：在指定节点中的子节点删除一个节点。
+                    注：一定要是父节点去调用然后括号里面是自己点。
+                    ex： var message = document.getElementById(“fineprint”);
+                                    var container = message.parentNode;
+                                    container.removeChild(message);
+    8.Dom中常用属性
+            ChildNodes：返回的是指定父节点的所有子节点。
+                    注：文本节点和属性节点，肯定不含有子节点了，如果调用这个属性，会返回空数组。
+            firstChild:返回的是指定元素的第一个子节点。
+                    ex:node.ChileNodes[0]和firstChild 是相同的。
+            lastChild:和first想法，最后一个。
+            nextSibling：指定节点的下一个子节点。
+            previousSibling:指定节点的上一个子节点。
+            parentNode：返回的是指定节点的父节点。
+</code></pre>
+
+<p>二、JavaScript练习总结</p>
+
+<pre><code>    1.window.onload=function(){...}表示的是在页面加载完成后便开始运行。
+    2.node.insertBefor(new node,null)。这样调用就可以在指定的前面添加了!
+    3.如果网页乱码，可以在&lt;head&gt;&lt;/head&gt;之间加上：  &lt;meta http-equiv="content-type" content="text/html; charset=utf-8"/&gt;
+    4.特别说明：insertBefor这个方法。3个参数：  paraentNode.insertBefor(newNode,childNodeInParaNode);
+            就是说哪个Node来调用insertBefore方法就是在那个Node的子节点中插入，其中第一个参数是要插入的节点，第二个参数是自己点中要在哪个指定的子元素前面。
+            注：第二个节点可是是null，就表示在最后添加，同AppendChild。特别注意了。
+    5.getElementByTagName("标签")，这个里面输入的是HTML的标签。
+    6.对于元素节点的nodeName，其返回值永远是大小的标签。
+    7.忘记nodeValue吧，使用value就够了，前面的需要区分下。
+    8.value这个属性可读可写。
+    9.对于使用firstChild和lastChild不是我们所见的第一个。这个特别注意了。
+    10.通常来说firstNode和lastNode获取的是文本节点。
+    11.对于文本节点，如果要设置他的值，需要使用nodeValue而不是value。比如说firstChild和lastChild获取的都是属于文本节点。
+    12.为某一个节点添加 可以使用innderHtml也可以使用 创建一个TextNode然后添加到某个节点上去。
+    13.对于replaceChild，parentNode.replaceChild(newChild，childInParane).这个方法的作用是父节点调用替换某个子节点，第一个节点一般都是新的节点，第二个节点
+    14.几个不加括号的地方:
+            window.onload=function myFunc(){...}
+    15.在JS中，方法带了括号表示运行。
+
+1.Jquery是对JavaScript进行封装后的库，其主旨是“写的少，做的多”
+    2.在Jquery中Jquery是一个顶级对象，所有的方法都在这个对象下，且 $ 是这个方法的别名。
+    3.Dom对象和Jqeruy对象是不同的，只有Jquery对象才能调用Jquery的方法，Dom对象不可以。
+    4.Jquery的对象在形式上用 $开头比如   var   $node=$("button");
+    5.Jqeruy对象转Dom对象一般通过下标来获取，比如   var  firstNode=$node[0];或者  var  secodNode=$node.get[0];
+    6.Dom对象转Jquery对象  就是在Dom对象前面加上$就行了，比如说:   var  $node =$(document.getElementById("ok"));
+    7.this永远是Dom对象而$(this)
+    8.Jqery的选择器：
+            id选择器  #id         ${"#idName"}
+            class选择器  .class        ${".className"}
+            所有元素选择器  ${elementName}    ${"p"}
+    8.选择器是Jquery的基础，以下为基本的选择器 #为id选择器  .为类选择器  $("div") 是所有的名为div的选择器， $("*")是选择的所有。
+    9.层次选择器:        
+            $("body   div")：选取的是body里面的div，包括子元素中的子元素。
+            $("body &gt; div")： 选取的是body子元素中的div        特别注意：这个选取的才是子元素,而且子元素中所有的。
+            $(".one + div")：选取的是class为one的兄弟节点中下一个div。
+            $(".one ~ div")： 选取的是class为one后面的所有的div   推荐写法                  $(".one").next("div")  
+            注：对于第一个 选取的是body下面的所有div就是依次遍历所有的div。而第二是选取的body下面的第一层子元素的div。
+    10.基本过滤器中有3个很重要：
+            $("div:first")：div中第一个节点。
+            $("div:last")：div中最后一个节点。
+            $(":focus")：当前正在focus的。
+            $(":animate"):当前正在运行的。
+    11.几个内容过滤器：
+            $("div:contains(txt)")：div下内容包含txt的所有，不仅仅是第一个。
+            $("div:empty"):div下内容为empty的
+    12.属性过滤器
+            $(div[tille=bb]):选取div下有属性名为title，值为bb的元素。
+            $(div[title]):选取含有title属性的元素。
+            $(div[title]*=bb):选取div下属性值title中带有bb的元素。
+            $(div[title]^=bb):选取div下属性为title以bb开头的元素。
+            $(div[title]$=bb):选取div下title属性以bb结尾的元素。
+</code></pre>
+
+<p>多个时间段的笔记，未整理，周末抽空整理!
+一、复习DOM</p>
+
+<pre><code>    1.对于JS来说，在Web中，最重要的应用之一就是DOM。
+    2.Dom是针对HTML和XML操作的一个API。
+    3.Dom将一个文档表示为一颗家族树（父，兄，子 节点）
+    4.几个常用的API。
+            getElementById 只能用document来使用，通过id查找一个节点。
+            getElementsByTagName  返回的是一个数组，通过指定的标签名去寻找，不必作用于整个文档。
+            hasChildNodes 调用的节点是否含有子节点。
+    5.Dom中的节点有文本节点（Text），属性节点（Attribute），元素节点（Element）。
+    6.以上3类节点中，都有如下属性：
+            nodeName：只读，标识的是给定节点的名字，该节点为只读属性。对于文本节点返回的是 #text 的字符串。
+            noteType：只读，返回值为int，标识节点的类型。元素节点 1，属性节点 2，文本节点 3。（从小到大的记忆顺序）
+            nodeValue: 可读，可写。返回当前节点的值，属性节点返回属性的值，文本节点返回文本的值，元素节点啥都没有。
+    7.Dom中常用方法：
+            replaceChild()：返回值是一个指向新的或者旧的节点。（？）作用是吧一个父元素中的子节点替换为另外一个子节点。
+                    ex:        var reference = element.replaceChild(newChild,oldChild);
+            getAttribute(): 返回的是指定元素的给凌属性的值。
+                    ex:        var attributeValue = element.getAttribute(attributeName);
+            setAttribute(key,value)：为指定的元素添加某个属性，如果此属性已经存在就刷新，如果不存在就添加。
+                    ex:      var para = document.createElement(“p”);           para.setAttribute(“id”,”fineprint”);
+            createElement(eleName):通过指定的标签名字来创建一个元素节点。这个新创建的节点没实际添加到某个节点上。
+                    ex:        var oP = document.createElement("p");
+            createTextNode()：创建一个包含指定文本的文本节点。返回值为一个指向新建文本节点的指针。
+                    ex: var oText=document.createTextNode("HEllo world");
+            appendChild()：为指定的元素添加一个节点到最后一个节点后。
+            insertBefore()：在指定的节点前面添加。
+                    ex:        var reference = element.insertBefore(newNode,targetNode);
+                    注：Dom没有提供insertAfter()方法：就是在插入节点的下一个节点之前添加，就是在指定节点的前面添加。
+            removeChild()：在指定节点中的子节点删除一个节点。
+                    注：一定要是父节点去调用然后括号里面是自己点。
+                    ex： var message = document.getElementById(“fineprint”);
+                                    var container = message.parentNode;
+                                    container.removeChild(message);
+    8.Dom中常用属性
+            ChildNodes：返回的是指定父节点的所有子节点。
+                    注：文本节点和属性节点，肯定不含有子节点了，如果调用这个属性，会返回空数组。
+            firstChild:返回的是指定元素的第一个子节点。
+                    ex:node.ChileNodes[0]和firstChild 是相同的。
+            lastChild:和first想法，最后一个。
+            nextSibling：指定节点的下一个子节点。
+            previousSibling:指定节点的上一个子节点。
+            parentNode：返回的是指定节点的父节点。
+</code></pre>
+
+<p>二、JavaScript练习总结</p>
+
+<pre><code>    1.window.onload=function(){...}表示的是在页面加载完成后便开始运行。
+    2.node.insertBefor(new node,null)。这样调用就可以在指定的前面添加了!
+    3.如果网页乱码，可以在&lt;head&gt;&lt;/head&gt;之间加上：  &lt;meta http-equiv="content-type" content="text/html; charset=utf-8"/&gt;
+    4.特别说明：insertBefor这个方法。3个参数：  paraentNode.insertBefor(newNode,childNodeInParaNode);
+            就是说哪个Node来调用insertBefore方法就是在那个Node的子节点中插入，其中第一个参数是要插入的节点，第二个参数是自己点中要在哪个指定的子元素前面。
+            注：第二个节点可是是null，就表示在最后添加，同AppendChild。特别注意了。
+    5.getElementByTagName("标签")，这个里面输入的是HTML的标签。
+    6.对于元素节点的nodeName，其返回值永远是大小的标签。
+    7.忘记nodeValue吧，使用value就够了，前面的需要区分下。
+    8.value这个属性可读可写。
+    9.对于使用firstChild和lastChild不是我们所见的第一个。这个特别注意了。
+    10.通常来说firstNode和lastNode获取的是文本节点。
+    11.对于文本节点，如果要设置他的值，需要使用nodeValue而不是value。比如说firstChild和lastChild获取的都是属于文本节点。
+    12.为某一个节点添加 可以使用innderHtml也可以使用 创建一个TextNode然后添加到某个节点上去。
+    13.对于replaceChild，parentNode.replaceChild(newChild，childInParane).这个方法的作用是父节点调用替换某个子节点，第一个节点一般都是新的节点，第二个节点
+    14.几个不加括号的地方:
+            window.onload=function myFunc(){...}
+    15.在JS中，方法带了括号表示运行。
+</code></pre>
+
+<p>一、JS基础细节</p>
+
+<pre><code>    1.JS如果写在内部，通常推荐写在head的title下面。
+    2.window.onload=function(){...}是在整个文档DOM树加载完毕后触发的函数。
+    3.获取元素而言，最常用的3个方式 byId，byTagName，byName。前两者最常用。
+    4.通常来说，找节点，常用的方法是 firstChild或者lastChild和byTagName3个方法，其他的方法比如ChildNodes不常用。
+    5.（重点）对于一个方法，后面没有加括号的方法，被调用是只可能是情况允许了，被触发了。一个方法一旦加了括号表示的就是马上调用这个方法。
+    6.对于for循环为每一个节点赋值的情况，这样的东西没有反应解释：
+            for(i=0;i&lt;nodes.length;i++){
+                    nodes[i].onclick=function(){
+                            alert(nodes[i].nodeValue);    //改成  alert(this.nodeValue);
+                    }
+            }
+            结合第5点来理解，先是赋值然后才是应用。对于这个方法alert()而言，中间的过程是OK的，但是到了最后i在不停的增加，知道i等于了length。alert的成了这个不存在的最大的value了，就错了。
+            先是指向，然后点击了才会触发。
+    7.整个项目的window.onload只能有一个。Jquery没有这个限制。
+    8.每一个节点都有3个属性，nodeName,nodeType,nodeValue。
+    9.说明： 对于 &lt;li name="myName" id="nameId"&gt;BB&lt;/li&gt; 这一句代码中就包括了3个节点：文本节点BB 元素节点&lt;li&gt; 属性节点 id和name.
+    10.获取节点的方式有3种，byId，byTagName，byName。对于子节点有3种方式firstChildNode，lastChildNode，byTagName
+    11.对于以下代码：
+            &lt;ul id="city"&gt;                                                                                                                                                                     &lt;ul id="city2"&gt;&lt;li&gt;北京&lt;/li&gt;&lt;/ul&gt;
+                    &lt;li&gt;北京&lt;/li&gt;
+            &lt;/ul&gt;
+            第一种的firstChild获取到的是一个文本节点，而且这个文本节点是空的。第二获取到的就是元素节点就是li这个节点。所以对于HTML来说换行与否还是很有必要的。
+    12.（重要。）文本节点一定是元素节点的子节点。
+    13.对于文本节点的赋值使用nodeValue。nodeType，元素为1，属性为2，文本节点为3.
+    14.value通常对于属性节点而言，他的值。而nodeValue对于文本节点的值。
+    15.常用的JS事件，onclick、onchange
+</code></pre>
+
+<p>一、复习JS</p>
+
+<pre><code>    1.对于HTML 的DOM而言，最上面的Document文档节点，最上层节点。Text文本节点，Element元素节点，Attribute属性节点。
+    2.文本节点一定是元素的子节点。
+    3.再次理解：对于匿名函数，如果要马上执行，是需要在后面写上一个括号的。对于非匿名函数，比如说对于一个button的onclick="Run"和onclick="Run()"意思是不同的，前者是说在onclick这个事件触发后，将要执行的动作指向Run这个方法。后者是说在onclick事件触发后运行Run这个方法。
+    4.css在前，javascript在后，尽量不阻塞！因为浏览器解析是从上到下依次加载的，一旦遇到script标签，就会停止加载后面的，先对JavaScript脚本文件进行加载和运行。
+    5.return false 可以阻断JS代码的运行，return也是可以的。（？区别？）
+    6.关于事件冒泡不懂。。。
+    7.关于createTextNode()然后Xnode.append进去和Xnode.innerHtml="XX" 是不是不懂的。
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JSDOM7-13节笔记代码March31th]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/05/11/jsdom7-13jie-bi-ji-dai-ma-march31th/"/>
+    <updated>2015-05-11T14:58:44+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/05/11/jsdom7-13jie-bi-ji-dai-ma-march31th</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<p>连接到前文JavaScript 7-11节笔记代码</p>
+
+<p>8: 注册和调用的不同：
+注册
+  Onclick=function(){}; //匿名函数的注册行为
+  Onclick=ff;
+调用
+   Onclick=ff();</p>
+
+<p>9:计时器
+setInterval反复性计时器（随着一定时间之后 再跳出来）</p>
+
+<p><code>javascript
+Var setId=setInterval(function()
+{
+Alert(‘你名函数’);
+}，1000);
+clearInterval(setId);
+setTimeout一次性计时器：
+Var setID= setTimeOut(function()
+{
+Alert(‘这是一次性计时器’);
+},1000);
+clearTimeOut(setId);
+</code></p>
+
+<p>计时器小案例1：</p>
+
+<p>```javascript
+onload=function()
+{</p>
+
+<pre><code>    var i = 10;
+    setIntervar(function()
+        {
+           i--;
+           var btnObj=document.getElementById('btn');//获得btn对象
+           btnObj.value=i;//设置该对象的value值即可！
+        },1000);
+</code></pre>
+
+<p>}
+```</p>
+
+<p>经这么一写：</p>
+
+<p>规律：所有的标签都可以有id-value对 或者name-value对象 或者class-value对</p>
+
+<pre><code>      完全可以通过document对象获得所有的标签元素的id，name,class进行对应标签内容的设置
+</code></pre>
+
+<p>计时器小案例2：
+//跑马灯效果</p>
+
+<p>```javascript
+setIntervale(function()</p>
+
+<pre><code>{
+    var tt=document.title;
+    document.title = tt.substring(1)+tt.substr(0,1); //1-尾部  + 0-1的字符
+</code></pre>
+
+<p>},1000 );
+```</p>
+
+<p>10 页面加载事件（3个）
+前面接触最多的就是onload ,另外还有onunload,onbeforeload
+Onload:页面加载后触发
+Onunload 页面退出后触发
+Onbeforeunload: 页面关闭之前触发（发表帖子 和   你确定退出？）</p>
+
+<p>11 刷新后，返回的页面
+回顾window.location.href(‘www.baidu.com’); 类似于window.navigaete(‘’)</p>
+
+<p>12 Document.write的两个作用
+动态的创建控件(但是只能在页面加载时候动态创建  ) 但是有一个缺点：在IE中会删掉之前的控件标签，在源代码浏览时候，发现原先的标签都没有了
+镶嵌广告</p>
+
+<p>1.打开 news.baidu.com/newscode<br/>
+输入关键字获得新闻的代码
+2.复制代码
+代码包含两个部分：
+样式部分：</p>
+
+<p>```css</p>
+
+
+
+<p>```
+Js脚本部分：</p>
+
+<p>```html</p>
+
+<script language="JavaScript" type="text/JavaScript" src="http://news.baidu.com/ns?word=title%3A%E9%A3%8E%E5%8A%9B%E5%8F%91%E7%94%B5&tn=newsfcu&from=news&cl=2&rn=5&ct=0"></script>
+
+
+<p>```</p>
+
+<p>说明src其实就是document.write的实现！！但是为什么？原理暂时不知道</p>
+
+<p>查询src里面内容的方式：
+1：notepad
+2：open-?黏贴进 src的地址
+3： 就可以在记事本看到src所代表的新闻内容，他其实就是document.write()的内容！为了保证百度更新新闻的时候他也能更新新闻，所以采用这种document.write()来实现</p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;script type="text/javascript"&gt;
+  onload=function()
+  {
+    //第一个功能动态加载控件标签  但是在IE中会使其他的控件消失
+    //d当然这边加载 会把原先的页面的控件给隐藏掉！！
+</code></pre>
+
+<p>//        document.write(&lsquo;<Font color="red" size="6">Today is </font>&rsquo;);
+//       document.write(&lsquo;<Input type="button" value="click me"\>&rsquo;);</p>
+
+<pre><code>  }
+  &lt;/script&gt;
+</code></pre>
+
+
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<script language="JavaScript" type="text/JavaScript" src="http://news.baidu.com/ns?word=title%3A%E9%A3%8E%E5%8A%9B%E5%8F%91%E7%94%B5&tn=newsfcu&from=news&cl=2&rn=5&ct=0">
+</script>
+
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>13 获得页面元素的三张方法
+Document.getElementById(‘btn’)&mdash;&mdash;>最常用的方式
+Document.getElementByName(‘fds’) &mdash;&mdash;>name=”fds”
+Document.getElementByTagName(‘Input’)&mdash;&mdash;>标签名</p>
+
+<p>14获取坐标点
+顶级对象window包含一个比较重要的对象event可以由此获得当前对象、页面、屏幕</p>
+
+<p>1：当前对象作为参考点 &mdash;>offsetX|Y
+2：当前页面作为参考点 &mdash;&ndash;>clientX|Y
+3：：当前屏幕作为参考点&mdash;>screenX|Y</p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;hellow&lt;/Title&gt;
+&lt;script type="text/javascript"&gt;
+</code></pre>
+
+<p>//      alert(document.getElementById(&lsquo;btn&rsquo;).titleLabel.text)</p>
+
+<pre><code> // alert(window.event.button);
+  alert(screen.width+','+screen.height);
+  onload=function()
+  {
+    document.getElementById('ak').onclick=function()
+    {
+      alert(new Date().toLocaleTimeString());
+      window.event.returnValue=false;//IE Opera  google支持  火狐不支持
+    }
+    document.getElementById('dv').onmousemove=function()
+    {
+      //鲁棒性最好的参数
+      if(arguments.length!=0)
+        {
+          //火狐 google  IE不行
+          document.getElementById('ipClient').value=arguments[0].clientX+','+arguments[0].clientY;
+        }else
+        {
+
+          document.getElementById('ipClient').value=event.clientX+','+event.clientY;
+        }
+      //也可以另外一种鲁棒性的优化
+      //能力检测方式！ 
+      if(window.event)//判断如果存在则是IE不存在则是火狐  window.event是IE下的重要的属性
+        {
+
+          document.getElementById('ipClient2').value=event.clientX+','+event.clientY;
+        }else
+        {
+          document.getElementById('ipClient2').value=arguments[0].clientX+','+arguments[0].clientY;
+        }
+      //火弧+google可以通过  IE不行
+
+
+      //下面代码google和IE支持
+      //相对于页面的左上角
+        document.title=event.clientX+','+event.clientY;
+      //相对于屏幕的左上角
+        document.getElementById('btn').value=event.screenX+','+event.screenY;            
+        document.getElementById('ip1').value=event.screenX+','+event.screenY;            
+      //相对于当前对象的左上角（this)对象
+
+        document.getElementById('ip').value=event.offsetX+','+event.offsetY;            
+    }
+
+  }
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>  &lt;Div id="dv" color="red"&gt;
+  &lt;button type="button" id="btn" class="button"&gt;
+      屏幕值
+  &lt;/button&gt;
+  &lt;Input type="button" id="ipClient" value="页面左上角偏移"/&gt;
+  &lt;Input type="button" id="ipClient2" value="页面左上角偏移"/&gt;
+  &lt;Input type="button" id="ip" value="对象的左上角偏移"/&gt;
+  &lt;Input type="button" id="ip1" value="屏幕的偏移坐标"/&gt;
+    hello
+  &lt;/Div&gt;
+  &lt;Div&gt;
+    &lt;A id="ak" href="www.baidu.com"&gt;百度&lt;/A&gt;
+    &lt;/Div&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>15：剪切板clipboard</p>
+
+<p>当在网页复制的时候或者ctrl+C的时候，会激活body的oncopy函数。
+当在网页黏贴的时候或者ctrl+V的时候，会激活body的onpaste函数。</p>
+
+<pre><code>    由此可以模拟页面的进制复制和黏贴的案例，具体如代码所示：
+</code></pre>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;Test copy  clipdata&lt;/Title&gt;
+&lt;script type='text/javascript'&gt;
+  // 一复制则激活oncopy函数
+</code></pre>
+
+<p>/*</p>
+
+<pre><code>  onload=function()
+  {
+    document.body.oncopy=function()
+    {
+      alert('不让复制');
+      return false;
+    };
+    document.getElementById('txt').onpaste=function()
+    {
+      alert('不能黏贴');
+      return false
+    };
+
+  };
+</code></pre>
+
+<p>*/</p>
+
+<pre><code>  onload=function()
+  {
+    document.body.oncopy=function()
+    {
+      setTimeout(function()
+                  {
+                    //IE支持！！  opera 火狐不支持
+</code></pre>
+
+<p>//出现此错误是因为 window.clipboardData 为 IE 专有，其他浏览器均没有此对象。</p>
+
+<pre><code>                    if(window.clipboardData)
+                      {
+                        var dataFromClip=clipboardData.getData('text')+'你这个拷贝党';
+                          alert(dataFromClip);
+                          clipboardData.setData('text',  dataFromClip);
+                      }else
+                        {
+                          alert('Opera不知道如何做了  Opera        无操作剪贴板的对象。');
+                         // window.location=dataFromClip;
+                          alert('&lt;Strong&gt;复制&lt;/Strong&gt;成功！')
+                          return false;
+                        }
+
+                  },10);
+   };
+
+   };
+  document.onclick=function()
+  {
+
+    document.write('hello');
+  }
+
+
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Input type="text" id="txt" value="" /&gt;
+good weather!
+</code></pre>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>16：this和事件源srcElement</p>
+
+<pre><code> this只记录当前对象的id
+ alert(window.event.srcElement.id) 只记录最初加载完body第一次点击的id；
+</code></pre>
+
+<p>而srcElement其实是可以和事件冒泡的规律相结合的。
+事件冒泡是指内层事件的触发，会由内至外的触发外层事件。
+为了只是显示最内层的事件，可以用srcElement.id,比如：</p>
+
+<p>注意点：</p>
+
+<pre><code>如果text/javscript 则 不会去检查 fucntion的错误！如果写成text/javascript
+则客户端浏览器会去检查 js的语法。
+</code></pre>
+
+<p>一般规律：
+   一定要注意 style里面用的是 background-color  而 在js中用的是  backgroundColor 两者是不同的写法</p>
+
+<pre><code>并且这个是一个基本的规律！ js中去除了破折号  然后大写后一个单词首字母。
+</code></pre>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;事件冒泡程序&lt;/Title&gt;
+&lt;script type="text/javascript"&gt;
+  // 如果text/javscript 则 不会去检查 fucntion的错误！如果写成text/javascript
+  //则客户端浏览器会去检查 js的语法！
+  onload=function()
+  {
+     document.getElementById('div1').onclick=function()
+    {
+    //  alert(this.id);
+    alert(window.event.srcElement.id);
+    };
+    document.getElementById('p1').onclick=function()
+    {
+      alert(this.id);
+    };
+    document.getElementById('str1').onclick=function()
+    {
+      alert(this.id);
+      //opera IE可以！
+      window.event.cancelBubble=true;
+      // 火狐e.stopPropagation();
+    };
+  };
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;!--一定要注意 style里面用的是 background-color  而 在js中用的是  backgroundColor 两者是不同的写法
+并且这个是一个基本的规律！ js中去除了破折号  然后大写后一个单词首字母--&gt;
+&lt;Div id="div1" style="width:300px;height:200px;background-color:red;cursor:pointer;"&gt;
+  &lt;!--&lt;Div id="div1" style="width:300px;height:200px;backgroundColor=red;cursor:pointer;"&gt; 一定要注意不要写成=号形式 style里面写成json形式--&gt;
+
+    &lt;!--&lt;P id= "p1" style="width:100px;height:100px;background-color:blue;cursor:pointer;"&gt;这是第二层文字 --&gt;
+      &lt;P id= "p1" style="width:100px;height:100px;background-color:blue;cursor:pointer;"&gt;
+    &lt;Strong id="str1"&gt;这是第三层文字&lt;/Strong&gt; 
+  &lt;/P&gt;
+&lt;/Div&gt;
+</code></pre>
+
+<p>  </Body>
+</Html></p>
+
+<p>```</p>
+
+<p>17：innerText和innerhtml</p>
+
+<p>注意1：innerhtml 不要写成innerHtml 否则是undefined
+注意2：  var btnObjAgree=document.getElementsByName(&lsquo;agree&rsquo;);</p>
+
+<pre><code>         var timeControl=document.getElementById('time');
+        正因为Id没有s 所以他必然是唯一的， 而name TagName都是可以重复 所以他的Element是复数的
+</code></pre>
+
+<p>案例1：四个按钮 分别显示 设置innerText 设置innerhtml  获取innerText 获取innerhtml</p>
+
+<pre><code> 注意：
+    //1   在添加文本时候 Text模式是直接添加无效果  而html是有效果 
+    //2   在获取文本时候  Text模式是直接获得文本   而html是包含着标签信息
+   另外//在firefox不行!!firefox and  Ie is a pair of enemy
+      //In Firefox , You should use the statement below
+      // dvObj.contentText=''
+</code></pre>
+
+<p>具体如下所示：</p>
+
+<p>```html
+<Html></p>
+
+<p>  <Head></p>
+
+<pre><code>&lt;Title&gt;Test  InnerText And InnerHtml IN fireFox and IE ! &lt;/Title&gt;
+&lt;style type="text/css"&gt;
+  div
+  {
+    width:300px;
+    height:200px;
+    background-color:green;
+    // 在style中使用 json形式的数据结构
+    // 在js中使用  =形式的数据结构
+  }
+  &lt;/style&gt;
+&lt;script type="text/javascript"&gt;
+  onload=function()
+  {
+    var dvObj=document.getElementById('dv');
+    document.getElementById('btn1').onclick=function()
+    {
+      //显示原始的内容  不带上效果
+      //Ie  google可以
+      dvObj.innerText='&lt;A href="http://www.163.com"&gt;网易&lt;/A&gt;';
+      //在firefox不行!!firefox and  Ie is a pair of enemy
+      //In Firefox , You should use the statement below
+      // dvObj.contentText=''
+    }
+
+    //1   在添加文本时候 Text模式是直接添加无效果  而html是有效果 
+    //2   在获取文本时候  Text模式是直接获得文本   而html是包含着标签信息
+    document.getElementById('btn2').onclick=function()
+    {
+      //直接添加上效果
+      //document.getElementById('dv').innerHtml='&lt;A href="www.163.com"&gt;网易&lt;/A&gt;';
+      //注意大小写 否则不能显示出 结果
+      document.getElementById('dv').innerhtml='&lt;A href="http://www.163.com"&gt;网易&lt;/A&gt;';
+    }
+    document.getElementById('btn3').onclick=function()
+    {
+      alert(dvObj.innerText);
+    }
+    document.getElementById('btn4').onclick=function()
+    {
+      alert(dvObj.innerhtml);
+      //alert(dvObj.innerHtml);
+    }
+
+
+  };
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;input type="button" value="innerText insert" id="btn1"/&gt;
+&lt;input type="button" value="innerHtml insert" id="btn2"/&gt;
+&lt;input type="button" value="innerText get" id="btn3"/&gt;
+&lt;input type="button" value="innerHtml get" id="btn4"/&gt;
+&lt;Div id="dv"&gt;
+&lt;/Div&gt;
+</code></pre>
+
+<p>  </Body>
+</Html></p>
+
+<p>```</p>
+
+<p>案例2：   innerText和计时器联合的一个小程序</p>
+
+<pre><code>         功能需求： 起先按钮是灰色，显示“请仔细阅读协议(5)”  并随时间递减，
+                          当回归到0时，则按钮变成可选状态，并其值设置为“同意”。
+
+
+
+          实现如下：
+</code></pre>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt; Three small practices&lt;/Title&gt;
+&lt;script type="text/javascript"&gt;
+
+    onload=function()
+    {
+      var btnObjs=document.getElementsByName("name");
+      for(var i =0; i&lt; btnObjs.length;i++)
+      {
+        //你再点击之前得把所有的其他颜色都给他恢复成默认
+        //这点很重要 ！！ 否则你会发现之前点过的按钮依然是红色的！没有
+        //恢复回默认的状态
+        btnObjs.onclick=function()
+        //对这个网页的逻辑不是特别清楚！ 应该是点击之后才触发的事件
+        //而不是你想着我让他点的时候  他就触发！！必须有一个介质！
+        //这个介质说大点叫做计算机，说小点叫做onclick
+        {
+         for(var j=0; j&lt; btnObjs.length;j++)
+          {
+            btnObjs[j].style.backgroundColor='';
+          }
+
+            this.style.backgroundColor='red';
+        }
+
+      }
+
+      var sec=5;
+      //不要少了一个s   间接说明 name可以有多个
+      //var btnObjAgree=document.getElementsByName('agree');
+      // 返回的是一个name数组！！！一定得注意 单写上btnobjagree.value不起作用
+      var btnObjAgree=document.getElementsByName('agree');
+
+      //不要多了一个s   间接说明Id只能有一个
+      //var btnObjAgree=document.getElementById('btn');
+      var setId= setInterval(function()
+                 {
+                    if(sec&gt; 0)
+                      {
+                        sec--;
+                        btnObjAgree[0].value='请仔细阅读下列协议('+sec+')';
+
+                      }else
+                      {
+                        btnObjAgree[0].value='同意';
+                        btnObjAgree[0].disabled=false;
+                        clearInterval(setId);
+                      }
+
+                  },1000);
+
+                  setInterval(function(){
+                        var timeControl=document.getElementById('time');
+                        //timeControl.innerText=new Date().toLocalTimeString();//别写错了Locale而不是Local
+                        timeControl.innerText=new Date().toLocaleTimeString();
+
+                  },1000);
+      };
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Input type="button" name="name" value="小明"/&gt;
+&lt;Input type="button" name="name" value="小明"/&gt;
+&lt;Input type="button" name="name" value="小明"/&gt;
+&lt;Input type="button" name="name" value="小明"/&gt;
+&lt;Input type="button" name="name" value="小明"/&gt;
+&lt;Input type="button" name="name" value="小明"/&gt;
+&lt;Input type="button" name="name" value="小明"/&gt;
+&lt;Input type="button" name="name" value="小明"/&gt;
+&lt;Input type="button" id="btn" name="agree" value="请仔细阅读下列协议(5)" disabled="disabled"/&gt;
+
+&lt;P id="time"&gt;&lt;/P&gt;
+</code></pre>
+
+<p>  </Body>
+</Html></p>
+
+<p>```</p>
+
+<p>案例3：通过一个JSON数据结构，解析到一个表格中，其中表格分为两列，第一列是网址名字(innerText)，第二列是网址的连接（innerhtml）</p>
+
+<p>注意 ：
+1:再进行能力测试的时候，typeof不能写成typeOf
+2:  //如果不加入下面一行代码则无法显示！！！甚至调试不出来</p>
+
+<pre><code>      document.body.appendChild(tableObj);
+</code></pre>
+
+<p>3: JSON数据结构使用逗号进行分隔，不同于在<style type="text/css"> 中使用分号进行分隔；</p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt; Create JSon database and insert them into the table with innerText and Innerhtml&lt;/Title&gt;
+&lt;script type="text/javascript"&gt;
+
+
+  onload=function()
+  {
+    document.getElementById('create').onclick=function()
+    {
+    /*
+    var dic={"如鹏":"http://www.rupeng.com"; 
+            "百度":"http://www.baidu.com";
+            "网易":"http://www.163.com";
+            "搜狗":"http://www.sougou.com";
+            "新浪":"http://www.sina.com.cn";
+            "github":"http://www.github.com";
+    };
+    */
+
+   //用逗号隔开  而不是分号
+  var dic={"如鹏":"http://www.rupeng.com", 
+            "百度":"http://www.baidu.com",
+            "网易":"http://www.163.com",
+            "搜狗":"http://www.sougou.com",
+            "新浪":"http://www.sina.com.cn",
+            "github":"http://www.github.com"
+    };
+
+    var tableObj = document.createElement('table');
+    tableObj.border='1 ';
+    //tableObj.border='1 dashed red';
+    for(var key in dic)
+      {
+        //create line or record
+        var trObj=document.createElement('tr');
+        ///create column
+        var tdObj1=document.createElement('td');
+
+        // for the safety between firefox and Ie,so talent test
+        //if(typeOf(tdObj1.innerText)=='string')    typeOf应改为typeof
+        if(typeof(tdObj1.innerText)=='string')
+        {
+          tdObj1.innerText=key;
+        }else
+        {
+          td1.textContent=key;
+        }
+        var tdObj2=document.createElement('td');
+        tdObj2.innerhtml='&lt;A href=+'+dic[key]+'&gt;'+key+'&lt;/A&gt;';
+
+        //add tdObj1 and tdObj2 to the line or record
+        trObj.appendChild(tdObj1);
+        trObj.appendChild(tdObj2);
+        //add the trObj to the table
+        tableObj.appendChild(trObj);
+
+
+      }
+      //如果不加入下面一行代码则无法显示！！！甚至调试不出来
+      document.body.appendChild(tableObj);
+    }     
+  }
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Input type="button" value="create list" id="create"/&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>18：createElement 动态创建标签（无刷新评论的案例，即直接添加评论内容到页面的表格中）</p>
+
+<pre><code>  在之前我们知道只在页面加载的时候可以用document.write()来动态加载控件，那么如何在页面使用的过程中动态加载呢？ 
+</code></pre>
+
+<p>具体方法是利用 createElement(&ldquo;标签名&rdquo;) ，最终 会返回一个标签的对象。</p>
+
+<p>案例1：  创建一个层  并在层中添加按钮   插入按钮  和删除所有按钮
+注意1： 给层中加一个id的作用是为了可以供document对象进行调用
+注意2：firstChild and lastChild是层的属性  区分于   removeChild()  appendChild()  insertBefore()等方法</p>
+
+<p>```html</p>
+
+<p><Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;  Create Element dynamic &lt;/Title&gt;
+&lt;script type="text/javascript"&gt;
+  onload=function()
+  {
+    document.getElementById('btn').onclick=function()
+    {
+      var divObj=document.createElement('div');
+
+      divObj.style.width='400px';
+      divObj.id='dv'; //用于解决在层中添加标签的方式
+      divObj.style.height='200px';
+      divObj.style.backgroundColor='red';
+      divObj.style.border='1px solid yellow';
+
+      document.body.appendChild(divObj);
+
+    }
+    var count=0;
+    document.getElementById('btnadd').onclick=function()
+    {
+      var inputObj=document.createElement('input');
+      inputObj.type='button';
+      inputObj.value='xiaoMing'+count;
+      count++;
+      // divObj.appendChild(inputObj);//不起作用
+      //解决办法  给divObj加一个Id
+      document.getElementById('dv').appendChild(inputObj);
+
+    }
+
+    document.getElementById('btnInsert').onclick=function()
+    {
+      var inputInObj=document.createElement('input');
+     inputInObj.type='button';
+     inputInObj.value='xiaoming'+count;
+     count++;
+     var objDivD= document.getElementById('dv');
+     objDivD.insertBefore(inputInObj,objDivD.firstChild); //必须先找到层中的第一个元素！ 然后插入新的元速
+
+    }
+
+    document.getElementById('btnDelete').onclick=function()
+    {
+     var objDivD= document.getElementById('dv');
+     //firstChild 是层的第一个元素的属性
+     //lastChild 是层的最后一个元素的属性
+
+     while(objDivD.firstChild)
+       {
+         objDivD.removeChild(objDivD.firstChild);
+       }
+
+    }
+  }
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>  &lt;Input type="button" id="btn" value="创建"/&gt;
+  &lt;Input type="button" id="btnadd" value="层中创建"/&gt;
+  &lt;Input type="button" id="btnInsert" value="层中插入"/&gt;
+  &lt;Input type="button" id="btnDelete" value="删除层中所有元素"/&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>案例2： 提供一个评论的界面，包含昵称：</p>
+
+<pre><code>                                             以及评论内容框和一个input的提交框
+        最终把结果展示到页面的下面表格控件中
+</code></pre>
+
+<p>注意：</p>
+
+<pre><code>   1: 在提交之后 ，进行name 和评论区域是否为空的判断
+                    若评论内容为空，则把屏幕焦点移到评论区域，不进行提交 
+                    若名称区域为空，则把屏幕焦点移到名称区域，不进行提交
+
+   2：若没有问题，提交之后得清空name和评论区域的内容
+   3：进行能力测试
+        火狐和IE是两个不友好的朋友。
+        typeof(tdObj1.innerText)=='string'
+</code></pre>
+
+<p>具体代码如下：
+```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt; Test comment submited without refresh 1&lt;/Title&gt;
+&lt;style type="text/css"&gt;
+  #submitArea
+  {
+    width:300px;
+    height:300px;
+    background-color:blue;
+  }
+  #showArea
+  {
+    //这边使用分号进行隔开！！ 在js中定义json数据格式 一般用逗号隔开！！
+    width:400px;
+    height:500;
+    background-color:green;
+  }
+  textarea
+  {
+    width:200px;
+    height:200px;
+
+  }
+  table
+  {
+    border:1px dashed yellow;
+    background-color:red;
+  }
+  td
+  {
+    border:1px solid black;
+  }
+&lt;/style&gt;
+&lt;script type="text/javascript"&gt;
+  onload=function()
+  {
+    document.getElementById('tijiao').onclick=function()
+    {
+    //获取昵称
+      var names=document.getElementById('nicheng').value;
+    //获取评论内容
+      var content=document.getElementById('pinglun').value;
+    //保存信息到一个table中
+      var tableObj=document.getElementById('tb1');
+
+      //创建一行记录
+      var trObj=document.createElement('tr');
+      //创建一列
+      var tdObj1=document.createElement('td');
+      var tdObj2=document.createElement('td');
+
+      //设置值
+</code></pre>
+
+<p>/*</p>
+
+<pre><code>      tdObj1.value=names;
+      tdObj2.value=content;
+</code></pre>
+
+<p>*/</p>
+
+<pre><code>      //忘记了使用innerText and innerhtml
+
+      if(typeof(tdObj1.innerText)=='string')
+      {
+        tdObj1.innerText=names;
+      }else
+      {
+        tdObj1.textContent=names;
+      }
+      if(typeof(tdObj2.innerText)=='string')
+      {
+        tdObj2.innerText=content;
+      }else
+      {
+        tdObj2.textContent=content;
+      }
+              //添加列到记录中
+      trObj.appendChild(tdObj1);
+      trObj.appendChild(tdObj2);
+
+      tableObj.appendChild(trObj);
+
+      names.value="";
+      content.value="";
+
+      document.getElementById('nicheng').value="";
+      document.getElementById('nicheng').focus();
+      document.getElementById('pinglun').value="";
+
+
+    }
+  }
+
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Div id="submitArea"&gt;
+  &lt;Label&gt;昵称:&lt;/Label&gt;&lt;Input type="text" id="nicheng" value=""/&gt;
+  &lt;Textarea id="pinglun" rows="15" cols="10"&gt; &lt;/Textarea&gt;
+  &lt;br/&gt;
+  &lt;input type="submit" id="tijiao" value="提交"/&gt;
+&lt;/Div&gt;
+
+&lt;Div id="showArea"&gt;
+  &lt;Table id="tb1"&gt;
+
+  &lt;/Table&gt;
+&lt;/Div&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>案例延展
+案例3： 上面并没有进行名称区域和评论区域为空的判断</p>
+
+<pre><code>   另外的，也可以使用table.insertRow(-1)  并利用返回来的行对象创建列insertCell(-1)来创建
+    一个好处是不需要像createElement，在结尾需要进行appendChild添加节点的错做。
+</code></pre>
+
+<p>注意点：列的值设置需要用innerText或者innerhtml进行设置（style部分保持一样）</p>
+
+<p>具体如下：
+```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt; Test comment submited without refresh 2&lt;/Title&gt;
+&lt;style type="text/css"&gt;
+  #submitArea
+  {
+    width:300px;
+    height:300px;
+    background-color:blue;
+  }
+  #showArea
+  {
+    //这边使用分号进行隔开！！ 在js中定义json数据格式 一般用逗号隔开！！
+    width:400px;
+    height:500;
+    background-color:green;
+  }
+  textarea
+  {
+    width:200px;
+    height:200px;
+
+  }
+  table
+  {
+    border:1px dashed yellow;
+    background-color:red;
+  }
+  td
+  {
+    border:1px solid black;
+  }
+&lt;/style&gt;
+&lt;script type="text/javascript"&gt;
+  onload=function()
+  {
+    document.getElementById('tijiao').onclick=function()
+    {
+    //获取昵称
+      var names=document.getElementById('nicheng').value;
+    //获取评论内容
+
+
+    //增加一个输入参数值的有效性 判断！
+         if(names=="")
+          {
+           // alert(names+typeof(names));
+            alert('请输入昵称内容');
+            document.getElementById('nicheng').focus();
+            return ;
+          }else
+          {
+            var content=document.getElementById('pinglun').value;
+
+            //alert(content+typeof(content));
+              if(content=="")
+              {
+                alert('请输入评论内容');
+                document.getElementById('pinglun').focus();
+                return false;
+              }
+
+
+          }
+
+
+    //保存信息到一个table中
+      var tableObj=document.getElementById('tb1');
+
+      //不需要CreateElement之后还需要 appendChild的操作
+      //创建一行记录
+      var trObj=tableObj.insertRow(-1);
+      //创建一列
+      var tdObj1=trObj.insertCell(-1);
+      var tdObj2=trObj.insertCell(-1);
+
+      //设置值
+</code></pre>
+
+<p>/*</p>
+
+<pre><code>      tdObj1.value=names;
+      tdObj2.value=content;
+</code></pre>
+
+<p>*/</p>
+
+<pre><code>      //忘记了使用innerText and innerhtml
+
+      if(typeof(tdObj1.innerText)=='string')
+      {
+         tdObj1.innerText=names;
+      }else
+      {
+         tdObj1.textContent=names;
+      }
+      if(typeof(tdObj2.innerText)=='string')
+      {
+        tdObj2.innerText=content;
+      }else
+      {
+
+        tdObj2.textContent=content;
+      }
+              //添加列到记录中
+      //names.value="";
+      //content.value="";
+
+      document.getElementById('nicheng').value="";
+      document.getElementById('nicheng').focus();
+      document.getElementById('pinglun').value="";
+
+
+    }
+  }
+
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Div id="submitArea"&gt;
+  &lt;Label&gt;昵称:&lt;/Label&gt;&lt;Input type="text" id="nicheng" value=""/&gt;
+  &lt;Textarea id="pinglun" rows="15" cols="10"&gt; &lt;/Textarea&gt;
+  &lt;br/&gt;
+  &lt;input type="submit" id="tijiao" value="提交"/&gt;
+&lt;/Div&gt;
+
+&lt;Div id="showArea"&gt;
+  &lt;Table id="tb1"&gt;
+
+  &lt;/Table&gt;
+&lt;/Div&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>19：一个综合的小案例：
+   功能： 1点击按钮，则奇数行为红色，偶数行蓝色</p>
+
+<pre><code>          2鼠标移动时候，对应的对象变红色，其他的默认颜色：
+</code></pre>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt; change the table's even and odd line's color&lt;/Title&gt;
+&lt;script type="text/javascript"&gt;
+  onload=function()
+  {
+    //获得点击的按钮
+    document.getElementById('changeColor').onclick=function()
+    {
+      //如何获得表格的长度？？？
+      var tds=document.getElementById('tb1').getElementsByTagName('td');
+      for(var i=0;i&lt;tds.length;i++)
+      {
+        //当为奇数的时候  其实也可以用css解决方式
+        if(i%2==0)
+          {
+            tds.style.backgroundColor='red';
+          }else
+          {
+            tds.style.backgroundColor='blue';
+          }
+      }
+    };
+
+    //进行鼠标移动变色的事件
+      var tds1=document.getElementById('tb1').getElementsByTagName('td');
+      for(var j=0;j&lt;tds1.length;j++)
+      {
+        tds1[j].onmousemove=function()
+        {
+          for(var k=0; k&lt;tds1.length;k++)
+          {
+              tds1[k].style.backgroundColor='';  
+          }  
+          this.style.backgroundColor='red';
+        }
+      }
+  };
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Input type="button" id="changeColor" value="change color of the table"/&gt;
+
+&lt;Table id="tb1"&gt;
+  &lt;tr&gt;&lt;td&gt;第一行&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;第二行&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;第三行&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;第四行&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;第五行&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;第六行&lt;/td&gt;&lt;/tr&gt;
+&lt;/Table&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>小结： 学会了添加事件，认识了事件冒泡过程，理解了document.write的两个作用（document.writeln暂时不管 实际上只有<br>才是真正的网页换行）</p>
+
+<pre><code>      并对innerText和innerHtml进行区分，结合createElement可以动态的创建标签，弥补了document.write的不足之处（只在网页加载的时候创建），
+       再次利用JSon数据结构来动态显示数据，我们会发现所有的html代码中犹如一颗颗树，可以利用三种调用标签的方式来调用所有的元素，可是我们
+       总是需要写那么长的代码，可以简化？有。
+</code></pre>
+
+<p>   20：最后通过一个较典型的案例来结尾：</p>
+
+<pre><code>      功能1: 把JSON数据结构进行table侠士
+                功能2：设置复选框的全选
+                 功能3：设置title的走马灯效果
+</code></pre>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;
+    Tree! Tree ! Everywhere fills with trees.
+&lt;/Title&gt;
+
+
+&lt;script type="text/javascript"&gt;
+  var de = document.documentElement;
+  alert(de.tagName);
+
+  var head=document.getElementsByTagName("Head");
+  var body=document.getElementsByTagName("Body");
+
+  alert(head);
+ // alert(head.firstChild.nodeName);
+  alert(body);
+
+  var imgObj=document.getElementsByTagName("img");
+  var imgObj1=document.getElementsByTagName("34");
+  alert(imgObj.alt);
+  alert(imgObj1.alt);
+
+  //用于把JSON的数据结构 生成一个列表
+  function createTable()
+  {
+    var div=document.getElementById("news");
+    var table=document.createElement("table");
+    table.border=1;
+    //创建一个JSON数据结构，用于存储网络地址d
+    var newsBlog={"如鹏网站":"http://www.rupeng.com",
+      "网易博客":"http://www.163.com",
+      "sina网站":"http://www.sina.com"};//可以进行无限的添加
+    for(var name in newsBlog)
+      {
+        //创建行列结构
+        var tr = document.createElement("tr"); //创建一个tr对象
+        var td1 = document.createElement("td"); //创建一个第一列td1
+        var td2 = document.createElement("td"); //创建一个第一列td1
+
+        //设置行列属性
+        td1.innerText=name;
+        td2.innerhtml="&lt;a href="+newsBlog[name]+"&gt;"+newsBlog[name]+"&lt;/A&gt;";
+
+        //添加节点
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        //添加行到表中
+        table.appendChild(tr);
+
+      }
+      //div层添加table节点
+      div.appendChild(table);
+      table.style.listStyle="none";
+      table.style.color="blue";
+  }
+
+  //设置全选
+  function setCheckedAll()
+  {
+    //获取所有name="setall"的标签   注意多一个s
+    var allBtns= document.getElementsByName("setall");
+    //var allBtns= document.getElementByName("setall");
+    //获取id=”all"的标签节点
+    var setOpenBtn = document.getElementById("all");
+    for(var i = 0; i &lt; allBtns.length; i++)
+    {
+      allBtns.checked = setOpenBtn.checked;
+      allBtns.onclick = function()
+      {
+        var b = true;
+        //为什么要进行一个循环
+        //因为  再进行单选时候 得清楚所有之前的checkbox的状态！
+        for(var i = 0 ; i&lt; allBtns.length; i++)
+        {
+          if(!allBtns.checked)
+            {
+              b = false;
+              break;
+            }
+            setOpenBtn.checked = b;
+        }
+      }
+    }
+
+  }
+
+  //设置标签title的走马灯效果
+  function scroll()
+  {
+    var title=document.title;
+    var first=title.charAt(0);
+    var last =title.substring(1,title.length);
+    document.title=last+first;
+  }
+  setInterval("scroll()",500);
+
+  /*
+  鼠标事件
+  onclick
+  ondbclick
+  onkeydown
+  onkeyup
+  onkeypress
+  onmousedown
+  onmousemove
+  onmouseout
+  onmouseover
+  onmouseup
+
+
+  */
+
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Div value="全选区"&gt;
+  &lt;Input type="checkbox" name="setall" /&gt;
+  &lt;Input type="checkbox" name="setall" /&gt;
+  &lt;Input type="checkbox" name="setall" /&gt;
+  &lt;Input type="checkbox" name="setall" /&gt;
+  &lt;Input type="checkbox" name="setall" /&gt;
+  &lt;Input type="checkbox" name="setall" /&gt;
+  &lt;Input type="checkbox" name="" id="all"/&gt;
+&lt;/Div&gt;
+&lt;Div id ="news"&gt;
+
+&lt;/Div&gt;
+&lt;Input type="button" value="生成列表"/&gt;
+&lt;H1&gt;Tree ! Everything can become trees.&lt;/H1&gt;
+&lt;P&gt;Html代码层层嵌套像一颗颗&lt;Em&gt;树&lt;/Em&gt;一样。&lt;/P&gt;
+&lt;Div&gt;一层一层的数&lt;Img id="34" src="" alt="如果没有图片会显示我"/&gt;&lt;/Div&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>上面为止是到第JSDom15的内容。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JSDOM14-19节笔记代码April1th]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/05/11/jsdom14-19jie-bi-ji-dai-ma-april1th/"/>
+    <updated>2015-05-11T14:58:44+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/05/11/jsdom14-19jie-bi-ji-dai-ma-april1th</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<p>续先前的JSDOM1-15:<a href="http://www.rupeng.com/forum/thread-45297-1-1.html">http://www.rupeng.com/forum/thread-45297-1-1.html</a></p>
+
+<p>21:图片移动，脱离文档流的案例</p>
+
+<p>脱离文档流： 对象.style.position=&lsquo;absolute&rsquo;;
+新建了一个图片控件，并让其在页面中随鼠标移动。</p>
+
+<p>```html
+<Html>
+<Head>
+<Title> Let bird fly</Title></p>
+
+<script type="text/javascript">
+
+onload=function()
+{
+/*
+document.onmousemove=function()
+{
+var imObj = document.getElementById('im');
+//脱离文档流
+
+imObj.style.position='absolute';
+imObj.style.left=window.event.clientX+'px';
+imObj.style.top=window.event.clientY+'px';
+};
+*/
+document.getElementById('ak').onmouseover=function()
+{
+if(!document.getElementById('im1'))
+{
+var imgObj=document.createElement('img');
+imgObj='im1';
+imgObj.src='bird.png';
+//脱离文档流
+imgObj.style.position='absolute';
+imgObj.style.left=this.offsetLeft+'px';
+imgObj.style.top=this.offsetTop+this.offsetHeight+'px';
+}
+};
+};
+</script>
+
+
+<p></Head></p>
+
+<p><Body>
+<img id="im" src="bird.png"/></p>
+
+<p><A id="ak" href="http://www.baidu.com">百度</A>
+</Body>
+</Html>
+```
+22： 四个案例</p>
+
+<p>案例1：一个列表框进行动态属性的赋值 并获取点击对象的值</p>
+
+<pre><code>              注意：setAttribute and gettAttribute的用法
+                       循环添加所有表格的点击事件
+</code></pre>
+
+<p>案例2：产生一个登陆界面</p>
+
+<pre><code>              注意：innerText和innerHTML的配合使用 ，设置控件的内容
+                       为了增加用户的体验感觉checkbox一般设置对象.style.cursor=pointer
+                        createElement 和appendChild的配合使用
+</code></pre>
+
+<p>案例3: 小图变大图</p>
+
+<pre><code>               注意：JSON数据库的创建
+                         循环的显示小图片
+                         图片的onmouseover and onmouseout事件的响应
+                          层的style.display=none;的意思是不显示该层
+</code></pre>
+
+<p>案例4:   搜索框</p>
+
+<pre><code>               注意：onfocus  and onblur(鼠标焦点离开的事件）
+                        一般会使用设置为gray，文本框为'请输入搜索内容'; 使用的时候设置为black，并且文本框为空。
+</code></pre>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt; When click the button ,then generate the div&lt;/Title&gt;
+&lt;script type="text/javascript"&gt;
+  // 学会添加层
+  //数据库 包含照片信息  其中左边的key是小照片，右边是大照片信息
+   var datasPic = {
+    "mv/1-1.jpg": ["mv/1.jpg", "小丽", "163cm"],
+    "mv/2-1.jpg": ["mv/2.jpg", "小红", "165cm"],
+    "mv/3-1.jpg": ["mv/3.jpg", "小花", "150cm"]
+    };
+
+
+    //案例1：一个列表框进行动态属性的赋值 并获取点击对象的值
+  onload=function()
+  {
+    //点击列表 产生分数来！！
+    var tds=document.getElementById('nameRank').getElementsByTagName('td');
+    for(var i=0;i&lt;tds.length;i++)
+    {
+      tds[i].setAttribute('score',(i+1)*20);
+      tds[i].onclick=function()
+      {
+        alert(this.getAttribute('score'));
+      };
+    }
+
+    //案例2：产生一个登陆界面
+    document.getElementById('generate').onclick=function()
+    {
+      //创建一个层
+      var dvObj=document.createElement('div');
+      dvObj.id='dv';
+      dvObj.style.width='300px';
+      dvObj.style.height='200px';
+      dvObj.style.marginBottom='200px';
+      dvObj.style.border='1px solid yellow';
+      document.body.appendChild(dvObj);
+
+      //c创建两个P标签
+      var P1= document.createElement('p');
+      //本想着添加标签来着
+      P1.innerText='用户名:';
+      var name=document.createElement('input');
+      name.type='text';
+      P1.appendChild(name);
+
+      //第二个标签
+      var P2 = document.createElement('p');
+      //妙用innerHTML保持对齐！
+      P2.innerHTML='密 码:';
+      var pwd=document.createElement('input');
+      pwd.type='password';
+      P2.appendChild(pwd);
+
+      //复选框
+
+      var chk = document.createElement('input');
+      chk.type = 'checkbox';
+      chk.id = 'chkPwd';
+      var labelChk = document.createElement('label');
+      labelChk.innerText = '记住我的登录状态';
+      labelChk.setAttribute('for', chk.id); //设置属性
+      labelChk.style.cursor = 'pointer';//设置鼠标的样式 编程手的样式
+      var pObj3 = document.createElement('p');
+      pObj3.appendChild(chk);
+      pObj3.appendChild(labelChk);
+
+      //登陆和取消按钮
+      var btnLogin = document.createElement('input');
+      btnLogin.type = 'submit';
+      btnLogin.value = '登录';
+      btnLogin.marginRight='10px'
+      var btnEsc = document.createElement('input');
+      btnEsc.type = 'button';
+      btnEsc.value = '取消';
+      var pObj4 = document.createElement('p');
+      pObj4.appendChild(btnLogin);
+      pObj4.appendChild(btnEsc);
+
+
+
+      //添加控件
+      dvObj.appendChild(P1);
+      dvObj.appendChild(P2);
+      dvObj.appendChild(pObj3);
+      dvObj.appendChild(pObj4);
+
+    }
+
+
+  //案例3: 小图变大图
+  //0 先有了json数据库
+  //1 也可以先加载小图
+
+  //2
+    var dvSObj=document.getElementById('dvSmall');
+    //先把小图给显示出来
+    for(var key in datasPic)
+      {
+        var imObj=document.createElement('img');
+        imObj.src=key;
+        imObj.setAttribute('userKey',key);
+        imObj.style.marginRight='10px';//目的是添加右间距/
+        dvSObj.appendChild(imObj);
+        //添加小图的鼠标的到来事件
+        imObj.onmouseover=function()
+        {
+          var arrs=datasPic[this.getAttribute('userKey')];
+          document.getElementById('dvBig').style.display='block';
+          document.getElementById('imBig').src=arrs[0];
+          document.getElementById('spName').innerText=arrs[1];
+          document.getElementById('spHeight').innerText=arrs[2];
+        };
+        //添加小图的鼠标的 离开事件
+        imObj.onmouseout=function()
+        {
+          document.getElementById('dvBig').style.display='none';
+        };
+      }
+
+      //案例4:   搜索框
+      //获得焦点的事件
+      document.getElementById('searchValue').onfocus=function()
+      {
+        if(this.style.color=='gray'&amp;&amp; this.value=='请输入搜索词')
+          {
+            this.style.color='black';
+            this.value='';
+
+          }
+      }
+      //失去焦点的事件
+      document.getElementById('searchValue').onblur=function()
+      {
+        if(this.value=='')
+          {
+            this.style.color='gray';
+            this.value='请搜索搜索关键词';
+          }
+      }
+
+  };
+
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Table border="1" id="nameRank"&gt;
+  &lt;Tr&gt;
+    &lt;Td&gt;第一名&lt;/Td&gt;
+    &lt;Td&gt;第二名&lt;/Td&gt;
+    &lt;Td&gt;第三名&lt;/Td&gt;
+    &lt;Td&gt;第四名&lt;/Td&gt;
+    &lt;Td&gt;第五名&lt;/Td&gt;
+  &lt;/Tr&gt;
+  &lt;/Table&gt;
+
+  &lt;Input type="button" id="generate" value="登陆栏"/&gt;
+
+  &lt;Div id="dvSmall"&gt;
+
+  &lt;/Div&gt;
+
+  &lt;!--display:none 表示不显示 也就是刚开始不会显示div层--&gt;
+  &lt;Div id="dvBig" style="background-Color:orange; border:1px solid yellow; width:200px;display:none;"&gt;
+      大头像:&lt;br/&gt;
+      &lt;Img id="imBig" src="#" alt="如果没有图片 You will see me"/&gt;
+      姓名:&lt;Span id="spName"&gt;&lt;/Span&gt;&lt;br/&gt;
+      升高:&lt;Span id="spHeight"&gt;&lt;/Span&gt;&lt;br/&gt;
+
+  &lt;/Div&gt;
+
+  &lt;Div id="search"&gt;
+    &lt;Input type='text' value="请输入搜索词" id="searchValue" style="color:gray"/&gt;
+    &lt;/Div&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```
+23 表格的提交的两种触发方式</p>
+
+<p>submit按钮的click()
+form的submit()
+区别：</p>
+
+<pre><code>        调用submit按钮的点击事件click();
+        这种情况下 如果onsubmit被赋值了，比如
+    //处理click的提交事件  type=subomit的click()事件会触发 onsubmit监听器
+    if(document.getElementById('searchValue').value=='Please input the search value')
+      {
+        document.getElementById('fm').onsubmit=function()
+        {
+          return false;
+        };
+</code></pre>
+
+<p>复制代码</p>
+
+<pre><code>        那么submit按钮 失去作用，即使再输入内容 也没用！！
+        document.getElementById('sm').click(); 也就是click()的调用需要经过onsubmit的匿名函数过程。
+        submit()不会触发 onsubmit的匿名函数，即使文本框没有内容也直接提交。
+        直接达到高层的表单form，进行提交，
+</code></pre>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt; Test onclick() and onsubmit() &lt;/Title&gt;
+&lt;script type="text/javascript"&gt;
+  onload=function()
+  {
+    document.getElementById('searchValue').onfocus=function()
+    {
+       if(this.style.color=='gray'&amp;&amp;this.value=='Please input the search value') 
+         {
+           this.value='';
+           this.style.color='black';
+         }
+    }
+    document.getElementById('searchValue').onblur=function()
+    {
+        if(this.value=='')
+          {
+            this.value='Please input the search value';
+            this.style.color='gray';
+          }
+    }
+
+    //处理click的提交事件  type=subomit的click()事件会触发 onsubmit监听器
+    if(document.getElementById('searchValue').value=='Please input the search value')
+      {
+        document.getElementById('fm').onsubmit=function()
+        {
+          return false;
+        };
+      }
+      document.getElementById('dv').onclick=function()
+      {
+        //点击层的 时候调用submit的点击事件
+        //这种情况下 即使再输入内容 也没用！！
+    //    document.getElementById('sm').click();
+        //submit不会触发 onsubmit的匿名函数
+        //直接达到高层的表单form，进行提交，
+        document.getElementById('fm').submit();
+      }
+      document.getElementById('sm').onclick=function()
+      {
+        //this.click();
+        document.getElementById('sm').click();
+      }
+
+  }
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Form action="http://www.baidu.com" method="get" id="fm"&gt;
+  &lt;Input type="text" name="name" value="Please input the search value" id="searchValue" style="width:300px;height:20px;color:gray;
+  border:1px solid red"/&gt; 
+  &lt;Input type="submit" name="name" value="baidu" id="sm"/&gt;
+  &lt;Div id="dv" style="width:300px;height:200px;background-color:green;"&gt;
+    &lt;/Div&gt;
+  &lt;/Form&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>24：正则表达式</p>
+
+<pre><code>   如果有了// 单句注释符，那么new RegExp('')就可以不用了
+   注意1： test函数类似于java的match函数
+               exec函数类似于java的matches函数。
+</code></pre>
+
+<p>三个功能： 1：找到六位数字</p>
+
+<pre><code>             2：确认文本框的内容是否为邮箱，若是为红色
+             3：替换操作，支持链式替换 *.replace().replace....
+</code></pre>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt; Test Regex Expression &lt;/Title&gt;
+&lt;script type="text/javascript"&gt;
+  var testString='12345';
+
+  //1 网页字节数较多 不推荐
+  var reg= new RegExp('\\d{5}');
+  alert(reg.test(testString)); 
+  //2 网页字节数较少 推荐  增加体验性
+
+  var reg=/\d{5}/; //  //类似.Net的 @（）可以直接使用正则表达式 而不需要考虑具体的语言
+  alert(reg.test(testString));
+
+
+&lt;/script&gt;
+
+&lt;script type="text/javascript"&gt;
+
+  //获得所有匹配的内容
+  var msg='昌平:102206,平和:363708,中国电信:10000';
+  var reg=/\d{6}/g;
+  var result;
+  while(result=reg.exec(msg))
+    {
+      alert(result);
+    }
+&lt;/script&gt;
+
+
+
+&lt;script type="text/javascript"&gt;
+  onload=function()
+  {
+    document.getElementById('email').onblur=function()
+    {
+      // di第一个错误  A-Z 写成了a-z
+      // 第二个错误  var reg =  写成了 var=reg=
+      var reg=/^[\d\w_.-]+@[\d\w]+([.][a-zA-Z]+){1,2}$/;
+      //var reg=/^[0-9a-zA-Z_.-]+@[0-9a-zA-Z]+([.][a-zA-Z]+){1,2}$/;
+      if(reg.test(this.value))
+        {
+          this.style.backgroundColor='red';
+          alert('邮箱');
+        }
+    }
+  }
+&lt;/script&gt;
+
+&lt;script type="text/javascript"&gt;
+
+  var msg = '   去掉左右空格    ';
+  //注意// 不需要用 单引号括起来
+  msg = msg.replace(/^\s+/,'').replace(/\s+$/,'');
+  alert('==='+msg+'===');
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>  &lt;Input type="text" id="email" name="" value=""/&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>25:测试键盘的keyCode</p>
+
+<pre><code>  注意如果不放在onload中调用控件没有效果，为undefined
+</code></pre>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;Test Tab Shift &lt;/Title&gt;
+&lt;script type="text/javascript"&gt;
+  //window.event.keyCode=
+
+  //如果不放在onload中是没有效果
+  onload=function()
+  {
+    var texts=document.getElementsByName('name');
+    for(var i=0;i&lt;texts.length;i++)
+    {
+      texts[i].onkeydown=function()
+      {
+        //alert(window.event.keyCode);
+        //让enete键具备 tab的工呢过
+        if(window.event.keyCode==13)
+          {
+            //IE可以实现
+            window.event.keyCode=9;
+            //google如何实现
+          }
+      };
+    }
+  };
+
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;input type="text" name="name" value=""/&gt;
+&lt;input type="text" name="name" value=""/&gt;
+&lt;input type="text" name="name" value=""/&gt;
+&lt;input type="text" name="name" value=""/&gt;
+&lt;input type="text" name="name" value=""/&gt;
+&lt;input type="text" name="name" value=""/&gt;
+&lt;input type="text" name="name" value=""/&gt;
+&lt;input type="text" name="name" value=""/&gt;
+</code></pre>
+
+<p>  </Body>
+<Html>
+```
+26:测试密码的强弱</p>
+
+<p>密码强弱等级协定：</p>
+
+<pre><code>     1：初始的密码等级为0
+     2：当只出现数字或者只出现字母或者只出现特殊字符则密码等级加1
+     3： 如果数字、字母、特殊字符 三者有两种出现 则再加上1   
+     4： 如果都出现  在原先基础上再加1 
+     5： 如果位数小于6 － 1  所有最少应该是0
+</code></pre>
+
+<p>  第一：获取文本框的内容</p>
+
+<p>第二：进行函数的级别验证
+第三：设置表格的背景颜色</p>
+
+<p>注意1   if(msg.match(/[^\d\w]/)) //既不是数字也不是字母
+注意2  在进行 新的级别的设置时候需要循环把表格背景颜色设置为white</p>
+
+<p>```javascript
+for(var i=0;i&lt;tds.length;i++)</p>
+
+<pre><code>         {
+           tds[i].style.backgroundColor='white';
+         }
+</code></pre>
+
+<p>```
+具体实验如下:</p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt; Test the strong week and medium of the password &lt;/Title&gt;
+&lt;script type="text/javascript"&gt;
+
+  /*
+     1：初始的密码等级为0
+     2：当只出现数字或者只出现字母或者只出现特殊字符则密码等级加1
+     3： 如果数字、字母、特殊字符 三者有两种出现 则再加上1   
+     4： 如果都出现  在原先基础上再加1 
+     5： 如果位数小于6 － 1  所有最少应该是0
+  */
+
+ function getPasswordLevel(msg)
+ {
+   var level=0;
+   if(msg.match(/\d/))
+     {
+       level++; //如果匹配数字则加上1
+     }
+    if(msg.match(/\w/))
+      {
+        level++; //如果也找到字母
+      }
+    if(msg.match(/[^\d\w]/)) //既不是数字也不是字母
+       {
+        level++;
+       }
+    if(msg.length&lt;=6)
+      {
+        level--;
+      }
+      return level;
+ }
+
+ onload=function()
+ {
+   document.getElementById('password').onkeyup=function()
+   {
+     var tds=document.getElementById('tr1').getElementsByTagName('td');
+     if(this.value.length&gt;0) //value的值的长度
+       {
+         for(var i=0;i&lt;tds.length;i++)
+         {
+           tds[i].style.backgroundColor='white';
+         }
+          var r =getPasswordLevel(this.value); 
+          if(r &lt;=1)
+            {
+              tds[0].style.backgroundColor='red';
+            }
+          else if(r ==2)
+            {
+              tds[0].style.backgroundColor='yellow';
+              tds[1].style.backgroundColor='yellow';
+            }
+          else if(r ==3)
+            {
+              tds[0].style.backgroundColor='blue';
+              tds[1].style.backgroundColor='blue';
+              tds[2].style.backgroundColor='blue';
+            }
+
+       }
+   }
+ }
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head>
+  <Body></p>
+
+<pre><code>&lt;Input type="text" id="password" value="" name=""&gt;
+&lt;Table id="tb"&gt;
+  &lt;Tr id="tr1"&gt;
+    &lt;Td&gt;弱&lt;/Td&gt;
+    &lt;Td&gt;中&lt;/Td&gt;
+    &lt;Td&gt;强&lt;/Td&gt;
+  &lt;/Tr&gt;
+  &lt;/Table&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```
+27:百度搜索</p>
+
+<p>功能1： 输入一个字可以出现智能提示板（暂时是指调用JSON的数据  而不是数据库的内容）
+功能2：可以获取智能提示板的内容，并鼠标扫过的时候出现红色 离开为白色  点击则把该对象内容附到搜索框中</p>
+
+<p>注意点: 能力校验（暂时不太清楚 userAgent)</p>
+
+<p>具体实现如下：</p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;Test Search by Baidu &lt;/Title&gt;
+</code></pre>
+
+<p>  </Head>
+  <style type="text/css"></p>
+
+<pre><code>#main
+{
+  width:250px;
+  height:200px;
+  margin-left:200px;
+  margin-top:300px;
+  background-color:green;
+}
+</code></pre>
+
+<p>  </style></p>
+
+<p>  <script type="text/javascript"></p>
+
+<pre><code>onload=function()
+{
+  var keyWords = {
+      "小明": ["小明是谁", "小明很机智", "小明滚出去"],
+      "地主": ["斗地主", "地主还有没有", "地主就是土豪"],
+      "挖": ["挖掘机", "挖掘机技术那加强", "挖土豆"],
+      "我": ["我爱北京", "我爱北京天安门", "我是苍"],
+      "苍":["苍天大地","苍老师是大家的","苍天有井独自空"],
+      "平":["平凡的世界","平白无故","平常"]
+  };
+
+  function funShow()
+  {
+    //如果在数据库中存在的话  则创建一个层
+    if(keyWords[this.value])
+      {
+        //create the div
+        if(document.getElementById('dv'))
+          {
+            //不是 直接'dv'
+            document.body.removeChild(document.getElementById('dv'));
+          }
+        //开始创建
+          var divObj=document.createElement('div');
+          divObj.id='dv';
+          divObj.width='300px';
+          //不要少了  脱离文档流，才可以重新设置坐标
+          divObj.style.position='absolute';
+          divObj.style.border='1px solid purple';
+          divObj.style.left=this.offsetLeft+'px';
+          //divObj.style.left=tihs.offsetLeft+'px';
+          divObj.style.top=this.offsetHeight+this.offsetTop+'px';
+          document.body.appendChild(divObj);
+
+          for(var i=0; i&lt; keyWords[this.value].length;i++)
+          {
+            var pObj=document.createElement('p');
+            pObj.innerHTML=keyWords[this.value][i];
+            pObj.style.margin='5px';
+            divObj.appendChild(pObj);
+            pObj.onmouseover=function()
+            {
+              this.style.backgroundColor='red';
+              this.style.cursor='pointer';
+            }
+            pObj.onmouseout=function()
+            {
+              this.style.backgroundColor='';
+            };
+            //增加了点击的事件
+            pObj.onclick=function()
+            {
+              //alert(this.value);
+              document.getElementById('searchValue').value=this.innerText;
+            }
+          }
+      }
+    }
+        //firefox下检测状态改变只能用oninput,且需要用addEventListener来注册事件。
+        if (/msie/i.test(navigator.userAgent))    //ie浏览器
+        {
+            document.getElementById('searchValue').onpropertychange = funShow;
+        }
+        else {//非ie浏览器，比如Firefox
+            document.getElementById('searchValue').addEventListener("input", funShow, false);
+        }
+
+
+}
+</code></pre>
+
+<p>  </script></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Div id="main" &gt;
+  &lt;Input type="text" name="" id="searchValue" value=""/&gt;
+  &lt;Input type="button" name="" id="tijiao" value="Baidu It"/&gt;
+&lt;/Div&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>28：JS常用习惯</p>
+
+<p>多用js内部的函数
+少用全局变量
+利用数据结构来定义对象
+尽可能使用switch代替else-if语句
+减少字节数，增加用户体验</p>
+
+<p>29：FireFox(FF)和IE的一些不同点</p>
+
+<p>IE:innerText    FF:textContent
+IE:srcElement(事件源）   FF：target
+IE:attachEvent   FF:addEventListener   来绑定事件
+<a href="http://www.360doc.com/content/09/0319/12/16915_2855107.shtml">http://www.360doc.com/content/09/0319/12/16915_2855107.shtml</a></p>
+
+<p>JQuery是一个好东西，主要目的是为了统一不同浏览器使用DOM的不同点，屏蔽了不友好的功能！ 这也是下阶段的学习目标。</p>
+]]></content>
+  </entry>
+  
+</feed>

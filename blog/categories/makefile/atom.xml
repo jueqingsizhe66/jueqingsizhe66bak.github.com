@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Makefile | 网络书屋(Web Reading Room)]]></title>
+  <link href="http://jueqingsizhe66.github.io/blog/categories/makefile/atom.xml" rel="self"/>
+  <link href="http://jueqingsizhe66.github.io/"/>
+  <updated>2017-01-22T12:24:26+08:00</updated>
+  <id>http://jueqingsizhe66.github.io/</id>
+  <author>
+    <name><![CDATA[Ye Zhaoliang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[模块分割--工厂机制]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2014/05/15/mo-kuai-fen-ge-gong-han-ji-zhi/"/>
+    <updated>2014-05-15T22:27:07+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2014/05/15/mo-kuai-fen-ge-gong-han-ji-zhi</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<ol>
+<li>map</li>
+<li>reduce</li>
+<li>deploy(by makefile)</li>
+</ol>
+
+
+<h1>map&mdash;-do   or map&mdash;action</h1>
+
+<p>``` makefile
+FC=gfortran
+FFLAGS=-O3
+split : ./f90split.f90 ./output/cmd.sh</p>
+
+<pre><code>$(FC) $(FFLAGS) $^ -o $@
+mv $@ ./output/
+/bin/sh ./output/cmd.sh
+</code></pre>
+
+<p>.PHONY: clean</p>
+
+<h2>```</h2>
+
+<h2>不是不适合，是超级适合，只不过你不会而已</h2>
+
+<h1>makefile:(负责让对应的文件夹去做对应的事情)</h1>
+
+<p>``` makefile
+FC=gfortran
+FFLAGS=-O3
+split : ./f90split.f90 ./output/cmd.sh</p>
+
+<pre><code>$(FC) $(FFLAGS) $&lt; -o $@                # 造出一个工人出来！
+cp $@ ./output/          # 把一个高级技术工人调到现场 去干活去！  最好用cp 这样就可以派到其他工厂去了
+cd ./output/ &amp;&amp;sh cmd.sh#切换到对应目录下 去做他该做的事情就可以了（而不是原先你想的
+
+# sh .output/cmd.sh 这样是在当前的目录下产生所有的东西 而不是对应的目录）
+</code></pre>
+
+<p>.PHONY: clean</p>
+
+<p>```</p>
+
+<h1>在我的output目录下新建了一个</h1>
+
+<h2>cmd.sh:(他只做本目录下的内容)</h2>
+
+<p>```</p>
+
+<h1>!/bin/sh</h1>
+
+<h1>sh cmd.sh</h1>
+
+<p>for i in <code>ls -l /home/incompact3dNew/channel|grep f90|awk '{print $NF}'</code>;
+do</p>
+
+<pre><code>file=/home/incompact3dNew/channel/$i;
+</code></pre>
+
+<h1>echo $file;</h1>
+
+<pre><code> ./split $file
+</code></pre>
+
+<p>done;
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Makefile编译fortran的module]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2014/05/14/makefilebian-yi-fortrande-module/"/>
+    <updated>2014-05-14T13:09:20+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2014/05/14/makefilebian-yi-fortrande-module</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<p>``` makefile makefile module compile  <a href="http://note.youdao.com/web/list?notebook=%2FWPqZjT2&amp;sortMode=0&amp;version=529952&amp;note=%2FWPqZjT2%2Fweb1393566495246  ">http://note.youdao.com/web/list?notebook=%2FWPqZjT2&amp;sortMode=0&amp;version=529952&amp;note=%2FWPqZjT2%2Fweb1393566495246  </a>
+FC = gfortran
+FFLAGS = -g -Wall -O3 &mdash;free-form
+modFFLAGS =  &mdash;free-form</p>
+
+<p>OPTFC = -O3 -funroll-loops -ftree-vectorize -fcray-pointer -cpp</p>
+
+<h1>src = $(wildcard *.f90)</h1>
+
+<p>src = secdmo.f90 record.f90
+obj = $(src:.f90=.o )
+secd : $(obj)</p>
+
+<pre><code>$(FC) $(FFLAGS) -o $@ $^
+</code></pre>
+
+<p>%.o : %.f90</p>
+
+<pre><code>$(FC) $(modFFLAGS) $(OPTFC) -c $&lt;
+</code></pre>
+
+<h1>secdmo.mod : secdmo.f</h1>
+
+<h1>$(FC) $(modFFLAGS) @ $&lt;</h1>
+
+<p>.phony: clean</p>
+
+<p>clean:</p>
+
+<pre><code>rm -rf secd secdmo.mod funct.plo accu* fort* ./errdi* *.o
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

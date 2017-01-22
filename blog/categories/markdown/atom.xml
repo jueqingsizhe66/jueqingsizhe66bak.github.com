@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Markdown | 网络书屋(Web Reading Room)]]></title>
+  <link href="http://jueqingsizhe66.github.io/blog/categories/markdown/atom.xml" rel="self"/>
+  <link href="http://jueqingsizhe66.github.io/"/>
+  <updated>2017-01-22T12:24:26+08:00</updated>
+  <id>http://jueqingsizhe66.github.io/</id>
+  <author>
+    <name><![CDATA[Ye Zhaoliang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Pandoc Markdown注意点]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/06/11/pandoc-markdownzhu-yi-dian/"/>
+    <updated>2015-06-11T12:30:13+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/06/11/pandoc-markdownzhu-yi-dian</id>
+    <content type="html"><![CDATA[<p>pandoc是markdown升级版工具，用于制作幻灯片相当好用，然而使用过程需要注意以下几点。</p>
+
+<!--more-->
+
+
+<ol>
+<li>markdown文件  # 大标题不能跟上文本   ## 二标题才可以跟文本，且是一张幻灯
+片。</li>
+<li>org文件使用 &mdash;&mdash;&mdash;&mdash;-来强制执行创建新的幻灯片</li>
+</ol>
+
+
+<h2>markdown</h2>
+
+<p>``` sh
+% Ye Zhaoliang
+% Openfoam Introduction
+% 11th June,2015</p>
+
+<h1>Openfoam简介</h1>
+
+<h2>1求解器(Solver 数值结算)</h2>
+
+<p>  openfoam采用c++编写的类库，开源免费。所以可以把它当作一种类似于String的基本类来使用。
+ openfoam框架从使用级别来看主要分为两类：</p>
+
+<pre><code>- 流体计算
+- 化学反应
+- 换热
+- 结构动力学
+- 电磁场
+- 金融评估等
+</code></pre>
+
+<h2>2工具(Utility)</h2>
+
+<pre><code>- 前处理
+  + 建模
+  + 网格
+  + 边界条件
+- 后处理
+  + 计算结果显示
+</code></pre>
+
+<h2>cavity case</h2>
+
+<p>cavity case的文件夹简介（等价于fluent的.cas,只不过fluent集成为一个文件，openfoam是一个文件夹)</p>
+
+<h1>这便使用代码快包裹</h1>
+
+<p>├── 0 (初始条件文件夹)
+│   ├── p
+│   └── U
+├── constant
+│   ├── polyMesh(网格文件夹)
+│   │   └── blockMeshDict
+│   └── transportProperties(流体物性参数 传热物性参数)
+└── system</p>
+
+<pre><code>├── controlDict(控制字典)
+├── fvSchemes(离散格式 更高级的运用)
+└── fvSolution(求解方法)
+</code></pre>
+
+<h1>运用的三个级别[%]</h1>
+
+<h2>三个级别</h2>
+
+<ul>
+<li>[ ] 直接利用解释器(替代商业求解器 初始点)</li>
+<li>[ ] 自定义求解器(关注点)
+
+<pre><code>+ 根据自己的求解流程组合求解器(类库调用)
++ 不需要关心对流项和扩散项是如何离散的
++ 也不需要关心湍流模型
+</code></pre></li>
+<li>[ ] 更高级的运用:编写离散格式</li>
+</ul>
+
+
+<h2>自定义求解器</h2>
+
+<pre><code>按照自己的_求解流程_编写求解。
+</code></pre>
+
+<h2>不关心</h2>
+
+<pre><code>+ 离散格式(时间项和对流项)
++ 大型代数方程的求解，如何加速等。
+</code></pre>
+
+<h2>传热求解</h2>
+
+<p>这边使用代码快包裹</p>
+
+<pre><code>开始
+|
+初始值
+|
+-----------------&lt;------------------------------
+|                                              |
+用CFD进行室内温度计算                          |
+|                   |                          ^
+辐射传热计算Qri  导热计算Qcdi                  |
+|                   |                          |
+由热平衡求新的对流传热量Qcvi^(m+1)             |
+|                                              |
+收敛条件 --------&gt;-----------------------------|
+|
+结束
+</code></pre>
+
+<h2>自定义离散格式</h2>
+
+<p>   针对于研究离散格式和代数求解器的用户
+   目的： 创造更高效更精确的离散方法
+   操作： 修改finiteVolumn&hellip;</p>
+
+<pre><code>      尤其是对流项。openfoam 提供了NVD和TVD的模板（40以上）
+      对流项离散依然是一种研究方向。
+</code></pre>
+
+<h2>cavity源码文件的主要构成部分</h2>
+
+<ul>
+<li>  location
+
+<ul>
+<li>&ldquo;system&rdquo;</li>
+<li>&ldquo;constant&rdquo;</li>
+<li>&ldquo;0&rdquo;</li>
+</ul>
+</li>
+<li> class
+
+<ul>
+<li>dictionary</li>
+<li>volVectorField</li>
+<li>volScalarField</li>
+</ul>
+</li>
+</ul>
+
+
+<h1>#</h1>
+
+<ul>
+<li> object
+
+<ul>
+<li>dictionary
+
+<ul>
+<li>fvschemes对象</li>
+<li>fvsolution对象</li>
+<li>controldict对象</li>
+<li>blockmeshdict</li>
+<li>transportproperties</li>
+</ul>
+</li>
+<li>volVectorField
+
+<ul>
+<li>U对象</li>
+</ul>
+</li>
+<li>volScalarField
+
+<ul>
+<li>p对象</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p>```</p>
+
+<h2>org-mode</h2>
+
+<p>``` sh
+* Openfoam简介
+  openfoam采用c++编写的类库，开源免费。所以可以把它当作一种类似于String的基本类来使用。</p>
+
+<h2> openfoam框架从使用级别来看主要分为两类：</h2>
+
+<p>** 1求解器(Solver 数值结算)</p>
+
+<pre><code>- 流体计算
+- 化学反应
+- 换热
+- 结构动力学
+- 电磁场
+- 金融评估等
+</code></pre>
+
+<p>** 2工具(Utility)</p>
+
+<pre><code>- 前处理
+  + 建模
+  + 网格
+  + 边界条件
+- 后处理
+  + 计算结果显示
+</code></pre>
+
+<hr />
+
+<p>** cavity case
+cavity case的文件夹简介（等价于fluent的.cas,只不过fluent集成为一个文件，openfoam是一个文件夹)</p>
+
+<h1>+begin_src sh</h1>
+
+<p>├── 0 (初始条件文件夹)
+│   ├── p
+│   └── U
+├── constant
+│   ├── polyMesh(网格文件夹)
+│   │   └── blockMeshDict
+│   └── transportProperties(流体物性参数 传热物性参数)
+└── system</p>
+
+<pre><code>├── controlDict(控制字典)
+├── fvSchemes(离散格式 更高级的运用)
+└── fvSolution(求解方法)
+</code></pre>
+
+<h1>+end_src</h1>
+
+<ul>
+<li><p>运用的三个级别[%]</p></li>
+<li><p>[ ] 直接利用解释器(替代商业求解器 初始点)</p></li>
+<li><p>[ ] 自定义求解器(关注点)</p>
+
+<pre><code>+ 根据自己的求解流程组合求解器(类库调用)
++ 不需要关心对流项和扩散项是如何离散的
++ 也不需要关心湍流模型
+</code></pre></li>
+<li><p>[ ] 更高级的运用:编写离散格式</p></li>
+</ul>
+
+
+<hr />
+
+<p>** 自定义求解器</p>
+
+<pre><code>按照自己的_求解流程_编写求解。
+</code></pre>
+
+<p>** 不关心</p>
+
+<pre><code>+ 离散格式(时间项和对流项)
++ 大型代数方程的求解，如何加速等。
+</code></pre>
+
+<hr />
+
+<p>** 传热求解</p>
+
+<h1>+begin_src sh</h1>
+
+<pre><code>开始
+|
+初始值
+|
+-----------------&lt;------------------------------
+|                                              |
+用CFD进行室内温度计算                          |
+|                   |                          ^
+辐射传热计算Qri  导热计算Qcdi                  |
+|                   |                          |
+由热平衡求新的对流传热量Qcvi^(m+1)             |
+|                                              |
+收敛条件 --------&gt;-----------------------------|
+|
+结束
+</code></pre>
+
+<h1>+end_src</h1>
+
+<hr />
+
+<p>** 自定义离散格式</p>
+
+<p>   针对于研究离散格式和代数求解器的用户
+   目的： 创造更高效更精确的离散方法
+   操作： 修改finiteVolumn&hellip;</p>
+
+<pre><code>      尤其是对流项。openfoam 提供了NVD和TVD的模板（40以上）
+      对流项离散依然是一种研究方向。
+</code></pre>
+
+<hr />
+
+<p>** cavity源码文件的主要组成部分</p>
+
+<ul>
+<li><p>  location</p>
+
+<ul>
+<li>&ldquo;system&rdquo;</li>
+<li>&ldquo;constant&rdquo;</li>
+<li>&ldquo;0&rdquo;</li>
+</ul>
+</li>
+<li><p> class</p>
+
+<ul>
+<li>dictionary</li>
+<li>volVectorField</li>
+<li>volScalarField</li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li> object
+
+<ul>
+<li>dictionary
+
+<ul>
+<li>fvschemes对象</li>
+<li>fvsolution对象</li>
+<li>controldict对象</li>
+<li>blockmeshdict</li>
+<li>transportproperties</li>
+</ul>
+</li>
+<li>volVectorField
+
+<ul>
+<li>U对象</li>
+</ul>
+</li>
+<li>volScalarField
+
+<ul>
+<li>p对象</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Pandoc制作幻灯片with Revealjs]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/06/07/pandoczhi-zuo-huan-deng-pian-with-revealjs/"/>
+    <updated>2015-06-07T17:34:49+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/06/07/pandoczhi-zuo-huan-deng-pian-with-revealjs</id>
+    <content type="html"><![CDATA[<p>第一次看到github.io居然可以放上幻灯片,有点觉得不可思议
+<a href="http://dongweiming.github.io/sed_and_awk/">sed_and_awk教程</a>。后来调研发现这是采用了
++ <a href="http://foxswily.iteye.com/blog/1997397">轻量slideshow（by markdown、pandoc、revealjs）</a>
++ <a href="http://www.soimort.org/posts/165/">Markdown+Pandoc→HTML幻灯片速成 </a>
++ <a href="http://www.tuicool.com/articles/Bbiu22U">pandoc将markdown转换输出HTML slide </a></p>
+
+<!--more-->
+
+
+<p>我新建了一个文件夹</p>
+
+<p>```sh
+mkdir genereateSlides
+cd generateSlides
+mkdir targets</p>
+
+<h1>并在targets中放上reveal.js,相信大家知道怎么下载</h1>
+
+<p> git clone <a href="https://github.com/hakimel/reveal.js">https://github.com/hakimel/reveal.js</a></p>
+
+<p>```</p>
+
+<p>然后我抛弃掉dzslides,s5,slideous,slidy等，现在只是使用reveal.js</p>
+
+<ul>
+<li>它支持md和org格式，这是我欣赏的</li>
+<li>它支持一标题是水平切换，二标题是纵向切换，这也是我所欣赏，影响我的思维
+
+<ul>
+<li>所以针对markdown你需要思考何时使用#号个数</li>
+<li>很对org-mode你需要考虑何时使用*号个数</li>
+</ul>
+</li>
+<li>它支持列表 逐个显示，也就是+/&ndash;/1. 等如果变异的时候加上-i选项则会逐个显示。</li>
+<li>可以用 &mdash;&mdash;&mdash;&mdash;&mdash;多个破折号强制生成新的幻灯片</li>
+</ul>
+
+
+<p>在开始写作之前首先得注意md开头的前三行：
+```sh
+% Ye Zhaoliang
+% Direct Numerical Simulation for Homogenuous Turbulence
+% June 07, 2015</p>
+
+<p>```</p>
+
+<p>```
+pandoc slides.md -o targets/slides.html -t revealjs -s -V theme=beige</p>
+
+<p>```
+<strong>之前，进行几次实验，发现结果不对！但是其实就是用了上述的命令，而多试几遍又可以了，This is strange!But now it works</strong></p>
+
+<h2>几种不同的幻灯片样式:</h2>
+
+<ul>
+<li>default：（默认）深灰色背景，白色文字</li>
+<li>beige：米色背景，深色文字</li>
+<li>sky：天蓝色背景，白色细文字</li>
+<li>night：黑色背景，白色粗文字</li>
+<li>serif：浅色背景，灰色衬线文字</li>
+<li>simple：白色背景，黑色文字</li>
+<li>solarized：奶油色背景，深青色文字</li>
+</ul>
+
+
+<h2>控制代码高亮风格的选项有：</h2>
+
+<ul>
+<li>&mdash;highlight-style pygments</li>
+<li>&mdash;highlight-style kate</li>
+<li>&mdash;highlight-style monochrome</li>
+<li>&mdash;highlight-style espresso</li>
+<li>&mdash;highlight-style haddock</li>
+<li>&mdash;highlight-style tango</li>
+<li>&mdash;highlight-style zenburn</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Markdown个人偏见]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2014/05/15/markdownge-ren-pian-jian/"/>
+    <updated>2014-05-15T22:57:56+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2014/05/15/markdownge-ren-pian-jian</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<h3>嵌套的列表</h3>
+
+<ol>
+<li>有序   数字</li>
+<li>无序   * + 注意在写法上的增加缩进</li>
+</ol>
+
+
+<h3>四个部分：</h3>
+
+<ul>
+<li>重点</li>
+<li>分类</li>
+<li>链接</li>
+<li>图片</li>
+</ul>
+
+
+<blockquote><p>markdown基本上没有下划线，也没有颜色，因为hacker不需要？ 其实也需要！只不过更关注的是重点（着重  真正的问题 大小和重量）和分类（列表） 链接（源自哪边）  需要一些图片（也许颜色和下划线 可以这样引入） 还有更重要的是真实的代码快（这个地方特别讲究，所以每种语言有不同的标记，也许代码的颜色才是黑客真正的颜色），一般他们还特别注意版权（也就是引用快，所以还有> , >> etc的选项）其他的工作就由html标记，但是特别区域快的摆放，特别注意前后的空行.</p></blockquote>
+
+<ul>
+<li><strong>如果加入空行就会显示空行，如果不加入空行会把前后的数据叠加在一起，除非是加入标题。空行和加标题的一个效果类似，会使前后的数据用空行分开，另起一行！</strong></li>
+<li><strong>在> 缩进的前方加入多余空格会造成<em>代码块</em>的效果</strong></li>
+<li><strong>如果<code>&lt;table&gt;</code>标签没有<code>&lt;td&gt;</code>的加入没有表格的效果，还是一堆数据</strong></li>
+</ul>
+
+
+<blockquote><p><a href="http://daringfireball.net/projects/markdown/syntax">For any markup that is not covered by Markdown’s syntax, you simply use HTML itself</a>. There’s no need to preface it or delimit it to indicate that you’re switching from Markdown to HTML; you just use the tags.</p>
+
+<p>The only restrictions are that block-level HTML elements — e.g.<code>&lt;div&gt;</code>, <code>&lt;table&gt;</code>, <code>&lt;pre&gt;</code>, <code>&lt;p&gt;</code>,etc. — must be separated from surrounding content by blank lines, and the start and end tags of the block should not be indented<strong> with tabs or spaces</strong>. Markdown is smart enough not to add extra (unwanted) <code>&lt;p&gt;</code> tags around HTML block-level tags.</p></blockquote>
+
+<hr />
+
+<h2><a href="http://hi.baidu.com/zolyfxughcbdkpq/item/85ea887c03081c2bd7a89cc1"><u>一些常用的markdown没有的编辑操作：</u></a></h2>
+
+<h3>下划线</h3>
+
+<p><u>代码:《u》下划线《/u》 </u></p>
+
+<p>中间标明:要加下划线的文字.</p>
+
+<h3>删除线</h3>
+
+<p>代码:《s》删除线《/s》</p>
+
+<p><s>中间标明:要加删除线的文字.</s></p>
+
+<h3>更改字体颜色：</h3>
+
+<p>《font color=&ldquo;#value"》写上你想写的字《/font》
+(其中value值在000000与FFFFFF(16位进制)之间修改#后面的数值，就可以改变字体的颜色。</p>
+
+<h3>部分常用颜色代码：</h3>
+
+<table>
+<tr><td><font color="#ff0000">#ff0000 红色的字喔！</td></font></tr>
+<tr><td><font color="#ff8000">#ff8000 橙色的字喔！</td></font></tr>
+<tr><td><font color="#ffff00">#ffff00 黄色的字喔！</td> </font></tr>
+<tr><td><font color="#00ff00">#00ff00 绿色的字喔！</td></font></tr>
+<tr><td><font color="#0080ff">#0080ff 蓝色的字喔！</td> </font></tr>
+<tr><td><font color="#0000a0">#0000a0 靛色的字喔！</td></font></tr>
+<tr><td><font color="#8000ff">#8000ff 紫色的字喔！</td> </font></tr>
+<tr><td><font color="#000000">#000000 黑色的字喔！</td></font> </tr>
+<tr><td><font color="#c0c0c0">#c0c0c0 灰色的字喔！</td></font></tr>
+</table>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Markdown_learning]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2014/05/13/markdown-learning/"/>
+    <updated>2014-05-13T16:43:37+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2014/05/13/markdown-learning</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<h1>markdown code part start</h1>
+
+<p>```sh
+* emphasize
+* seperate line
+* auto link
+* picture</p>
+
+<hr />
+
+<ul>
+<li>emphaize
+
+<blockquote><p><strong>You</strong> are strong
+  + <strong>he</strong> is strong
+  + <em>she</em> is em
+  + <em>it</em> is em</p></blockquote>
+
+<hr />
+
+<p>use the <code>printf()</code> function</p>
+
+<p>这是一个普通段落。</p></li>
+</ul>
+
+
+<table>
+    <tr>
+        <td>Foo</td>
+    </tr>
+</table>
+
+
+<p>这是另一个普通段落。</p>
+
+<blockquote><p>This is the first level of quoting.</p>
+
+<blockquote><p>This is nested blockquote.</p></blockquote>
+
+<p>Back to the first level.</p></blockquote>
+
+<p>I get 10 times more traffic from <a href="http://google.com/" title="Google">Google</a> than from
+<a href="http://search.yahoo.com/" title="Yahoo Search">Yahoo</a> or <a href="http://search.msn.com/" title="MSN Search">MSN</a>.</p>
+
+<p>  <img src="http://image.baidu.com/detail/newindex?col=%E5%A3%81%E7%BA%B8&amp;tag=%E5%88%9B%E6%84%8F&amp;pn=1&amp;pid=9433162230&amp;aid=329840961&amp;from=1&amp;tag3=%E6%8A%A4%E7%9C%BC&amp;app_id=578130&amp;user_id=851997103&amp;is_album=0&amp;sortlog=0&amp;width=1280&amp;height=800&amp;ic=0" alt="Alt text" /></p>
+
+<hr />
+
+<p>```</p>
+
+<hr />
+
+<h1>code part end</h1>
+
+<ul>
+<li>emphasize</li>
+<li>seperate line</li>
+<li>auto link</li>
+<li>picture</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li><p>emphaize</p>
+
+<blockquote><ul>
+<li><strong>You</strong> are strong</li>
+<li><strong>he</strong> is strong</li>
+<li><em>she</em> is em</li>
+<li><em>it</em> is em
+
+<blockquote><ul>
+<li>xinran comes from hebei</li>
+<li>xinran is a beautiful and smart girl</li>
+</ul>
+</blockquote></li>
+</ul>
+</blockquote>
+
+<hr />
+
+<p>use the <code>printf()</code> function</p>
+
+<p>这是一个普通段落。</p></li>
+<li><p>youxu</p></li>
+<li>lie</li>
+<li>biao</li>
+</ul>
+
+
+<table>
+    <tr>
+        <td>Foo</td>
+    </tr>
+</table>
+
+
+<p>这是另一个普通段落。</p>
+
+<blockquote><p>This is the first level of quoting.</p>
+
+<blockquote><p>This is nested blockquote.</p></blockquote>
+
+<p>Back to the first level.</p></blockquote>
+
+<p>I get 10 times more traffic from <a href="http://google.com/" title="Google">Google</a> than from
+<a href="http://search.yahoo.com/" title="Yahoo Search">Yahoo</a> or <a href="http://search.msn.com/" title="MSN Search">MSN</a>.</p>
+
+<p>  <img src="http://image.baidu.com/detail/newindex?col=%E5%A3%81%E7%BA%B8&amp;tag=%E5%88%9B%E6%84%8F&amp;pn=1&amp;pid=9433162230&amp;aid=329840961&amp;from=1&amp;tag3=%E6%8A%A4%E7%9C%BC&amp;app_id=578130&amp;user_id=851997103&amp;is_album=0&amp;sortlog=0&amp;width=1280&amp;height=800&amp;ic=0" alt="Alt text" /></p>
+]]></content>
+  </entry>
+  
+</feed>

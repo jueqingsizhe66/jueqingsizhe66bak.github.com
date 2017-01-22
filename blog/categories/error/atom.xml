@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Error | 网络书屋(Web Reading Room)]]></title>
+  <link href="http://jueqingsizhe66.github.io/blog/categories/error/atom.xml" rel="self"/>
+  <link href="http://jueqingsizhe66.github.io/"/>
+  <updated>2017-01-22T12:24:26+08:00</updated>
+  <id>http://jueqingsizhe66.github.io/</id>
+  <author>
+    <name><![CDATA[Ye Zhaoliang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Try Again]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2014/05/11/try-again/"/>
+    <updated>2014-05-11T14:40:39+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2014/05/11/try-again</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<h1>Never give up</h1>
+
+<blockquote><p>Still there are some people doing much better and longer than you
+So go on.</p></blockquote>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,1830 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>TurbSim 8个湍流模型的对比 - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="TurbSim,是NREL提供的一个小的开源工具， 用于产生湍流风，设置的时候可能对于不同模型会有不同的参数，基于范本进行了一番分析。当然测试文件在TurbSim的Test文件下的inp文件夹下。 如果对那些湍流模型做一个对比，那样是否可以更加清晰的看出不同呢？
+于是就有了下面的shell分析脚本 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2015/08/10/turbsim-8ge-tuan-liu-mo-xing-de-dui-bi">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">TurbSim 8个湍流模型的对比</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-10T01:00:47+08:00" pubdate data-updated="true">Aug 10<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="https://nwtc.nrel.gov/TurbSim">TurbSim</a>,是NREL提供的一个小的开源工具， 用于产生湍流风，设置的时候可能对于不同模型会有不同的参数，基于范本进行了一番分析。当然测试文件在TurbSim的Test文件下的inp文件夹下。</p>
+
+<p>如果对那些湍流模型做一个对比，那样是否可以更加清晰的看出不同呢？
+于是就有了下面的shell分析脚本。</p>
+
+<p>TurbSim产生的风力机一圈的入流截面模型（仅仅一个截面，全场是因为捕捉了很多个截面）</p>
+
+<p><img src="/images/fast/turbsim.png" alt="Turbsim" /></p>
+
+<!--more-->
+
+
+<h2>Shell解析脚本</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/bash - </span>
+</span><span class='line'><span class="c">#===============================================================================</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'><span class="c">#          FILE: a.sh</span>
+</span><span class='line'><span class="c"># </span>
+</span><span class='line'><span class="c">#         USAGE: ./a.sh </span>
+</span><span class='line'><span class="c"># </span>
+</span><span class='line'><span class="c">#   DESCRIPTION: </span>
+</span><span class='line'><span class="c"># </span>
+</span><span class='line'><span class="c">#       OPTIONS: ---</span>
+</span><span class='line'><span class="c">#  REQUIREMENTS: ---</span>
+</span><span class='line'><span class="c">#          BUGS: ---</span>
+</span><span class='line'><span class="c">#         NOTES: ---</span>
+</span><span class='line'><span class="c">#        AUTHOR: Ye Zhaoliang (), zhaoturkkey@163.com</span>
+</span><span class='line'><span class="c">#  ORGANIZATION: YZL</span>
+</span><span class='line'><span class="c">#       CREATED: 2015年08月10日 00:26</span>
+</span><span class='line'><span class="c">#      REVISION:  ---</span>
+</span><span class='line'><span class="c">#===============================================================================</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#---  FUNCTION  ----------------------------------------------------------------</span>
+</span><span class='line'><span class="c">#          NAME:  _repeat1</span>
+</span><span class='line'><span class="c">#   DESCRIPTION:  优化版本</span>
+</span><span class='line'><span class="c">#    PARAMETERS:  </span>
+</span><span class='line'><span class="c">#       RETURNS:  </span>
+</span><span class='line'><span class="c">#-------------------------------------------------------------------------------</span>
+</span><span class='line'>_repeat1<span class="o">()</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>    <span class="c">#@ 使用方式： _repeat 要重复的字符串  重复次数</span>
+</span><span class='line'>    <span class="c">#@  Usage : _repeat string number</span>
+</span><span class='line'>    <span class="nv">_REPEAT1</span><span class="o">=</span><span class="nv">$1</span>  <span class="c">#set and not empty, or unlimit recycle</span>
+</span><span class='line'>    <span class="k">while</span> <span class="o">[[</span> <span class="k">${#</span><span class="nv">_REPEAT1</span><span class="k">}</span> -lt <span class="nv">$2</span> <span class="o">]]</span>
+</span><span class='line'>    <span class="k">do</span>
+</span><span class='line'><span class="k">        </span><span class="nv">_REPEAT1</span><span class="o">=</span><span class="nv">$_REPEAT1$_REPEAT1$_REPEAT1</span> <span class="c">## 3次优化</span>
+</span><span class='line'>    <span class="k">done</span>
+</span><span class='line'><span class="k">    </span><span class="nv">_REPEAT1</span><span class="o">=</span><span class="k">${</span><span class="nv">_REPEAT1</span><span class="p">:</span><span class="nv">0</span><span class="p">:</span><span class="nv">$2</span><span class="k">}</span> <span class="c">##Trim到我们需要的长度</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>alert<span class="o">()</span> <span class="c">#@ Description    产生一个方框的注释</span>
+</span><span class='line'><span class="o">{</span>       <span class="c">#@ Usage    alert &quot;话语&quot;</span>
+</span><span class='line'>    _repeat1 <span class="s2">&quot;${2:-#}&quot;</span> <span class="k">$((</span> <span class="k">${#</span><span class="nv">1</span><span class="k">}</span> <span class="o">+</span> <span class="m">8</span> <span class="k">))</span> <span class="c">## ${2:-#} 如果$2未定义则使用#</span>
+</span><span class='line'>    <span class="nb">printf</span> <span class="s1">&#39;%s\n&#39;</span> <span class="s2">&quot;$_REPEAT1&quot;</span> <span class="c">## \a=BEL</span>
+</span><span class='line'>    <span class="nb">printf</span> <span class="s1">&#39;%2.2s %s %2.2s\n&#39;</span> <span class="s2">&quot;$_REPEAT1&quot;</span> <span class="s2">&quot;$1&quot;</span> <span class="s2">&quot;$_REPEAT1&quot;</span> <span class="c">## \a=BEL</span>
+</span><span class='line'>    <span class="nb">printf</span> <span class="s1">&#39;%s\n&#39;</span> <span class="s2">&quot;$_REPEAT1&quot;</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c">#alert &quot;Do you really want to delete all the files?&quot;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c">## RandSeed1 在不同湍流模型配置的不同</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>alert  <span class="s2">&quot;RandSeed1&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;RandSeed1&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;RandSeed2&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;RandSeed2&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;WrBHHTP&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;WrBHHTP&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;WrFHHTP&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;WrFHHTP&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;WrADHH&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;WrADHH&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;WrADFF&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;WrADFF&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;WrBLFF&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;WrBLFF&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;WrADTWR&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;WrADTWR&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;WrFMTFF&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;WrFMTFF&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;WrACT&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;WrACT&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;NumGrid_Z&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;NumGrid_Z&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;NumGrid_Y&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;NumGrid_Y&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;HubHt&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;HubHt&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;GridHeight&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;GridHeight&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|sed <span class="s1">&#39;/HubHt/d&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;GridWidth&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;GridWidth&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|sed <span class="s1">&#39;/HubHt/d&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;VFlowAng&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;VFlowAng&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;HFlowAng&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;HFlowAng&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;TurbModel&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;TurbModel&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;IECstandard&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;IECstandard&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;IECturbc&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;IECturbc&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;IEC_WindType&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;IEC_WindType&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;ETMc&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;ETMc&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;WindProfileType&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;WindProfileType&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;RefHt&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;RefHt&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;URef&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;URef&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;ZJetMax&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;ZJetMax&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;PLExp&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;PLExp&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;Z0&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;Z0&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;RICH_NO&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;RICH_NO&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;ZI&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;ZI&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;PC_UW&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;PC_UW&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;PC_UV&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;PC_UV&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;PC_VW&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;PC_VW&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;CohExp&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;CohExp&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;CTEventPath&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;CTEventPath&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;CTEventFile&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;CTEventFile&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;Randomize&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;Randomize&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;DistScl&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;DistScl&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;CTLy&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;CTLy&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;CTLz&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;CTLz&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>alert  <span class="s2">&quot;CTStartTime&quot;</span>
+</span><span class='line'>grep -n <span class="s2">&quot;CTStartTime&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'><span class="o">}</span> &gt; summary.out
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>改进</h3>
+
+<ol>
+<li>去除无用的Turbulence and Boundary</li>
+<li>增加了对GridWidth and GridHeight的处理</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>grep -n <span class="s2">&quot;GridHeight&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|sed <span class="s1">&#39;/HubHt/d&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span><span class='line'>grep -n <span class="s2">&quot;GridWidth&quot;</span> *.inp|awk -F: <span class="s1">&#39;{print $1,$3}&#39;</span>|sed <span class="s1">&#39;/HubHt/d&#39;</span>|awk <span class="s1">&#39;{print substr($1,0,length($1)-4),&quot;\t\t&quot;,$2}&#39;</span>|column -t
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><h2>shell产生的结果如下：</h2></li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+<span class='line-number'>201</span>
+<span class='line-number'>202</span>
+<span class='line-number'>203</span>
+<span class='line-number'>204</span>
+<span class='line-number'>205</span>
+<span class='line-number'>206</span>
+<span class='line-number'>207</span>
+<span class='line-number'>208</span>
+<span class='line-number'>209</span>
+<span class='line-number'>210</span>
+<span class='line-number'>211</span>
+<span class='line-number'>212</span>
+<span class='line-number'>213</span>
+<span class='line-number'>214</span>
+<span class='line-number'>215</span>
+<span class='line-number'>216</span>
+<span class='line-number'>217</span>
+<span class='line-number'>218</span>
+<span class='line-number'>219</span>
+<span class='line-number'>220</span>
+<span class='line-number'>221</span>
+<span class='line-number'>222</span>
+<span class='line-number'>223</span>
+<span class='line-number'>224</span>
+<span class='line-number'>225</span>
+<span class='line-number'>226</span>
+<span class='line-number'>227</span>
+<span class='line-number'>228</span>
+<span class='line-number'>229</span>
+<span class='line-number'>230</span>
+<span class='line-number'>231</span>
+<span class='line-number'>232</span>
+<span class='line-number'>233</span>
+<span class='line-number'>234</span>
+<span class='line-number'>235</span>
+<span class='line-number'>236</span>
+<span class='line-number'>237</span>
+<span class='line-number'>238</span>
+<span class='line-number'>239</span>
+<span class='line-number'>240</span>
+<span class='line-number'>241</span>
+<span class='line-number'>242</span>
+<span class='line-number'>243</span>
+<span class='line-number'>244</span>
+<span class='line-number'>245</span>
+<span class='line-number'>246</span>
+<span class='line-number'>247</span>
+<span class='line-number'>248</span>
+<span class='line-number'>249</span>
+<span class='line-number'>250</span>
+<span class='line-number'>251</span>
+<span class='line-number'>252</span>
+<span class='line-number'>253</span>
+<span class='line-number'>254</span>
+<span class='line-number'>255</span>
+<span class='line-number'>256</span>
+<span class='line-number'>257</span>
+<span class='line-number'>258</span>
+<span class='line-number'>259</span>
+<span class='line-number'>260</span>
+<span class='line-number'>261</span>
+<span class='line-number'>262</span>
+<span class='line-number'>263</span>
+<span class='line-number'>264</span>
+<span class='line-number'>265</span>
+<span class='line-number'>266</span>
+<span class='line-number'>267</span>
+<span class='line-number'>268</span>
+<span class='line-number'>269</span>
+<span class='line-number'>270</span>
+<span class='line-number'>271</span>
+<span class='line-number'>272</span>
+<span class='line-number'>273</span>
+<span class='line-number'>274</span>
+<span class='line-number'>275</span>
+<span class='line-number'>276</span>
+<span class='line-number'>277</span>
+<span class='line-number'>278</span>
+<span class='line-number'>279</span>
+<span class='line-number'>280</span>
+<span class='line-number'>281</span>
+<span class='line-number'>282</span>
+<span class='line-number'>283</span>
+<span class='line-number'>284</span>
+<span class='line-number'>285</span>
+<span class='line-number'>286</span>
+<span class='line-number'>287</span>
+<span class='line-number'>288</span>
+<span class='line-number'>289</span>
+<span class='line-number'>290</span>
+<span class='line-number'>291</span>
+<span class='line-number'>292</span>
+<span class='line-number'>293</span>
+<span class='line-number'>294</span>
+<span class='line-number'>295</span>
+<span class='line-number'>296</span>
+<span class='line-number'>297</span>
+<span class='line-number'>298</span>
+<span class='line-number'>299</span>
+<span class='line-number'>300</span>
+<span class='line-number'>301</span>
+<span class='line-number'>302</span>
+<span class='line-number'>303</span>
+<span class='line-number'>304</span>
+<span class='line-number'>305</span>
+<span class='line-number'>306</span>
+<span class='line-number'>307</span>
+<span class='line-number'>308</span>
+<span class='line-number'>309</span>
+<span class='line-number'>310</span>
+<span class='line-number'>311</span>
+<span class='line-number'>312</span>
+<span class='line-number'>313</span>
+<span class='line-number'>314</span>
+<span class='line-number'>315</span>
+<span class='line-number'>316</span>
+<span class='line-number'>317</span>
+<span class='line-number'>318</span>
+<span class='line-number'>319</span>
+<span class='line-number'>320</span>
+<span class='line-number'>321</span>
+<span class='line-number'>322</span>
+<span class='line-number'>323</span>
+<span class='line-number'>324</span>
+<span class='line-number'>325</span>
+<span class='line-number'>326</span>
+<span class='line-number'>327</span>
+<span class='line-number'>328</span>
+<span class='line-number'>329</span>
+<span class='line-number'>330</span>
+<span class='line-number'>331</span>
+<span class='line-number'>332</span>
+<span class='line-number'>333</span>
+<span class='line-number'>334</span>
+<span class='line-number'>335</span>
+<span class='line-number'>336</span>
+<span class='line-number'>337</span>
+<span class='line-number'>338</span>
+<span class='line-number'>339</span>
+<span class='line-number'>340</span>
+<span class='line-number'>341</span>
+<span class='line-number'>342</span>
+<span class='line-number'>343</span>
+<span class='line-number'>344</span>
+<span class='line-number'>345</span>
+<span class='line-number'>346</span>
+<span class='line-number'>347</span>
+<span class='line-number'>348</span>
+<span class='line-number'>349</span>
+<span class='line-number'>350</span>
+<span class='line-number'>351</span>
+<span class='line-number'>352</span>
+<span class='line-number'>353</span>
+<span class='line-number'>354</span>
+<span class='line-number'>355</span>
+<span class='line-number'>356</span>
+<span class='line-number'>357</span>
+<span class='line-number'>358</span>
+<span class='line-number'>359</span>
+<span class='line-number'>360</span>
+<span class='line-number'>361</span>
+<span class='line-number'>362</span>
+<span class='line-number'>363</span>
+<span class='line-number'>364</span>
+<span class='line-number'>365</span>
+<span class='line-number'>366</span>
+<span class='line-number'>367</span>
+<span class='line-number'>368</span>
+<span class='line-number'>369</span>
+<span class='line-number'>370</span>
+<span class='line-number'>371</span>
+<span class='line-number'>372</span>
+<span class='line-number'>373</span>
+<span class='line-number'>374</span>
+<span class='line-number'>375</span>
+<span class='line-number'>376</span>
+<span class='line-number'>377</span>
+<span class='line-number'>378</span>
+<span class='line-number'>379</span>
+<span class='line-number'>380</span>
+<span class='line-number'>381</span>
+<span class='line-number'>382</span>
+<span class='line-number'>383</span>
+<span class='line-number'>384</span>
+<span class='line-number'>385</span>
+<span class='line-number'>386</span>
+<span class='line-number'>387</span>
+<span class='line-number'>388</span>
+<span class='line-number'>389</span>
+<span class='line-number'>390</span>
+<span class='line-number'>391</span>
+<span class='line-number'>392</span>
+<span class='line-number'>393</span>
+<span class='line-number'>394</span>
+<span class='line-number'>395</span>
+<span class='line-number'>396</span>
+<span class='line-number'>397</span>
+<span class='line-number'>398</span>
+<span class='line-number'>399</span>
+<span class='line-number'>400</span>
+<span class='line-number'>401</span>
+<span class='line-number'>402</span>
+<span class='line-number'>403</span>
+<span class='line-number'>404</span>
+<span class='line-number'>405</span>
+<span class='line-number'>406</span>
+<span class='line-number'>407</span>
+<span class='line-number'>408</span>
+<span class='line-number'>409</span>
+<span class='line-number'>410</span>
+<span class='line-number'>411</span>
+<span class='line-number'>412</span>
+<span class='line-number'>413</span>
+<span class='line-number'>414</span>
+<span class='line-number'>415</span>
+<span class='line-number'>416</span>
+<span class='line-number'>417</span>
+<span class='line-number'>418</span>
+<span class='line-number'>419</span>
+<span class='line-number'>420</span>
+<span class='line-number'>421</span>
+<span class='line-number'>422</span>
+<span class='line-number'>423</span>
+<span class='line-number'>424</span>
+<span class='line-number'>425</span>
+<span class='line-number'>426</span>
+<span class='line-number'>427</span>
+<span class='line-number'>428</span>
+<span class='line-number'>429</span>
+<span class='line-number'>430</span>
+<span class='line-number'>431</span>
+<span class='line-number'>432</span>
+<span class='line-number'>433</span>
+<span class='line-number'>434</span>
+<span class='line-number'>435</span>
+<span class='line-number'>436</span>
+<span class='line-number'>437</span>
+<span class='line-number'>438</span>
+<span class='line-number'>439</span>
+<span class='line-number'>440</span>
+<span class='line-number'>441</span>
+<span class='line-number'>442</span>
+<span class='line-number'>443</span>
+<span class='line-number'>444</span>
+<span class='line-number'>445</span>
+<span class='line-number'>446</span>
+<span class='line-number'>447</span>
+<span class='line-number'>448</span>
+<span class='line-number'>449</span>
+<span class='line-number'>450</span>
+<span class='line-number'>451</span>
+<span class='line-number'>452</span>
+<span class='line-number'>453</span>
+<span class='line-number'>454</span>
+<span class='line-number'>455</span>
+<span class='line-number'>456</span>
+<span class='line-number'>457</span>
+<span class='line-number'>458</span>
+<span class='line-number'>459</span>
+<span class='line-number'>460</span>
+<span class='line-number'>461</span>
+<span class='line-number'>462</span>
+<span class='line-number'>463</span>
+<span class='line-number'>464</span>
+<span class='line-number'>465</span>
+<span class='line-number'>466</span>
+<span class='line-number'>467</span>
+<span class='line-number'>468</span>
+<span class='line-number'>469</span>
+<span class='line-number'>470</span>
+<span class='line-number'>471</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#################</span>
+</span><span class='line'><span class="c">## RandSeed1 ##</span>
+</span><span class='line'><span class="c">#################</span>
+</span><span class='line'>GPLLJ        234516
+</span><span class='line'>HYDRO_TIDAL  2318573
+</span><span class='line'>Kaimal_15    123456
+</span><span class='line'>Kaimal       123456
+</span><span class='line'>KHtest       123456
+</span><span class='line'>smooth       4433456
+</span><span class='line'>vonKarm_15   123456
+</span><span class='line'>vonKarm      123456
+</span><span class='line'><span class="c">#################</span>
+</span><span class='line'><span class="c">## RandSeed2 ##</span>
+</span><span class='line'><span class="c">#################</span>
+</span><span class='line'>GPLLJ        789012
+</span><span class='line'>HYDRO_TIDAL  RANLUX
+</span><span class='line'>Kaimal_15    789012
+</span><span class='line'>Kaimal       789012
+</span><span class='line'>KHtest       <span class="s2">&quot;RanLux&quot;</span>
+</span><span class='line'>smooth       <span class="s2">&quot;RanLux&quot;</span>
+</span><span class='line'>vonKarm_15   789012
+</span><span class='line'>vonKarm      789012
+</span><span class='line'><span class="c">###############</span>
+</span><span class='line'><span class="c">## WrBHHTP ##</span>
+</span><span class='line'><span class="c">###############</span>
+</span><span class='line'>GPLLJ        False
+</span><span class='line'>HYDRO_TIDAL  False
+</span><span class='line'>Kaimal_15    False
+</span><span class='line'>Kaimal       False
+</span><span class='line'>KHtest       False
+</span><span class='line'>smooth       True
+</span><span class='line'>vonKarm_15   False
+</span><span class='line'>vonKarm      False
+</span><span class='line'><span class="c">###############</span>
+</span><span class='line'><span class="c">## WrFHHTP ##</span>
+</span><span class='line'><span class="c">###############</span>
+</span><span class='line'>GPLLJ        True
+</span><span class='line'>HYDRO_TIDAL  True
+</span><span class='line'>Kaimal_15    False
+</span><span class='line'>Kaimal       False
+</span><span class='line'>KHtest       False
+</span><span class='line'>smooth       False
+</span><span class='line'>vonKarm_15   True
+</span><span class='line'>vonKarm      True
+</span><span class='line'><span class="c">##############</span>
+</span><span class='line'><span class="c">## WrADHH ##</span>
+</span><span class='line'><span class="c">##############</span>
+</span><span class='line'>GPLLJ        False
+</span><span class='line'>HYDRO_TIDAL  True
+</span><span class='line'>Kaimal_15    False
+</span><span class='line'>Kaimal       False
+</span><span class='line'>KHtest       False
+</span><span class='line'>smooth       False
+</span><span class='line'>vonKarm_15   True
+</span><span class='line'>vonKarm      True
+</span><span class='line'><span class="c">##############</span>
+</span><span class='line'><span class="c">## WrADFF ##</span>
+</span><span class='line'><span class="c">##############</span>
+</span><span class='line'>GPLLJ        True
+</span><span class='line'>HYDRO_TIDAL  False
+</span><span class='line'>Kaimal_15    False
+</span><span class='line'>Kaimal       False
+</span><span class='line'>KHtest       False
+</span><span class='line'>smooth       False
+</span><span class='line'>vonKarm_15   False
+</span><span class='line'>vonKarm      False
+</span><span class='line'><span class="c">##############</span>
+</span><span class='line'><span class="c">## WrBLFF ##</span>
+</span><span class='line'><span class="c">##############</span>
+</span><span class='line'>GPLLJ        False
+</span><span class='line'>HYDRO_TIDAL  True
+</span><span class='line'>Kaimal_15    False
+</span><span class='line'>Kaimal       False
+</span><span class='line'>KHtest       True
+</span><span class='line'>smooth       True
+</span><span class='line'>vonKarm_15   False
+</span><span class='line'>vonKarm      False
+</span><span class='line'><span class="c">###############</span>
+</span><span class='line'><span class="c">## WrADTWR ##</span>
+</span><span class='line'><span class="c">###############</span>
+</span><span class='line'>GPLLJ        False
+</span><span class='line'>HYDRO_TIDAL  False
+</span><span class='line'>Kaimal_15    False
+</span><span class='line'>Kaimal       False
+</span><span class='line'>KHtest       False
+</span><span class='line'>smooth       False
+</span><span class='line'>vonKarm_15   False
+</span><span class='line'>vonKarm      False
+</span><span class='line'><span class="c">###############</span>
+</span><span class='line'><span class="c">## WrFMTFF ##</span>
+</span><span class='line'><span class="c">###############</span>
+</span><span class='line'>GPLLJ        False
+</span><span class='line'>HYDRO_TIDAL  False
+</span><span class='line'>Kaimal_15    True
+</span><span class='line'>Kaimal       True
+</span><span class='line'>KHtest       False
+</span><span class='line'>smooth       False
+</span><span class='line'>vonKarm_15   False
+</span><span class='line'>vonKarm      False
+</span><span class='line'><span class="c">#############</span>
+</span><span class='line'><span class="c">## WrACT ##</span>
+</span><span class='line'><span class="c">#############</span>
+</span><span class='line'>GPLLJ        True
+</span><span class='line'>HYDRO_TIDAL  False
+</span><span class='line'>Kaimal_15    False
+</span><span class='line'>Kaimal       False
+</span><span class='line'>KHtest       True
+</span><span class='line'>smooth       True
+</span><span class='line'>vonKarm_15   False
+</span><span class='line'>vonKarm      False
+</span><span class='line'><span class="c">#################</span>
+</span><span class='line'><span class="c">## NumGrid_Z ##</span>
+</span><span class='line'><span class="c">#################</span>
+</span><span class='line'>GPLLJ        5
+</span><span class='line'>HYDRO_TIDAL  5
+</span><span class='line'>Kaimal_15    5
+</span><span class='line'>Kaimal       5
+</span><span class='line'>KHtest       5
+</span><span class='line'>smooth       5
+</span><span class='line'>vonKarm_15   5
+</span><span class='line'>vonKarm      5
+</span><span class='line'><span class="c">#################</span>
+</span><span class='line'><span class="c">## NumGrid_Y ##</span>
+</span><span class='line'><span class="c">#################</span>
+</span><span class='line'>GPLLJ        5
+</span><span class='line'>HYDRO_TIDAL  5
+</span><span class='line'>Kaimal_15    5
+</span><span class='line'>Kaimal       5
+</span><span class='line'>KHtest       5
+</span><span class='line'>smooth       5
+</span><span class='line'>vonKarm_15   5
+</span><span class='line'>vonKarm      5
+</span><span class='line'><span class="c">#############</span>
+</span><span class='line'><span class="c">## HubHt ##</span>
+</span><span class='line'><span class="c">#############</span>
+</span><span class='line'>GPLLJ        90.00
+</span><span class='line'>HYDRO_TIDAL  10
+</span><span class='line'>Kaimal_15    37.00
+</span><span class='line'>Kaimal       37.00
+</span><span class='line'>KHtest       37.00
+</span><span class='line'>smooth       84.00
+</span><span class='line'>vonKarm_15   37.00
+</span><span class='line'>vonKarm      37.00
+</span><span class='line'><span class="c">##################</span>
+</span><span class='line'><span class="c">## GridHeight ##</span>
+</span><span class='line'><span class="c">##################</span>
+</span><span class='line'>GPLLJ        80.00
+</span><span class='line'>HYDRO_TIDAL  9.00
+</span><span class='line'>Kaimal_15    30.00
+</span><span class='line'>Kaimal       30.00
+</span><span class='line'>KHtest       50.00
+</span><span class='line'>smooth       70.00
+</span><span class='line'>vonKarm_15   30.00
+</span><span class='line'>vonKarm      30.00
+</span><span class='line'><span class="c">#################</span>
+</span><span class='line'><span class="c">## GridWidth ##</span>
+</span><span class='line'><span class="c">#################</span>
+</span><span class='line'>GPLLJ        600.0
+</span><span class='line'>GPLLJ        90.0
+</span><span class='line'>GPLLJ        80.00
+</span><span class='line'>HYDRO_TIDAL  600
+</span><span class='line'>HYDRO_TIDAL  40
+</span><span class='line'>HYDRO_TIDAL  9.00
+</span><span class='line'>Kaimal_15    600.0
+</span><span class='line'>Kaimal_15    55.8
+</span><span class='line'>Kaimal_15    30.00
+</span><span class='line'>Kaimal       600.0
+</span><span class='line'>Kaimal       55.8
+</span><span class='line'>Kaimal       30.00
+</span><span class='line'>KHtest       600.0
+</span><span class='line'>KHtest       100.0
+</span><span class='line'>KHtest       50.00
+</span><span class='line'>smooth       600.0
+</span><span class='line'>smooth       100.0
+</span><span class='line'>smooth       70.00
+</span><span class='line'>vonKarm_15   600.0
+</span><span class='line'>vonKarm_15   55.8
+</span><span class='line'>vonKarm_15   30.00
+</span><span class='line'>vonKarm      600.0
+</span><span class='line'>vonKarm      55.8
+</span><span class='line'>vonKarm      30.00
+</span><span class='line'><span class="c">################</span>
+</span><span class='line'><span class="c">## VFlowAng ##</span>
+</span><span class='line'><span class="c">################</span>
+</span><span class='line'>GPLLJ        0
+</span><span class='line'>HYDRO_TIDAL  0
+</span><span class='line'>Kaimal_15    5
+</span><span class='line'>Kaimal       5
+</span><span class='line'>KHtest       0
+</span><span class='line'>smooth       0
+</span><span class='line'>vonKarm_15   5
+</span><span class='line'>vonKarm      0
+</span><span class='line'><span class="c">################</span>
+</span><span class='line'><span class="c">## HFlowAng ##</span>
+</span><span class='line'><span class="c">################</span>
+</span><span class='line'>GPLLJ        0
+</span><span class='line'>HYDRO_TIDAL  0
+</span><span class='line'>Kaimal_15    10
+</span><span class='line'>Kaimal       10
+</span><span class='line'>KHtest       0
+</span><span class='line'>smooth       0
+</span><span class='line'>vonKarm_15   10
+</span><span class='line'>vonKarm      0
+</span><span class='line'><span class="c">#################</span>
+</span><span class='line'><span class="c">## TurbModel ##</span>
+</span><span class='line'><span class="c">#################</span>
+</span><span class='line'>GPLLJ        <span class="s2">&quot;GP_LLJ&quot;</span>
+</span><span class='line'>HYDRO_TIDAL  <span class="s2">&quot;TIDAL&quot;</span>
+</span><span class='line'>Kaimal_15    <span class="s2">&quot;IECKAI&quot;</span>
+</span><span class='line'>Kaimal       <span class="s2">&quot;IECKAI&quot;</span>
+</span><span class='line'>KHtest       <span class="s2">&quot;NWTCUP&quot;</span>
+</span><span class='line'>smooth       <span class="s2">&quot;SMOOTH&quot;</span>
+</span><span class='line'>vonKarm_15   <span class="s2">&quot;IECVKM&quot;</span>
+</span><span class='line'>vonKarm      <span class="s2">&quot;IECVKM&quot;</span>
+</span><span class='line'><span class="c">###################</span>
+</span><span class='line'><span class="c">## IECstandard ##</span>
+</span><span class='line'><span class="c">###################</span>
+</span><span class='line'>GPLLJ        1
+</span><span class='line'>HYDRO_TIDAL  <span class="s2">&quot;1-ED3&quot;</span>
+</span><span class='line'>Kaimal_15    <span class="s2">&quot;1-ED2&quot;</span>
+</span><span class='line'>Kaimal       1
+</span><span class='line'>KHtest       1
+</span><span class='line'>smooth       1
+</span><span class='line'>vonKarm_15   1
+</span><span class='line'>vonKarm      1
+</span><span class='line'><span class="c">################</span>
+</span><span class='line'><span class="c">## IECturbc ##</span>
+</span><span class='line'><span class="c">################</span>
+</span><span class='line'>GPLLJ        <span class="s2">&quot;A&quot;</span>
+</span><span class='line'>HYDRO_TIDAL  <span class="s2">&quot;A&quot;</span>
+</span><span class='line'>Kaimal_15    <span class="s2">&quot;18.0&quot;</span>
+</span><span class='line'>Kaimal       <span class="s2">&quot;C&quot;</span>
+</span><span class='line'>KHtest       <span class="s2">&quot;KHtest&quot;</span>
+</span><span class='line'>smooth       <span class="s2">&quot;A&quot;</span>
+</span><span class='line'>vonKarm_15   16.0
+</span><span class='line'>vonKarm      <span class="s2">&quot;A&quot;</span>
+</span><span class='line'><span class="c">####################</span>
+</span><span class='line'><span class="c">## IEC_WindType ##</span>
+</span><span class='line'><span class="c">####################</span>
+</span><span class='line'>GPLLJ        NTM
+</span><span class='line'>HYDRO_TIDAL  <span class="s2">&quot;NTM&quot;</span>
+</span><span class='line'>Kaimal_15    NTM
+</span><span class='line'>Kaimal       NTM
+</span><span class='line'>KHtest       NTM
+</span><span class='line'>smooth       NTM
+</span><span class='line'>vonKarm_15   NTM
+</span><span class='line'>vonKarm      NTM
+</span><span class='line'><span class="c">############</span>
+</span><span class='line'><span class="c">## ETMc ##</span>
+</span><span class='line'><span class="c">############</span>
+</span><span class='line'>GPLLJ        default
+</span><span class='line'>HYDRO_TIDAL  default
+</span><span class='line'>Kaimal_15    default
+</span><span class='line'>Kaimal       default
+</span><span class='line'>KHtest       default
+</span><span class='line'>smooth       default
+</span><span class='line'>vonKarm_15   default
+</span><span class='line'>vonKarm      default
+</span><span class='line'><span class="c">#######################</span>
+</span><span class='line'><span class="c">## WindProfileType ##</span>
+</span><span class='line'><span class="c">#######################</span>
+</span><span class='line'>GPLLJ        default
+</span><span class='line'>HYDRO_TIDAL  <span class="s2">&quot;H2L&quot;</span>
+</span><span class='line'>Kaimal_15    default
+</span><span class='line'>Kaimal       default
+</span><span class='line'>KHtest       default
+</span><span class='line'>smooth       default
+</span><span class='line'>vonKarm_15   default
+</span><span class='line'>vonKarm      default
+</span><span class='line'><span class="c">#############</span>
+</span><span class='line'><span class="c">## RefHt ##</span>
+</span><span class='line'><span class="c">#############</span>
+</span><span class='line'>GPLLJ        85.00
+</span><span class='line'>HYDRO_TIDAL  18
+</span><span class='line'>Kaimal_15    10.00
+</span><span class='line'>Kaimal       10.00
+</span><span class='line'>KHtest       37.00
+</span><span class='line'>smooth       84.00
+</span><span class='line'>vonKarm_15   10.00
+</span><span class='line'>vonKarm      10.00
+</span><span class='line'><span class="c">############</span>
+</span><span class='line'><span class="c">## URef ##</span>
+</span><span class='line'><span class="c">############</span>
+</span><span class='line'>GPLLJ        12.0
+</span><span class='line'>HYDRO_TIDAL  18
+</span><span class='line'>HYDRO_TIDAL  1.2
+</span><span class='line'>Kaimal_15    15.0
+</span><span class='line'>Kaimal       6.0
+</span><span class='line'>KHtest       13.0
+</span><span class='line'>smooth       17.0
+</span><span class='line'>vonKarm_15   15.0
+</span><span class='line'>vonKarm      6.0
+</span><span class='line'><span class="c">###############</span>
+</span><span class='line'><span class="c">## ZJetMax ##</span>
+</span><span class='line'><span class="c">###############</span>
+</span><span class='line'>GPLLJ        350
+</span><span class='line'>HYDRO_TIDAL  default
+</span><span class='line'>Kaimal_15    350
+</span><span class='line'>Kaimal       350
+</span><span class='line'>KHtest       350
+</span><span class='line'>smooth       350
+</span><span class='line'>vonKarm_15   350
+</span><span class='line'>vonKarm      260
+</span><span class='line'><span class="c">#############</span>
+</span><span class='line'><span class="c">## PLExp ##</span>
+</span><span class='line'><span class="c">#############</span>
+</span><span class='line'>GPLLJ        default
+</span><span class='line'>HYDRO_TIDAL  default
+</span><span class='line'>Kaimal_15    default
+</span><span class='line'>Kaimal       default
+</span><span class='line'>KHtest       default
+</span><span class='line'>smooth       1.527
+</span><span class='line'>vonKarm_15   default
+</span><span class='line'>vonKarm      default
+</span><span class='line'><span class="c">##########</span>
+</span><span class='line'><span class="c">## Z0 ##</span>
+</span><span class='line'><span class="c">##########</span>
+</span><span class='line'>GPLLJ        default
+</span><span class='line'>HYDRO_TIDAL  default
+</span><span class='line'>Kaimal_15    default
+</span><span class='line'>Kaimal       default
+</span><span class='line'>KHtest       default
+</span><span class='line'>smooth       default
+</span><span class='line'>vonKarm_15   default
+</span><span class='line'>vonKarm      default
+</span><span class='line'><span class="c">###############</span>
+</span><span class='line'><span class="c">## RICH_NO ##</span>
+</span><span class='line'><span class="c">###############</span>
+</span><span class='line'>GPLLJ        0.05
+</span><span class='line'>HYDRO_TIDAL  0.05
+</span><span class='line'>Kaimal_15    0.05
+</span><span class='line'>Kaimal       0.05
+</span><span class='line'>KHtest       0.02
+</span><span class='line'>smooth       0.05
+</span><span class='line'>vonKarm_15   0.05
+</span><span class='line'>vonKarm      0.05
+</span><span class='line'><span class="c">##########</span>
+</span><span class='line'><span class="c">## ZI ##</span>
+</span><span class='line'><span class="c">##########</span>
+</span><span class='line'>GPLLJ        default
+</span><span class='line'>HYDRO_TIDAL  default
+</span><span class='line'>Kaimal_15    default
+</span><span class='line'>Kaimal       default
+</span><span class='line'>KHtest       default
+</span><span class='line'>smooth       default
+</span><span class='line'>vonKarm_15   default
+</span><span class='line'>vonKarm      default
+</span><span class='line'><span class="c">#############</span>
+</span><span class='line'><span class="c">## PC_UW ##</span>
+</span><span class='line'><span class="c">#############</span>
+</span><span class='line'>GPLLJ        default
+</span><span class='line'>HYDRO_TIDAL  default
+</span><span class='line'>Kaimal_15    default
+</span><span class='line'>Kaimal       default
+</span><span class='line'>KHtest       default
+</span><span class='line'>smooth       default
+</span><span class='line'>vonKarm_15   default
+</span><span class='line'>vonKarm      default
+</span><span class='line'><span class="c">#############</span>
+</span><span class='line'><span class="c">## PC_UV ##</span>
+</span><span class='line'><span class="c">#############</span>
+</span><span class='line'>GPLLJ        default
+</span><span class='line'>HYDRO_TIDAL  default
+</span><span class='line'>Kaimal_15    default
+</span><span class='line'>Kaimal       default
+</span><span class='line'>KHtest       default
+</span><span class='line'>smooth       default
+</span><span class='line'>vonKarm_15   default
+</span><span class='line'>vonKarm      default
+</span><span class='line'><span class="c">#############</span>
+</span><span class='line'><span class="c">## PC_VW ##</span>
+</span><span class='line'><span class="c">#############</span>
+</span><span class='line'>GPLLJ        default
+</span><span class='line'>HYDRO_TIDAL  default
+</span><span class='line'>Kaimal_15    default
+</span><span class='line'>Kaimal       default
+</span><span class='line'>KHtest       default
+</span><span class='line'>smooth       default
+</span><span class='line'>vonKarm_15   default
+</span><span class='line'>vonKarm      default
+</span><span class='line'><span class="c">##############</span>
+</span><span class='line'><span class="c">## CohExp ##</span>
+</span><span class='line'><span class="c">##############</span>
+</span><span class='line'>GPLLJ        default
+</span><span class='line'>HYDRO_TIDAL  default
+</span><span class='line'>Kaimal_15    default
+</span><span class='line'>Kaimal       default
+</span><span class='line'>KHtest       default
+</span><span class='line'>smooth       default
+</span><span class='line'>vonKarm_15   default
+</span><span class='line'>vonKarm      default
+</span><span class='line'><span class="c">###################</span>
+</span><span class='line'><span class="c">## CTEventPath ##</span>
+</span><span class='line'><span class="c">###################</span>
+</span><span class='line'>GPLLJ        <span class="s2">&quot;.\EventData&quot;</span>
+</span><span class='line'>HYDRO_TIDAL  <span class="s2">&quot;/home/lkilcher/work/nwtc/turbsim/trunk/Test/EventData/&quot;</span>
+</span><span class='line'>Kaimal_15    <span class="s2">&quot;.\EventData&quot;</span>
+</span><span class='line'>Kaimal       <span class="s2">&quot;.\EventData&quot;</span>
+</span><span class='line'>KHtest       <span class="s2">&quot;.\EventData&quot;</span>
+</span><span class='line'>smooth       <span class="s2">&quot;.\EventData&quot;</span>
+</span><span class='line'>vonKarm_15   <span class="s2">&quot;.\EventData&quot;</span>
+</span><span class='line'>vonKarm      <span class="s2">&quot;.\EventData&quot;</span>
+</span><span class='line'><span class="c">###################</span>
+</span><span class='line'><span class="c">## CTEventFile ##</span>
+</span><span class='line'><span class="c">###################</span>
+</span><span class='line'>GPLLJ        LES
+</span><span class='line'>HYDRO_TIDAL  <span class="s2">&quot;Random&quot;</span>
+</span><span class='line'>Kaimal_15    random
+</span><span class='line'>Kaimal       random
+</span><span class='line'>KHtest       <span class="s2">&quot;les&quot;</span>
+</span><span class='line'>smooth       <span class="s2">&quot;les&quot;</span>
+</span><span class='line'>vonKarm_15   random
+</span><span class='line'>vonKarm      random
+</span><span class='line'><span class="c">#################</span>
+</span><span class='line'><span class="c">## Randomize ##</span>
+</span><span class='line'><span class="c">#################</span>
+</span><span class='line'>GPLLJ        <span class="nb">true</span>
+</span><span class='line'>HYDRO_TIDAL  <span class="nb">true</span>
+</span><span class='line'>HYDRO_TIDAL  1.0
+</span><span class='line'>HYDRO_TIDAL  0.5
+</span><span class='line'>HYDRO_TIDAL  0.5
+</span><span class='line'>Kaimal_15    <span class="nb">true</span>
+</span><span class='line'>Kaimal       <span class="nb">true</span>
+</span><span class='line'>KHtest       <span class="nb">true</span>
+</span><span class='line'>smooth       <span class="nb">true</span>
+</span><span class='line'>vonKarm_15   <span class="nb">true</span>
+</span><span class='line'>vonKarm      <span class="nb">true</span>
+</span><span class='line'><span class="c">###############</span>
+</span><span class='line'><span class="c">## DistScl ##</span>
+</span><span class='line'><span class="c">###############</span>
+</span><span class='line'>GPLLJ        1.0
+</span><span class='line'>HYDRO_TIDAL  1.0
+</span><span class='line'>Kaimal_15    1.0
+</span><span class='line'>Kaimal       1.0
+</span><span class='line'>KHtest       1.0
+</span><span class='line'>smooth       1.0
+</span><span class='line'>vonKarm_15   1.0
+</span><span class='line'>vonKarm      1.0
+</span><span class='line'><span class="c">############</span>
+</span><span class='line'><span class="c">## CTLy ##</span>
+</span><span class='line'><span class="c">############</span>
+</span><span class='line'>GPLLJ        0.5
+</span><span class='line'>HYDRO_TIDAL  0.5
+</span><span class='line'>Kaimal_15    0.5
+</span><span class='line'>Kaimal       0.5
+</span><span class='line'>KHtest       0.5
+</span><span class='line'>smooth       0.5
+</span><span class='line'>vonKarm_15   0.5
+</span><span class='line'>vonKarm      0.5
+</span><span class='line'><span class="c">############</span>
+</span><span class='line'><span class="c">## CTLz ##</span>
+</span><span class='line'><span class="c">############</span>
+</span><span class='line'>GPLLJ        0.5
+</span><span class='line'>HYDRO_TIDAL  0.5
+</span><span class='line'>Kaimal_15    0.5
+</span><span class='line'>Kaimal       0.5
+</span><span class='line'>KHtest       0.5
+</span><span class='line'>smooth       0.5
+</span><span class='line'>vonKarm_15   0.5
+</span><span class='line'>vonKarm      0.5
+</span><span class='line'><span class="c">###################</span>
+</span><span class='line'><span class="c">## CTStartTime ##</span>
+</span><span class='line'><span class="c">###################</span>
+</span><span class='line'>GPLLJ        30.0
+</span><span class='line'>HYDRO_TIDAL  30.0
+</span><span class='line'>Kaimal_15    30.0
+</span><span class='line'>Kaimal       30.0
+</span><span class='line'>KHtest       0.0
+</span><span class='line'>smooth       10.0
+</span><span class='line'>vonKarm_15   30.0
+</span><span class='line'>vonKarm      30.0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p> 进一步的细节可以参考<a href="https://nwtc.nrel.gov/system/files/TurbSim.pdf">Turbsim UserGuide</a></p>
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2015/08/10/turbsim-8ge-tuan-liu-mo-xing-de-dui-bi/'>http://jueqingsizhe66.github.io/blog/2015/08/10/turbsim-8ge-tuan-liu-mo-xing-de-dui-bi/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-10T01:00:47+08:00" pubdate data-updated="true">Aug 10<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/fast/'>Fast</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/09/fortrangong-dian/" title="Previous Post: fortran宫殿">&laquo; fortran宫殿</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/05/ji-yu-xian-shi-%2Cchou-xiang-xian-shi-%2Cmo-ni-xian-shi/" title="Next Post: 基于现实，抽象现实，模拟现实">基于现实，抽象现实，模拟现实 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><div class="ds-thread" > </div>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"f708708"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+  <p><img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> <!--不是他的原因-->
+ <!--而是yellow的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (3)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (22)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (3)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (18)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/physics-and-maths/">Physics and Maths</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/jump-out-of-ontology/">Jump Out of Ontology</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/machine-learning-some-search-record/">Machine Learning Some Search Record</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/graphviz-notebook/">Graphviz Notebook</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="1" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+
+</section>
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2015/08/10/turbsim-8ge-tuan-liu-mo-xing-de-dui-bi/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2015/08/10/turbsim-8ge-tuan-liu-mo-xing-de-dui-bi/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

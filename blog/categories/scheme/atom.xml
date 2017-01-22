@@ -1,0 +1,981 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Scheme | 网络书屋(Web Reading Room)]]></title>
+  <link href="http://jueqingsizhe66.github.io/blog/categories/scheme/atom.xml" rel="self"/>
+  <link href="http://jueqingsizhe66.github.io/"/>
+  <updated>2017-01-22T12:24:26+08:00</updated>
+  <id>http://jueqingsizhe66.github.io/</id>
+  <author>
+    <name><![CDATA[Ye Zhaoliang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[能真正教会你编程能力的是重写]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2016/04/15/neng-zhen-zheng-jiao-hui-ni-bian-cheng-neng-li-de-shi-zhong-xie/"/>
+    <updated>2016-04-15T21:50:10+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2016/04/15/neng-zhen-zheng-jiao-hui-ni-bian-cheng-neng-li-de-shi-zhong-xie</id>
+    <content type="html"><![CDATA[<p>写了很多的matlab，感觉就那样！
+编了那么多数值fortran代码，也不见自己编程有多厉害！
+练了那么多的java项目，也感觉自己的技术还不见飞涨！
+用c语言摸索了好几年，也没见得有太深的见地！</p>
+
+<p>真正决定你对程序的深入理解，需要你去认识<a href="http://www.eopl3.com/">EOPL</a>或者<a href="https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">SICP</a>，亦或者更简单的<a href="http://www.ccs.neu.edu/home/matthias/BTLS/">TLS</a>.
+他们也许不能教你们做大的项目，却真切教会你编写程序，思考程序。</p>
+
+<!--more-->
+
+
+<p>回想起之前写的java项目，反反复复就为了构造一门解释器语言，用来输送数据到数据库进行操作，不断
+在中间进行验证，保证传递数据的有效性，为了搭上这样的一个平台，反复重构了代码，采用了新技术，
+不断采用接口来抽象，割分具体的关系，防止数据的污染。</p>
+
+<p>而这样做是为何？ 我之前没理解，后来做了一阶段程序语言设计方面的工作，写了多个解释器之后，我才发现总是基于
+存在（任意）某一变量某一程序供你使用，你的目的就是使用这个程序或者变量来实现他的能力！然而为了懒惰，
+你创建了很多工具（其实，应该是重构，重写）来不断让你的写的东西少点，同时能够达到更多的功能。</p>
+
+<p>这过程不好经历，也不好做，很多人也很少做，有些人不需要做，更多人没想做。大部分的企业级程序也不会教你去实现这一过程，
+也不会跟你从程序理论去介绍。架空程序理论，完成一系列的工程项目成为了很多人编程的主要目的。减少深入思考的时间，
+追逐敏捷性编程方式，忽略了闲暇的编程时间，一味着实现需求，个人感觉不是一个好的归宿、目的、追求，但却是一种好的生活手段、工作方式、效率实现。</p>
+
+<p>编程在我眼里是慢工出细活，所谓的快速开发的提出，我就不好奇，因为我不合适它。真正能够进一步提供自己对于写过程序理解，应该要自己能够写出一个解释器解释你写的程序，这个可以体现在<a href="http://www.ccs.neu.edu/home/matthias/BTLS/">TLS</a>,  <a href="http://www.ccs.neu.edu/home/matthias/BTSS/">TSS</a>  <a href="http://www.eopl3.com/">EOPL</a>,  <a href="https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">SICP</a>等。</p>
+
+<ol>
+<li>let解释器</li>
+<li>letrec解释器</li>
+<li>proc解释器</li>
+<li>state解释器</li>
+<li>cps解释器</li>
+<li>type解释器</li>
+<li>oo解释器</li>
+<li>typeoo解释器</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Program-as-data]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2016/03/30/program-as-data/"/>
+    <updated>2016-03-30T13:23:21+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2016/03/30/program-as-data</id>
+    <content type="html"><![CDATA[<p><a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/part_three.html">A program is like an essay. The first version is a draft, and drafts demand editing.</a>
+Program is also can be seen as data.</p>
+
+<ol>
+<li>直觉认识proc,提取body。</li>
+<li>对比识别。</li>
+<li>加壳。</li>
+<li>三行表格，n列迭代。</li>
+</ol>
+
+
+<!--more-->
+
+
+<p>``` scheme</p>
+
+<p>(value-of (proc (var body)) env)
+ = (value-of (proc-exp (procedure (var body env)) val) env)</p>
+
+<p> = (value-of body ([var=val] env))
+```
+函数其实也是expression，它可以被consume也可以被produce.凭着这个脑中的
+印象是否可以帮助你继续理解abstration和程序即数据的思想。</p>
+
+<p>所有的函数和数据犹如花生的壳和仁的关系。</p>
+
+<p><img src="/images/lisp/peanut.jpeg" alt="peanut" /></p>
+
+<p>只有加壳就相当于是创建一层抽象，把类似的东西包裹起来，或者也可以换着一种思路
+（每个壳里面都包着类似的花生仁，只不过可能存在些许不同）</p>
+
+<h3>Two similar functions</h3>
+
+<p>``` scheme
+; Los &ndash;> Boolean
+; does l contain &ldquo;dog&rdquo;
+(define (contains-dog? l)
+  (cond</p>
+
+<pre><code>[(empty? l) #false]
+[else
+ (or
+   (string=? (first l) "dog")
+   (contains-dog?
+     (rest l)))]))
+</code></pre>
+
+<p>; Los &ndash;> Boolean
+; does l contain &ldquo;cat&rdquo;
+(define (contains-cat? l)
+  (cond</p>
+
+<pre><code>[(empty? l) #false]
+[else
+ (or
+   (string=? (first l) "cat")
+   (contains-cat?
+     (rest l)))]))
+</code></pre>
+
+<p>```</p>
+
+<h3>加壳</h3>
+
+<p>加上一个函数皮，并封上一层。</p>
+
+<p>``` scheme
+; String Los &ndash;> Boolean
+; determines whether l contains the string s
+(define (contains? s l)
+  (cond</p>
+
+<pre><code>[(empty? l) #false]
+[else (or (string=? (first l) s)
+          (contains? s (rest l)))]))
+</code></pre>
+
+<p>```</p>
+
+<p>然后我们就可以类似的改写了
+``` scheme
+; Los &ndash;> Boolean
+; does l contain &ldquo;dog&rdquo;
+(define (contains-dog? l)
+  (contains? &ldquo;dog&rdquo; l))</p>
+
+<p>; Los &ndash;> Boolean
+; does l contain &ldquo;cat&rdquo;
+(define (contains-cat? l)
+  (contains? &ldquo;cat&rdquo; l))
+```</p>
+
+<p>这个典型的过程就是函数抽象。进一步可以参考<a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/part_three.html">HowToDesginProgram</a>和<a href="http://www.ccs.neu.edu/home/matthias/BTLS/">TheLittleScheme</a>.
+Note: 你需要解析的其实是花生仁，但是你不得不先把壳打开或者通过另外一种方式，比如红外线等技术把它识别出来。</p>
+
+<p>也就是说进一步归纳的话，你首先得recognise识别出来，然后才能进行解析（提取其中的蛋白质、脂肪、热量等）。</p>
+
+<p><img src="/images/lisp/baby.png" alt="mybaby" /></p>
+
+<p>保护它的壳，给它提供营养，防止它受到感染和伤害。</p>
+
+<p><a href="http://pressbin.com/tools/excel_to_html_table/index.html">表格转换链接</a>.</p>
+
+<table>
+      <tr>
+                <td>index</td>
+                <td>0</td>
+                <td>1</td>
+                <td>2</td>
+                <td>…</td>
+      </tr>
+      <tr>
+                <td>M</td>
+                <td>a+S</td>
+                <td>a+1*W+S</td>
+                <td>a+2*W+S</td>
+                <td>…</td>
+      </tr>
+      <tr>
+                <td>f at M</td>
+                <td>f(a+S)</td>
+                <td>f(a+1*W+S)</td>
+                <td>f(a+2*W+S)</td>
+                <td>…</td>
+      </tr>
+      <tr>
+                <td>Area</td>
+                <td>W*f(a+S)</td>
+                <td>W*f(a+1*W+S)</td>
+                <td>W*f(a+2*W+S)</td>
+                <td>…</td>
+      </tr>
+      <tr>
+                <td>residual</td>
+                <td>60.00%</td>
+                <td>50.00%</td>
+                <td>40.00%</td>
+                <td>…</td>
+      </tr>
+      <tr>
+                <td></td>
+      </tr>
+</table>
+
+
+<p>慢工才能出细活，通过三行表格n列迭代的形式(也可以进一步加大计算量变成n行表格n列迭代)理解递归迭代的过程,在一定的时间，进行一系列的列计算，并让时间推进，直到满足你想要的结果。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Scheme环境的几种表现形式-represtations]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2016/03/03/schemehuan-jing-de-ji-chong-biao-xian-xing-shi-represtations/"/>
+    <updated>2016-03-03T02:05:32+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2016/03/03/schemehuan-jing-de-ji-chong-biao-xian-xing-shi-represtations</id>
+    <content type="html"><![CDATA[<p>scheme的解释器的构造，都需要enviroment类型的参与，environment类型的抽象确是影响到语言的具体性能。</p>
+
+<!--more-->
+
+
+<p>主要有以下四种类型(另一种未实现)</p>
+
+<ol>
+<li><a href="#1">环境关联表形式出现(cons cons&hellip;)</a></li>
+<li><a href="#2">环境的列表出现 (list var val env)</a></li>
+<li><a href="#3">环境的过程实现(lambda ()形式)</a></li>
+<li><a href="#4">环境的一种较为特殊的形式成堆变量的实现(list (list var) (list val))</a></li>
+</ol>
+
+
+<h2 id="1"> 1. 环境关联表形式出现 </h2>
+
+
+<p>此时是每一次都把一个键值对存入到环境中，逐次存入的过程(采用 <em>cons cons的形式</em>)。</p>
+
+<p>``` scheme
+((a . 1) (b . 1)  (c . 1))</p>
+
+<p>empty-env  is &lsquo;()
+```</p>
+
+<p>具体实现如下所示</p>
+
+<p>``` scheme</p>
+
+<p>(define empty-env
+  (lambda() &lsquo;()))</p>
+
+<p>(define extend-env
+  (lambda (var val env)</p>
+
+<pre><code>(cons (cons var val)
+  env)))
+</code></pre>
+
+<p>(define apply-env
+  (lambda (env search-var)</p>
+
+<pre><code>(cond
+ ((null? env)
+  (report-no-binding-found search-var))
+ ((eqv? (caar env) search-var)
+  (cdr (car env)))
+ (else
+  (apply-env (cdr env) search-var)))))
+</code></pre>
+
+<p>(define report-no-binding-found
+  (lambda (search-var)</p>
+
+<pre><code>(error 'apply-env "No binding for: " search-var)))
+</code></pre>
+
+<p>(define e
+  (extend-env &rsquo;d 6</p>
+
+<pre><code>(extend-env 'y 8
+   (extend-env 'x 7
+  (extend-env 'y 14
+    (empty-env))))))
+</code></pre>
+
+<p>(equal?? (apply-env e &rsquo;d) 6)
+(equal?? (apply-env e &lsquo;y) 8)
+(equal?? (apply-env e 'x) 7)
+(equal?? (apply-env e &rsquo;d) 6)</p>
+
+<p>```</p>
+
+<p>一种比较特殊的就是
+``` scheme
+ a=1 b=2  a=3  c=5</p>
+
+<p> ((a 1 3) (b 2) (c 5))</p>
+
+<p> empty-env is &lsquo;()
+```</p>
+
+<p>针对当前的关联表的一个很小的拓展</p>
+
+<h3>增加一个<code>has-binding</code> 实现</h3>
+
+<p>``` scheme</p>
+
+<p>(define has-binding?
+  (lambda (env var)</p>
+
+<pre><code>(cond
+ ((null? env) #f)
+ ((eqv? (caar env) var) #t)
+ (else
+  (has-binding? (cdr env) var)))))
+</code></pre>
+
+<p>(define e
+  (extend-env &rsquo;d 6</p>
+
+<pre><code> (extend-env 'y 8
+    (extend-env 'x 7
+       (extend-env 'y 14
+          (empty-env))))))
+</code></pre>
+
+<p>(equal?? (has-binding? e &rsquo;d) #t)
+(equal?? (has-binding? e &lsquo;y) #t)
+(equal?? (has-binding? e 'x) #t)
+(equal?? (has-binding? e 'z) #f)</p>
+
+<p>```</p>
+
+<h3>拓展一个列表输入的功能<code>extend-env*</code></h3>
+
+<p>``` scheme
+(define extend-env*
+  (lambda (var-list val-list env)</p>
+
+<pre><code>(if (null? var-list)
+env
+(let ((var (car var-list))
+      (val (car val-list)))
+  (extend-env* (cdr var-list)
+           (cdr val-list)
+           (extend-env var val env))))))
+</code></pre>
+
+<p>(equal?? (has-binding? (extend-env<em> &lsquo;(A) &rsquo;(1) e) &lsquo;A) #t)
+(equal?? (has-binding? (extend-env</em> &rsquo;(A B C) &lsquo;(1 2 3) e) 'C) #t)</p>
+
+<p>```</p>
+
+<h2 id="2"> 2.环境的列表出现  </h2>
+
+
+<p>此时使用一个标志位<code>extend-env</code>每一次都把一个键值对存入到list环境中，<font color="red">嵌套</font>存入的过程(采用 <em>cons cons的形式</em>)。</p>
+
+<p>``` scheme
+ (extend
+   (list &lsquo;extend-env var exp (extend                        ;;;====其实'extend-env 有点多余</p>
+
+<pre><code>                     (list 'extend-env var exp (extend  ;;;====其实'extend-env 有点多余
+                                           (empty-env))))))
+</code></pre>
+
+<p> (1 (2 (3 6)))
+```</p>
+
+<p>且看具体实现如下</p>
+
+<p>``` scheme
+;; empty-env : () &ndash;> Env
+(define empty-env
+  (lambda () (list &lsquo;empty-env)))</p>
+
+<p>;; extend-env : Var * Schemeval * Env &ndash;> Env
+(define extend-env
+  (lambda (var val env)</p>
+
+<pre><code>(list 'extend-env var val env)))     ;;;;;;;==================&gt;关键位置
+</code></pre>
+
+<p>;; apply-env : Env * Var &ndash;> Schemeval
+(define apply-env-rec
+  (lambda (env search-var all)</p>
+
+<pre><code>(cond
+ ((eqv? (car env) 'empty-env)
+  (report-no-binding-found search-var all))
+ ((eqv? (car env) 'extend-env)
+  (let ((saved-var (cadr env))        ;;;;;;;==================&gt;关键位置  
+    (saved-val (caddr env))           ;;;;;;;==================&gt;关键位置
+    (saved-env (cadddr env)))         ;;;;;;;==================&gt;关键位置
+(if (eqv? search-var saved-var)
+    saved-val
+    (apply-env-rec saved-env search-var all))))  ;;;;;;;==================&gt;不断更新最新的位置look up variable in the saved-env
+ (else
+  (report-invalid-env env)))))
+</code></pre>
+
+<p>(define apply-env
+  (lambda (env search-var)</p>
+
+<pre><code>(apply-env-rec env search-var env)))
+</code></pre>
+
+<p>(define display-env-rec
+  (lambda (env)</p>
+
+<pre><code>(if (eqv? (car env) 'extend-env)
+(let ((saved-var (cadr env))
+      (saved-env (cadddr env)))
+  (printf " ~a " saved-var)
+  (display-env-rec saved-env)))))
+</code></pre>
+
+<p>(define display-env
+  (lambda (env)</p>
+
+<pre><code>(printf "env: ")
+(display-env-rec env)
+(newline)))
+</code></pre>
+
+<p>(display-env e)</p>
+
+<p>(define report-no-binding-found
+  (lambda (search-var all)</p>
+
+<pre><code>(display-env all)
+(error 'apply-env "No binding for" search-var)))
+</code></pre>
+
+<p>(define report-invalid-env
+  (lambda (env)</p>
+
+<pre><code>(error 'apply-env "Bad environment" env)))
+</code></pre>
+
+<p>(define e
+  (extend-env &rsquo;d 6</p>
+
+<pre><code>  (extend-env 'y 8
+     (extend-env 'x 7
+        (extend-env 'y 14
+            (empty-env))))))
+</code></pre>
+
+<p>(equal?? (apply-env e &rsquo;d) 6)
+(equal?? (apply-env e &lsquo;y) 8)
+(equal?? (apply-env e 'x) 7)</p>
+
+<p>```</p>
+
+<h2 id="3"> 3.环境的过程实现</h2>
+
+
+<p>环境的过程实现是比较难理解的，因为该过程更少了递归的逐渐减少的表像，感觉所有都不变。</p>
+
+<p>具体实现如下：</p>
+
+<p>``` scheme
+;; data definition:
+;; Env = Var &ndash;> Schemeval</p>
+
+<p>;; empty-env : () &ndash;> Env
+(define empty-env
+  (lambda ()</p>
+
+<pre><code>(cons (lambda (search-var)
+    (report-no-binding-found search-var))
+  (lambda ()
+    #t))))
+</code></pre>
+
+<p>;; extend-env : Var * Schemeval * Env &ndash;> Env
+(define extend-env
+  (lambda (saved-var saved-val saved-env)</p>
+
+<pre><code>(cons (lambda (search-var)
+    (if (eqv? search-var saved-var)
+    saved-val
+    (apply-env saved-env search-var)))
+  (lambda ()
+    #f))))
+</code></pre>
+
+<p>;; apply-env : Env * Var &ndash;> Schemeval
+(define apply-env
+  (lambda (env search-var)</p>
+
+<pre><code>((car env) search-var)))
+</code></pre>
+
+<p>(define empty-env?
+  (lambda (env)</p>
+
+<pre><code>((cdr env))))
+</code></pre>
+
+<p>(define report-no-binding-found
+  (lambda (search-var)</p>
+
+<pre><code>(error 'apply-env "No binding for ~s" search-var)))
+</code></pre>
+
+<p>(define report-invalid-env
+  (lambda (env)</p>
+
+<pre><code>(error 'apply-env "Bad environment: ~s" env)))
+</code></pre>
+
+<p>(define e
+  (extend-env &rsquo;d 6</p>
+
+<pre><code> (extend-env 'y 8
+    (extend-env 'x 7
+       (extend-env 'y 14
+          (empty-env))))))
+</code></pre>
+
+<p>(equal?? (apply-env e &rsquo;d) 6)
+(equal?? (apply-env e &lsquo;y) 8)
+(equal?? (apply-env e 'x) 7)</p>
+
+<p>(equal?? (empty-env? (empty-env)) #t)
+(equal?? (empty-env? e) #f)</p>
+
+<p>```</p>
+
+<h2 id="4"> 4.环境的一种较为特殊的形式的实现 </h2>
+
+
+<p>如果若有的定义扎堆存在呢？也就是把所有变量放在一个列表中，值放在一个列表里面。</p>
+
+<p>``` scheme
+ x=3 y=4 z=5 c=6</p>
+
+<p> 表现为 ((x y z c) (3 4 5 6))</p>
+
+<p> 此时 empty-env is (()  ())
+```</p>
+
+<p>``` scheme</p>
+
+<p>(define empty-env
+  (lambda() &lsquo;()))</p>
+
+<p>(define extend-env
+  (lambda (var val env)</p>
+
+<pre><code>(cons (list
+   (list var) (list val))
+      env)))
+</code></pre>
+
+<p>(define extend-env*
+  (lambda (var-list val-list env)</p>
+
+<pre><code>(if (null? var-list)
+env
+(cons (list var-list val-list)
+      env))))
+</code></pre>
+
+<p>;; return a pair, for distinguish with val is #f
+(define apply-current
+  (lambda (vars vals search-var)</p>
+
+<pre><code>(if (null? vars)
+(cons #f '())
+(if (eqv? (car vars) search-var)
+    (cons #t (car vals))
+    (apply-current (cdr vars) (cdr vals) search-var)))))
+</code></pre>
+
+<p>(define apply-env
+  (lambda (env search-var)</p>
+
+<pre><code>(if (null? env)
+ (report-no-binding-found search-var)
+ (let ((val (apply-current (caar env) (cadar env) search-var)))
+   (if (car val) (cdr val)
+   (apply-env (cdr env) search-var))))))
+</code></pre>
+
+<p>(define report-no-binding-found
+  (lambda (search-var)</p>
+
+<pre><code>(error 'apply-env "No binding for: " search-var)))
+</code></pre>
+
+<p>(define has-binding?
+  (lambda (env var)</p>
+
+<pre><code>(if (null? env)
+#f
+(let ((val (apply-current (caar env) (cadar env) var)))
+  (if (car val)
+      #t
+      (has-binding? (cdr env) var))))))
+</code></pre>
+
+<p>(define e (empty-env))
+(equal?? e &lsquo;())</p>
+
+<p>(define e (extend-env &lsquo;z 10 e))
+(equal?? e &rsquo;(((z) (10))))</p>
+
+<p>(define e (extend-env* &lsquo;(a b c d) &rsquo;(1 2 3 4) e))
+(equal?? e &lsquo;(((a b c d) (1 2 3 4)) ((z) (10))))</p>
+
+<p>(equal?? (apply-env e &lsquo;z) 10)
+(equal?? (apply-env e &rsquo;d) 4)</p>
+
+<p>(equal?? (has-binding? e &lsquo;z) #t)
+(equal?? (has-binding? e &rsquo;d) #t)
+(equal?? (has-binding? e &rsquo;m) #f)</p>
+
+<p>```</p>
+
+<h2>结论</h2>
+
+<p>上述所谈的4种环境的实现，其实也就对应着四种不同的解释器的实现。环境实现的不同，对应者整个解释器的提取过程也就不一样。
+整个解释器独立的解释每一个表达式的时候，所采用的方法也就会有所不一样。所以设计一个好的environment，对应的就是设计一个好的
+数据结构，用于程序program解析的时候需要使用到的变量或者表达式数据，至关重要！</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[插入排序]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2016/02/28/cha-ru-pai-xu/"/>
+    <updated>2016-02-28T16:42:54+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2016/02/28/cha-ru-pai-xu</id>
+    <content type="html"><![CDATA[<p>排序算法是一种比较常见的算法，一般包括冒泡排序，插入排序，快速排序等。
+本文主要是关于插入排序。</p>
+
+<!--more-->
+
+
+<h2>如何把一个数字插入到一个列表中</h2>
+
+<p>```
+;; using insert sort here</p>
+
+<p>(define insert
+  (lambda (lst elem)</p>
+
+<pre><code>(cond ((null? lst) (list elem))
+  ((&lt; elem (car lst))
+   (cons elem lst))
+  (else (cons (car lst)
+          (insert (cdr lst) elem))))))
+</code></pre>
+
+<p>(define sort-rec
+  (lambda (prev now)</p>
+
+<pre><code>(if (null? now)
+prev
+(sort-rec (insert prev (car now))
+      (cdr now)))))
+</code></pre>
+
+<p>(define sort
+  (lambda (lst)</p>
+
+<pre><code>(sort-rec '() lst)))
+</code></pre>
+
+<p>```</p>
+
+<h2>提取出判断条件</h2>
+
+<p>利用pred代表小于号
+```
+(define insert
+  (lambda (lst elem pred)</p>
+
+<pre><code> (cond
+    ((null? lst) (list elem))
+    ((pred elem (car lst))
+      (cons elem lst))
+    (else (cons (car lst)
+                (insert (cdr lst) elem pred))))))
+</code></pre>
+
+<p>```</p>
+
+<p>结果：</p>
+
+<p>```
+(insert &lsquo;(1 2 3) '4 &lt;)</p>
+
+<pre><code>(1 2 3 4)
+</code></pre>
+
+<p>(insert &lsquo;(1 2 3) '0 &lt;)</p>
+
+<pre><code>(0 1 2 3)
+</code></pre>
+
+<p>(insert &lsquo;(1 3 2) '4 &lt;)</p>
+
+<pre><code>(1 3 2 4)    ==&gt; 这不是我们想要的
+</code></pre>
+
+<p>```</p>
+
+<p>分析发现 insert仅仅是在判断满足条件的时候，直接退出，不管后面的大小问题，
+<font color="red">我们不可以判断该元素之后的所有的字符的情况</font>。</p>
+
+<p>然而该程序当作一个最小的模块，也就是加入我逐个提出判断列表，最终实现的是每提取一个元素
+都和新构成的排序列表进行判断，那么也就算判断完成。</p>
+
+<h2>对一个列表进行插入排序</h2>
+
+<p>在原先insert的基础上，书写了sort-rec和sort-predicate</p>
+
+<ul>
+<li>sort-rec 逐个判断最新的元素和新的临时列表的比较</li>
+<li>sort-predicate 仅仅是选择判断的标准。</li>
+</ul>
+
+
+<p>```
+(define sort-rec
+  (lambda (prev now pred)</p>
+
+<pre><code>(if (null? now)
+    prev
+    (sort-rec (insert prev (car now) pred)
+              (cdr now)
+              pred))))
+</code></pre>
+
+<p>(define sort/predicate
+   (lambda (pred lst)</p>
+
+<pre><code>  (sort-rec '() lst pred)))
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li>sort-rec的prev在逐渐的变大，而now的部分在不断的变小</li>
+<li>也就是 sort-rec 的第一号位置不断变大，第二号位由于cdr作用不断变小。
+``` scheme</li>
+</ul>
+
+
+<p>(sort/predicate &lt; &lsquo;(1 6 5 7))</p>
+
+<pre><code>prev          now
+</code></pre>
+
+<ol>
+<li>()         (1 6 5 7)</li>
+<li>(1)        (6 5 7)</li>
+<li>(1 6)      (5 7)</li>
+<li>(1 5 6)    (7)</li>
+<li>(1 5 6 7)  ()</li>
+</ol>
+
+
+<p>计算结束，返回prev的值
+```</p>
+
+<p>于是我们就可以获得正确的结果</p>
+
+<p>```
+(sort/predicate &lt; &lsquo;(1 6 5 7))</p>
+
+<pre><code>(1 5 6 7)
+</code></pre>
+
+<p>```</p>
+
+<h2>利用内部define和letrec改写程序</h2>
+
+<ul>
+<li>采用内部的define实现</li>
+</ul>
+
+
+<p>可以保护函数的实现（只被使用一次）</p>
+
+<p>``` scheme
+(define sort/predicate1
+  (lambda (pred lst)</p>
+
+<pre><code>(define sort-rec
+  (lambda (prev now pred)
+    (if (null? now)
+       prev
+       (sort-rec (insert prev (car now) pred)
+                (cdr now)
+                pred))))
+(define insert
+  (lambda (lst elem pred)
+    (cond
+      ((null? lst) (list elem))
+      ((pred elem (car lst))
+       (cons elem lst))
+      (else (cons (car lst)
+                 (insert (cdr lst) elem pred))))))
+
+ (sort-rec '() lst pred)))
+
+  (sort/predicate1 &lt; '(1 6 5 7))
+</code></pre>
+
+<p><code>``
++ 采用letrec实现sort/predicate,主要是用</code>(letrec (() &hellip;) &hellip;)` 结构</p>
+
+<p>``` scheme</p>
+
+<p>(define sort/predicate2
+  (lambda (pred lst)</p>
+
+<pre><code>(letrec ((sort-rec
+          (lambda (prev now pred)
+            (if (null? now)
+               prev
+               (sort-rec (insert prev (car now) pred)
+                        (cdr now)
+                        pred))))
+         (insert
+          (lambda (lst elem pred)
+            (cond
+              ((null? lst) (list elem))
+              ((pred elem (car lst))
+               (cons elem lst))
+              (else (cons (car lst)
+                         (insert (cdr lst) elem pred)))))))
+
+  (sort-rec '() lst pred))))
+</code></pre>
+
+<p>(sort/predicate2 &lt; &lsquo;(1 6 5 7))</p>
+
+<p>```</p>
+
+<h2>结论</h2>
+
+<ol>
+<li>每隔离一层抽象，相当于增加了一种变化</li>
+<li>了解插入排序的实现过程。</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The Fifth Interpreter With the Implementation of letrec(Important)]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2016/02/28/the-fifth-interpreter-with-the-implementation-of-letrec-important/"/>
+    <updated>2016-02-28T06:02:57+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2016/02/28/the-fifth-interpreter-with-the-implementation-of-letrec-important</id>
+    <content type="html"><![CDATA[<p>letrec的作用是可以定义内部函数。它的实现类似于let，只不过let实现的主要是局部变量，而他是局部的过程（持保留意见)</p>
+
+<!--more-->
+
+
+<h2>错误1.</h2>
+
+<p>```
+  (define-datatype environment environment?</p>
+
+<pre><code>(empty-env)
+(extend-env
+ (bvar symbol?)  ;;;这边是一个 所以是symbol?
+ (bval expval?)
+ (saved-env environment?))
+(extend-env-rec
+ (id symbol?)
+ (bvar (list-of symbol?)) ;;这边和proc-val的定义发生了冲突  一个是symbol? 另外一个则是(list-of symbol?)
+ (body expression?)
+ (saved-env environment?)))
+</code></pre>
+
+<p>```</p>
+
+<p>而在实际的extend-env-rec的实现中，则是调用了proc-val，所以并且传入到proc-val，为了保证一致性</p>
+
+<p>```
+;;;;;;;;;;;;;;;; environment constructors and observers ;;;;;;;;;;;;;;;;
+(define apply-env
+  (lambda (env search-sym)</p>
+
+<pre><code>(cases environment env
+       (empty-env ()
+                  (error 'apply-env "No binding for ~s" search-sym))
+       (extend-env (var val saved-env)
+                   (if (eqv? search-sym var)
+                       val
+                       (apply-env saved-env search-sym)))
+       (extend-env-rec (p-name b-var p-body saved-env)
+                       (if (eqv? search-sym p-name)
+                         ;; (proc-val (procedure b-var p-body env))  ;;;注意这里的变化！
+                          (proc-val (procedure b-var p-body env #t)) ;;修改了一个bug 目的是可以追踪的作用
+                           (apply-env saved-env search-sym))))))
+</code></pre>
+
+<p>```
+所以需要对应的修改proc-val</p>
+
+<p>```
+  ;; proc? : SchemeVal &ndash;> Bool
+  ;; procedure : Var * Exp * Env &ndash;> Proc
+  (define-datatype proc proc? ;;;注意这边的变化 影响到apply-procedure</p>
+
+<pre><code>(procedure
+ ;(var symbol?)  ;;;为了保证和environment的define-datatype一直改为(list-of symbol?)
+ (var (list-of symbol?))
+ (body expression?)
+ (env environment?)
+ (trace boolean?))) ;;;需要考虑#t #f
+</code></pre>
+
+<p>```</p>
+
+<h2>错误2.</h2>
+
+<p>```</p>
+
+<blockquote><p>(run &ldquo;letrec double(x)=+(x,6) in (double 10)&rdquo;)
+enter: (x) = #(struct:num-val 10)
+. . cdr: contract violation
+  expected: pair?
+  given: (num-val 10)
+```</p></blockquote>
+
+<p>原因在于原先的call-exp并没有遍历的过程，而新改进的apply-procedure则是需要遍历，
+```</p>
+
+<pre><code>    (call-exp (rator rand)
+             (let ((proc (expval-&gt;proc (value-of rator env)))
+                   (arg (value-of rand env))) 
+               (apply-procedure proc arg)))
+</code></pre>
+
+<p>```</p>
+
+<p>改进的call-exp
+```</p>
+
+<pre><code>    (call-exp (rator rands)
+             (let ((proc (expval-&gt;proc (value-of rator env)))
+                   (args (map (lambda (x) (value-of x env)) rands)))
+               (apply-procedure proc args)))
+</code></pre>
+
+<p>```</p>
+
+<h2>额外错误</h2>
+
+<p><code>
+ data-structures.scm:7:11: all-defined: not a provide sub-form in: (all-defined)
+</code></p>
+
+<p>这个错误是因为现在都是在使用<code>(all-defined-out)</code></p>
+
+<h3>为什么还是会出现如下的错误</h3>
+
+<p>``` scheme</p>
+
+<blockquote><p>(run &ldquo;letrec double(x)</p>
+
+<pre><code>        = if zero?(x) then 0 else -((double -(x,1)), 2)
+   in (double 6)")
+</code></pre>
+
+<p>. . extend-env-rec: bad value for bvar field: &lsquo;(x)
+(run &ldquo;if zero?(3) then 0 else &ndash;(3,2)&rdquo;)
+(num-val 1)
+```</p></blockquote>
+]]></content>
+  </entry>
+  
+</feed>

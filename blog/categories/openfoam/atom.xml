@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Openfoam | 网络书屋(Web Reading Room)]]></title>
+  <link href="http://jueqingsizhe66.github.io/blog/categories/openfoam/atom.xml" rel="self"/>
+  <link href="http://jueqingsizhe66.github.io/"/>
+  <updated>2017-01-22T12:24:26+08:00</updated>
+  <id>http://jueqingsizhe66.github.io/</id>
+  <author>
+    <name><![CDATA[Ye Zhaoliang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[阅读openfoam源代码的小工具]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/06/10/yue-du-openfoamyuan-dai-ma-de-xiao-gong-ju/"/>
+    <updated>2015-06-10T23:19:42+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/06/10/yue-du-openfoamyuan-dai-ma-de-xiao-gong-ju</id>
+    <content type="html"><![CDATA[<ul>
+<li>当你阅读源代码你是否厌倦了cd来cd去，于是想把他们堆在一个文件内</li>
+<li>而堆起来又不好看，于是想要打扮一下</li>
+</ul>
+
+
+<p>于是写了下面的小程序，估计对于阅读有帮助，主要用到</p>
+
+<ul>
+<li>shell变量处理</li>
+<li>shell变量长度</li>
+<li>find显示相对全路经</li>
+<li>==两边<strong>不能有</strong>空格，然而在赋值的时候必须没有空格</li>
+<li>利用函数思想，封装小寒数</li>
+<li>美观，把一个文件当作一个夹子进行显示</li>
+</ul>
+
+
+<!--more-->
+
+
+<p><strong>注意针对每一个版本都需要进行适当的修改</strong>.在getFile中有一个sed命令一定要注意，那是删除行首的7行，针对不同文件，需要适当修改.</p>
+
+<p>``` sh</p>
+
+<h1>!/bin/bash &ndash;</h1>
+
+<h1>===============================================================================</h1>
+
+<p>#</p>
+
+<h1>FILE: browser.sh</h1>
+
+<h1></h1>
+
+<h1>USAGE: ./browser.sh</h1>
+
+<h1></h1>
+
+<h1>DESCRIPTION:  注意针对每一个版本都需要进行适当的修改</h1>
+
+<h1></h1>
+
+<h1>OPTIONS: &mdash;&ndash;</h1>
+
+<h1>REQUIREMENTS: &mdash;&ndash;</h1>
+
+<h1>BUGS: &mdash;&ndash;</h1>
+
+<h1>NOTES: &mdash;&ndash;</h1>
+
+<h1>AUTHOR: Ye Zhaoliang (), <a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#x7a;&#x68;&#x61;&#111;&#116;&#x75;&#114;&#x6b;&#x6b;&#101;&#x79;&#64;&#49;&#x36;&#x33;&#x2e;&#x63;&#111;&#109;">&#x7a;&#104;&#97;&#111;&#116;&#117;&#x72;&#x6b;&#x6b;&#x65;&#x79;&#64;&#49;&#54;&#x33;&#46;&#x63;&#111;&#109;</a></h1>
+
+<h1>ORGANIZATION: YZL</h1>
+
+<h1>CREATED: 2015年06月10日 21:50</h1>
+
+<h1>REVISION:  &mdash;&ndash;</h1>
+
+<h1>===============================================================================</h1>
+
+<h1>&mdash;&ndash;  FUNCTION  &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</h1>
+
+<h1>NAME:  generateChapter</h1>
+
+<h1>DESCRIPTION:  针对不同额文件采用不同的处理方法，判断目录 和判断脚本是一个重要的操作</h1>
+
+<h1>但是更为重要的是 find获得文集拿的绝对路径(相对于当前文件)</h1>
+
+<h1>PARAMETERS:</h1>
+
+<h1>RETURNS:</h1>
+
+<h1>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</h1>
+
+<p>generateChapter()
+{</p>
+
+<pre><code># 妙用find 得到当前目录的相对路径 不需要不断的进入目录
+for var in `find . -name "*"`
+do
+    if [[ -d  $var ]] # &lt; cannot . Error
+    then
+        echo "${currentDir}${var#.}是一个目录" # 使用#号来删除之前的点号
+    elif [[ "${var##*/}" == "${0}" ]] # 一定要注意等式两边有空格
+    then
+        echo "${currentDir}${var#.} ${0} 脚本文件不处理"
+    else
+        getFile ${currentDir}${var#.}
+    fi
+
+done
+</code></pre>
+
+<p>}</p>
+
+<h1>&mdash;&ndash;  FUNCTION  &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</h1>
+
+<h1>NAME:  getFile</h1>
+
+<h1>DESCRIPTION:  在每个文件的头部添加一些信息</h1>
+
+<h1>PARAMETERS:</h1>
+
+<h1>RETURNS:</h1>
+
+<h1>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</h1>
+
+<p>getFile()
+{</p>
+
+<pre><code>startString="# -------------------&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"$1" started&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;-------------------#"
+endString="# --------------------&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"$1" ended &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;-------------------#"
+   #echo "" &gt;&gt;summary.sh
+#echo -e "\033[44;37m -------------------&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"$1" started&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;-------------------\033[0m" &gt;&gt;summary.sh
+#echo  "# -------------------&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"$1" started&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;-------------------" &gt;&gt;summary.sh
+echo $startString &gt;&gt; summary.sh
+echo "#`printf "%$(( ${#startString}-2 ))s" " "`#" &gt;&gt;summary.sh
+echo "#`printf "%$(( ${#startString}-2 ))s" " "`#" &gt;&gt;summary.sh
+echo "#`printf "%$(( ${#startString}-2 ))s" " "`#" &gt;&gt;summary.sh ### 不加上$反而不行
+</code></pre>
+
+<p>   # echo &ldquo;#&rdquo; >>summary.sh
+   # echo &ldquo;#&rdquo; >>summary.sh</p>
+
+<pre><code>sed '1,7d' $1 &gt;&gt; summary.sh
+echo "#`printf "%$(( ${#endString}-2 ))s" " "`#" &gt;&gt;summary.sh
+echo "#`printf "%$(( ${#endString}-2 ))s" " "`#" &gt;&gt;summary.sh
+echo "#`printf "%$(( ${#endString}-2 ))s" " "`#" &gt;&gt;summary.sh
+#echo "#" &gt;&gt;summary.sh
+#echo "#" &gt;&gt;summary.sh
+#echo -e "\033[43;37m --------------------&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"$1" ended &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;-------------------\033[0m" &gt;&gt; summary.sh
+#echo "# --------------------&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"$1" ended &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;-------------------" &gt;&gt; summary.sh
+echo $endString &gt;&gt; summary.sh
+echo "" &gt;&gt;summary.sh
+echo "" &gt;&gt;summary.sh
+echo "" &gt;&gt;summary.sh
+</code></pre>
+
+<p>}</p>
+
+<p>currentDir=<code>pwd</code></p>
+
+<h1>如果存在 summary.sh 证明已经存在了，就先把删掉， 因为这里是</h1>
+
+<h1>采用追加的方式，而不是写入。</h1>
+
+<p>if [[ -e ./summary.sh ]]
+then</p>
+
+<pre><code>rm -rf ./summary.sh
+</code></pre>
+
+<p>fi</p>
+
+<h1>调用产生所有的文件夹内的数据到一个文件中</h1>
+
+<p>generateChapter</p>
+
+<h1>sed -i &lsquo;/C++/d&rsquo; summary |sed &lsquo;/=========/d&rsquo;|sed &lsquo;/OpenFOAM/d&rsquo; | sed &lsquo;/Version/d&rsquo; | sed &lsquo;/Web/d&rsquo;|sed &lsquo;/anipulation/d&rsquo;</h1>
+
+<p>```</p>
+
+<h2>结果显示</h2>
+
+<p>```  sh</p>
+
+<h1>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</openfoamF708/tutorials/incompressible/icoFoam/cavity/system/fvSolution started>>>>>>>>>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</h1>
+
+<h1>#</h1>
+
+<h1>#</h1>
+
+<h1>#</h1>
+
+<p>FoamFile
+{</p>
+
+<pre><code>version     2.0;
+format      ascii;
+class       dictionary;
+location    "system";
+object      fvSolution;
+</code></pre>
+
+<p>}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //</p>
+
+<p>solvers
+{</p>
+
+<pre><code>p
+{
+    solver          PCG;
+    preconditioner  DIC;
+    tolerance       1e-06;
+    relTol          0;
+}
+
+U
+{
+    solver          smoothSolver;
+    smoother        symGaussSeidel;
+    tolerance       1e-05;
+    relTol          0;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>PISO
+{</p>
+
+<pre><code>nCorrectors     2;
+nNonOrthogonalCorrectors 0;
+pRefCell        0;
+pRefValue       0;
+</code></pre>
+
+<p>}</p>
+
+<h1>#</h1>
+
+<h1>#</h1>
+
+<h1>#</h1>
+
+<h1>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</openfoamF708/tutorials/incompressible/icoFoam/cavity/system/fvSolution ended >>>>>>>>>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</h1>
+
+<h1>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</openfoamF708/tutorials/incompressible/icoFoam/cavity/system/fvSchemes started>>>>>>>>>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</h1>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

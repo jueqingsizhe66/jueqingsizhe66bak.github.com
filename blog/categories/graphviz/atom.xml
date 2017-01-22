@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Graphviz | 网络书屋(Web Reading Room)]]></title>
+  <link href="http://jueqingsizhe66.github.io/blog/categories/graphviz/atom.xml" rel="self"/>
+  <link href="http://jueqingsizhe66.github.io/"/>
+  <updated>2017-01-22T12:24:26+08:00</updated>
+  <id>http://jueqingsizhe66.github.io/</id>
+  <author>
+    <name><![CDATA[Ye Zhaoliang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Graphviz Notebook]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2016/09/28/graphviz-notebook/"/>
+    <updated>2016-09-28T17:14:53+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2016/09/28/graphviz-notebook</id>
+    <content type="html"><![CDATA[<p><a href="http://www.graphviz.org">graphviz</a>可用于帮助你绘制工具之外和工具之内的想法。关于绘图的历史可以参看<a href="http://www.merl.com/publications/TR2001-49">A short note of the graph drawing</a>.</p>
+
+<!--more-->
+
+
+<p><a href="http://graphviz.org/Download.php">graphviz下载链接</a>, 安装很方便，一步一步进行即可，一般是在<a href="http://graphviz.org/content/command-line-invocation">命令行使用</a>。</p>
+
+<p>下面是我记录学习的一些graphviz的笔记。只用pdf输出<code>dot -Tpdf *.dot -o *.pdf</code>，
+因为质量较好(矢量化输出)，但是特殊情况可以参考<a href="http://graphviz.org/content/command-line-invocation">output format</a>,
+因为不同的输出会在<a href="http://graphviz.org/content/attrs">Node, Edge and Graph Attributes</a> 节点、边、图中表现出不同的样式出来。</p>
+
+<p><img src="/images/graphviz/main1.jpg" alt="main1" /></p>
+
+<p><img src="/images/graphviz/main2.jpg" alt="main2" /></p>
+
+<h2>CFD</h2>
+
+<p><img src="/images/graphviz/CFD.jpg" alt="CFD" />
+``` gnuplot
+digraph G{</p>
+
+<pre><code>compound=true; // 这样lhead ltail指向cluster才有效
+edge [fontname="SimSun"];
+graph[fontname="SimHei"]
+node [shape=box, fontname="KaiTi" size="5,5", style=filld, color=""];
+node[style=filled,color="lightblue"]
+
+rankdir=LR;
+{
+rank=same;
+before[label="前处理"];   
+compute[label="计算"];   
+after[label="后处理"];   
+}
+
+subgraph cluster1{
+    geometry[label="几何建模"];
+    mesh[label="网格生成"];
+    geometry-&gt;mesh;
+    }
+
+subgraph cluster2{
+    initial[label="初始化"];
+    setting[label="设置"];
+    model[label="湍流模型"];
+    output[label="输出"];
+    initial-&gt;setting-&gt;model-&gt;output;
+    }
+
+subgraph cluster3{
+   plane[label="截面"];
+   polyline[label="多边形线"];
+   chart[label="表格"];
+   pile[label="批处理"];
+   contour[label="云图"];
+    plane-&gt;polyline-&gt;chart;
+    plane-&gt;contour;
+    }
+before-&gt;compute-&gt;after;
+before-&gt;geometry[lhead=cluster1];
+compute-&gt;initial[lhead=cluster2];
+after-&gt;plane[lhead=cluster3];
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<h2>inner 图</h2>
+
+<p>注意使用circo生成，需要有一个回环圆。</p>
+
+<p>compound用于子图的lhead属性，不设置没效果。</p>
+
+<p>concentrate这里没什么作用。</p>
+
+<p><img src="/images/graphviz/inner.jpg" alt="inner" /></p>
+
+<p>``` gnuplot
+//circo -Tpdf inner.dot -o inner.pdf
+digraph G{</p>
+
+<pre><code>fontname="SimSun";
+fontsize=10;
+compound=true; // 这样lhead ltail指向cluster才有效
+edge[fontname="SimSun",arrowhead=vee,color=blue];
+graph[fontname="SimHei",color=lightgray];
+node[shape=box, fontname="KaiTi"];
+//concentrate=true;
+//node[style=filled,color="lightblue"];
+arrowsize=.5;
+
+concentrate=true;
+nodesep=0.5;
+ranksep=0.5;
+rankdir=BU;
+//rank=sink;
+//task[shape=polygon,sides=5,peripheries=2,label="图像处理",fillcolor="#F1C40F"];
+</code></pre>
+
+<p>/*</p>
+
+<pre><code>subgraph cluster_0{
+
+innerpoint[shape=point,width=0,height=0];
+innerpoint1[shape=point,width=0,height=0];
+innerpoint2[shape=point,width=0,height=0];
+innerpoint3[shape=point,width=0,height=0];
+innerpoint4[shape=point,width=0,height=0];
+innerpoint-&gt;innerpoint1-&gt;innerpoint2-&gt;innerpoint3-&gt;innerpoint4-&gt;innerpoint[arrowsize=0.1];
+}
+</code></pre>
+
+<p>*/</p>
+
+<pre><code>subgraph cluster_1{
+    //rankdir=TB;
+    label="内";
+    style=filled;
+    fillcolor=lightgray;
+    //shape=ellpse;
+    //edge[fontname="SimSun",arrowhead=vee,color=blue,style=dashed];
+    //style=filled;
+    //fillcolor=lightgray;
+    //fillcolor=mintcream;
+    //style=filled;
+
+    {
+        //node[style=filled,color="chartreuse"];
+        //node[style=filled,color="palegreen"];
+        //rank=same;
+        node[color=red,shape=circle];
+        edge[color=green,style=dashed]
+        subgoal1[label="内1"];
+        step1[label="内2"];
+        step2[label="内3"];
+        step3[label="内4"]
+        step4[label="内n"]
+        subgoal1-&gt; step1-&gt;step2-&gt;step3-&gt;step4-&gt;subgoal1;
+    }
+
+}
+</code></pre>
+
+<p> //           innerpoint->{subgoal1 step1 step2 step3 step4}[color=red,style=dotted,ltail=cluster_0];</p>
+
+<pre><code>outer1[label="外1"];
+outer2[label="外2"];
+outer3[label="外3"];
+outer4[label="外4"];
+outern[label="外n"];
+
+subgoal1-&gt;outern[ltail=cluster_1];
+step1-&gt;outer1[ltail=cluster_1];
+step2-&gt;outer2[ltail=cluster_1];
+step3-&gt;outer3[ltail=cluster_1];
+step4-&gt;outer4[ltail=cluster_1];
+
+outerf1[shape=point,width=0,height=0];
+outerf2[shape=point,width=0,height=0];
+outerf3[shape=point,width=0,height=0];
+outerf4[shape=point,width=0,height=0];
+outerfn[shape=point,width=0,height=0];
+
+outer1-&gt;outerf1;
+outer2-&gt;outerf2;
+outer3-&gt;outerf3;
+outer4-&gt;outerf4;
+outern-&gt;outerfn;
+
+//{rank=same; innerpoint step4 outer4};
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<h2>outer图</h2>
+
+<p><img src="/images/graphviz/outer.jpg" alt="outer" /></p>
+
+<p>``` gnuplot
+//circo -Tpdf inner.dot -o inner.pdf
+digraph G{</p>
+
+<pre><code>fontname="SimSun";
+fontsize=10;
+compound=true; // 这样lhead ltail指向cluster才有效
+edge[fontname="SimSun",arrowhead=vee,color=blue];
+graph[fontname="SimHei",color=lightgray];
+node[shape=box, fontname="KaiTi"];
+//concentrate=true;
+//node[style=filled,color="lightblue"];
+arrowsize=.5;
+
+nodesep=0.5;
+ranksep=0.5;
+rankdir=BU;
+//center=true;
+//rank=sink;
+//task[shape=polygon,sides=5,peripheries=2,label="图像处理",fillcolor="#F1C40F"];
+
+
+
+
+subgraph cluster_1{
+    //rankdir=TB;
+    label="内";
+    style=filled;
+    fillcolor=chartreuse;
+    //shape=ellpse;
+    //edge[fontname="SimSun",arrowhead=vee,color=blue,style=dashed];
+    //style=filled;
+    //fillcolor=lightgray;
+    //fillcolor=mintcream;
+    //style=filled;
+
+    {
+        //node[style=filled,color="chartreuse"];
+        //node[style=filled,color="palegreen"];
+        //rank=same;
+        //innerpoint[shape=point,width=0,height=0];
+        node[color=red,shape=circle];
+        edge[color="green",style=dashed]
+        subgoal1[label="内1"];
+        step1[label="内2"];
+        step2[label="内3"];
+        step3[label="内4"]
+        step4[label="内n"]
+        subgoal1-&gt; step1-&gt;step2-&gt;step3-&gt;step4-&gt;subgoal1;
+
+       // {subgoal1 step1 step2 step3 step4}-&gt;innerpoint[color="red"];
+    }
+
+}
+</code></pre>
+
+<p>subgraph cluster_0{</p>
+
+<pre><code>outer1[label="外1"];
+outer2[label="外2"];
+outer3[label="外3"];
+outer4[label="外4"];
+outern[label="外n"];
+//outer1-&gt;outer2-&gt;outer3-&gt;outer4-&gt;outern-&gt;outer1;
+</code></pre>
+
+<p>}</p>
+
+<pre><code>outern-&gt;step3;
+outer1-&gt;step4;
+outer2-&gt;subgoal1;
+outer3-&gt;step1;
+outer4-&gt;step2;
+
+outerf1[shape=point,width=0,height=0];
+outerf2[shape=point,width=0,height=0];
+outerf3[shape=point,width=0,height=0];
+outerf4[shape=point,width=0,height=0];
+outerfn[shape=point,width=0,height=0];
+//outerf1-&gt;outerf2-&gt;outerf3-&gt;outerf4-&gt;outerfn-&gt;outerf1;
+
+outerf1-&gt;outer3;
+outerf2-&gt;outer2;
+outerf3-&gt;outer1;
+outerf4-&gt;outern;
+outerfn-&gt;outer4;
+</code></pre>
+
+<p>   // outer1->outer2->outer3->outer4->outern->outer1;</p>
+
+<p>}</p>
+
+<p>```</p>
+
+<h2>算法绘制</h2>
+
+<p><img src="/images/graphviz/binary.jpg" alt="algo" /></p>
+
+<p>``` gnuplot
+digraph ast{</p>
+
+<pre><code>size="4,4";
+</code></pre>
+
+<p>fontname=&ldquo;Microsoft YaHei&rdquo;;
+fontsize=10;
+node [shape=circle, fontname=&ldquo;Microsoft YaHei&rdquo;, fontsize=10];
+edge [fontname=&ldquo;Microsoft YaHei&rdquo;, fontsize=10];
+node [shape=&ldquo;plaintext&rdquo;];
+mul [label=&ldquo;mul(*)&rdquo;];
+add [label=&ldquo;add(+)&rdquo;];
+add &ndash;> 3
+add &ndash;> 4;
+mul &ndash;> add;
+mul &ndash;> 5;
+}</p>
+
+<p>```</p>
+
+<h2>时序表制作</h2>
+
+<p><img src="/images/graphviz/sequence.jpg" alt="sequence" /></p>
+
+<p>聪明的做法 是从图中隐藏了所有stepi（其实图像对象中是存在的，只不过打印不出来
+并同时使用了plaintext的风格。</p>
+
+<p>``` gnuplot
+digraph G {
+rankdir=&ldquo;LR&rdquo;;
+node[shape=&ldquo;point&rdquo;, width=0, height=0];
+edge[arrowhead=&ldquo;none&rdquo;, style=&ldquo;dashed&rdquo;]
+{
+rank=&ldquo;same&rdquo;;
+edge[style=&ldquo;solid&rdquo;];
+LC[shape=&ldquo;plaintext&rdquo;];
+LC &ndash;> step00 &ndash;> step01 &ndash;> step02 &ndash;> step03 &ndash;> step04 &ndash;> step05;
+}
+{
+rank=&ldquo;same&rdquo;;
+edge[style=&ldquo;solid&rdquo;];
+Agency[shape=&ldquo;plaintext&rdquo;];
+Agency &ndash;> step10 &ndash;> step11 &ndash;> step12 &ndash;> step13 &ndash;> step14 &ndash;> step15;
+}
+{
+rank=&ldquo;same&rdquo;;
+edge[style=&ldquo;solid&rdquo;];
+Agent[shape=&ldquo;plaintext&rdquo;];
+Agent &ndash;> step20 &ndash;> step21 &ndash;> step22 &ndash;> step23 &ndash;> step24 &ndash;> step25;
+}
+step00 &ndash;> step10 [label=&ldquo;sends email new custumer&rdquo;, arrowhead=&ldquo;normal&rdquo;];
+step11 &ndash;> step01 [label=&ldquo;declines&rdquo;, arrowhead=&ldquo;normal&rdquo;];
+step12 &ndash;> step02 [label=&ldquo;accepts&rdquo;, arrowhead=&ldquo;normal&rdquo;];
+step13 &ndash;> step23 [label=&ldquo;forward to&rdquo;, arrowhead=&ldquo;normal&rdquo;];
+step24 &ndash;> step14;
+step14 &ndash;> step04 [arrowhead=&ldquo;normal&rdquo;];</p>
+
+<p>//xinran[shape=&ldquo;none&rdquo;,image=&ldquo;xinran2.jpg&rdquo;,label=&ldquo;&rdquo;]
+betterline[shape=&ldquo;record&rdquo;,style=filled,fillcolor=chartreuse];
+betteredge[shape=&ldquo;record&rdquo;,style=filled,fillcolor=forestgreen];
+}</p>
+
+<p>```</p>
+
+<h2>reference</h2>
+
+<ol>
+<li><p>graphviz的<a href="http://www.graphviz.org/Documentation.php">在线文档</a>,</p></li>
+<li><p>dot语言的<a href="http://www.graphviz.org/content/dot-language">在线文档</a>,</p></li>
+<li><p><a href="http://www.tonyballantyne.com/graphs.html">drawing Graph using dot</a>介绍了一些图表中分层的概念。</p></li>
+<li><p><a href="http://www.tuicool.com/articles/qeqeuyb">使用Graphviz绘制流程图和关系图</a>教会了关于图、节点、边的属性设置(attribute property predictor)，
+其实也可以参考<a href="http://graphviz.org/content/attrs">Node, Edge and Graph Attributes</a>关于默认属性的设置，相关的还可以参考<a href="http://graphviz.org/content/node-shapes">node shapes</a>,
+<a href="http://graphviz.org/content/arrow-shapes">Arrow Shapes</a>, <a href="http://graphviz.org/content/color-names">colors</a> 这也是比较会经常查看的参数属性设置。</p></li>
+</ol>
+
+
+<p>注意Mrecord不支持中文，为了实现<a href="http://www.graphviz.org/content/global-subgraph-style-statements">圆角</a>你可以使用<code>style=rounded</code>来实现(可以和filled叠加起来使用) <code>style="rounded,filled"</code>。
+还可以参考<a href="http://stackoverflow.com/questions/7115870/creating-straight-edges-in-graphviz">Creating Straight Edges in Graphviz</a>,以及<a href="http://www.graphviz.org/content/attrs">官网属性文档style section</a></p>
+
+<p><code>sh
+node与edge公用样式："dashed"虚线, "dotted"点, "solid"固体框, "invis"隐藏 and "bold" 加粗
+edge 特有样式："tapered" 锥形
+node 特有样式："filled"填充, "diagonals"对角线 与 "rounded" 圆角
+cluster可使用样式："filled"与"rounded"
+ "radial"径向样式可被nodes, clusters 与graphs使用，如果使用需要指出一个径向渐变填充风格
+</code></p>
+
+<p>graphviz也是支持插图的,</p>
+
+<p>``` gnuplot
+digraph G {
+rankdir=&ldquo;LR&rdquo;;
+xinran[shape=&ldquo;none&rdquo;,image=&ldquo;xinran2.jpg&rdquo;,label=&ldquo;&rdquo;]
+betterline[shape=&ldquo;record&rdquo;,style=filled,fillcolor=chartreuse];
+betteredge[shape=&ldquo;record&rdquo;,style=filled,fillcolor=forestgreen];
+}</p>
+
+<p>```
+5. <a href="http://www.ibm.com/developerworks/cn/aix/library/au-aix-graphviz/index.html">使用 Graphviz 生成自动化系统图 </a>.
+6. <a href="http://lockriver.blog.163.com/blog/static/487232242010101761749383/">中文乱码</a>.
+7. <a href="http://lockriver.blog.163.com/blog/static/487232242010101761749383/">Using graph drawing </a> <font color=red>很详细，推荐</font></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,2278 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>2月27日Java周末班试题 - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="0105班Java周末班试题（JDBC 9-16）
+阶段性考试（考试6个小时，讲评+重写6个小时）：
+记录完成每个题所需要的时长。
+第一题、SQL题
+表格见图片附件
+题目：编写SQL语句完成下面的功能：
+条件查询：
+1. 在GRADE表中查找80-90份的学生学号和分数
+2. 在GRADE &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2015/05/11/2yue-27ri-javazhou-mo-ban-shi-ti">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">2月27日Java周末班试题</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:41+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--more-->
+
+
+<p>0105班Java周末班试题（JDBC 9-16）
+阶段性考试（考试6个小时，讲评+重写6个小时）：
+记录完成每个题所需要的时长。
+第一题、SQL题
+表格见图片附件
+题目：编写SQL语句完成下面的功能：
+条件查询：
+1. 在GRADE表中查找80-90份的学生学号和分数
+2. 在GRADE 表中查找课程编号为003学生的平均分
+3. 在GRADE 表中查询学习各门课程的人数
+4. 查询所有姓张的学生的学号和姓名
+5. 查询分数在80-90分的学生的学号、姓名、分数
+6. 查询学习了’C语言’课程的学生学号、姓名和分数
+第二题
+不参考、不对照任何老师、同学的代码编写JDBCUtils。并记录写完需要的时间。
+第三题
+编写手机号码查询归属地案例。并记录写完需要的时间</p>
+
+<p><img src="%E7%AC%AC%E4%B8%80%E9%A2%98%E8%A1%A8%E6%A0%BC.png" alt="" /></p>
+
+<p>考试未通过，中途出去，fail;</p>
+
+<p>第一题：
+费时：4个小时左右
+表设计阶段：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="p">;;;</span><span class="err">创建一个考试数据库</span>
+</span><span class='line'><span class="k">create</span> <span class="k">database</span> <span class="n">exam</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="n">exam</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>`</p>
+
+<p>错误分析：
+curriculum是一个基础表！ 连接grade表！Grade表连接student_info表 ，认为student_info存在外键
+经过折腾：认为student_info没有外键，而grade表存在两个外键</p>
+
+<p>Curriculum 表的设计：
+curriculum_no 课程编号 :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="k">not</span> <span class="no">null</span> <span class="kp">auto_increment</span> <span class="k">primary</span> <span class="k">key</span><span class="p">,</span>
+</span><span class='line'><span class="p">;;</span><span class="err">后来思考</span> <span class="kt">int</span><span class="err">改变为</span><span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="err">因为也许会出现非数字</span>
+</span><span class='line'><span class="n">corriculum_name</span><span class="err">课程名称</span>   <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="err">‘’</span>
+</span><span class='line'><span class="n">Credit</span><span class="err">学分</span> <span class="err">：</span> <span class="kt">real</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span>
+</span><span class='line'><span class="p">;;;(</span><span class="kt">real</span><span class="err">默认是</span><span class="kt">double</span><span class="err">类型</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其间遇到无法显示汉字的情况：
+1：数据库级别修改
+修改数据库级别，命令如下：use edu(换成你要修改的数据库名，在这里我的数据库为edu),，然后执行命令：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">alter</span> <span class="k">database</span> <span class="n">exam</span> <span class="k">character</span> <span class="kt">set</span> <span class="n">utf</span><span class="o">-</span><span class="mi">8</span><span class="p">;</span>
+</span><span class='line'><span class="err">或者</span>
+</span><span class='line'><span class="kt">SET</span> <span class="n">NAMES</span> <span class="s1">&#39;utf8&#39;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2：数据表级别的修改</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">table_name</span> <span class="k">DEFAULT</span> <span class="kp">CHARSET</span> <span class="n">utf8</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3: 发现经过这两个大小修改还是不行,于是也对字段进行修改</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">alter</span> <span class="k">table</span> <span class="n">curriculum</span> <span class="n">modify</span> <span class="n">curriculum_no</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">character</span> <span class="kt">set</span> <span class="n">utf8</span>
+</span><span class='line'><span class="k">alter</span> <span class="k">table</span> <span class="n">curriculum</span> <span class="n">modify</span> <span class="n">curriculum_name</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">character</span> <span class="kt">set</span> <span class="n">utf8</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是依然不行！！说明之前插入的只好清空，再插入一遍， 然后就可以了</p>
+
+<p>grade表的设计：</p>
+
+<p>此表的设计一波三折，在添加外键的时候多次出现错误，下面先给出错误的，再列出正确的添加方式</p>
+
+<p>错误分析表：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="n">stu_no</span> <span class="err">学号：</span>  <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="kp">auto_increment</span> <span class="k">primary</span> <span class="k">key</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">;;</span><span class="err">后来思考</span> <span class="kt">int</span><span class="err">改变为</span><span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="err">因为也许会出现非数字</span>
+</span><span class='line'><span class="err">课程编号</span>  <span class="n">curriculum_no</span> <span class="p">:</span> <span class="kt">int</span> <span class="k">not</span> <span class="no">null</span><span class="p">,</span> <span class="k">foreign</span> <span class="k">key</span><span class="p">(</span><span class="n">curriculum_no</span><span class="p">)</span> <span class="k">references</span> <span class="nf">Curriculum</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="n">Curriculum_no</span><span class="p">)</span> <span class="k">on</span> <span class="k">delete</span> <span class="k">restrict</span> <span class="k">on</span> <span class="k">update</span> <span class="k">cascade</span>
+</span><span class='line'><span class="n">Score</span> <span class="err">分数</span> <span class="p">:</span>    <span class="kt">real</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>外键知识：
+1.MYSQL在建外键后,会自动建一个同名的索引,引入外键的缺点是会使速度和性能下降</p>
+
+<p>在创建表的时候添加外键：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">create</span> <span class="k">table</span> <span class="nf">grade</span><span class="p">(</span>
+</span><span class='line'>   <span class="n">stu_no</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">curriculum</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="s1">&#39;&#39;</span><span class="p">,</span><span class="k">constraint</span> <span class="n">hello</span> <span class="k">foreign</span> <span class="k">key</span>
+</span><span class='line'>     <span class="p">(</span><span class="n">curriculum</span><span class="p">)</span> <span class="k">references</span> <span class="nf">curriculum</span><span class="p">(</span><span class="n">curriculum_no</span><span class="p">)</span> <span class="k">on</span> <span class="k">delete</span> <span class="k">restrict</span>
+</span><span class='line'>     <span class="k">on</span> <span class="k">update</span> <span class="k">cascade</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">stu_score</span> <span class="kt">real</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在创建表后天添加外键：
+添加一个叫hello的外键：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">alter</span> <span class="k">table</span> <span class="n">grade</span> <span class="k">add</span> <span class="k">constraint</span> <span class="n">hello</span> <span class="k">foreign</span> <span class="k">key</span><span class="p">(</span><span class="n">stu_curriculum_no</span><span class="p">)</span> <span class="n">ref</span>
+</span><span class='line'><span class="n">erences</span> <span class="nf">curriculum</span><span class="p">(</span><span class="n">curriculum_no</span><span class="p">)</span> <span class="k">on</span> <span class="k">delete</span> <span class="k">restrict</span> <span class="k">on</span> <span class="k">update</span> <span class="k">cascade</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看grade表信息：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="o">|</span> <span class="n">grade</span> <span class="o">|</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="ss">`grade`</span> <span class="p">(</span>
+</span><span class='line'>  <span class="ss">`stu_no`</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">`stu_curriculum_no`</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span> <span class="k">DEFAULT</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">`stu_score`</span> <span class="kt">double</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span> <span class="k">DEFAULT</span> <span class="s1">&#39;0.00&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="ss">`stu_no`</span><span class="p">),</span>
+</span><span class='line'>  <span class="k">KEY</span> <span class="ss">`hello`</span> <span class="p">(</span><span class="ss">`stu_curriculum_no`</span><span class="p">),</span>
+</span><span class='line'>  <span class="k">CONSTRAINT</span> <span class="ss">`hello`</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="ss">`stu_curriculum_no`</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="ss">`curriculum`</span> <span class="p">(</span>
+</span><span class='line'><span class="ss">`curriculum_no`</span><span class="p">)</span> <span class="k">ON</span> <span class="k">UPDATE</span> <span class="k">CASCADE</span>
+</span><span class='line'><span class="p">)</span> <span class="kp">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="kp">CHARSET</span><span class="o">=</span><span class="n">utf8</span> <span class="o">|</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中Key hello (stu_curriculum_no) 就是所谓的索引，一般可以这样
+查看表索引  show index from grade;
+删除表索引  alter table grade drop index hello</p>
+
+<p>删除表中的外键：
+ALTER TABLE grade DROP FOREIGN KEY fk_member;
+当然一般在删除的时候需要
+show create table grade 这样可以查看 CONSTRAINT后的名字  比如fk_memeber在本例中就是hello</p>
+
+<p>后来再次思考，grade表不可能有主键，因为学号可能多次出现在不同记录中！于是删除主键
+alter table grade drop primary key;
+（添加主键的方式：alter table table_test add primary key(id);）</p>
+
+<p>我再次新建一张表grade1目的是测试，在同一个库中的确不能存在两个相同的外键名，否则报错，
+下面我用hello1则是通过。（应该是此原因）</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">create</span> <span class="k">table</span> <span class="nf">grade1</span><span class="p">(</span>
+</span><span class='line'>     <span class="n">stuno</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">curi</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="s1">&#39;&#39;</span><span class="p">,</span><span class="k">constraint</span> <span class="n">hello1</span> <span class="k">foreign</span> <span class="k">key</span>
+</span><span class='line'>     <span class="p">(</span><span class="n">curi</span><span class="p">)</span> <span class="k">references</span> <span class="nf">curriculum</span><span class="p">(</span><span class="n">curriculum_no</span><span class="p">),</span>
+</span><span class='line'>     <span class="n">score</span> <span class="kt">real</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ERROR 1022 (23000): Can&rsquo;t write; duplicate key in table &lsquo;grade&#8217;的解决方案：外键名字改成没用过的就可以（整个数据库exam范围内）
+下面再次新建一张表grade2 ,目的是测试不同表是不是可以使用字段名字相同的充当外键，当然是没问题啦！
+因为在设计表的时候，曾经怕如果curi改为curriculum_no会不会报错的问题。所以就一起尝试了</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">create</span> <span class="k">table</span> <span class="nf">grade2</span><span class="p">(</span>
+</span><span class='line'>     <span class="n">stu_no</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">curi</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="s1">&#39;&#39;</span><span class="p">,</span><span class="k">constraint</span> <span class="n">hello2</span> <span class="k">foreign</span> <span class="k">key</span>
+</span><span class='line'>     <span class="p">(</span><span class="n">curi</span><span class="p">)</span> <span class="k">references</span> <span class="nf">curriculum</span><span class="p">(</span><span class="n">curriculum_no</span><span class="p">)</span> <span class="k">on</span> <span class="k">delete</span> <span class="k">restrict</span> <span class="k">on</span> <span class="k">update</span>
+</span><span class='line'>    <span class="k">cascade</span><span class="p">,</span>
+</span><span class='line'>     <span class="n">score</span> <span class="kt">real</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在先把grade表放在一边 ，待会设计完student_info表之后再聊grade表的事情。</p>
+
+<p>Student_info表的设计</p>
+
+<p>不合理的设计（主键同时是外键，不好）：
+学号 student_no : int  not null auto_increment primary key, foreign key(student_no) references</p>
+
+<p>grade on grade(student_no) on delete restrict on update cascade,（后来修改为 主键！因为一个表即为</p>
+
+<p>主键和外键叠加不好！！ 同时让grade的stu_no 也增加一个外键  连接到student_info表）
+姓名  stu_name  : varchar(20) not null default ‘’,
+性别  stu_sex    : char(2)  not null default ‘男‘，
+出生年月 stu_date (stu_birth): date not null default ‘1990-01-04’
+家庭住址 stu_family (stu_addr): varchar(20) not null default ‘’,
+备注     stu_note : varchar(30) not null default ‘’,</p>
+
+<p>然后再次回到grade表，添加外键，</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">alter</span> <span class="k">table</span> <span class="n">grade</span> <span class="k">add</span> <span class="k">constraint</span> <span class="n">fuck</span> <span class="k">foreign</span> <span class="k">key</span><span class="p">(</span><span class="n">stu_no</span><span class="p">)</span> <span class="k">references</span> <span class="n">stud</span>
+</span><span class='line'><span class="nf">ent_info</span><span class="p">(</span><span class="n">stu_no</span><span class="p">)</span> <span class="p">;</span>
+</span><span class='line'><span class="n">ERROR</span> <span class="mi">1452</span> <span class="p">(</span><span class="mi">23000</span><span class="p">):</span> <span class="n">Cannot</span> <span class="k">add</span> <span class="k">or</span> <span class="k">update</span> <span class="n">a</span> <span class="n">child</span> <span class="n">row</span><span class="p">:</span> <span class="n">a</span> <span class="k">foreign</span> <span class="k">key</span> <span class="k">constraint</span> <span class="n">f</span>
+</span><span class='line'><span class="nf">ails</span> <span class="p">(</span><span class="ss">`exam`</span><span class="p">.</span><span class="ss">`#sql-167c_1`</span><span class="p">,</span> <span class="k">CONSTRAINT</span> <span class="ss">`fuck`</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="ss">`stu_no`</span><span class="p">)</span> <span class="k">REFERENCES</span>
+</span><span class='line'><span class="ss">`student_info`</span> <span class="p">(</span><span class="ss">`stu_no`</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>报错了！！！为什么？
+原来在非空表的情况不能添加外键
+于是： delete from grade;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">alter</span> <span class="k">table</span> <span class="n">grade</span> <span class="k">add</span> <span class="k">constraint</span> <span class="n">pig</span> <span class="k">foreign</span> <span class="k">key</span><span class="p">(</span><span class="n">stu_no</span><span class="p">)</span> <span class="k">references</span>
+</span><span class='line'>    <span class="nf">student_info</span><span class="p">(</span><span class="n">stu_no</span><span class="p">)</span> <span class="k">on</span> <span class="k">delete</span> <span class="k">restrict</span> <span class="k">on</span> <span class="k">update</span> <span class="k">cascade</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最终我的grade表的结构：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="o">|</span> <span class="n">grade</span> <span class="o">|</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="ss">`grade`</span> <span class="p">(</span>
+</span><span class='line'>  <span class="ss">`stu_no`</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span> <span class="k">DEFAULT</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">`curriculum`</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span> <span class="k">DEFAULT</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">`stu_score`</span> <span class="kt">double</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span> <span class="k">DEFAULT</span> <span class="s1">&#39;0.00&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="k">KEY</span> <span class="ss">`hello`</span> <span class="p">(</span><span class="ss">`curriculum`</span><span class="p">),</span>
+</span><span class='line'>  <span class="k">KEY</span> <span class="ss">`pig`</span> <span class="p">(</span><span class="ss">`stu_no`</span><span class="p">),</span>
+</span><span class='line'>  <span class="k">CONSTRAINT</span> <span class="ss">`hello`</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="ss">`curriculum`</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="ss">`curriculum`</span> <span class="p">(</span><span class="ss">`curric</span>
+</span><span class='line'><span class="ss">ulum_no`</span><span class="p">)</span> <span class="k">ON</span> <span class="k">UPDATE</span> <span class="k">CASCADE</span><span class="p">,</span>
+</span><span class='line'>  <span class="k">CONSTRAINT</span> <span class="ss">`pig`</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="ss">`stu_no`</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="ss">`student_info`</span> <span class="p">(</span><span class="ss">`stu_no`</span><span class="p">)</span> <span class="n">O</span>
+</span><span class='line'><span class="n">N</span> <span class="k">UPDATE</span> <span class="k">CASCADE</span>
+</span><span class='line'><span class="p">)</span> <span class="kp">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="kp">CHARSET</span><span class="o">=</span><span class="n">utf8</span> <span class="o">|</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其实经过前面n过程的之后，你会发现这几张表在你的脑海中特别清晰：
+1.学生的
+2.成绩的
+3.课程的</p>
+
+<p>最终的结果是：</p>
+
+<p>curriculum表的设计：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">create</span> <span class="k">table</span> <span class="nf">curriculum</span><span class="p">(</span>
+</span><span class='line'>    <span class="n">curriculum_no</span> <span class="kt">int</span> <span class="k">not</span> <span class="no">null</span> <span class="kp">auto_increment</span> <span class="k">primary</span> <span class="k">key</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">curriculum_name</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">curriculum_credit</span> <span class="kt">real</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span>  <span class="k">default</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>curriculum表的数据添加：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">insert</span> <span class="k">into</span> <span class="nf">curriculum</span><span class="p">(</span><span class="n">curriculum_no</span><span class="p">,</span><span class="n">curriculum_name</span><span class="p">,</span><span class="n">curriculum_credit</span><span class="p">)</span> <span class="n">v</span>
+</span><span class='line'><span class="nf">alues</span><span class="p">(</span><span class="s1">&#39;0002&#39;</span><span class="p">,</span><span class="s1">&#39;C语言&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">insert</span> <span class="k">into</span> <span class="n">curriculum</span> <span class="o">&lt;</span><span class="n">curriculum_no</span><span class="p">,</span><span class="n">curriculum_name</span><span class="p">,</span><span class="n">curriculum_credit</span><span class="p">)</span>
+</span><span class='line'><span class="k">values</span> <span class="p">(</span><span class="s1">&#39;0001&#39;</span><span class="p">,</span><span class="s1">&#39;计算机基础&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">.</span><span class="mi">2</span><span class="p">);</span>
+</span><span class='line'><span class="k">insert</span> <span class="k">into</span> <span class="nf">curriculum</span> <span class="p">(</span><span class="n">curriculum_no</span><span class="p">,</span><span class="n">curriculum_name</span><span class="p">,</span><span class="n">curriculum_credit</span><span class="p">)</span> <span class="k">values</span><span class="p">(</span><span class="s1">&#39;0003&#39;</span><span class="p">,</span><span class="s1">&#39;编译原理&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">.</span><span class="mi">5</span><span class="p">);</span>
+</span><span class='line'><span class="k">insert</span> <span class="k">into</span> <span class="nf">curriculum</span> <span class="p">(</span><span class="n">curriculum_no</span><span class="p">,</span><span class="n">curriculum_name</span><span class="p">,</span><span class="n">curriculum_credit</span><span class="p">)</span> <span class="k">values</span><span class="p">(</span><span class="s1">&#39;0004&#39;</span><span class="p">,</span><span class="s1">&#39;错做系统&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">.</span><span class="mi">5</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>student_info表的设计：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">create</span> <span class="k">table</span> <span class="nf">student_info</span><span class="p">(</span>
+</span><span class='line'>     <span class="n">stu_no</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="s1">&#39;&#39;</span> <span class="k">primary</span> <span class="k">key</span><span class="p">,</span>
+</span><span class='line'>     <span class="n">stu_name</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span>  <span class="no">null</span> <span class="k">default</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">stu_sex</span> <span class="kt">char</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="s1">&#39;男&#39;</span><span class="p">,</span>
+</span><span class='line'>     <span class="n">stu_birth</span> <span class="kt">date</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="s1">&#39;1990-01-07&#39;</span><span class="p">,</span>
+</span><span class='line'>     <span class="n">stu_addr</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+</span><span class='line'>     <span class="n">stu_note</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">30</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>student_info表的数据添加：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">insert</span> <span class="k">into</span> <span class="nf">student_info</span> <span class="p">(</span><span class="n">stu_no</span><span class="p">,</span><span class="n">stu_name</span><span class="p">,</span><span class="n">stu_sex</span><span class="p">,</span><span class="n">stu_birth</span><span class="p">,</span><span class="n">stu_addr</span><span class="p">)</span> <span class="n">val</span>
+</span><span class='line'><span class="nf">ues</span><span class="p">(</span><span class="s1">&#39;0001&#39;</span><span class="p">,</span><span class="s1">&#39;张三&#39;</span><span class="p">,</span><span class="s1">&#39;男&#39;</span><span class="p">,</span><span class="mi">1989</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">17</span><span class="p">,</span><span class="s1">&#39;北京&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">insert</span> <span class="k">into</span> <span class="nf">student_info</span> <span class="p">(</span><span class="n">stu_no</span><span class="p">,</span><span class="n">stu_name</span><span class="p">,</span><span class="n">stu_sex</span><span class="p">,</span><span class="n">stu_birth</span><span class="p">,</span><span class="n">stu_addr</span><span class="p">,</span><span class="n">stu_</span>
+</span><span class='line'><span class="n">note</span><span class="p">)</span> <span class="k">values</span><span class="p">(</span><span class="s1">&#39;0002&#39;</span><span class="p">,</span><span class="s1">&#39;李四&#39;</span><span class="p">,</span><span class="s1">&#39;女&#39;</span><span class="p">,</span><span class="mi">1990</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">22</span><span class="p">,</span><span class="s1">&#39;内蒙古&#39;</span><span class="p">,</span><span class="s1">&#39;此女子性格刁蛮&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">insert</span> <span class="k">into</span> <span class="nf">student_info</span><span class="p">(</span><span class="n">stu_no</span><span class="p">,</span><span class="n">stu_name</span><span class="p">,</span><span class="n">stu_sex</span><span class="p">,</span><span class="n">stu_birth</span><span class="p">,</span><span class="n">stu_addr</span><span class="p">)</span> <span class="n">valu</span>
+</span><span class='line'><span class="nf">es</span><span class="p">(</span><span class="s1">&#39;0003&#39;</span><span class="p">,</span><span class="s1">&#39;王五&#39;</span><span class="p">,</span><span class="s1">&#39;男&#39;</span><span class="p">,</span><span class="mi">1992</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">18</span><span class="p">,</span><span class="s1">&#39;江西&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>grade表的设计</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">create</span> <span class="k">table</span> <span class="nf">grade3</span><span class="p">(</span>
+</span><span class='line'>    <span class="n">stu_no</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="s1">&#39;&#39;</span><span class="p">,</span><span class="k">constraint</span> <span class="n">pig34</span> <span class="k">foreign</span> <span class="k">key</span><span class="p">(</span><span class="n">stu_n</span>
+</span><span class='line'><span class="n">o</span><span class="p">)</span> <span class="k">references</span> <span class="nf">student_info</span><span class="p">(</span><span class="n">stu_no</span><span class="p">)</span> <span class="k">on</span> <span class="k">delete</span> <span class="k">restrict</span> <span class="k">on</span> <span class="k">update</span> <span class="k">cascade</span><span class="p">,</span>
+</span><span class='line'>     <span class="n">curriculum</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="s1">&#39;&#39;</span><span class="p">,</span><span class="k">constraint</span> <span class="n">hellodff</span> <span class="k">foreign</span> <span class="n">ke</span>
+</span><span class='line'><span class="nf">y</span><span class="p">(</span><span class="n">curriculum</span><span class="p">)</span> <span class="k">references</span> <span class="nf">curriculum</span><span class="p">(</span><span class="n">curriculum_no</span><span class="p">)</span> <span class="k">on</span> <span class="k">delete</span> <span class="k">restrict</span> <span class="k">on</span> <span class="k">update</span>
+</span><span class='line'><span class="k">cascade</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">stu_score</span> <span class="kt">real</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="k">not</span> <span class="no">null</span> <span class="k">default</span> <span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>grade表的数据添加（截取部分）：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="k">insert</span> <span class="k">into</span> <span class="n">grade</span> <span class="k">values</span><span class="p">(</span><span class="s1">&#39;0002&#39;</span><span class="p">,</span><span class="s1">&#39;0001&#39;</span><span class="p">,</span><span class="mi">75</span><span class="p">),(</span><span class="s1">&#39;0002&#39;</span><span class="p">,</span><span class="s1">&#39;0002&#39;</span><span class="p">,</span><span class="mi">60</span><span class="p">),(</span><span class="s1">&#39;0002&#39;</span><span class="p">,</span><span class="s1">&#39;00</span>
+</span><span class='line'><span class="s1">03&#39;</span><span class="p">,</span><span class="mi">79</span><span class="p">),(</span><span class="s1">&#39;0002&#39;</span><span class="p">,</span><span class="s1">&#39;0004&#39;</span><span class="p">,</span><span class="mi">76</span><span class="p">);</span>
+</span><span class='line'><span class="k">insert</span> <span class="k">into</span> <span class="nf">grade</span><span class="p">(</span><span class="n">stu_no</span><span class="p">,</span><span class="n">curriculum</span><span class="p">,</span><span class="n">stu_score</span><span class="p">)</span> <span class="k">values</span><span class="p">(</span><span class="s1">&#39;0003&#39;</span><span class="p">,</span><span class="s1">&#39;0002&#39;</span><span class="p">,</span><span class="mi">78</span><span class="p">);</span>
+</span><span class='line'><span class="err">注意了：如果外键表的</span><span class="mi">0003</span><span class="err">没有的话，则无法添加</span><span class="mi">0003</span><span class="err">，并报错！很正常，因为外键表</span><span class="n">student_info</span><span class="err">没有！！</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>题目结果：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">grade</span><span class="p">;</span>
+</span><span class='line'><span class="o">+--------+------------+-----------+</span>
+</span><span class='line'><span class="o">|</span> <span class="n">stu_no</span> <span class="o">|</span> <span class="n">curriculum</span> <span class="o">|</span> <span class="n">stu_score</span> <span class="o">|</span>
+</span><span class='line'><span class="o">+--------+------------+-----------+</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0001</span>   <span class="o">|</span> <span class="mi">0001</span>       <span class="o">|</span>     <span class="mi">80</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0001</span>   <span class="o">|</span> <span class="mi">0002</span>       <span class="o">|</span>     <span class="mi">85</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0001</span>   <span class="o">|</span> <span class="mi">0003</span>       <span class="o">|</span>     <span class="mi">90</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0001</span>   <span class="o">|</span> <span class="mi">0004</span>       <span class="o">|</span>     <span class="mi">92</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0002</span>   <span class="o">|</span> <span class="mi">0001</span>       <span class="o">|</span>     <span class="mi">75</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0002</span>   <span class="o">|</span> <span class="mi">0002</span>       <span class="o">|</span>     <span class="mi">60</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0002</span>   <span class="o">|</span> <span class="mi">0003</span>       <span class="o">|</span>     <span class="mi">79</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0002</span>   <span class="o">|</span> <span class="mi">0004</span>       <span class="o">|</span>     <span class="mi">76</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0003</span>   <span class="o">|</span> <span class="mi">0001</span>       <span class="o">|</span>     <span class="mi">80</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0003</span>   <span class="o">|</span> <span class="mi">0002</span>       <span class="o">|</span>     <span class="mi">78</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0003</span>   <span class="o">|</span> <span class="mi">0003</span>       <span class="o">|</span>     <span class="mi">97</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0003</span>   <span class="o">|</span> <span class="mi">0004</span>       <span class="o">|</span>     <span class="mi">86</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">+--------+------------+-----------+</span>
+</span><span class='line'><span class="mi">12</span> <span class="n">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>在GRADE表中查找80-90份的学生学号和分数</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="n">stu_no</span> <span class="k">as</span> <span class="err">学好</span> <span class="p">,</span><span class="n">stu_score</span> <span class="k">as</span> <span class="err">分数</span> <span class="k">from</span> <span class="n">grade</span> <span class="k">where</span> <span class="n">stu_score</span><span class="o">&gt;</span><span class="mi">80</span><span class="p">.</span><span class="mi">0</span>
+</span><span class='line'><span class="k">and</span> <span class="n">stu_score</span><span class="o">&lt;</span><span class="mi">90</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="o">+------+-------+</span>
+</span><span class='line'><span class="o">|</span> <span class="err">学好</span> <span class="o">|</span> <span class="err">分数</span>  <span class="o">|</span>
+</span><span class='line'><span class="o">+------+-------+</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0001</span> <span class="o">|</span> <span class="mi">85</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0003</span> <span class="o">|</span> <span class="mi">86</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">+------+-------+</span>
+</span><span class='line'><span class="mi">2</span> <span class="n">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>在GRADE 表中查找课程编号为003学生的平均分</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="nf">avg</span><span class="p">(</span><span class="n">stu_score</span><span class="p">)</span> <span class="k">from</span> <span class="n">grade</span> <span class="k">where</span> <span class="n">curriculum</span><span class="o">=</span><span class="s1">&#39;0003&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="o">+----------------+</span>
+</span><span class='line'><span class="o">|</span> <span class="nf">avg</span><span class="p">(</span><span class="n">stu_score</span><span class="p">)</span> <span class="o">|</span>
+</span><span class='line'><span class="o">+----------------+</span>
+</span><span class='line'><span class="o">|</span>      <span class="mi">88</span><span class="p">.</span><span class="mi">666667</span> <span class="o">|</span>
+</span><span class='line'><span class="o">+----------------+</span>
+</span><span class='line'><span class="mi">1</span> <span class="n">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">04</span> <span class="n">sec</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>在GRADE 表中查询学习各门课程的人数</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="nf">count</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="n">curriculum</span> <span class="k">from</span> <span class="n">grade</span> <span class="k">group</span> <span class="k">by</span> <span class="n">curriculum</span><span class="p">;</span>
+</span><span class='line'><span class="o">+----------+------------+</span>
+</span><span class='line'><span class="o">|</span> <span class="nf">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="o">|</span> <span class="n">curriculum</span> <span class="o">|</span>
+</span><span class='line'><span class="o">+----------+------------+</span>
+</span><span class='line'><span class="o">|</span>        <span class="mi">3</span> <span class="o">|</span> <span class="mi">0001</span>       <span class="o">|</span>
+</span><span class='line'><span class="o">|</span>        <span class="mi">3</span> <span class="o">|</span> <span class="mi">0002</span>       <span class="o">|</span>
+</span><span class='line'><span class="o">|</span>        <span class="mi">3</span> <span class="o">|</span> <span class="mi">0003</span>       <span class="o">|</span>
+</span><span class='line'><span class="o">|</span>        <span class="mi">3</span> <span class="o">|</span> <span class="mi">0004</span>       <span class="o">|</span>
+</span><span class='line'><span class="o">+----------+------------+</span>
+</span><span class='line'><span class="mi">4</span> <span class="n">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>查询所有姓张的学生的学号和姓名</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="n">stu_no</span> <span class="err">学号</span><span class="p">,</span><span class="n">stu_name</span> <span class="err">姓名</span>  <span class="k">from</span> <span class="n">student_info</span> <span class="k">where</span> <span class="n">stu_name</span> <span class="k">like</span> <span class="s1">&#39;</span>
+</span><span class='line'><span class="s1">张%&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="o">+------+------+</span>
+</span><span class='line'><span class="o">|</span> <span class="err">学号</span> <span class="o">|</span> <span class="err">姓名</span> <span class="o">|</span>
+</span><span class='line'><span class="o">+------+------+</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0001</span> <span class="o">|</span> <span class="err">张三</span> <span class="o">|</span>
+</span><span class='line'><span class="o">+------+------+</span>
+</span><span class='line'><span class="mi">1</span> <span class="n">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>查询分数在80-90分的学生的学号、姓名、分数</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="n">s</span><span class="p">.</span><span class="n">stu_no</span> <span class="err">学号</span><span class="p">,</span><span class="n">s</span><span class="p">.</span><span class="n">stu_name</span> <span class="err">姓名</span><span class="p">,</span><span class="n">g</span><span class="p">.</span><span class="n">curriculum</span> <span class="err">课程</span><span class="p">,</span><span class="n">g</span><span class="p">.</span><span class="n">stu_score</span> <span class="err">分数</span> <span class="n">f</span>
+</span><span class='line'><span class="n">rom</span> <span class="n">grade</span> <span class="n">g</span>
+</span><span class='line'>    <span class="o">-&gt;</span> <span class="k">left</span> <span class="k">join</span> <span class="n">student_info</span> <span class="n">s</span> <span class="k">on</span> <span class="n">g</span><span class="p">.</span><span class="n">stu_no</span><span class="o">=</span><span class="n">s</span><span class="p">.</span><span class="n">stu_no</span><span class="p">;</span>
+</span><span class='line'><span class="o">+------+------+------+-------+</span>
+</span><span class='line'><span class="o">|</span> <span class="err">学号</span> <span class="o">|</span> <span class="err">姓名</span> <span class="o">|</span> <span class="err">课程</span> <span class="o">|</span> <span class="err">分数</span>  <span class="o">|</span>
+</span><span class='line'><span class="o">+------+------+------+-------+</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0001</span> <span class="o">|</span> <span class="err">张三</span> <span class="o">|</span> <span class="mi">0001</span> <span class="o">|</span> <span class="mi">80</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0001</span> <span class="o">|</span> <span class="err">张三</span> <span class="o">|</span> <span class="mi">0002</span> <span class="o">|</span> <span class="mi">85</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0001</span> <span class="o">|</span> <span class="err">张三</span> <span class="o">|</span> <span class="mi">0003</span> <span class="o">|</span> <span class="mi">90</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0001</span> <span class="o">|</span> <span class="err">张三</span> <span class="o">|</span> <span class="mi">0004</span> <span class="o">|</span> <span class="mi">92</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0002</span> <span class="o">|</span> <span class="err">李四</span> <span class="o">|</span> <span class="mi">0001</span> <span class="o">|</span> <span class="mi">75</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0002</span> <span class="o">|</span> <span class="err">李四</span> <span class="o">|</span> <span class="mi">0002</span> <span class="o">|</span> <span class="mi">60</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0002</span> <span class="o">|</span> <span class="err">李四</span> <span class="o">|</span> <span class="mi">0003</span> <span class="o">|</span> <span class="mi">79</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0002</span> <span class="o">|</span> <span class="err">李四</span> <span class="o">|</span> <span class="mi">0004</span> <span class="o">|</span> <span class="mi">76</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0003</span> <span class="o">|</span> <span class="err">王五</span> <span class="o">|</span> <span class="mi">0001</span> <span class="o">|</span> <span class="mi">80</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0003</span> <span class="o">|</span> <span class="err">王五</span> <span class="o">|</span> <span class="mi">0002</span> <span class="o">|</span> <span class="mi">78</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0003</span> <span class="o">|</span> <span class="err">王五</span> <span class="o">|</span> <span class="mi">0003</span> <span class="o">|</span> <span class="mi">97</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0003</span> <span class="o">|</span> <span class="err">王五</span> <span class="o">|</span> <span class="mi">0004</span> <span class="o">|</span> <span class="mi">86</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">+------+------+------+-------+</span>
+</span><span class='line'><span class="mi">12</span> <span class="n">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>进一步求解：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="n">s</span><span class="p">.</span><span class="n">stu_no</span> <span class="err">学号</span><span class="p">,</span><span class="n">s</span><span class="p">.</span><span class="n">stu_name</span> <span class="err">姓名</span><span class="p">,</span><span class="n">c</span><span class="p">.</span><span class="n">curriculum_name</span> <span class="err">课程名称</span><span class="p">,</span><span class="n">g</span><span class="p">.</span><span class="n">stu_sco</span>
+</span><span class='line'><span class="n">re</span> <span class="err">分数</span> <span class="k">from</span> <span class="n">grade</span> <span class="n">g</span>
+</span><span class='line'>    <span class="o">-&gt;</span> <span class="k">left</span> <span class="k">join</span> <span class="n">student_info</span> <span class="n">s</span> <span class="k">on</span> <span class="n">g</span><span class="p">.</span><span class="n">stu_no</span><span class="o">=</span><span class="n">s</span><span class="p">.</span><span class="n">stu_no</span>
+</span><span class='line'>    <span class="o">-&gt;</span> <span class="k">left</span> <span class="k">join</span> <span class="n">curriculum</span> <span class="n">c</span> <span class="k">on</span> <span class="n">g</span><span class="p">.</span><span class="n">curriculum</span><span class="o">=</span><span class="n">c</span><span class="p">.</span><span class="n">curriculum_no</span><span class="p">;</span>
+</span><span class='line'><span class="o">+------+------+------------+-------+</span>
+</span><span class='line'><span class="o">|</span> <span class="err">学号</span> <span class="o">|</span> <span class="err">姓名</span> <span class="o">|</span> <span class="err">课程名称</span>   <span class="o">|</span> <span class="err">分数</span>  <span class="o">|</span>
+</span><span class='line'><span class="o">+------+------+------------+-------+</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0001</span> <span class="o">|</span> <span class="err">张三</span> <span class="o">|</span> <span class="err">计算机基础</span> <span class="o">|</span> <span class="mi">80</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0001</span> <span class="o">|</span> <span class="err">张三</span> <span class="o">|</span> <span class="n">C</span><span class="err">语言</span>      <span class="o">|</span> <span class="mi">85</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0001</span> <span class="o">|</span> <span class="err">张三</span> <span class="o">|</span> <span class="err">编译原理</span>   <span class="o">|</span> <span class="mi">90</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0001</span> <span class="o">|</span> <span class="err">张三</span> <span class="o">|</span> <span class="err">操作系统</span>   <span class="o">|</span> <span class="mi">92</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0002</span> <span class="o">|</span> <span class="err">李四</span> <span class="o">|</span> <span class="err">计算机基础</span> <span class="o">|</span> <span class="mi">75</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0002</span> <span class="o">|</span> <span class="err">李四</span> <span class="o">|</span> <span class="n">C</span><span class="err">语言</span>      <span class="o">|</span> <span class="mi">60</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0002</span> <span class="o">|</span> <span class="err">李四</span> <span class="o">|</span> <span class="err">编译原理</span>   <span class="o">|</span> <span class="mi">79</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0002</span> <span class="o">|</span> <span class="err">李四</span> <span class="o">|</span> <span class="err">操作系统</span>   <span class="o">|</span> <span class="mi">76</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0003</span> <span class="o">|</span> <span class="err">王五</span> <span class="o">|</span> <span class="err">计算机基础</span> <span class="o">|</span> <span class="mi">80</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0003</span> <span class="o">|</span> <span class="err">王五</span> <span class="o">|</span> <span class="n">C</span><span class="err">语言</span>      <span class="o">|</span> <span class="mi">78</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0003</span> <span class="o">|</span> <span class="err">王五</span> <span class="o">|</span> <span class="err">编译原理</span>   <span class="o">|</span> <span class="mi">97</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0003</span> <span class="o">|</span> <span class="err">王五</span> <span class="o">|</span> <span class="err">操作系统</span>   <span class="o">|</span> <span class="mi">86</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">+------+------+------------+-------+</span>
+</span><span class='line'><span class="mi">12</span> <span class="n">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="n">s</span><span class="p">.</span><span class="n">stu_no</span> <span class="err">学号</span><span class="p">,</span><span class="n">s</span><span class="p">.</span><span class="n">stu_name</span> <span class="err">姓名</span><span class="p">,</span><span class="n">c</span><span class="p">.</span><span class="n">curriculum_name</span> <span class="err">课程名称</span><span class="p">,</span><span class="n">g</span><span class="p">.</span><span class="n">stu_sco</span>
+</span><span class='line'><span class="n">re</span> <span class="err">分数</span> <span class="k">from</span> <span class="n">grade</span> <span class="n">g</span>
+</span><span class='line'>    <span class="o">-&gt;</span> <span class="k">left</span> <span class="k">join</span> <span class="n">student_info</span> <span class="n">s</span> <span class="k">on</span> <span class="n">g</span><span class="p">.</span><span class="n">stu_no</span><span class="o">=</span><span class="n">s</span><span class="p">.</span><span class="n">stu_no</span>
+</span><span class='line'>    <span class="o">-&gt;</span> <span class="k">left</span> <span class="k">join</span> <span class="n">curriculum</span> <span class="n">c</span> <span class="k">on</span> <span class="n">g</span><span class="p">.</span><span class="n">curriculum</span><span class="o">=</span><span class="n">c</span><span class="p">.</span><span class="n">curriculum_no</span>
+</span><span class='line'>    <span class="o">-&gt;</span> <span class="k">where</span> <span class="n">g</span><span class="p">.</span><span class="n">stu_score</span><span class="o">&gt;</span><span class="mi">80</span> <span class="k">and</span> <span class="n">g</span><span class="p">.</span><span class="n">stu_score</span><span class="o">&lt;</span><span class="mi">90</span><span class="p">;</span>
+</span><span class='line'><span class="o">+------+------+----------+-------+</span>
+</span><span class='line'><span class="o">|</span> <span class="err">学号</span> <span class="o">|</span> <span class="err">姓名</span> <span class="o">|</span> <span class="err">课程名称</span> <span class="o">|</span> <span class="err">分数</span>  <span class="o">|</span>
+</span><span class='line'><span class="o">+------+------+----------+-------+</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0001</span> <span class="o">|</span> <span class="err">张三</span> <span class="o">|</span> <span class="n">C</span><span class="err">语言</span>    <span class="o">|</span> <span class="mi">85</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0003</span> <span class="o">|</span> <span class="err">王五</span> <span class="o">|</span> <span class="err">操作系统</span> <span class="o">|</span> <span class="mi">86</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">+------+------+----------+-------+</span>
+</span><span class='line'><span class="mi">2</span> <span class="n">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>查询学习了’C语言’课程的学生学号、姓名和分数</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="n">s</span><span class="p">.</span><span class="n">stu_no</span> <span class="err">学号</span><span class="p">,</span><span class="n">s</span><span class="p">.</span><span class="n">stu_name</span> <span class="err">姓名</span><span class="p">,</span><span class="n">c</span><span class="p">.</span><span class="n">curriculum_name</span> <span class="err">课程名称</span><span class="p">,</span><span class="n">g</span><span class="p">.</span><span class="n">stu_sco</span>
+</span><span class='line'><span class="n">re</span> <span class="err">分数</span> <span class="k">from</span> <span class="n">grade</span> <span class="n">g</span>
+</span><span class='line'>    <span class="o">-&gt;</span> <span class="k">left</span> <span class="k">join</span> <span class="n">curriculum</span> <span class="n">c</span> <span class="k">on</span> <span class="n">g</span><span class="p">.</span><span class="n">curriculum</span><span class="o">=</span><span class="n">c</span><span class="p">.</span><span class="n">curriculum_no</span>
+</span><span class='line'>    <span class="o">-&gt;</span> <span class="k">left</span> <span class="k">join</span> <span class="n">student_info</span> <span class="n">s</span> <span class="k">on</span> <span class="n">g</span><span class="p">.</span><span class="n">stu_no</span><span class="o">=</span><span class="n">s</span><span class="p">.</span><span class="n">stu_no</span>
+</span><span class='line'>    <span class="o">-&gt;</span> <span class="k">where</span> <span class="n">c</span><span class="p">.</span><span class="n">curriculum_name</span><span class="o">=</span><span class="s1">&#39;c语言&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="o">+------+------+----------+-------+</span>
+</span><span class='line'><span class="o">|</span> <span class="err">学号</span> <span class="o">|</span> <span class="err">姓名</span> <span class="o">|</span> <span class="err">课程名称</span> <span class="o">|</span> <span class="err">分数</span>  <span class="o">|</span>
+</span><span class='line'><span class="o">+------+------+----------+-------+</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0001</span> <span class="o">|</span> <span class="err">张三</span> <span class="o">|</span> <span class="n">C</span><span class="err">语言</span>    <span class="o">|</span> <span class="mi">85</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0002</span> <span class="o">|</span> <span class="err">李四</span> <span class="o">|</span> <span class="n">C</span><span class="err">语言</span>    <span class="o">|</span> <span class="mi">60</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0003</span> <span class="o">|</span> <span class="err">王五</span> <span class="o">|</span> <span class="n">C</span><span class="err">语言</span>    <span class="o">|</span> <span class="mi">78</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">+------+------+----------+-------+</span>
+</span><span class='line'><span class="mi">3</span> <span class="n">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>查询学习了’C语言’课程的学生学号、姓名和分数 并排序</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="n">s</span><span class="p">.</span><span class="n">stu_no</span> <span class="err">学号</span><span class="p">,</span><span class="n">s</span><span class="p">.</span><span class="n">stu_name</span> <span class="err">姓名</span><span class="p">,</span><span class="n">c</span><span class="p">.</span><span class="n">curriculum_name</span> <span class="err">课程名称</span><span class="p">,</span><span class="n">g</span><span class="p">.</span><span class="n">stu_sco</span>
+</span><span class='line'><span class="n">re</span> <span class="err">分数</span> <span class="k">from</span> <span class="n">grade</span> <span class="n">g</span>
+</span><span class='line'>    <span class="o">-&gt;</span> <span class="k">left</span> <span class="k">join</span> <span class="n">curriculum</span> <span class="n">c</span> <span class="k">on</span> <span class="n">g</span><span class="p">.</span><span class="n">curriculum</span><span class="o">=</span><span class="n">c</span><span class="p">.</span><span class="n">curriculum_no</span>
+</span><span class='line'>    <span class="o">-&gt;</span> <span class="k">left</span> <span class="k">join</span> <span class="n">student_info</span> <span class="n">s</span> <span class="k">on</span> <span class="n">g</span><span class="p">.</span><span class="n">stu_no</span><span class="o">=</span><span class="n">s</span><span class="p">.</span><span class="n">stu_no</span>
+</span><span class='line'>    <span class="o">-&gt;</span> <span class="k">where</span> <span class="n">c</span><span class="p">.</span><span class="n">curriculum_name</span><span class="o">=</span><span class="s1">&#39;c语言&#39;</span>
+</span><span class='line'>    <span class="o">-&gt;</span> <span class="k">order</span> <span class="k">by</span> <span class="n">g</span><span class="p">.</span><span class="n">stu_score</span><span class="p">;</span>
+</span><span class='line'><span class="o">+------+------+----------+-------+</span>
+</span><span class='line'><span class="o">|</span> <span class="err">学号</span> <span class="o">|</span> <span class="err">姓名</span> <span class="o">|</span> <span class="err">课程名称</span> <span class="o">|</span> <span class="err">分数</span>  <span class="o">|</span>
+</span><span class='line'><span class="o">+------+------+----------+-------+</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0002</span> <span class="o">|</span> <span class="err">李四</span> <span class="o">|</span> <span class="n">C</span><span class="err">语言</span>    <span class="o">|</span> <span class="mi">60</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0003</span> <span class="o">|</span> <span class="err">王五</span> <span class="o">|</span> <span class="n">C</span><span class="err">语言</span>    <span class="o">|</span> <span class="mi">78</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">0001</span> <span class="o">|</span> <span class="err">张三</span> <span class="o">|</span> <span class="n">C</span><span class="err">语言</span>    <span class="o">|</span> <span class="mi">85</span><span class="p">.</span><span class="mi">00</span> <span class="o">|</span>
+</span><span class='line'><span class="o">+------+------+----------+-------+</span>
+</span><span class='line'><span class="mi">3</span> <span class="n">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第二题：
+费时：3个小时（重写5遍）
+<a href="http://www.rupeng.com/forum/thread-44516-1-1.html">http://www.rupeng.com/forum/thread-44516-1-1.html</a>
+sql_properties：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='mysql'><span class='line'><span class="n">mysqlDriver</span><span class="o">=</span><span class="n">com</span><span class="p">.</span><span class="n">mysql</span><span class="p">.</span><span class="n">jdbc</span><span class="p">.</span><span class="n">Driver</span>
+</span><span class='line'><span class="n">connectDatabase</span><span class="o">=</span><span class="n">jdbc</span><span class="p">:</span><span class="n">mysql</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="o">/</span><span class="n">study</span><span class="o">?</span><span class="n">seUnicode</span><span class="o">=</span><span class="no">true</span><span class="o">&amp;</span><span class="n">characterEncoding</span><span class="o">=</span><span class="n">UTF8</span>
+</span><span class='line'><span class="n">userName</span><span class="o">=</span><span class="n">root</span>
+</span><span class='line'><span class="n">Password</span><span class="o">=</span><span class="n">root</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>JDBCUtils:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">jdbc</span><span class="o">.</span><span class="na">test</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">* @author    叶昭良</span>
+</span><span class='line'><span class="cm">* @time      2015年2月19日下午10:41:37</span>
+</span><span class='line'><span class="cm">*                        10:55     14min</span>
+</span><span class='line'><span class="cm">* @version   com.jdbc.testrewrite4 V1.0</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.sql.*</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.io.*</span><span class="o">;</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">rewrite4</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>        <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">mysqlDriver</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">connectDatabase</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">userName</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">Password</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">static</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">Properties</span> <span class="n">prop</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="n">rewrite4</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="s">&quot;sql.properties&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="k">try</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">prop</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="n">in</span><span class="o">);</span>
+</span><span class='line'>                        <span class="n">mysqlDriver</span> <span class="o">=</span> <span class="n">prop</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&quot;mysqlDriver&quot;</span><span class="o">);</span>
+</span><span class='line'>                        <span class="n">connectDatabase</span> <span class="o">=</span> <span class="n">prop</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&quot;connectDatabase&quot;</span><span class="o">);</span>
+</span><span class='line'>                        <span class="n">userName</span> <span class="o">=</span> <span class="n">prop</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&quot;userName&quot;</span><span class="o">);</span>
+</span><span class='line'>                        <span class="n">Password</span> <span class="o">=</span> <span class="n">prop</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&quot;Password&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="c1">// TODO Auto-generated catch block</span>
+</span><span class='line'>                        <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">&quot;配置文件加载失败&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>                <span class="k">try</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">mysqlDriver</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">ClassNotFoundException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="c1">// TODO Auto-generated catch block</span>
+</span><span class='line'>                        <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">&quot;mysql驱动加载失败&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="n">Connection</span> <span class="nf">createConnection</span><span class="o">()</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>                <span class="k">try</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">conn</span> <span class="o">=</span> <span class="n">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="n">connectDatabase</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="c1">// TODO Auto-generated catch block</span>
+</span><span class='line'>                        <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">&quot;未能正确创建连接&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">conn</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">executeUpdate</span><span class="o">(</span><span class="n">String</span> <span class="n">sql</span><span class="o">,</span><span class="n">Object</span><span class="o">...</span> <span class="n">param</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SQLException</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">rewrite4</span><span class="o">.</span><span class="na">createConnection</span><span class="o">();</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">rewrite4</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">(</span><span class="n">conn</span><span class="o">,</span><span class="n">sql</span><span class="o">,</span> <span class="n">param</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">executeUpdate</span><span class="o">(</span><span class="n">Connection</span> <span class="n">conn</span><span class="o">,</span><span class="n">String</span> <span class="n">sql</span><span class="o">,</span><span class="n">Object</span><span class="o">...</span> <span class="n">param</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SQLException</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">PreparedStatement</span> <span class="n">ps</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+</span><span class='line'>                <span class="k">try</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">ps</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+</span><span class='line'>                        <span class="k">for</span><span class="o">(</span><span class="n">Object</span> <span class="nl">par:</span><span class="n">param</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="n">ps</span><span class="o">.</span><span class="na">setObject</span><span class="o">(</span><span class="n">row</span><span class="o">,</span> <span class="n">par</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">row</span><span class="o">++;</span>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                        <span class="k">return</span> <span class="n">ps</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
+</span><span class='line'>                <span class="o">}</span><span class="k">finally</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">rewrite4</span><span class="o">.</span><span class="na">closeQuietly</span><span class="o">(</span><span class="n">ps</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="n">ResultSet</span> <span class="nf">executeQuery</span><span class="o">(</span><span class="n">String</span> <span class="n">sql</span><span class="o">,</span><span class="n">Object</span><span class="o">...</span> <span class="n">param</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SQLException</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">rewrite4</span><span class="o">.</span><span class="na">createConnection</span><span class="o">();</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">rewrite4</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span><span class="n">conn</span><span class="o">,</span> <span class="n">sql</span><span class="o">,</span> <span class="n">param</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="n">ResultSet</span> <span class="nf">executeQuery</span><span class="o">(</span><span class="n">Connection</span> <span class="n">conn</span><span class="o">,</span><span class="n">String</span> <span class="n">sql</span><span class="o">,</span><span class="n">Object</span><span class="o">...</span> <span class="n">param</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SQLException</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">ResultSet</span>  <span class="n">rs</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>                <span class="n">PreparedStatement</span> <span class="n">ps</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">ps</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">row</span> <span class="o">=</span><span class="mi">1</span><span class="o">;</span>
+</span><span class='line'>                <span class="k">for</span><span class="o">(</span><span class="n">Object</span> <span class="nl">par:</span><span class="n">param</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">ps</span><span class="o">.</span><span class="na">setObject</span><span class="o">(</span><span class="n">row</span><span class="o">,</span> <span class="n">par</span><span class="o">);</span>
+</span><span class='line'>                        <span class="n">row</span><span class="o">++;</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>                <span class="n">rs</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">();</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">rs</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">closeQuietly</span><span class="o">(</span><span class="n">Connection</span> <span class="n">conn</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="k">if</span><span class="o">(</span><span class="n">conn</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="k">try</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="n">conn</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>                        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="c1">// TODO Auto-generated catch block</span>
+</span><span class='line'>                                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">closeQuietly</span><span class="o">(</span><span class="n">Statement</span> <span class="n">stmt</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="k">if</span><span class="o">(</span><span class="n">stmt</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="k">try</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="n">stmt</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>                        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="c1">// TODO Auto-generated catch block</span>
+</span><span class='line'>                                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">closeQuietly</span><span class="o">(</span><span class="n">ResultSet</span> <span class="n">rs</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="k">if</span><span class="o">(</span><span class="n">rs</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="k">try</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="n">rs</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>                        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="c1">// TODO Auto-generated catch block</span>
+</span><span class='line'>                                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">closeAll</span><span class="o">(</span><span class="n">ResultSet</span> <span class="n">rs</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="k">if</span><span class="o">(</span><span class="n">rs</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="k">try</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="n">rs</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>                        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="c1">// TODO Auto-generated catch block</span>
+</span><span class='line'>                                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">rollback</span><span class="o">(</span><span class="n">Connection</span> <span class="n">conn</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="k">if</span><span class="o">(</span><span class="n">conn</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="k">try</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="n">conn</span><span class="o">.</span><span class="na">rollback</span><span class="o">();</span>
+</span><span class='line'>                        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="c1">// TODO Auto-generated catch block</span>
+</span><span class='line'>                                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第三题：
+费时1个小时左右</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">* </span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">jdbc</span><span class="o">.</span><span class="na">test</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">* @author    叶昭良</span>
+</span><span class='line'><span class="cm">* @time      2015年2月18日下午3:49:22</span>
+</span><span class='line'><span class="cm">*                        下午5:00左右</span>
+</span><span class='line'><span class="cm">* @version   com.jdbc.testphoneCheck V1.0</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.io.*</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.sql.*</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">phoneCheck</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * @param args</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">* ID,MobileNumber,MobileArea,MobileType,AreaCode,PostCode,0</span>
+</span><span class='line'><span class="cm">        连接成功</span>
+</span><span class='line'><span class="cm">        总共添加了300105条数据.耗时：64712</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'>        <span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">load</span><span class="o">()</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="c1">//导入csv数据，利用BufferedInputStream</span>
+</span><span class='line'>          <span class="n">InputStream</span> <span class="n">is</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>          <span class="n">InputStreamReader</span> <span class="n">isr</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>          <span class="n">BufferedReader</span> <span class="n">bis</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">//一行一行读入数据</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="n">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>          <span class="n">PreparedStatement</span> <span class="n">ps</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>                <span class="kt">long</span> <span class="n">startms</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+</span><span class='line'>                <span class="k">try</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">is</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="s">&quot;e://phone.csv&quot;</span><span class="o">);</span>
+</span><span class='line'>                    <span class="n">isr</span> <span class="o">=</span> <span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="n">is</span><span class="o">);</span>
+</span><span class='line'>                        <span class="n">bis</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="n">isr</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">bis</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+</span><span class='line'>                        <span class="c1">//第一行字段舍去</span>
+</span><span class='line'>                        <span class="n">String</span> <span class="n">apple</span><span class="o">=</span>  <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>                        <span class="n">String</span><span class="o">[]</span> <span class="n">applePiles</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>                        <span class="c1">//第一次测试  字符串的行读入</span>
+</span><span class='line'><span class="cm">/*                        System.out.println(bis.readLine());</span>
+</span><span class='line'><span class="cm">                        System.out.println(bis.readLine());*/</span>
+</span><span class='line'>                        <span class="cm">/*apple =bis.readLine();</span>
+</span><span class='line'><span class="cm">                        //字符串的一次失误！！ 导致插入失败！！＂＂是默认存在的　必须删掉</span>
+</span><span class='line'><span class="cm">                        apple = apple.replaceAll(&quot;\&quot;&quot;, &quot;&quot;);</span>
+</span><span class='line'><span class="cm">                        //第二次测试 字符串分隔</span>
+</span><span class='line'><span class="cm">                        String[] splitArray = apple.split(&quot;,&quot;);</span>
+</span><span class='line'><span class="cm">                        for(String apple1 :splitArray)</span>
+</span><span class='line'><span class="cm">                        {</span>
+</span><span class='line'><span class="cm">                                System.out.println(apple1);</span>
+</span><span class='line'><span class="cm">                        }*/</span>
+</span><span class='line'>                        <span class="n">conn</span> <span class="o">=</span> <span class="n">JDBCUtils</span><span class="o">.</span><span class="na">createConnection</span><span class="o">();</span>
+</span><span class='line'>                        <span class="n">conn</span><span class="o">.</span><span class="na">setAutoCommit</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                        <span class="n">String</span> <span class="n">sql</span> <span class="o">=</span> <span class="s">&quot;insert into phone(MobileNumber,MobileArea,MobileType,Area&quot;</span>
+</span><span class='line'>                                        <span class="o">+</span> <span class="s">&quot;Code,PostCode) values(?,?,?,?,?);&quot;</span><span class="o">;</span>
+</span><span class='line'>                        <span class="n">ps</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+</span><span class='line'>                        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">                         * 370中国电信</span>
+</span><span class='line'><span class="cm">                                371中国电信</span>
+</span><span class='line'><span class="cm">                                之后 报错 ，可能是为空的原因 </span>
+</span><span class='line'><span class="cm">                         */</span>
+</span><span class='line'>                        <span class="k">while</span><span class="o">((</span><span class="n">apple</span><span class="o">=</span><span class="n">bis</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="n">apple</span> <span class="o">=</span> <span class="n">apple</span><span class="o">.</span><span class="na">replaceAll</span><span class="o">(</span><span class="s">&quot;\&quot;&quot;</span><span class="o">,</span> <span class="s">&quot;&quot;</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">applePiles</span> <span class="o">=</span> <span class="n">apple</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">&quot;,&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                                <span class="n">ps</span><span class="o">.</span><span class="na">clearParameters</span><span class="o">();</span>
+</span><span class='line'>                                <span class="c1">//ps.setInt(1, Integer.parseInt(applePiles[1].equalsIgnoreCase(&quot;&quot;)?&quot;1111&quot;:applePiles[4]));</span>
+</span><span class='line'>                                <span class="c1">//ps.setInt(1, Integer.parseInt(applePiles[1]));</span>
+</span><span class='line'>                                <span class="n">ps</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">applePiles</span><span class="o">[</span><span class="mi">1</span><span class="o">]);</span>
+</span><span class='line'>                                <span class="n">ps</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">applePiles</span><span class="o">[</span><span class="mi">2</span><span class="o">]);</span>
+</span><span class='line'>                                <span class="c1">//System.out.println(i+applePiles[3]+applePiles[4]);</span>
+</span><span class='line'>                                <span class="n">ps</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">applePiles</span><span class="o">[</span><span class="mi">3</span><span class="o">]);</span>
+</span><span class='line'><span class="c1">//                                ps.setInt(4, Integer.parseInt(applePiles[4]));//.equalsIgnoreCase(&quot;&quot;)?&quot;1111&quot;:applePiles[4]));</span>
+</span><span class='line'><span class="c1">//                                ps.setInt(5, Integer.parseInt(applePiles[5]));//.equalsIgnoreCase(&quot;&quot;)?&quot;1111&quot;:applePiles[4]));</span>
+</span><span class='line'>                                <span class="n">ps</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="n">applePiles</span><span class="o">[</span><span class="mi">4</span><span class="o">]);</span>
+</span><span class='line'>                                <span class="n">ps</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="n">applePiles</span><span class="o">[</span><span class="mi">5</span><span class="o">]);</span>
+</span><span class='line'>                                <span class="n">ps</span><span class="o">.</span><span class="na">addBatch</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>                                <span class="n">i</span><span class="o">++;</span>
+</span><span class='line'>                                <span class="c1">//每个2000步之后进行提交一次 到数据库</span>
+</span><span class='line'>                                <span class="k">if</span><span class="o">(</span><span class="n">i</span><span class="o">%</span><span class="mi">2000</span><span class="o">==</span><span class="mi">0</span><span class="o">)</span>
+</span><span class='line'>                                <span class="o">{</span>
+</span><span class='line'>                                        <span class="n">ps</span><span class="o">.</span><span class="na">executeBatch</span><span class="o">();</span>
+</span><span class='line'>                                <span class="o">}</span>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                        <span class="c1">//提交 最后的几百步</span>
+</span><span class='line'>                        <span class="n">ps</span><span class="o">.</span><span class="na">executeBatch</span><span class="o">();</span>
+</span><span class='line'>                        <span class="n">conn</span><span class="o">.</span><span class="na">commit</span><span class="o">();</span>
+</span><span class='line'>                        <span class="kt">long</span> <span class="n">endMs</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+</span><span class='line'>                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;总共添加了&quot;</span><span class="o">+</span><span class="n">i</span><span class="o">+</span><span class="s">&quot;条数据&quot;</span><span class="o">+</span><span class="s">&quot;.耗时：&quot;</span><span class="o">+(</span><span class="n">endMs</span><span class="o">-</span><span class="n">startms</span><span class="o">));</span>
+</span><span class='line'>                <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">&quot;读取文件异常&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="k">try</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="n">conn</span><span class="o">.</span><span class="na">rollback</span><span class="o">();</span>
+</span><span class='line'>                        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SQLException</span> <span class="n">e1</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="c1">// TODO Auto-generated catch block</span>
+</span><span class='line'>                                <span class="n">e1</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>                        <span class="o">}</span> <span class="c1">//又忘记了</span>
+</span><span class='line'>                        <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">&quot;数据库插入异常！&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="o">}</span><span class="k">finally</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="c1">//用完之后记得差屁股</span>
+</span><span class='line'>                        <span class="n">JDBCUtils</span><span class="o">.</span><span class="na">closeQuietly</span><span class="o">(</span><span class="n">ps</span><span class="o">);</span>
+</span><span class='line'>                        <span class="n">JDBCUtils</span><span class="o">.</span><span class="na">closeQuietly</span><span class="o">(</span><span class="n">conn</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">checkPhoneNumber</span><span class="o">(</span><span class="n">String</span> <span class="n">PhoneNumber</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">PhoneNumber</span> <span class="o">=</span> <span class="s">&quot;%&quot;</span><span class="o">+</span><span class="n">PhoneNumber</span><span class="o">+</span><span class="s">&quot;%&quot;</span><span class="o">;</span>
+</span><span class='line'>                <span class="n">String</span> <span class="n">sql</span> <span class="o">=</span> <span class="s">&quot;select * from phone where MobileNumber like ?&quot;</span><span class="o">;</span>
+</span><span class='line'>                <span class="n">ResultSet</span> <span class="n">rs</span>  <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>                <span class="k">try</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">rs</span> <span class="o">=</span> <span class="n">JDBCUtils</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span><span class="n">sql</span><span class="o">,</span> <span class="n">PhoneNumber</span><span class="o">);</span>
+</span><span class='line'>                        <span class="k">if</span><span class="o">(!</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;当前版本没有&quot;</span><span class="o">+</span><span class="n">PhoneNumber</span><span class="o">+</span><span class="s">&quot;的信息&quot;</span><span class="o">);</span>
+</span><span class='line'><span class="c1">//                                return;</span>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                        <span class="c1">//rs.next();</span>
+</span><span class='line'>                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">PhoneNumber</span><span class="o">+</span><span class="s">&quot;手机号来自&quot;</span><span class="o">+</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">&quot;MobileArea&quot;</span><span class="o">)+</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">&quot;MobileType&quot;</span><span class="o">));</span>
+</span><span class='line'>                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="c1">// TODO Auto-generated catch block</span>
+</span><span class='line'>                        <span class="k">return</span><span class="o">;</span>
+</span><span class='line'>                <span class="o">}</span><span class="k">finally</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="c1">//用完之后就差屁股</span>
+</span><span class='line'>                        <span class="n">JDBCUtils</span><span class="o">.</span><span class="na">closeAll</span><span class="o">(</span><span class="n">rs</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="c1">// TODO Auto-generated method stub</span>
+</span><span class='line'>                <span class="c1">//导入一次即可</span>
+</span><span class='line'>                <span class="c1">//load();</span>
+</span><span class='line'>                <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;请输入手机号(至少7位)&quot;</span><span class="o">);</span>
+</span><span class='line'>                        <span class="n">Scanner</span> <span class="n">sc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+</span><span class='line'>                        <span class="n">String</span> <span class="n">PhoneNumber</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>                        <span class="k">if</span><span class="o">(</span><span class="n">PhoneNumber</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&quot;exit&quot;</span><span class="o">)||</span><span class="n">PhoneNumber</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&quot;quit&quot;</span><span class="o">))</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="k">return</span><span class="o">;</span>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                        <span class="n">PhoneNumber</span> <span class="o">=</span> <span class="n">PhoneNumber</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">7</span><span class="o">);</span>
+</span><span class='line'>                        <span class="n">checkPhoneNumber</span><span class="o">(</span><span class="n">PhoneNumber</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>加上对话框的设计：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">* </span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">jdbc</span><span class="o">.</span><span class="na">test</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.sql.ResultSet</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.sql.SQLException</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">com.rupeng.gtk4j.GTK</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">com.rupeng.gtk4j.IGCallBack</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">* @author    叶昭良</span>
+</span><span class='line'><span class="cm">* @time      2015年2月22日下午7:48:03</span>
+</span><span class='line'><span class="cm">* @version   com.jdbc.testPhoneCheckUpdate V1.0</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">GTKEncapsulate.*</span><span class="o">;</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PhoneCheckUpdate</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * @param args</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">private</span> <span class="kd">static</span>  <span class="n">OOLabel</span> <span class="n">olLabel</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">private</span> <span class="kd">static</span>  <span class="n">OOEntry</span> <span class="n">oeCerti</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">private</span> <span class="kd">static</span> <span class="n">OOButton</span> <span class="n">obClick</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">private</span> <span class="kd">static</span> <span class="n">OOBox</span> <span class="n">obBox</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">private</span> <span class="kd">static</span> <span class="n">OOWindow</span> <span class="n">owPig</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="nf">PhoneCheckUpdate</span><span class="o">()</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">olLabel</span> <span class="o">=</span> <span class="k">new</span>  <span class="n">OOLabel</span><span class="o">(</span><span class="s">&quot;请输入电话的前六位：&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">oeCerti</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OOEntry</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">oeCerti</span><span class="o">.</span><span class="na">setTextMaxLength</span><span class="o">(</span><span class="mi">6</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">oeCerti</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">&quot;151010&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">obBox</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OOBox</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">obClick</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OOButton</span><span class="o">(</span><span class="s">&quot;查询&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">owPig</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OOWindow</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">owPig</span><span class="o">.</span><span class="na">setWidgetSize</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="mi">50</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">//show</span>
+</span><span class='line'>                <span class="n">owPig</span><span class="o">.</span><span class="na">show</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">owPig</span><span class="o">.</span><span class="na">setExitAfterDestroy</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">olLabel</span><span class="o">.</span><span class="na">show</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">oeCerti</span><span class="o">.</span><span class="na">show</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">obBox</span><span class="o">.</span><span class="na">show</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">obClick</span><span class="o">.</span><span class="na">show</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//contains</span>
+</span><span class='line'>                <span class="n">owPig</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">obBox</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">obBox</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">olLabel</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">obBox</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">oeCerti</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">obBox</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">obClick</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//添加事件</span>
+</span><span class='line'>                <span class="n">obClick</span><span class="o">.</span><span class="na">addClickedListener</span><span class="o">(</span><span class="k">new</span> <span class="n">IGCallBack</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>                        <span class="nd">@Override</span>
+</span><span class='line'>                        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="kt">int</span> <span class="n">instance</span><span class="o">,</span> <span class="kt">int</span> <span class="n">eventData</span><span class="o">,</span> <span class="n">Object</span> <span class="n">object</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="c1">// TODO Auto-generated method stub</span>
+</span><span class='line'>                                <span class="n">String</span> <span class="n">text</span><span class="o">=</span> <span class="n">oeCerti</span><span class="o">.</span><span class="na">getText</span><span class="o">();</span>
+</span><span class='line'>                                <span class="n">OOMessageDialog</span> <span class="n">omd</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OOMessageDialog</span><span class="o">(</span><span class="n">checkPhoneNumber</span><span class="o">(</span><span class="n">text</span><span class="o">));</span>
+</span><span class='line'>                                <span class="n">omd</span><span class="o">.</span><span class="na">run</span><span class="o">();</span>
+</span><span class='line'>                                <span class="n">omd</span><span class="o">.</span><span class="na">destroy</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                <span class="o">});</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="kd">private</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">checkPhoneNumber</span><span class="o">(</span><span class="n">String</span> <span class="n">PhoneNumber</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">PhoneNumber</span> <span class="o">=</span> <span class="s">&quot;%&quot;</span><span class="o">+</span><span class="n">PhoneNumber</span><span class="o">+</span><span class="s">&quot;%&quot;</span><span class="o">;</span>
+</span><span class='line'>                <span class="n">String</span> <span class="n">sql</span> <span class="o">=</span> <span class="s">&quot;select * from phone where MobileNumber like ?&quot;</span><span class="o">;</span>
+</span><span class='line'>                <span class="n">ResultSet</span> <span class="n">rs</span>  <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>                <span class="k">try</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">rs</span> <span class="o">=</span> <span class="n">JDBCUtils</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span><span class="n">sql</span><span class="o">,</span> <span class="n">PhoneNumber</span><span class="o">);</span>
+</span><span class='line'>                        <span class="k">if</span><span class="o">(!</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;当前版本没有&quot;</span><span class="o">+</span><span class="n">PhoneNumber</span><span class="o">+</span><span class="s">&quot;的信息&quot;</span><span class="o">);</span>
+</span><span class='line'>                                <span class="k">return</span> <span class="s">&quot;当前版本没有&quot;</span><span class="o">+</span><span class="n">PhoneNumber</span><span class="o">+</span><span class="s">&quot;的信息&quot;</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//                                return;</span>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                        <span class="c1">//rs.next();</span>
+</span><span class='line'>                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">PhoneNumber</span><span class="o">+</span><span class="s">&quot;手机号来自&quot;</span><span class="o">+</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">&quot;MobileArea&quot;</span><span class="o">)+</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">&quot;MobileType&quot;</span><span class="o">));</span>
+</span><span class='line'>                        <span class="k">return</span> <span class="n">PhoneNumber</span><span class="o">+</span><span class="s">&quot;手机号来自&quot;</span><span class="o">+</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">&quot;MobileArea&quot;</span><span class="o">)+</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">&quot;MobileType&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="c1">// TODO Auto-generated catch block</span>
+</span><span class='line'>                        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>                <span class="o">}</span><span class="k">finally</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="c1">//用完之后就差屁股</span>
+</span><span class='line'>                        <span class="n">JDBCUtils</span><span class="o">.</span><span class="na">closeAll</span><span class="o">(</span><span class="n">rs</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="c1">// TODO Auto-generated method stub</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_init</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">PhoneCheckUpdate</span> <span class="n">pcu</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PhoneCheckUpdate</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_main</span><span class="o">();</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2015/05/11/2yue-27ri-javazhou-mo-ban-shi-ti/'>http://jueqingsizhe66.github.io/blog/2015/05/11/2yue-27ri-javazhou-mo-ban-shi-ti/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:41+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javabasic/'>JavaBasic</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/11/2yue-1ri-javaban-bi-ji-zuo-ye/" title="Previous Post: 2月1日Java班笔记作业">&laquo; 2月1日Java班笔记作业</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/11/2yue-4ri-javaban-gtk/" title="Next Post: 2月4日Java班GTK">2月4日Java班GTK &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><div class="ds-thread" > </div>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"f708708"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+  <p><img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> <!--不是他的原因-->
+ <!--而是yellow的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (3)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (22)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (3)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (18)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/physics-and-maths/">Physics and Maths</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/jump-out-of-ontology/">Jump Out of Ontology</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/machine-learning-some-search-record/">Machine Learning Some Search Record</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/graphviz-notebook/">Graphviz Notebook</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="1" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+
+</section>
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2015/05/11/2yue-27ri-javazhou-mo-ban-shi-ti/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2015/05/11/2yue-27ri-javazhou-mo-ban-shi-ti/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

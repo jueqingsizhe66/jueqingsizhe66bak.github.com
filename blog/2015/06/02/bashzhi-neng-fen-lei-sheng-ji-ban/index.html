@@ -1,0 +1,1075 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Bash智能分类升级版 - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="加入了 seq 1 8 智能产生序列的方法 使得30度攻角的实验值也可以处理。
+判断文件夹内是否存在文件 [ -e &ldquo;实验*.txt&rdquo; ] 无法执行正则表达式 因为有可能没有对应攻角的 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2015/06/02/bashzhi-neng-fen-lei-sheng-ji-ban">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Bash智能分类升级版</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-02T14:35:57+08:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2015</time>
+        
+
+         
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><ol>
+<li>加入了 seq 1 8  智能产生序列的方法
+ 使得30度攻角的实验值也可以处理。</li>
+<li>判断文件夹内是否存在文件
+ [ -e &ldquo;实验*.txt&rdquo; ] 无法执行正则表达式
+ 因为有可能没有对应攻角的</li>
+</ol>
+
+
+<!--more-->
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+<span class='line-number'>201</span>
+<span class='line-number'>202</span>
+<span class='line-number'>203</span>
+<span class='line-number'>204</span>
+<span class='line-number'>205</span>
+<span class='line-number'>206</span>
+<span class='line-number'>207</span>
+<span class='line-number'>208</span>
+<span class='line-number'>209</span>
+<span class='line-number'>210</span>
+<span class='line-number'>211</span>
+<span class='line-number'>212</span>
+<span class='line-number'>213</span>
+<span class='line-number'>214</span>
+<span class='line-number'>215</span>
+<span class='line-number'>216</span>
+<span class='line-number'>217</span>
+<span class='line-number'>218</span>
+<span class='line-number'>219</span>
+<span class='line-number'>220</span>
+<span class='line-number'>221</span>
+<span class='line-number'>222</span>
+<span class='line-number'>223</span>
+<span class='line-number'>224</span>
+<span class='line-number'>225</span>
+<span class='line-number'>226</span>
+<span class='line-number'>227</span>
+<span class='line-number'>228</span>
+<span class='line-number'>229</span>
+<span class='line-number'>230</span>
+<span class='line-number'>231</span>
+<span class='line-number'>232</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>deleteDensity<span class="o">()</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'><span class="nb">echo</span>  <span class="s2">&quot;删除密度和来流&quot;</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> -d <span class="s2">&quot;modified&quot;</span> <span class="o">]</span>
+</span><span class='line'><span class="k">then </span><span class="nb">echo</span> <span class="s2">&quot;modified文件夹已存在&quot;</span>
+</span><span class='line'><span class="k">else </span>
+</span><span class='line'>mkdir modified
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'><span class="k">for </span>i in <span class="sb">`</span>ls *.txt<span class="sb">`</span>
+</span><span class='line'>    <span class="k">do</span>
+</span><span class='line'>        <span class="c">#echo $i</span>
+</span><span class='line'>        <span class="c"># 之所以加入 iconv是因为 字符编码问题  怕找不到 密度 和来流动压行</span>
+</span><span class='line'>        iconv -f gb18030 -t utf-8 <span class="nv">$i</span>|awk <span class="s1">&#39;{print}&#39;</span>|awk <span class="s1">&#39;{if ($0 ~ /攻角/) {print $3;}else if($0 ~ /升力/){print $1,$4,$5}else if($0 ~ /^$/){print &#39;&#39;}else {print $3,$5;}}&#39;</span>   |sed <span class="s1">&#39;/密度/d&#39;</span>|sed <span class="s1">&#39;/来流动压/d&#39;</span>|sed <span class="s1">&#39;/^$/d&#39;</span> &gt;modified/<span class="nv">$i</span>
+</span><span class='line'>    <span class="k">done</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># 创建文件夹 从-10攻角到25度攻角</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#---  FUNCTION  ----------------------------------------------------------------</span>
+</span><span class='line'><span class="c">#          NAME:  fenLei</span>
+</span><span class='line'><span class="c">#   DESCRIPTION:  对攻角实行分类，按照不同的攻角创建不同的文件夹</span>
+</span><span class='line'><span class="c">#    PARAMETERS:  </span>
+</span><span class='line'><span class="c">#       RETURNS:  </span>
+</span><span class='line'><span class="c">#-------------------------------------------------------------------------------</span>
+</span><span class='line'>fenLei<span class="o">(){</span>
+</span><span class='line'><span class="nb">cd </span>modified  <span class="c"># 注意下面的所有函数 都运行在modified文件夹下</span>
+</span><span class='line'><span class="c">#for j in -10.00 -9.00 -8.00 -7.00 -6.00 -5.00 -4.00 -3.00 -2.00 -1.00 0.00 1.00 2.00 3.00 4.00 5.00 6.00 7.00 8.00 9.00 10.00 11.00 12.00 13.00 14.00 15.00 16.00 17.00 18.00 19.00 20.00 21.00 22.00 23.00 24.00 25.00 26.00 27.00 28.00 29.00 30.00</span>
+</span><span class='line'><span class="k">for </span>j in <span class="sb">`</span>seq -10.00 30.00<span class="sb">`</span>
+</span><span class='line'>    <span class="k">do </span>
+</span><span class='line'><span class="k">        if</span> ! <span class="o">[</span> -d <span class="s2">&quot;a&quot;</span><span class="nv">$j</span> <span class="o">]</span>
+</span><span class='line'>        <span class="k">then    </span>
+</span><span class='line'><span class="k">            </span>mkdir <span class="s2">&quot;a&quot;</span><span class="nv">$j</span>
+</span><span class='line'>        <span class="k">fi</span>
+</span><span class='line'><span class="k">    done</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># 导入对应攻角文件到文件夹内</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#---  FUNCTION  ----------------------------------------------------------------</span>
+</span><span class='line'><span class="c">#          NAME:  getFileIntoDir</span>
+</span><span class='line'><span class="c">#   DESCRIPTION:  使用Awk按照不同的攻角值 利用 print的功能调用shell，把对应文件拷贝到对应攻角文件夹下</span>
+</span><span class='line'><span class="c">#                注意-v在awk表示定义变量的间隔符</span>
+</span><span class='line'><span class="c">#                 已废弃</span>
+</span><span class='line'><span class="c">#    PARAMETERS:  </span>
+</span><span class='line'><span class="c">#       RETURNS:  </span>
+</span><span class='line'><span class="c">#-------------------------------------------------------------------------------</span>
+</span><span class='line'>
+</span><span class='line'>getFileIntoDir<span class="o">(){</span>
+</span><span class='line'><span class="c">#cd modified</span>
+</span><span class='line'><span class="c">#for j in -10.00 -9.00 -8.00 -7.00 -6.00 -5.00 -4.00 -3.00 -2.00 -1.00 0.00 1.00 2.00 3.00 4.00 5.00 6.00 7.00 8.00 9.00 10.00 11.00 12.00 13.00 14.00 15.00 16.00 17.00 18.00 19.00 20.00 21.00 22.00 23.00 24.00 25.00 26.00 27.00 28.00 29.00 30.00</span>
+</span><span class='line'><span class="k">for </span>j in <span class="sb">`</span>seq -10.00 30.00<span class="sb">`</span>
+</span><span class='line'><span class="k">do </span>
+</span><span class='line'><span class="k">    for </span>i in <span class="sb">`</span>ls *.txt<span class="sb">`</span>
+</span><span class='line'>        <span class="k">do </span>
+</span><span class='line'><span class="k">            </span>awk <span class="s1">&#39;{print}&#39;</span> <span class="nv">$i</span> |awk -v <span class="nv">B</span><span class="o">=</span><span class="s2">&quot;$i&quot;</span> -v <span class="nv">A</span><span class="o">=</span><span class="s2">&quot;攻角：&quot;&quot;$j&quot;</span> -v <span class="nv">C</span><span class="o">=</span><span class="s2">&quot;a&quot;&quot;$j&quot;</span> <span class="s1">&#39;$0~A{print &quot;cp &quot;,B,&quot; &quot;C&quot;/&quot;B|&quot;/bin/bash&quot;}&#39;</span>
+</span><span class='line'>        <span class="k">done</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#---  FUNCTION  ----------------------------------------------------------------</span>
+</span><span class='line'><span class="c">#          NAME:  getFileIntoDirNew</span>
+</span><span class='line'><span class="c">#   DESCRIPTION:  新版本的getFileIntoDir 方式</span>
+</span><span class='line'><span class="c">#    PARAMETERS:  </span>
+</span><span class='line'><span class="c">#       RETURNS:  </span>
+</span><span class='line'><span class="c">#-------------------------------------------------------------------------------</span>
+</span><span class='line'><span class="c">#grep &quot;攻角：25.00&quot; *.txt|awk -F[:] &#39;{print $1}&#39;</span>
+</span><span class='line'>
+</span><span class='line'>getFileIntoDirNew<span class="o">(){</span>
+</span><span class='line'><span class="c">#for j in -10.00 -9.00 -8.00 -7.00 -6.00 -5.00 -4.00 -3.00 -2.00 -1.00 0.00 1.00 2.00 3.00 4.00 5.00 6.00 7.00 8.00 9.00 10.00 11.00 12.00 13.00 14.00 15.00 16.00 17.00 18.00 19.00 20.00 21.00 22.00 23.00 24.00 25.00 26.00 27.00 28.00 29.00 30.00</span>
+</span><span class='line'><span class="k">for </span>j in <span class="sb">`</span>seq -10.00 30.00<span class="sb">`</span>
+</span><span class='line'><span class="k">do </span>
+</span><span class='line'><span class="k">        </span>grep <span class="s2">&quot;攻角：$j&quot;</span> *.txt|awk -F<span class="o">[</span>:<span class="o">]</span> <span class="s1">&#39;{print $1}&#39;</span>|xargs -i mv <span class="o">{}</span> <span class="s2">&quot;a&quot;&quot;$j&quot;</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="c">## 清除空行</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#---  FUNCTION  ----------------------------------------------------------------</span>
+</span><span class='line'><span class="c">#          NAME:  blankEmptyLine</span>
+</span><span class='line'><span class="c">#   DESCRIPTION:  利用sed -i命令直接处理文件中多余的空行</span>
+</span><span class='line'><span class="c">#    PARAMETERS:  </span>
+</span><span class='line'><span class="c">#       RETURNS:  </span>
+</span><span class='line'><span class="c">#-------------------------------------------------------------------------------</span>
+</span><span class='line'>blankEmptyLine<span class="o">(){</span>
+</span><span class='line'><span class="c"># 在每个文件夹运行这些命令 清除空行 </span>
+</span><span class='line'><span class="c">#cd modified</span>
+</span><span class='line'><span class="k">for </span>i in <span class="sb">`</span>ls -d */<span class="sb">`</span>
+</span><span class='line'>    <span class="k">do</span>
+</span><span class='line'>        <span class="c">#if [ -e $i/&quot;实验*.txt&quot; ] #由于不存在任何*.txt相关的东西 所以报错！ 但是不影响程序的进行 所以忽略</span>
+</span><span class='line'>        <span class="c">#numBlank=`ls $i/*.txt|wc -l`  # 如果加上.txt反而不断报错</span>
+</span><span class='line'>        <span class="nv">numBlank</span><span class="o">=</span><span class="sb">`</span>ls <span class="nv">$i</span>/|wc -l<span class="sb">`</span>  <span class="c"># 这样就可以忽略掉 a26.00 --a30.00为空的情况</span>
+</span><span class='line'>        <span class="nb">echo</span> <span class="nv">$i</span><span class="s2">&quot;--Blank--&quot;</span><span class="nv">$numBlank</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">[</span> <span class="nv">$numBlank</span> -gt 0 <span class="o">]</span>
+</span><span class='line'>        <span class="k">then </span>
+</span><span class='line'><span class="k">            </span>sed -i <span class="s1">&#39;/^\s*$/d&#39;</span> <span class="nv">$i</span>/*.txt
+</span><span class='line'>        <span class="k">fi</span>
+</span><span class='line'><span class="k">    done</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#---  FUNCTION  ----------------------------------------------------------------</span>
+</span><span class='line'><span class="c">#          NAME:  cal</span>
+</span><span class='line'><span class="c">#   DESCRIPTION:  把每个攻角下的文件，利用awk执行攻角平均  升力系数平均  和压力系数平均</span>
+</span><span class='line'><span class="c">#    PARAMETERS:  </span>
+</span><span class='line'><span class="c">#       RETURNS:  </span>
+</span><span class='line'><span class="c">#-------------------------------------------------------------------------------</span>
+</span><span class='line'>cal<span class="o">(){</span>
+</span><span class='line'><span class="c"># 在每个文件夹下都运行此计算平均值 程序</span>
+</span><span class='line'><span class="c">#cd modified</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for </span>i in <span class="sb">`</span>ls -d */<span class="sb">`</span>
+</span><span class='line'>    <span class="k">do</span>
+</span><span class='line'>        <span class="c">#if [ -e $i/&quot;实验*.txt&quot; ]</span>
+</span><span class='line'>        <span class="c">#numCal=`ls $i/*.txt|wc -l`</span>
+</span><span class='line'>        <span class="nv">numCal</span><span class="o">=</span><span class="sb">`</span>ls <span class="nv">$i</span>/|wc -l<span class="sb">`</span>
+</span><span class='line'>        <span class="nb">echo</span> <span class="nv">$i</span><span class="s2">&quot;--Cal--&quot;</span><span class="nv">$numCal</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">[</span> <span class="nv">$numCal</span> -gt 0 <span class="o">]</span>
+</span><span class='line'>        <span class="k">then</span>
+</span><span class='line'>            <span class="c">#echo &quot;$i ok&quot;</span>
+</span><span class='line'>            awk -F<span class="s2">&quot;[ ：]&quot;</span> <span class="s1">&#39;BEGIN{num=0;}{if($0 ~/攻角/){f[FNR]=$1;g[FNR]=$4;num+=1;}else if($0 ~/升力系数/){f[fNR]=$1;g[FNR]+=$4;a[FNR]=$5;b[FNR]+=$9;}else if($0 ~/压力系数/){f[FNR]=$1;g[FNR]=$2}else{f[FNR]+=$1;g[FNR]+=$2;if(nbr&lt;FNR) {nbr=FNR;}}}END{for(i=0;i&lt;=nbr;i++){print f[i]/num,g[i]/num,a[i]/num,b[i]/num;} print num;};&#39;</span> <span class="nv">$i</span>/*.txt&gt;<span class="nv">$i</span>/modified.txt
+</span><span class='line'>
+</span><span class='line'>        <span class="k">fi</span>
+</span><span class='line'><span class="k">    done</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c">#---  FUNCTION  ----------------------------------------------------------------</span>
+</span><span class='line'><span class="c">#          NAME:  plot</span>
+</span><span class='line'><span class="c">#   DESCRIPTION:  函数用于画图 调用gnuplot</span>
+</span><span class='line'><span class="c">#                 使用下面函数之前得安装gnuplot</span>
+</span><span class='line'><span class="c">#    PARAMETERS:  </span>
+</span><span class='line'><span class="c">#       RETURNS:  </span>
+</span><span class='line'><span class="c">#-------------------------------------------------------------------------------</span>
+</span><span class='line'>plot<span class="o">(){</span>
+</span><span class='line'>
+</span><span class='line'> <span class="c">#for i in `ls`;do num=`ls $i|wc -l`;let num=$[$num-1];sed -n &#39;2p&#39; $i/&quot;modified.txt&quot;|awk -v A=$i -v B=$num-2 &#39;{print A,$2*B}&#39; &gt;&gt; a.txt;sed -n &#39;3p&#39; $i/&quot;modified.txt&quot;|awk &#39;{print $2}&#39; &gt;&gt; a.txt;done; </span>
+</span><span class='line'>
+</span><span class='line'> <span class="c">#   sed &#39;N;s/\n/ :/&#39; a.txt</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c"># for i in `ls`;do num=`ls $i|wc -l`;let num=$[$num-1];sed -n &#39;2p&#39; $i/&quot;modified.txt&quot;|awk -v A=$i -v B=$num-2 &#39;{print $2*B}&#39; &gt;&gt; a.txt;sed -n &#39;3p&#39; $i/&quot;modified.txt&quot;|awk &#39;{print $2}&#39; &gt;&gt; a.txt;done; </span>
+</span><span class='line'> <span class="k">for </span>i in <span class="sb">`</span>ls -d */<span class="sb">`</span> <span class="c">## 用法思想和cp的处理一样</span>
+</span><span class='line'>    <span class="k">do</span>
+</span><span class='line'>        <span class="c">#if [ -e $i/&quot;实验数据*.txt&quot; ] #  不支持正则写法</span>
+</span><span class='line'>        <span class="c">#if [ -e $i/&quot;实验数据*.txt&quot; ]</span>
+</span><span class='line'>        <span class="c">#numPlot=`ls $i/&quot;*.txt&quot;|wc -l`  # 错误写法 不要用双引号</span>
+</span><span class='line'>        <span class="c">#numPlot=`ls $i/*.txt|wc -l` </span>
+</span><span class='line'>        <span class="nv">numPlot</span><span class="o">=</span><span class="sb">`</span>ls <span class="nv">$i</span>/|wc -l<span class="sb">`</span>
+</span><span class='line'>        <span class="c">#echo $i&quot;--cl-cd--&quot;$numPlot</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">[</span> <span class="nv">$numPlot</span> -gt 0 <span class="o">]</span>
+</span><span class='line'>        <span class="k">then</span>
+</span><span class='line'><span class="k">            </span><span class="nv">num</span><span class="o">=</span><span class="sb">`</span>ls <span class="nv">$i</span>|wc -l<span class="sb">`</span>
+</span><span class='line'>            <span class="nv">num</span><span class="o">=</span><span class="k">$((</span><span class="nv">$num</span><span class="o">-</span><span class="m">1</span><span class="k">))</span>
+</span><span class='line'>            <span class="c">#print $i,$num</span>
+</span><span class='line'>            sed -n <span class="s1">&#39;2p&#39;</span> <span class="nv">$i</span>/<span class="s2">&quot;modified.txt&quot;</span>|awk -v <span class="nv">A</span><span class="o">=</span><span class="nv">$i</span> -v <span class="nv">B</span><span class="o">=</span><span class="nv">$num</span> <span class="s1">&#39;{print $2*B}&#39;</span> &gt;&gt; shengli.txt
+</span><span class='line'>            sed -n <span class="s1">&#39;3p&#39;</span> <span class="nv">$i</span>/<span class="s2">&quot;modified.txt&quot;</span>|awk <span class="s1">&#39;{print $2}&#39;</span> &gt;&gt; shengli.txt
+</span><span class='line'>            sed -n <span class="s1">&#39;2p&#39;</span> <span class="nv">$i</span>/<span class="s2">&quot;modified.txt&quot;</span>|awk -v <span class="nv">A</span><span class="o">=</span><span class="nv">$i</span> -v <span class="nv">B</span><span class="o">=</span><span class="nv">$num</span> <span class="s1">&#39;{print $2*B}&#39;</span> &gt;&gt; zuli.txt
+</span><span class='line'>            sed -n <span class="s1">&#39;3p&#39;</span> <span class="nv">$i</span>/<span class="s2">&quot;modified.txt&quot;</span>|awk <span class="s1">&#39;{print $4}&#39;</span> &gt;&gt; zuli.txt
+</span><span class='line'>        <span class="k">fi</span>
+</span><span class='line'><span class="k">    done</span>
+</span><span class='line'><span class="c"># 这是一个相当棒的技巧 把两行合并为一行</span>
+</span><span class='line'>sed -i <span class="s1">&#39;N;s/\n/ /&#39;</span> shengli.txt
+</span><span class='line'>sort -n shengli.txt &gt; shenglimodified.txt
+</span><span class='line'>sed -i <span class="s1">&#39;N;s/\n/ /&#39;</span> zuli.txt
+</span><span class='line'>sort -n zuli.txt &gt; zulimodified.txt
+</span><span class='line'>
+</span><span class='line'><span class="c"># 两张图 第一张是cl  第二章图是cd</span>
+</span><span class='line'>gnuplot<span class="s">&lt;&lt;EOF </span>
+</span><span class='line'><span class="s">set ter &#39;png&#39; </span>
+</span><span class='line'><span class="s">set out &#39;shengli.png&#39; </span>
+</span><span class='line'><span class="s">plot &quot;shenglimodified.txt&quot; t &#39;cl&#39; w lp</span>
+</span><span class='line'><span class="s">EOF</span>
+</span><span class='line'>gnuplot<span class="s">&lt;&lt;EOF </span>
+</span><span class='line'><span class="s">set ter &#39;png&#39; </span>
+</span><span class='line'><span class="s">set out &#39;zuli.png&#39; </span>
+</span><span class='line'><span class="s">plot &quot;zulimodified.txt&quot; t &#39;cd&#39; w lp</span>
+</span><span class='line'><span class="s">EOF</span>
+</span><span class='line'>rm -rf zuli.txt
+</span><span class='line'>rm -rf shengli.txt
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c">#---  FUNCTION  ----------------------------------------------------------------</span>
+</span><span class='line'><span class="c">#          NAME:  plotCp</span>
+</span><span class='line'><span class="c">#   DESCRIPTION:  用于打印cp曲线</span>
+</span><span class='line'><span class="c">#    PARAMETERS:  </span>
+</span><span class='line'><span class="c">#       RETURNS:  </span>
+</span><span class='line'><span class="c">#-------------------------------------------------------------------------------</span>
+</span><span class='line'>plotCp<span class="o">(){</span>
+</span><span class='line'>    <span class="c"># 之所以添加上 -d */ 的作用是 不要处理上一步产生的shengli.png 等文件，而只处理文件夹即可!</span>
+</span><span class='line'> <span class="k">for </span>i in <span class="sb">`</span>ls -d */<span class="sb">`</span> <span class="c"># 注意一定是 */ 单独使用 ls -d没有效果</span>
+</span><span class='line'>    <span class="k">do</span>
+</span><span class='line'>        <span class="c">#if [ -d $i ] &amp;&amp; [ -e $i/&quot;实验数据*txt&quot; ]  ;; 不支持正则写法</span>
+</span><span class='line'>        <span class="c"># 新改进的地方 想则会采用 引进ls工具 并调用wc</span>
+</span><span class='line'>        <span class="c">#</span>
+</span><span class='line'><span class="c">#IF [···] -a [···] 这样不行。 得改成 if [ ... -a ...] 或者 If [...] &amp;&amp; [..]</span>
+</span><span class='line'><span class="c">#这样吧，IF [···] &amp;&amp; [···] </span>
+</span><span class='line'>        <span class="nv">numPlotCp</span><span class="o">=</span><span class="sb">`</span>ls <span class="nv">$i</span>/|wc -l<span class="sb">`</span>
+</span><span class='line'>        <span class="c">#numPlotCp=`ls $i/*.txt|wc -l` </span>
+</span><span class='line'>        <span class="c">#echo $i&quot;--Cp--&quot;$numPlotCp</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">[</span> <span class="nv">$numPlotCp</span> -gt 0 <span class="o">]</span>
+</span><span class='line'>        <span class="k">then </span>
+</span><span class='line'><span class="k">            </span>sed -n <span class="s1">&#39;6,47p&#39;</span> <span class="nv">$i</span>/<span class="s2">&quot;modified.txt&quot;</span> &gt;&gt; <span class="nv">$i</span>/<span class="s2">&quot;cpUp.txt&quot;</span>;sed -n <span class="s1">&#39;49,93p&#39;</span> <span class="nv">$i</span>/<span class="s2">&quot;modified.txt&quot;</span> |sort -k 2 -nr &gt;&gt; <span class="nv">$i</span>/<span class="s2">&quot;cpUp.txt&quot;</span>;cpGrid
+</span><span class='line'>        <span class="k">fi</span>
+</span><span class='line'><span class="k">    done</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#---  FUNCTION  ----------------------------------------------------------------</span>
+</span><span class='line'><span class="c">#          NAME:  cpGrid</span>
+</span><span class='line'><span class="c">#   DESCRIPTION:  注意  gnuplot必须放在句首</span>
+</span><span class='line'><span class="c">#    PARAMETERS:  </span>
+</span><span class='line'><span class="c">#       RETURNS:  </span>
+</span><span class='line'><span class="c">#-------------------------------------------------------------------------------</span>
+</span><span class='line'>cpGrid<span class="o">(){</span>
+</span><span class='line'>gnuplot<span class="s">&lt;&lt;EOF </span>
+</span><span class='line'><span class="s">set ter &#39;png&#39; </span>
+</span><span class='line'><span class="s">set out &#39;$i/cpUp.png&#39;</span>
+</span><span class='line'><span class="s">set xtics rotate by -45</span>
+</span><span class='line'><span class="s">set ytics rotate by -45</span>
+</span><span class='line'><span class="s">plot &quot;$i/cpUp.txt&quot; t &#39;cp&#39; w lp</span>
+</span><span class='line'><span class="s">EOF</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="c"># 执行函数</span>
+</span><span class='line'><span class="nb">cd</span> <span class="nv">$1</span>
+</span><span class='line'><span class="nb">pwd</span>
+</span><span class='line'>deleteDensity
+</span><span class='line'>fenLei
+</span><span class='line'>getFileIntoDirNew
+</span><span class='line'>blankEmptyLine
+</span><span class='line'>cal
+</span><span class='line'>plot
+</span><span class='line'>plotCp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2015/06/02/bashzhi-neng-fen-lei-sheng-ji-ban/'>http://jueqingsizhe66.github.io/blog/2015/06/02/bashzhi-neng-fen-lei-sheng-ji-ban/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-02T14:35:57+08:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>Linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/31/u-plus-y-plus/" title="Previous Post: U+-Y+">&laquo; U+-Y+</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/03/wo-de-bash-it/" title="Next Post: 我的Bash-It">我的Bash-It &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><div class="ds-thread" > </div>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"f708708"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+  <p><img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> <!--不是他的原因-->
+ <!--而是yellow的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (3)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (22)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (3)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (18)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/physics-and-maths/">Physics and Maths</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/jump-out-of-ontology/">Jump Out of Ontology</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/machine-learning-some-search-record/">Machine Learning Some Search Record</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/graphviz-notebook/">Graphviz Notebook</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="1" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+
+</section>
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2015/06/02/bashzhi-neng-fen-lei-sheng-ji-ban/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2015/06/02/bashzhi-neng-fen-lei-sheng-ji-ban/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

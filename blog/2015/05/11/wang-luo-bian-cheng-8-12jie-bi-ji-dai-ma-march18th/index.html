@@ -1,0 +1,1884 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>网络编程8-12节笔记代码March18th - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="复习目录
+1集合框架&hellip; 2
+ArrayList: 2
+栈的实现（先进后出）&hellip; 3
+队列的实现（先进先出）&hellip; 5
+LinkedList: 8
+小结：&hellip; 10
+HashSet: 10
+TreeSet. 14
+LinkedHashSet: 22 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2015/05/11/wang-luo-bian-cheng-8-12jie-bi-ji-dai-ma-march18th">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">网络编程8-12节笔记代码March18th</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:46+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--more-->
+
+
+<p>复习目录
+1集合框架&hellip; 2
+ArrayList: 2
+栈的实现（先进后出）&hellip; 3
+队列的实现（先进先出）&hellip; 5
+LinkedList: 8
+小结：&hellip; 10
+HashSet: 10
+TreeSet. 14
+LinkedHashSet: 22
+HashMap: 23
+1.位运算符&hellip; 25
+2.字节的截断工具：&hellip; 29
+3.理解重新调整大小&hellip; 39
+4.理解添加&hellip; 41
+5.理解说明：&hellip; 44
+6.HashMap和HashSet的区别&hellip; 44
+7.理解Hash算法&hellip; 45
+TreeMap: 45
+LinkedHashMap: 45
+Iterator: 45
+泛型&hellip; 45
+Arrays: 46
+Collections: 46
+多重数据结构的实现：&hellip; 48
+ToString. 49
+2：反射机制&hellip; 49
+类（Class）&hellip; 50
+字段&hellip; 51
+构造函数&hellip; 52
+方法&hellip; 53
+3：内省&hellip; 58
+4：正则表达式&hellip; 61
+字符串内置函数：&hellip; 61
+Pattern&amp;Matcher组合：&hellip; 62</p>
+
+<p>1集合框架
+集合是存储对象的对象。
+用于存储数据的数据结构，重要！进行源码分析。
+要求：熟练掌握增删查改（针对每一种数据结构）！块增删查改等等。并掌握每一种数据结构的本质，优缺点</p>
+
+<p>|&mdash;Collection
+|&mdash;-List
+|&mdash;&mdash;&mdash;-ArrayList
+|&mdash;&mdash;&mdash;-LinkedList
+|&mdash;&mdash;&mdash;-HashLinkedList
+|&mdash;-Set
+  |&mdash;&mdash;&mdash;-HashSet
+  |&mdash;&mdash;&mdash;-TreeSet
+|&mdash;Map
+|&mdash;&mdash;&mdash;-HashMap
+|&mdash;&mdash;&mdash;-TreeMap
+|&mdash;&mdash;&mdash;-LinkedHashMap
+两个工具类(默认是静态类static 方法)：
+|&mdash;-Arrays
+|&mdash;-Collections</p>
+
+<p>重点：ArrayList , LinkedList, HashMap,进行HashMap的源码追踪。</p>
+
+<p>ArrayList:
+本质：数组，元素有序，可以重复
+优点：查找(或者叫做获取get方法效率极高)和遍历
+缺点：增加和删除
+ArrayList和LinkedList替换掉Vector,Vector在长度不足时候是百分百增长，而前面两个是50%。至于线程的独立性可以让ArrayList和LinkedList接续Serializable</p>
+
+<p>Vector的方法都是同步的(Synchronized),是线程安全的(thread-safe)，而ArrayList的方法不是，由于线程的同步必然要影响性能，因此,ArrayList的性能比Vector好。
+当Vector或ArrayList中的元素超过它的初始大小时,Vector会将它的容量翻倍,而ArrayList只增加50%的大小，这样,ArrayList就有利于节约内存空间
+栈的实现（先进后出）</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>             
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">*  堆栈是先进后出</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">collections</span><span class="o">.</span><span class="na">test</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">* @author    叶昭良</span>
+</span><span class='line'><span class="cm">* @time      2015年2月23日下午7:47:29</span>
+</span><span class='line'><span class="cm">* @version   com.collections.testTestStack V1.0</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestStack</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>         <span class="cm">/**</span>
+</span><span class='line'><span class="cm">          * @param args</span>
+</span><span class='line'><span class="cm">          */</span>
+</span><span class='line'>         <span class="kd">private</span> <span class="kd">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+</span><span class='line'>         <span class="cm">/**</span>
+</span><span class='line'><span class="cm">          *</span>
+</span><span class='line'><span class="cm">          * @param apple  添加字符串到堆栈中</span>
+</span><span class='line'><span class="cm">          */</span>
+</span><span class='line'>         <span class="kd">public</span> <span class="kt">void</span> <span class="nf">push</span><span class="o">(</span><span class="n">String</span> <span class="n">apple</span><span class="o">)</span>
+</span><span class='line'>         <span class="o">{</span>
+</span><span class='line'>                   <span class="c1">//list1.addLast(apple);</span>
+</span><span class='line'>                   <span class="c1">//list1.addOffer(apple);</span>
+</span><span class='line'>
+</span><span class='line'>                   <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">apple</span><span class="o">);</span>
+</span><span class='line'>         <span class="o">}</span>
+</span><span class='line'>         <span class="cm">/**</span>
+</span><span class='line'><span class="cm">          *</span>
+</span><span class='line'><span class="cm">          * @return  返回待删除的字符串</span>
+</span><span class='line'><span class="cm">          */</span>
+</span><span class='line'>         <span class="kd">public</span> <span class="n">String</span> <span class="nf">pop</span><span class="o">()</span>
+</span><span class='line'>         <span class="o">{</span>
+</span><span class='line'>                   <span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">getListLength</span><span class="o">();</span> <span class="c1">//笨蛋 直接用 list1.size()就可以了</span>
+</span><span class='line'>                   <span class="c1">//System.out.println(&quot;长度为：&quot;+length);</span>
+</span><span class='line'>                   <span class="n">String</span> <span class="n">apple</span> <span class="o">=</span> <span class="n">list1</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">length</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                   <span class="c1">//String apple = list1.get(length-1);</span>
+</span><span class='line'>                   <span class="c1">//第一种方法</span>
+</span><span class='line'>                   <span class="c1">//return list1.removeLast() 更方便IE</span>
+</span><span class='line'>                   <span class="c1">//第二种方法</span>
+</span><span class='line'>                   <span class="c1">//return list1.pollLast();</span>
+</span><span class='line'>                   <span class="n">list1</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">length</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                   <span class="k">return</span> <span class="n">apple</span><span class="o">;</span>
+</span><span class='line'>         <span class="o">}</span>
+</span><span class='line'>         <span class="cm">/**</span>
+</span><span class='line'><span class="cm">          *  得到堆栈的长度</span>
+</span><span class='line'><span class="cm">          * @return</span>
+</span><span class='line'><span class="cm">          */</span>
+</span><span class='line'>         <span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">getListLength</span><span class="o">()</span>
+</span><span class='line'>         <span class="o">{</span>
+</span><span class='line'>                   <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>                   <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">it</span> <span class="o">=</span> <span class="n">list1</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+</span><span class='line'>                   <span class="k">while</span><span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span>
+</span><span class='line'>                   <span class="o">{</span>
+</span><span class='line'>                            <span class="n">sum</span><span class="o">++;</span>
+</span><span class='line'>                            <span class="n">it</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+</span><span class='line'>                   <span class="o">}</span>
+</span><span class='line'>                   <span class="k">return</span> <span class="n">sum</span><span class="o">;</span>
+</span><span class='line'>         <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>         <span class="kd">public</span>  <span class="kt">void</span> <span class="nf">sayStatck</span><span class="o">()</span>
+</span><span class='line'>         <span class="o">{</span>
+</span><span class='line'>                   <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">it</span> <span class="o">=</span> <span class="n">list1</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+</span><span class='line'>                   <span class="k">while</span><span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span>
+</span><span class='line'>                   <span class="o">{</span>
+</span><span class='line'>                            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">next</span><span class="o">());</span>
+</span><span class='line'>                   <span class="o">}</span>
+</span><span class='line'>         <span class="o">}</span>
+</span><span class='line'>         <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+</span><span class='line'>         <span class="o">{</span>
+</span><span class='line'>                   <span class="c1">// TODO Auto-generated method stub</span>
+</span><span class='line'>                   <span class="n">TestStack</span> <span class="n">ts</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TestStack</span><span class="o">();</span>
+</span><span class='line'>                   <span class="n">ts</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="s">&quot;apple&quot;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="n">ts</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="s">&quot;banana&quot;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="n">ts</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="s">&quot;orange&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                   <span class="n">ts</span><span class="o">.</span><span class="na">sayStatck</span><span class="o">();</span>
+</span><span class='line'>                   <span class="n">String</span> <span class="n">text</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+</span><span class='line'>                   <span class="n">ts</span><span class="o">.</span><span class="na">sayStatck</span><span class="o">();</span>
+</span><span class='line'>         <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+队列的实现（先进先出）</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">*</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">collections</span><span class="o">.</span><span class="na">test</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Iterator</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">* @author    叶昭良</span>
+</span><span class='line'><span class="cm">* @time      2015年2月23日下午8:07:29</span>
+</span><span class='line'><span class="cm">* @version   com.collections.testTestQueue V1.0</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestQueue</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>         <span class="cm">/**</span>
+</span><span class='line'><span class="cm">          * @param args</span>
+</span><span class='line'><span class="cm">          */</span>
+</span><span class='line'>         <span class="kd">private</span> <span class="kd">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+</span><span class='line'>         <span class="cm">/**</span>
+</span><span class='line'><span class="cm">          *</span>
+</span><span class='line'><span class="cm">          * @param apple  添加字符串到堆栈中</span>
+</span><span class='line'><span class="cm">          */</span>
+</span><span class='line'>         <span class="kd">public</span> <span class="kt">void</span> <span class="nf">push</span><span class="o">(</span><span class="n">String</span> <span class="n">apple</span><span class="o">)</span>
+</span><span class='line'>         <span class="o">{</span>
+</span><span class='line'>                   <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">apple</span><span class="o">);</span>
+</span><span class='line'>         <span class="o">}</span>
+</span><span class='line'>         <span class="cm">/**</span>
+</span><span class='line'><span class="cm">          *</span>
+</span><span class='line'><span class="cm">          * @return  返回待删除的字符串</span>
+</span><span class='line'><span class="cm">          */</span>
+</span><span class='line'>         <span class="kd">public</span> <span class="n">String</span> <span class="nf">pop</span><span class="o">()</span>
+</span><span class='line'>         <span class="o">{</span>
+</span><span class='line'>                   <span class="c1">//System.out.println(&quot;长度为：&quot;+length);</span>
+</span><span class='line'>                   <span class="n">String</span> <span class="n">apple</span> <span class="o">=</span> <span class="n">list1</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</span><span class='line'>                   <span class="c1">//String apple = list1.get(length-1);</span>
+</span><span class='line'>                   <span class="n">list1</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</span><span class='line'>                   <span class="k">return</span> <span class="n">apple</span><span class="o">;</span>
+</span><span class='line'>         <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>         <span class="kd">public</span>  <span class="kt">void</span> <span class="nf">sayStatck</span><span class="o">()</span>
+</span><span class='line'>         <span class="o">{</span>
+</span><span class='line'>                   <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">it</span> <span class="o">=</span> <span class="n">list1</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+</span><span class='line'>                   <span class="k">while</span><span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span>
+</span><span class='line'>                   <span class="o">{</span>
+</span><span class='line'>                            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">next</span><span class="o">());</span>
+</span><span class='line'>                   <span class="o">}</span>
+</span><span class='line'>         <span class="o">}</span>
+</span><span class='line'>         <span class="cm">/**</span>
+</span><span class='line'><span class="cm">          * @param args</span>
+</span><span class='line'><span class="cm">          */</span>
+</span><span class='line'>         <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+</span><span class='line'>         <span class="o">{</span>
+</span><span class='line'>                   <span class="c1">// TODO Auto-generated method stub</span>
+</span><span class='line'>                   <span class="c1">// TODO Auto-generated method stub</span>
+</span><span class='line'>                   <span class="n">TestQueue</span> <span class="n">ts</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TestQueue</span><span class="o">();</span>
+</span><span class='line'>                   <span class="n">ts</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="s">&quot;apple&quot;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="n">ts</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="s">&quot;banana&quot;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="n">ts</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="s">&quot;orange&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                   <span class="n">ts</span><span class="o">.</span><span class="na">sayStatck</span><span class="o">();</span>
+</span><span class='line'>                   <span class="n">String</span> <span class="n">text</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+</span><span class='line'>                   <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Pop值：&quot;</span><span class="o">+</span><span class="n">text</span><span class="o">);</span>
+</span><span class='line'>                   <span class="n">ts</span><span class="o">.</span><span class="na">sayStatck</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>                   <span class="n">String</span> <span class="n">text1</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+</span><span class='line'>                   <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Pop值：&quot;</span><span class="o">+</span><span class="n">text1</span><span class="o">);</span>
+</span><span class='line'>                   <span class="n">ts</span><span class="o">.</span><span class="na">sayStatck</span><span class="o">();</span>
+</span><span class='line'>         <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ArrayList源码追踪部分：</p>
+
+<p>调查ArrayList发现了LastIndexOf的一个秒的地方，倒着过来找</p>
+
+<p>  &#8220;`java
+public int lastIndexOf(Object o) {</p>
+
+<pre><code>    if (o == null) {
+        for (int i = size-1; i &gt;= 0; i--)
+            if (elementData==null)
+                return i;
+    } else {
+        for (int i = size-1; i &gt;= 0; i--) //秒！
+            if (o.equals(elementData))
+                return i;
+    }
+    return -1;
+}
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="err">下面的</span><span class="n">ArrayList</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">add</span><span class="err">真的是值得学习</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'> <span class="err">```</span><span class="n">java</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="n">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">checkForComodification</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">;</span>
+</span><span class='line'>                <span class="n">ArrayList</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">cursor</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+</span><span class='line'>                <span class="n">lastRet</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+</span><span class='line'>                <span class="n">expectedModCount</span> <span class="o">=</span> <span class="n">modCount</span><span class="o">;</span>
+</span><span class='line'>            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IndexOutOfBoundsException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="k">throw</span> <span class="k">new</span> <span class="nf">ConcurrentModificationException</span><span class="o">();</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样的话 会直接定义到本类的add方法，而不会是别的</p>
+
+<p>   &#8220;`java</p>
+
+<p>public void add(int index, E element) {</p>
+
+<pre><code>    rangeCheckForAdd(index);
+
+    ensureCapacityInternal(size + 1);  // Increments modCount!!
+    System.arraycopy(elementData, index, elementData, index + 1,
+                     size - index);
+    elementData[index] = element;
+    size++;
+}
+</code></pre>
+
+<p>  &#8220;`</p>
+
+<p>LinkedList:
+本质：链表，有序，可以重复
+优点：增加和删除
+缺点：查找（获取）</p>
+
+<p>ListIterator的常用方法：</p>
+
+<p>boolean    hasNext( )   //判断是否还要下一个元素</p>
+
+<p>Object      next( )   //取出下一个元素,并把指针移动到下一个元素</p>
+
+<p>int           nextIndex( )   //下一个元素的索引</p>
+
+<p>boolean    hasPrevious()   //判断是否有前一个元素</p>
+
+<p>Object      previous( )   //取出前一个元素,并把指针移动到前一个元素</p>
+
+<p>int           previousIndex( )   //前一个元素的索引</p>
+
+<p>void        add(Object   o)    //添加一个元素</p>
+
+<p>void        remove( )   //删除指针指向的当前元素</p>
+
+<p>void        set(Object   o)    //修改指针指向的当前元素</p>
+
+<p>package com.collections.test;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">* @author    叶昭良</span>
+</span><span class='line'><span class="cm">* @time      2015年2月23日下午12:15:42</span>
+</span><span class='line'><span class="cm">* @version   com.collections.testListTest V1.0</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ListTest</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>         <span class="cm">/**</span>
+</span><span class='line'><span class="cm">          * @param args</span>
+</span><span class='line'><span class="cm">          */</span>
+</span><span class='line'>         <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+</span><span class='line'>         <span class="o">{</span>
+</span><span class='line'>                   <span class="c1">// TODO Auto-generated method stub</span>
+</span><span class='line'><span class="c1">//               Collection c = new LinkedList();</span>
+</span><span class='line'>                   <span class="cm">/**</span>
+</span><span class='line'><span class="cm">                    *   测试list内部有别于Collection的特有的方法</span>
+</span><span class='line'><span class="cm">                    */</span>
+</span><span class='line'>                   <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+</span><span class='line'>                   <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;abc0&quot;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;abc1&quot;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;abc2&quot;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">list1</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                   <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;abchaha&quot;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">list1</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                   <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">list1</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span>
+</span><span class='line'>                   <span class="o">{</span>
+</span><span class='line'>                            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;list1[&quot;</span><span class="o">+</span><span class="n">i</span><span class="o">+</span><span class="s">&quot;]=&quot;</span><span class="o">+</span><span class="n">list1</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+</span><span class='line'>                   <span class="o">}</span>
+</span><span class='line'>                   <span class="k">for</span><span class="o">(</span><span class="n">Object</span> <span class="nl">o:</span><span class="n">list1</span><span class="o">)</span>
+</span><span class='line'>                   <span class="o">{</span>
+</span><span class='line'>                            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">o</span><span class="o">);</span>
+</span><span class='line'>                   <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>                   <span class="n">list1</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">&quot;fdsf&quot;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">list1</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                   <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;fdsf在list1的第&quot;</span><span class="o">+</span><span class="n">list1</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="s">&quot;fdsf&quot;</span><span class="o">)+</span><span class="s">&quot;位&quot;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="c1">//最后一次abc1出现的位置</span>
+</span><span class='line'>                   <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">list1</span><span class="o">.</span><span class="na">lastIndexOf</span><span class="o">(</span><span class="s">&quot;abc1&quot;</span><span class="o">));</span>
+</span><span class='line'>                   <span class="n">List</span> <span class="n">list2</span> <span class="o">=</span> <span class="n">list1</span><span class="o">.</span><span class="na">subList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+</span><span class='line'>                   <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;list2:&quot;</span><span class="o">+</span><span class="n">list2</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                   <span class="n">ListIterator</span> <span class="n">lit</span> <span class="o">=</span> <span class="n">list1</span><span class="o">.</span><span class="na">listIterator</span><span class="o">();</span>
+</span><span class='line'>                   <span class="k">while</span><span class="o">(</span><span class="n">lit</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span>
+</span><span class='line'>                   <span class="o">{</span>
+</span><span class='line'>                            <span class="n">Object</span>  <span class="n">o</span> <span class="o">=</span> <span class="n">lit</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+</span><span class='line'>                            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;List:&quot;</span><span class="o">+</span><span class="n">o</span><span class="o">);</span>
+</span><span class='line'>                   <span class="o">}</span>
+</span><span class='line'>         <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'> <span class="err">```</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">小结：</span>
+</span><span class='line'><span class="mi">1</span><span class="err">：只想遍历</span>  <span class="err">就会</span><span class="n">ArrayList</span>
+</span><span class='line'><span class="mi">2</span><span class="err">：希望不断添加</span>   <span class="err">最好就是</span><span class="n">LinkedList</span>
+</span><span class='line'><span class="mi">3</span><span class="err">：可以使用</span><span class="n">Collections</span><span class="o">.</span><span class="na">synchronizedList</span><span class="o">()</span><span class="err">获得一个线程安全的</span><span class="n">ArrayList</span> <span class="n">and</span> <span class="n">LinkedList</span>
+</span><span class='line'>
+</span><span class='line'><span class="nl">HashSet:</span>
+</span><span class='line'><span class="err">本质：数组</span><span class="o">+</span><span class="err">链表，由</span><span class="n">entry</span><span class="err">链构成的数组，无序，不可重复。本质是</span><span class="n">HashMap</span>
+</span><span class='line'><span class="err">优点：添加和删除效率高</span>
+</span><span class='line'><span class="err">缺点：获取慢（遍历都一样）</span><span class="o">,</span><span class="err">只能遍历一遍，</span><span class="n">Set</span><span class="err">集合无法直接获取某个元素</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">添加：</span><span class="mi">1</span> <span class="err">计算</span><span class="n">hashcode</span>
+</span><span class='line'>     <span class="mi">2</span><span class="o">.</span> <span class="err">根据</span><span class="n">hashcode</span><span class="err">定位到某一索引处（数组）</span>
+</span><span class='line'>     <span class="mi">3</span><span class="o">.</span> <span class="err">添加值到索引处的链表（判断是否重复）</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">所以</span><span class="n">hashset</span> <span class="o">==</span> <span class="err">数组（存放</span><span class="n">hashcode</span><span class="err">）</span><span class="o">+</span><span class="err">链表（存值）（其实就是为了提高大链表的添加和遍历的速度）</span>
+</span><span class='line'><span class="n">HashSet</span><span class="err">的源码内部其实是</span><span class="n">HashMap</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">1</span><span class="o">:</span><span class="err">重写</span><span class="n">hashCode</span> <span class="n">and</span> <span class="n">equals</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">注意：</span><span class="n">hashCode</span>  <span class="n">and</span> <span class="n">equals</span><span class="err">的生成方式：</span> <span class="err">右键―</span><span class="o">&gt;</span><span class="n">source</span><span class="o">---&gt;</span><span class="n">hashCode</span> <span class="n">and</span> <span class="n">equals</span><span class="err">即可自动</span>
+</span><span class='line'>     <span class="err">生成。</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+package com.collections.test;</p>
+
+<p>import java.util.HashSet;
+import java.util.Iterator;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月23日下午8:35:46
+* @version   com.collections.testTestHashSet V1.0
+</em>/
+public class TestHashSet
+{</p>
+
+<pre><code>     /**
+      * @param args
+      */
+     public static void main(String[] args)
+     {
+               // TODO Auto-generated method stub
+               HashSet&lt;String&gt; hs = new HashSet&lt;String&gt;();
+               hs.add("abc0");
+               hs.add("abc1");
+               hs.add("abc2");
+               hs.add("abc3");
+               hs.add("abc4");
+               hs.add("abc0");
+
+               System.out.println(hs);
+
+               //set集合没有索引 index  所以必须用iterator
+               Iterator it = hs.iterator();
+               while(it.hasNext())
+               {
+                        System.out.println(it.next());
+               }
+
+               /**
+                * Person类的hashCode被执行
+                        Person类的hashCode被执行
+                        Person类的hashCode被执行
+                        Person类的hashCode被执行
+                        Person类的hashCode被执行
+                        Person类的equals方法被执行
+                */
+               Person p1 = new Person("zhao",32);
+               Person p2 = new Person("zhao1",34);
+               Person p5 = new Person("zhao1",34);
+               Person p3 = new Person("zhao2",35);
+               Person p4 = new Person("zhao3",36);
+
+               HashSet&lt;Person&gt; hs1 = new HashSet&lt;Person&gt;();
+               hs1.add(p1);
+               hs1.add(p2);
+               hs1.add(p3);
+               hs1.add(p4);
+               hs1.add(p5);
+
+               Iterator it1 = hs1.iterator();
+               while(it1.hasNext())
+               {
+                        Person p11 = (Person)it1.next();
+                        //System.out.println(p11.getName()+":"+p11.getAge());
+                        System.out.println(p11);
+               }
+     }
+</code></pre>
+
+<p>}</p>
+
+<p>//自定类中加入set需要重写hashCode和equals方法   集合的不可重复性！！所以必须
+//添加hashcode和equals这种比较低级的！如果是TreeSet还得考虑大小！必须是
+///Comparable
+class Person
+{</p>
+
+<pre><code>     /*public int compareTo(String anotherString)
+     {
+               return Name.compareTo(anotherString);
+     }*/
+     private int Age;
+     private String Name;
+
+     public Person( String name,int age)
+     {
+               //super();
+               this.Age = age;
+               this.Name = name;
+     }
+     public int getAge()
+     {
+               return this.Age;
+     }
+     public void setAge(int age)
+     {
+               this.Age = age;
+     }
+     public String getName()
+     {
+               return this.Name;
+     }
+     public void setName(String name)
+     {
+               this.Name = name;
+     }
+     /// 右键source---》 generate equals and hashcode method
+     @Override
+     public int hashCode()
+     {
+               System.out.println("Person类的hashCode被执行");
+               final int prime = 31;
+               int result = 1;
+               result = prime * result + Age;
+               result = prime * result + ((Name == null) ? 0 : Name.hashCode());
+               return result;
+     }
+     @Override
+     public boolean equals(Object obj)
+     {
+               System.out.println("Person类的equals方法被执行");
+               if (this == obj)
+                        return true;
+               if (obj == null)
+                        return false;
+               if (getClass() != obj.getClass())
+                        return false;
+               Person other = (Person) obj;
+               if (Age != other.Age)
+                        return false;
+               if (Name == null)
+               {
+                        if (other.Name != null)
+                                 return false;
+               } else if (!Name.equals(other.Name))
+                        return false;
+               return true;
+     }
+     @Override
+     public String toString()
+     {
+               return "Person [Age=" + Age + ", Name=" + Name + "]";
+     }                
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">TreeSet</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">本质：二叉树，注意查看</span><span class="n">root</span><span class="err">节点（这是二叉树结构的标志）</span>  <span class="n">TreeSet</span><span class="err">关键是排序！（不是插入</span> <span class="err">和获取元素）</span>
+</span><span class='line'><span class="err">优点：增加和删除</span>
+</span><span class='line'><span class="err">缺点：获取</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">TreeSet</span><span class="err">右节点值大于父节点</span>    <span class="err">左节点值小于父节点</span><span class="o">,</span><span class="err">根据这种推断，最小的是存在于左边的最下边！</span> <span class="err">利用递归推断。</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">1</span><span class="o">:</span><span class="err">重写</span><span class="n">equals</span>  <span class="n">and</span>  <span class="n">hashcode</span>
+</span><span class='line'><span class="mi">2</span><span class="o">:</span><span class="err">实现一个</span><span class="n">comparable</span><span class="err">接口或者一个</span><span class="n">Comparator</span><span class="err">类</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">第一种方法：实现</span><span class="n">comparable</span><span class="err">接口</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">只需要在</span><span class="n">Person</span><span class="err">类中增加</span><span class="kd">implements</span> <span class="n">comparable</span><span class="err">并重写</span><span class="n">compareTo</span><span class="o">(</span><span class="n">Object</span> <span class="n">o</span><span class="o">)</span><span class="err">接口即可：</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+class Person implements Comparable
+{</p>
+
+<pre><code>/*public int compareTo(String anotherString)
+{
+   return Name.compareTo(anotherString);
+}*/
+private int Age;
+private String Name;
+
+public Person( String name,int age)
+{
+   //super();
+   this.Age = age;
+   this.Name = name;
+}
+public int getAge()
+{
+   return this.Age;
+}
+public void setAge(int age)
+{
+   this.Age = age;
+}
+public String getName()
+{
+   return this.Name;
+}
+public void setName(String name)
+{
+   this.Name = name;
+}
+/// 右键source---》 generate equals and hashcode method
+@Override
+public int hashCode()
+{
+   System.out.println("Person类的hashCode被执行");
+   final int prime = 31;
+   int result = 1;
+   result = prime * result + Age;
+   result = prime * result + ((Name == null) ? 0 : Name.hashCode());
+   return result;
+}
+@Override
+public boolean equals(Object obj)
+{
+   System.out.println("Person类的equals方法被执行");
+   if (this == obj)
+       return true;
+   if (obj == null)
+       return false;
+   if (getClass() != obj.getClass())
+       return false;
+   Person other = (Person) obj;
+   if (Age != other.Age)
+       return false;
+   if (Name == null)
+   {
+       if (other.Name != null)
+          return false;
+   } else if (!Name.equals(other.Name))
+       return false;
+   return true;
+}
+@Override
+public String toString()
+{
+   return "Person [Age=" + Age + ", Name=" + Name + "]";
+}
+@Override
+public int compareTo(Object o)
+{
+   // TODO Auto-generated method stub
+   //按照年龄进行排序
+   if(this == o)
+   {
+       return 0;
+   }
+   if(this == null)
+   {
+       return -1;
+   }
+   if(!(o instanceof Person))
+   {
+       return -1;
+   }
+
+   Person p1 = (Person)o;
+   //先按照年龄排序
+   int temp = p1.Age - this.Age;
+
+   if(temp ==0)
+   {
+       if(this.Name == null)
+       {
+          if(p1.Name == null)
+          {
+              return 0;
+          }else
+          {
+              return -1;
+          }
+       }else
+       {
+          return this.Name.compareTo(p1.Name);
+       }
+   }
+   return 0;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>//第二种方法创建一个比较类，并返回一个比较器，在TreeSet的对象定义中使用</p>
+
+<p>class Comparators
+{</p>
+
+<pre><code>public Comparator getComparator()
+{
+   return new Comparator()
+   {
+
+       // 0 表示  o1  o2相等
+       // 负数 表示  o1 &lt; o2
+       // 整数 表示  o1 &gt; o2
+       @Override
+       public int compare(Object o1, Object o2)
+       {
+          if(o1 instanceof String)
+          {
+              //字符串的比较
+              return compare((String) o1,(String) o2);
+          }else if(o1 instanceof Integer)
+          {
+              //整数的比较
+              return compare((Integer) o1,(Integer) o2);
+          }else if(o1 instanceof Boolean)
+          {
+              //布尔类型的比较
+              return compare((Boolean) o1,(Boolean) o2);
+          }else if(o1 instanceof Person)
+          {
+              //布尔类型的比较
+              return compare((Person) o1,(Person) o2);
+          }else
+          {
+              System.out.println("未找到合适的比较器  ");
+              return 1; //默认大于0
+          }
+       }
+       //用于比较字符串
+       public int compare(String o1, String o2)
+       {
+          //暂时备份一下 字符串
+          String s1 = (String)o1;
+          String s2 = (String)o2;
+          //获取字符串的长度
+          int len1 = s1.length();
+          int len2 = s2.length();
+          //获取最小值
+          int n = Math.min(len1, len2);
+          //转化为字符数组
+          char[] v1 = s1.toCharArray();
+          char[] v2 = s2.toCharArray();
+
+          //设置位置参数
+          int pos = 0;
+
+          //从未到头  按照index下表从头到尾进行判断
+          while(n-- != 0)
+          {
+              char c1 = v1[pos];
+              char c2 = v2[pos];
+              if(c1 != c2)
+              {
+                 return c1 - c2;
+              }
+              pos++;
+          }
+          return len1-len2; //相反则是反序 降序
+       }
+       //用于比较整数
+       public int compare(Integer o1, Integer o2)
+       {
+          int val1 = o1.intValue();
+          int val2 = o2.intValue();
+          //return (val1 &lt; val2 ? -1 :(val1 == val2 ? 0 : 1));
+</code></pre>
+
+<p>//            return (val1 > val2 ? 1 :(val1 == val2 ? 0 : -1));</p>
+
+<pre><code>          //升序
+          //return (val2 &gt; val1 ? -1 :(val1 == val2 ? 0 : 1));
+          //降序
+          return (val2 &gt; val1 ? 1 :(val1 == val2 ? 0 : -1));
+       }
+       //用于比较布尔值
+       public int compare(Boolean o1,Boolean o2)
+       {
+          return (o1.equals(o2)? 0: (o1.booleanValue()==true)?1:-1);
+       }
+
+       public int compare(final Person o1, final Person o2)
+       {
+          String Name1 = o1.getName();
+          String Name2 = o2.getName();
+          int Age1 = o1.getAge();
+          int Age2 = o2.getAge();
+          Boolean sex1 = o1.getSex();
+          Boolean sex2 = o2.getSex();
+          /*//第一次 线比较年龄
+          return (compare(Age1,Age2)==0?
+                 //第二次比较名字
+                 (compare(Name1,Name2)==0?
+                        //第三次比较性别
+                        (compare(sex1,sex2)==0? 0 :compare(sex1,sex2)):
+                            compare(Name1,Name2)):
+                               compare(Age1,Age2));*/
+          //第一次  比较年龄
+          return (compare(Name1,Name2)==0?
+                 //第二次比较 岁数
+                 (compare(Age1,Age2)==0?
+                        //第三次比较岁数
+                        (compare(sex1,sex2)==0?0:compare(sex1,sex2)):
+                            compare(Age1,Age2)):
+                               compare(Name1,Name2));
+
+       }
+   };
+}
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>
+</span><span class='line'><span class="err">并在</span><span class="n">TreeSet</span><span class="err">定义对象时候，采用如下方式：</span>
+</span><span class='line'>  <span class="err">```</span><span class="n">java</span>
+</span><span class='line'><span class="c1">//TreeSet&lt;Person&gt; ts2 = new TreeSet&lt;Person&gt;(); //找到解决办法了</span>
+</span><span class='line'>       <span class="n">TreeSet</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span> <span class="n">ts2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeSet</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;(</span><span class="k">new</span> <span class="n">Comparators</span><span class="o">().</span><span class="na">getComparator</span><span class="o">());</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>比较之前的
+  &#8220;`java
+TreeSet<Person1> ts1 = new TreeSet<Person1>();</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="err">另外此种方法也运用在</span><span class="n">Arrays</span><span class="o">.</span><span class="na">Sort</span><span class="err">当中：其中</span><span class="n">pdian</span> <span class="err">是一个</span><span class="n">person</span><span class="err">的数组</span>
+</span><span class='line'>  <span class="err">```</span><span class="n">java</span>
+</span><span class='line'><span class="n">Person</span><span class="o">[]</span> <span class="n">pdian</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Person</span><span class="o">[]</span>
+</span><span class='line'>              <span class="o">{</span>
+</span><span class='line'>                  <span class="k">new</span> <span class="nf">Person</span><span class="o">(</span><span class="s">&quot;yezhao&quot;</span><span class="o">,</span><span class="mi">34</span><span class="o">,</span><span class="n">Boolean</span><span class="o">.</span><span class="na">TRUE</span><span class="o">),</span>
+</span><span class='line'>                  <span class="k">new</span> <span class="nf">Person</span><span class="o">(</span><span class="s">&quot;xinran&quot;</span><span class="o">,</span><span class="mi">10</span><span class="o">,</span><span class="n">Boolean</span><span class="o">.</span><span class="na">FALSE</span><span class="o">),</span>
+</span><span class='line'>                  <span class="k">new</span> <span class="nf">Person</span><span class="o">(</span><span class="s">&quot;zhaoliang&quot;</span><span class="o">,</span><span class="mi">33</span><span class="o">,</span><span class="n">Boolean</span><span class="o">.</span><span class="na">TRUE</span><span class="o">),</span>
+</span><span class='line'>                  <span class="k">new</span> <span class="nf">Person</span><span class="o">(</span><span class="s">&quot;zhaidc&quot;</span><span class="o">,</span><span class="mi">30</span><span class="o">,</span><span class="n">Boolean</span><span class="o">.</span><span class="na">FALSE</span><span class="o">),</span>
+</span><span class='line'>                  <span class="k">new</span> <span class="nf">Person</span><span class="o">(</span><span class="s">&quot;zhaidc&quot;</span><span class="o">,</span><span class="mi">31</span><span class="o">,</span><span class="n">Boolean</span><span class="o">.</span><span class="na">FALSE</span><span class="o">),</span>
+</span><span class='line'>              <span class="o">};</span>
+</span><span class='line'><span class="n">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">pdian</span><span class="o">,</span> <span class="k">new</span> <span class="n">Comparators</span><span class="o">().</span><span class="na">getComparator</span><span class="o">());</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>另外的可以通过匿名类来实现：
+  &#8220;`java
+Arrays.sort(pdian, new Comparator<Object>()</p>
+
+<pre><code>   {
+       // 0 表示  o1  o2相等
+       // 负数 表示  o1 &lt; o2
+       // 整数 表示  o1 &gt; o2
+       @Override
+       public int compare(Object o1, Object o2)
+       {
+          if(o1 instanceof String)
+          {
+              //字符串的比较
+              return compare((String) o1,(String) o2);
+          }else if(o1 instanceof Integer)
+          {
+              //整数的比较
+              return compare((Integer) o1,(Integer) o2);
+          }else if(o1 instanceof Boolean)
+          {
+              //布尔类型的比较
+              return compare((Boolean) o1,(Boolean) o2);
+          }else if(o1 instanceof PersonMan)
+          {
+              //布尔类型的比较
+              return compare((PersonMan) o1,(PersonMan) o2);
+          }else
+          {
+              System.out.println("未找到合适的比较器  ");
+              return 1; //默认大于0
+          }
+       }
+       //用于比较字符串
+       public int compare(String o1, String o2)
+       {
+          //暂时备份一下 字符串
+          String s1 = (String)o1;
+          String s2 = (String)o2;
+          //获取字符串的长度
+          int len1 = s1.length();
+          int len2 = s2.length();
+          //获取最小值
+          int n = Math.min(len1, len2);
+          //转化为字符数组
+          char[] v1 = s1.toCharArray();
+          char[] v2 = s2.toCharArray();
+
+          //设置位置参数
+          int pos = 0;
+
+          //从未到头  按照index下表从头到尾进行判断
+          while(n-- != 0)
+          {
+              char c1 = v1[pos];
+              char c2 = v2[pos];
+              if(c1 != c2)
+              {
+                 return c1 - c2;
+              }
+              pos++;
+          }
+          return len1-len2; //相反则是反序 降序
+       }
+       //用于比较整数
+       public int compare(Integer o1, Integer o2)
+       {
+          int val1 = o1.intValue();
+          int val2 = o2.intValue();
+          //return (val1 &lt; val2 ? -1 :(val1 == val2 ? 0 : 1));
+</code></pre>
+
+<p>//                       return (val1 > val2 ? 1 :(val1 == val2 ? 0 : -1));</p>
+
+<pre><code>          //升序
+          //return (val2 &gt; val1 ? -1 :(val1 == val2 ? 0 : 1));
+          //降序
+          return (val2 &gt; val1 ? -1 :(val1 == val2 ? 0 : 1));
+       }
+       //用于比较布尔值
+       public int compare(Boolean o1,Boolean o2)
+       {
+          return (o1.equals(o2)? 0: (o1.booleanValue()==true)?1:-1);
+       }
+
+       public int compare(final PersonMan o1, final PersonMan o2)
+       {
+          String Name1 = o1.getName();
+          String Name2 = o2.getName();
+          int Age1 = o1.getAge();
+          int Age2 = o2.getAge();
+          Boolean sex1 = o1.getSex();
+          Boolean sex2 = o2.getSex();
+          /*//第一次 线比较年龄
+          return (compare(Age1,Age2)==0?
+                 //第二次比较名字
+                 (compare(Name1,Name2)==0?
+                        //第三次比较性别
+                        (compare(sex1,sex2)==0? 0 :compare(sex1,sex2)):
+                            compare(Name1,Name2)):
+                               compare(Age1,Age2));*/
+          //第一次  比较年龄
+          return (compare(Name1,Name2)==0?
+                 //第二次比较 岁数
+                 (compare(Age1,Age2)==0?
+                        //第三次比较岁数
+                        (compare(sex1,sex2)==0?0:compare(sex1,sex2)):
+                            compare(Age1,Age2)):
+                               compare(Name1,Name2));
+
+       }
+   });
+</code></pre>
+
+<p>  &#8220;`</p>
+
+<p>LinkedHashSet:
+本质：链表+ 有序
+优点：增加和删除
+缺点：查找（获取）
+Linkedlist也是有序但是可重复
+LinkedHashSet 不可重复！
+hashSet的高效率，但是无须！
+LinkedHashSet可以当做HashSet来使用</p>
+
+<p>Map集合基本操作：</p>
+
+<p>l   添加</p>
+
+<p>V         put(K key, V value)  //把一个键值对存入map集合中</p>
+
+<p>void    putAll(Map&lt;? extends K,? extends V> m) //把一组键值对存入到map集合中</p>
+
+<p>l   删除</p>
+
+<p>V         remove(Object key)  //删除key为指定对象的键值对</p>
+
+<p>void    clear()    //情况map中的所有元素</p>
+
+<p>l   判断</p>
+
+<p>boolean     containsKey(Object key)  //判断是否包含key为指定对象的键值对</p>
+
+<p>boolean     containsValue(Object value) //判断是否包含value为指定对象的元素</p>
+
+<p>boolean     isEmpty() //判断map集合是否包含元素</p>
+
+<p>l   获取</p>
+
+<p>   V                                        get(Object key) //获得指定key对应的value</p>
+
+<p>Set<K>                              keySet() //获得所有key组成的Set集合</p>
+
+<p>Collection<V>                   values()  //获得所有value组成的Set集合</p>
+
+<p>   Set&lt;Map.Entry&lt;K,V>>     entrySet() //获得所有键值对对象组成的Set集合</p>
+
+<p>int                                     size()  //获得map集合的大小(存了多少元素)</p>
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2015/05/11/wang-luo-bian-cheng-8-12jie-bi-ji-dai-ma-march18th/'>http://jueqingsizhe66.github.io/blog/2015/05/11/wang-luo-bian-cheng-8-12jie-bi-ji-dai-ma-march18th/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:46+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javabasic/'>JavaBasic</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/11/ting-you-yi-si-de-%5B%3F%5D-ge-bug%2Creturnjie-jue-wen-ti/" title="Previous Post: 挺有意思的一个bug，return解决问题">&laquo; 挺有意思的一个bug，return解决问题</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/11/ya-suo-wen-jian-ioliu-de-shi-yong-he-jian-dan-feng-zhuang-%280213%29/" title="Next Post: 压缩文件IO流的使用和简单封装（0213）">压缩文件IO流的使用和简单封装（0213） &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><div class="ds-thread" > </div>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"f708708"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+  <p><img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> <!--不是他的原因-->
+ <!--而是yellow的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (3)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (22)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (3)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (18)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/physics-and-maths/">Physics and Maths</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/jump-out-of-ontology/">Jump Out of Ontology</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/machine-learning-some-search-record/">Machine Learning Some Search Record</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/graphviz-notebook/">Graphviz Notebook</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="1" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+
+</section>
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2015/05/11/wang-luo-bian-cheng-8-12jie-bi-ji-dai-ma-march18th/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2015/05/11/wang-luo-bian-cheng-8-12jie-bi-ji-dai-ma-march18th/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

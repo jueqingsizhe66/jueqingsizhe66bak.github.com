@@ -1,0 +1,4036 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: JavaBasic | 网络书屋(Web Reading Room)]]></title>
+  <link href="http://jueqingsizhe66.github.io/blog/categories/javabasic/atom.xml" rel="self"/>
+  <link href="http://jueqingsizhe66.github.io/"/>
+  <updated>2017-01-22T12:24:26+08:00</updated>
+  <id>http://jueqingsizhe66.github.io/</id>
+  <author>
+    <name><![CDATA[Ye Zhaoliang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[A Little Java Note]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2016/10/09/a-little-java-note/"/>
+    <updated>2016-10-09T01:58:39+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2016/10/09/a-little-java-note</id>
+    <content type="html"><![CDATA[<div align="center">目录</div>
+
+
+<ul>
+<li><a href="#1">1. 基础部分</a></li>
+<li><a href="#2">2. 通过构造函数，构造出Natural recursion</a></li>
+<li><a href="#3">3. 重新设计RemAV RemFishV RemIntV</a></li>
+<li><a href="#4">4. 下一步把PieD的字段放入到对应的参数当中</a></li>
+<li><a href="#5">5. 引入 this 关键字，指代访问者本身，同步修改对应的访问者类</a></li>
+<li><a href="#6">6. 需要进一步提取出visitor部分的函数    </a></li>
+<li><a href="#7">7. 统一bTreeVisitorI itreevisitori ttreevisitori</a></li>
+<li><a href="#8">8. 重新设计RemAV RemFishV  RemIntV 为RemV(用Object替换）    </a></li>
+<li><a href="#9">9. 然后现在把Remv 和Subst重新放入PieD</a></li>
+<li><a href="#10">10. 紧接着 我们还想着把Remv  SubstV放入参数的位置</a></li>
+<li><a href="#11">11. 紧接着我们可以进行下一步抽象   </a></li>
+<li><a href="#12">12. 紧接着我们发现rem和subst代码类似 </a></li>
+<li><a href="#13">13. 然后再实现Set集合类型</a></li>
+<li><a href="#14">14. SetEvalV直接继承IntEvalV不合理?   </a></li>
+<li><a href="#15">15. IntEvalD 和SetEvalD很多相似之处   </a></li>
+<li><a href="#16">16. 根据extends使用Override增加函数的丰富性  </a></li>
+</ul>
+
+
+<p>视角没想到可以分成不同的classes，并在此基础上进行extends和implement，最终new通过constructors创造不同的value。两级在于基础元件和功能元件两部分。两级也可以分为extends和implements。集于一个class。</p>
+
+<!--more-->
+
+
+<p>学完<a href="http://www.ccs.neu.edu/home/matthias/BALJ/">《a little java》</a>的心得,</p>
+
+<ol>
+<li>构造函数：new通过构造函数，产生了datatype的值；构造函数由此进行了natural recursion， 并通过一个基类退出循环（详见PieD).new create values.</li>
+<li>This,一般指向当前对象，但是在函数式编程中，this可能指代的是当前对象之后的所有剩余对象
+&ldquo;this"指代的是自指对象 也就是函数某某的实例化对象，并且是一直不变的。Just self-referential，because this is a RemV, and it is exactly what we need to complete the job. 所以this指代函数莫某的对象</li>
+<li>Top某某函数询问某种来自函数某某的forTop功能 ，并传递构造函数的fields值(properties）以及该某某函数comsumes的objects（arguments)</li>
+<li>  升级版本 the method accepts a visitor(该visitor接口包含了forTop forBot抽象方法，该接口统一了不同的函数某某，所以所有函数某某统称为accept函数某某）and ask for its services， so we call it accept， 而该接口的通常实例化对象也被叫做ask， ask for services.</li>
+<li>Object类型可以抽象int boolean 其他类型</li>
+<li>函数的抽象大体表现为参数数据类型，返回值数据类型和函数body的具体实现。
+
+<ol type="a">
+<li>参数数据类型</li>
+<li>返回值数据类型</li>
+<li>body具体实现</li>
+</ol>
+</li>
+<li>简化（简洁）、拓展性、方便</li>
+<li>当我们的参数值从method变到fields，我们就没必要在反复调用对象的方法的时候 需要不断地comsume，而同时又保证了this对象，也就是不断地自指（期间不产生新的fields）所以也就是使得计算加快了。这也是this存在的原因（并且该this对象只用在访问者对象中）</li>
+<li>We know that a visitorI contains one method each for the Circle, Square, and Trans variants,. And each of these methods
+Consumes the fields of the respective kinds of objects(objects of types)
+某某对象的某某函数，（携带函数某某和字段） 询问函数某某的for对象某某功能，（携带对象某某）
+某某对象的accept携带ask并内部由 ask 的for对象某某携带对象某某组成，而for对象某某携带对象某某并内部由对象某某的accept携带当前ask对象构成。
+某某对象的accept携带ask并内部由 ask 的for对象某某组成，而for对象某某携带对象某某并内部由对象某某的accept组成。</li>
+</ol>
+
+
+<p>在对象内部，某某对象的accept携带ask并内部由 ask 的for对象某某携带对象某某组成，而在visitor内部，for对象某某携带对象某某并内部由对象某某（也就是consumes the fields of the respective kinds of objects 占据对象类型的字段属性）的accept携带当前ask对象构成。
+We don&rsquo;t specify fields in interfaces. And in 7 W hatever.
+any case, we don&rsquo;t want anybody else to
+see p.
+This and that在对象间传递，而consume在函数间传递（Hangs over back and forth(fields 在对象间传递，而consume在函数间传递)
+10. 该书包含着TLS TSS 和prolog编程的思想(因为你要理解new Top new Bot等需要有fact and rule的意识)（仔细去品尝 go to absorb) 还有就是skeleton and techniques技术
+11. Extends interface,this extension produces an interface that contains all the obligations(i.e. names of methods and what they consume and produce) of shapeVisitorI and the additional one named forUnion(所以换个角度说，one class can implement many interfaces.
+12. 重载override 相同的名字带着不同的输入类型
+13. 点号可以读作 from   点号之前叫做from who  点号之后叫做service
+14. 解释的重点是什么？？？ 要点是什么</p>
+
+<p><img src="/images/alittlejava/duichen.png" alt="duichen" /></p>
+
+<p>什么是思考力的三要素，讲这个问题之前我们先来了解一下什么是思考思维，首先思考是思维的一种探索活动，而在思维过程中产生的一种具有积极性和创造性的作用力这种就是思考力。据物理学理解，思考力具有三个基本要素：分别为大小、方向、作用点。思考力同样也离不开三个基本要素：分别为大小、方向、作用点。</p>
+
+<ol>
+<li>大小 ——思考力首先取决于思考者掌握的关于思考对象的知识和信息量（大小），如果没有相关的知识和信息，就不可能产生相关的思考活动。一般情况下，知识量和信息量越大，思考就越加具体、全面和完整，从而决定了思考的维度。</li>
+<li>方向 ——我们这里所说的思考有别于妄想和幻想，而是一种有目的性和有计划性的思维活动，因此，这种思考需要有一定的价值导向，也就是思路——体现为目的性、方向性和一致性。漫无目的地思考难以发挥强有力的思考力，常常会把思考引进死胡同，导致思路夭折和无果而终。目的性、方向性、一致性和价值导向，决定着思考的角度和向度。</li>
+<li>作用点 ——必须把思考集中在特定的对象上，并把握其中的关键点，这样的思考就会势如破竹。如果找不准思考的着力点，就会精力分散、思维紊乱、胡思乱想，出现东一榔头西一棒的现象。思考就会停留在事物的表面上浮光掠影，无法深刻认识事物的本质。思考在作用点上的集中性程度，决定着思考的强度和力度(广度和深度）。</li>
+</ol>
+
+
+<h3 id="1">基础部分</h3>
+
+
+<p>理解分层。</p>
+
+<p>```  java
+KebabD(chapter2) 烤肉</p>
+
+<pre><code>isVeggie();
+whatHolder();
+    Holder 烤肉摆放工具
+        Object;
+        Holder(Object);
+        isVeggie();
+        whatHolder();
+    Shallot  葱
+        KebabD;
+        Shallot(KebabD);
+        isVeggie();
+        whatHolder();
+
+    Shrimp 虾
+        KebabD;
+        Shrimp (KebabD);
+        isVeggie();
+        whatHolder();
+
+    Radish 萝卜
+        KebabD;
+        Radish (KebabD);
+        isVeggie();
+        whatHolder();
+
+    Pepper 胡椒粉
+        KebabD;
+        Pepper (KebabD);
+        isVeggie();
+        whatHolder();
+
+    Zucchini 西葫芦
+        KebabD;
+        Zucchini (KebabD);
+        isVeggie();
+        whatHolder();
+</code></pre>
+
+<p>RodD(chapter2) 杆  将烤肉串起来工具(烤肉摆放方式1）</p>
+
+<pre><code>Dagger 匕首
+Sabre 军刀
+Sword 剑
+</code></pre>
+
+<p>PlateD(chapter2) 盘子  （烤肉摆放方式2)</p>
+
+<pre><code>Gold 金盘子
+Silver
+Brass 黄铜盘子
+Copper 镀铜盘子
+Wood   木盘子
+</code></pre>
+
+<p>PointD(chapter1,2) 点</p>
+
+<pre><code>distanceTo0(int,int); //可以把它们移入到构造函数中
+closerTo0();
+    CartesianPt 笛卡尔坐标
+        Int
+        Int
+        CartesianPt(int,int);
+        distanceTo0();
+        Closeto0();
+    ManhattenPt 曼哈顿坐标
+        Int
+        Int
+        ManhattenPt(int,int);
+        distanceTo0();
+        Closeto0();
+
+    圆柱坐标系
+    球坐标系
+</code></pre>
+
+<p>PieD</p>
+
+<p>PizzaD（chapter3,4）</p>
+
+<pre><code>remA 去除比萨饼的凤尾鱼订料（防止过咸）
+topAwC() 在凤尾鱼顶料加上奶酪顶料（盖住咸味）
+subAbC() 将所有的凤尾鱼顶料换成奶酪顶料
+    Crust 面包皮
+        remA();
+        topAwC();
+        subAbC();
+    Cheese  奶酪
+        pizzaD
+        Cheese(PizzaD)
+        remA();
+        topAwC();
+        subAbC();
+
+    Olive   橄榄
+        pizzaD
+        Olive(PizzaD)
+        remA();
+        topAwC();
+        subAbC();
+
+    Anchovy 凤尾鱼
+        pizzaD
+        Anchovy(PizzaD)
+        remA();
+        topAwC();
+        subAbC();
+
+    Sausage 香肠
+        pizzaD
+        Sausage(PizzaD)
+        remA();
+        topAwC();
+        subAbC();
+    Spinach 菠菜
+        pizzaD
+        Spinach(PizzaD)
+        remA();
+        topAwC();
+        subAbC();
+</code></pre>
+
+<p>Shape</p>
+
+<p>Shish(chapter2，4) 羊肉串</p>
+
+<pre><code>onlyOnions(); 
+isVegetarian();
+    Skew 架子 烤肉叉子
+    Onion 洋葱
+    Lamb  羔羊肉
+    Tomato 西红柿
+</code></pre>
+
+<p>Tree</p>
+
+<p>SeasoningD (chapter1) 调味品</p>
+
+<pre><code>Sage(鼠尾草)
+Pepper
+Salt
+Thyme(百里香)
+</code></pre>
+
+<p>NumD (chapter1)</p>
+
+<pre><code>Zero
+OneMoreThan
+</code></pre>
+
+<p>LayerD</p>
+
+<pre><code>Base
+Slice
+</code></pre>
+
+<p>FruitD</p>
+
+<p>```</p>
+
+<p><strong>第二条建议</strong></p>
+
+<pre><code>When writing a function over a datatype,
+place a method in each of the variants that make up the datatype.
+If a field of a variant belongs to the same datatype,
+the method may call the corresponding method of the field in
+computing the function.（疑问子类 每继承一次父类 都得重写三个父类的抽象函数 有点费事。。 ----那么访问者模式到底是如何解决的？）
+</code></pre>
+
+<p><strong>第八条建议</strong></p>
+
+<pre><code>When extending a class, use overriding
+to enrich its functionality.
+</code></pre>
+
+<p>根据以上建议， LtdSubstV 可以直接在 SubstV 类上进行继承和扩展。
+``` java
+Shish(chapter2，4) 羊肉串
+   OnlyOnionsV
+   IsVegetarianV
+   onlyOnions();
+   isVegetarian();</p>
+
+<pre><code>    Skew 架子 烤肉叉子
+        onlyOnions();
+        isVegetarian();
+    Onion 洋葱
+        ShishD
+        Onion(ShishD);
+        onlyOnions();
+        isVegetarian();
+    Lamb  羔羊肉
+        ShishD
+        Lamb(ShishD);
+        onlyOnions();
+        isVegetarian();
+
+    Tomato 西红柿
+        ShishD
+        Tomato(ShishD);
+        onlyOnions();
+        isVegetarian();
+</code></pre>
+
+<p>OnlyOnionsV</p>
+
+<pre><code>forSkew();
+forOnion(ShishD);
+forLamb(ShishD);
+forTomato(ShishD);
+</code></pre>
+
+<p>isVegetatianV</p>
+
+<pre><code>forSkew();
+forOnion(ShishD);
+forLamb(ShishD);
+forTomato(ShishD);
+</code></pre>
+
+<p>ShishD
+   OnlyOionsV ooFn
+   IsVegeterian ivFn
+   onlyOnions()a;
+   isVegetarian()a;</p>
+
+<pre><code>    Skew
+        onlyOnions();
+        isVegetarian();
+    Onion
+        onlyOnions();
+        isVegetarian();
+    Lamb
+        onlyOnions();
+        isVegetarian();
+    Tomato
+        onlyOnions();
+        isVegetarian();
+</code></pre>
+
+<p>```</p>
+
+<h3 id="2">通过构造函数，构造出Natural recursion部分，形成递归，递归出口为skew</h3>
+
+
+<p>``` java
+RemAV</p>
+
+<pre><code>forCurst();
+forCheese(PizzaD);
+forOlive(PizzaD);
+forAnchovy(PizzaD);
+forSausage(PizzaD);
+</code></pre>
+
+<p>TopAwCV</p>
+
+<pre><code>forCurst();
+forCheese(PizzaD);
+forOlive(PizzaD);
+forAnchovy(PizzaD);
+forSausage(PizzaD);
+</code></pre>
+
+<p>SubAbCV</p>
+
+<pre><code>forCurst();
+forCheese(PizzaD);
+forOlive(PizzaD);
+forAnchovy(PizzaD);
+forSausage(PizzaD);
+</code></pre>
+
+<p>PizzaD
+   RemAV remFn
+   TopAwCV topFn
+   SubAbCV  subFn
+   remA()a;
+   topAwC()a;
+   subAbC()a;</p>
+
+<pre><code>    Crust
+        remA();
+        topAwC();
+        subAwC();
+    Cheese
+        PizzaD
+        Cheese(PizzaD)
+        remA();
+        topAwC();
+        subAwC();
+    Olive
+        PizzaD
+        Olive(PizzaD)
+        remA();
+        topAwC();
+        subAwC();
+    Anchovy
+        PizzaD
+        Anchovy(PizzaD)
+        remA();
+        topAwC();
+        subAwC();
+    Sausage
+        PizzaD
+        Sausage(PizzaD
+        remA();
+        topAwC();
+        subAwC();
+</code></pre>
+
+<p>PieD</p>
+
+<pre><code>RemAV raFn
+RemFish rfFn
+remA()a;
+remFish(FishD)a;
+    Bot
+        remA();
+        remFish(FishD);
+    Top
+        Object
+        PieD
+        Top(Object, PieD)
+        remA();
+        remFish(FishD);
+</code></pre>
+
+<p>FishD</p>
+
+<pre><code>Salmon 鲑鱼
+Equals(Object);
+Anchovy 凤尾鱼
+Equals(Object);
+Tuna  金枪鱼
+Equals(Object);
+</code></pre>
+
+<p>RemAV</p>
+
+<pre><code>forBot
+fotTop(Object, PieD)
+</code></pre>
+
+<p>RemFishV</p>
+
+<pre><code>forBot(FishD)
+forTop(Object, PieD,  FishD)
+</code></pre>
+
+<p>RemIntV</p>
+
+<pre><code>forBot(int)
+forTop(Object, pieD, Integer)
+</code></pre>
+
+<p>```</p>
+
+<h3 id="3">重新设计RemAV RemFishV  RemIntV 为RemV(用Object替换）</h3>
+
+
+<p>``` java
+RemV</p>
+
+<pre><code>forBot(Object)
+forTop(Object, pieD, Object)
+</code></pre>
+
+<p>```</p>
+
+<h3 id="4">下一步把PieD的字段放入到对应的参数当中</h3>
+
+
+<p>``` java</p>
+
+<p>abstract class PieD {</p>
+
+<pre><code>abstract PieD rem(RemV remFn, Object o);
+abstract PieD subst(SubstV substFn, Object n, Object o);
+</code></pre>
+
+<p>}</p>
+
+<p>PieD</p>
+
+<pre><code>Rem()a;
+Subst()a;
+    Top
+        Top(Object,Object)
+        Rem();
+        Subst();
+    Bot
+        Bot(Object,Object)
+        Rem();
+        Subst();
+</code></pre>
+
+<p>```</p>
+
+<h3 id="5">引入 this 关键字，指代访问者本身，同步修改对应的访问者类。</h3>
+
+
+<p>``` java
+PieD</p>
+
+<pre><code>Rem(Remv)a;
+Subst(Subst)a;
+    Top
+        Top
+        Rem
+        Subst
+    Bot
+        Bot
+        Rem
+        Subst
+</code></pre>
+
+<p>```</p>
+
+<h3 id="6">需要进一步提取出visitor部分的函数</h3>
+
+
+<p>这样就可以把所有</p>
+
+<p>``` java
+PieVisitorI</p>
+
+<pre><code>forBot();
+forTop();
+    Remv
+        forBot();
+        forTop();
+    SubstV
+        forBot();
+        forTop();
+</code></pre>
+
+<p>pieD</p>
+
+<pre><code>Accept(PieVisitorI)
+    Bot
+        Accept(pieVisitorI);
+    Top
+        Accept(pieVisitorI);
+</code></pre>
+
+<p>FruitD</p>
+
+<pre><code>Peach
+Apple
+Pear
+Lemon
+Fig 无花果
+</code></pre>
+
+<p>TreeD</p>
+
+<pre><code>Accept(bTreeVisitorI)
+Accept(iTreeVisitorI)
+Accept(tTreeVisitorI)
+    Bub 芽
+        Accept(bTreeVisitorI)
+        Accept(iTreeVisitorI)
+        Accept(tTreeVisitorI)
+    Flat 平顶
+        FruitD
+        TreeD
+        Flat(FruitD, TreeD)
+        Accept(bTreeVisitorI)
+        Accept(iTreeVisitorI)
+        Accept(tTreeVisitorI)
+    Split 分枝
+        TreeD
+        TreeD
+        Split(TreeD, TreeD)
+        Accept(bTreeVisitorI)
+        Accept(iTreeVisitorI)
+        Accept(tTreeVisitorI)
+</code></pre>
+
+<p>bTreeVisitorI</p>
+
+<pre><code>forBud();
+forFlat(FruitD, TreeD);
+forSplit(TreeD, TreeD);
+    bIsFlatV implements bTreeVisitorI
+        forBud();
+        forFlat(FruitD, TreeD);
+        forSplit(TreeD, TreeD);
+    bIsSplitV implements bTreeVisitorI
+        forBud();
+        forFlat(FruitD, TreeD);
+        forSplit(TreeD, TreeD);
+    bHasFruitV implements bTreeVisitorI
+        forBud();
+        forFlat(FruitD, TreeD);
+        forSplit(TreeD, TreeD);
+</code></pre>
+
+<p>iTreeVisitorI</p>
+
+<pre><code>forBud();
+forFlat(FruitD, TreeD);
+forSplit(TreeD, TreeD);
+    iHeightV implements iTreeVisitorI
+        forBud();
+        forFlat(FruitD, TreeD);
+        forSplit(TreeD, TreeD);
+    iOccursV implements iTreeVisitorI
+        FruitD
+        iOccursV(FruitD)
+        forBud();
+        forFlat(FruitD, TreeD);
+        forSplit(TreeD, TreeD);
+</code></pre>
+
+<p>tTreeVisitorI</p>
+
+<pre><code>forBud();
+forFlat(FruitD, TreeD);
+forSplit(TreeD, TreeD);
+    tSubstV implements tTreeVisitorI
+        FruitD
+        FruitD
+        tSubstV(FruitD, FruitD)
+        forBud();
+        forFlat(FruitD, TreeD);
+        forSplit(TreeD, TreeD);
+     iOccursV implements tTreeVisitorI
+        forBud();
+        forFlat(FruitD, TreeD);
+        forSplit(TreeD, TreeD);
+</code></pre>
+
+<p>```</p>
+
+<h3 id="7">为了统一bTreeVisitorI 和 iTreeVisitorI   tTreeVisitorI</h3>
+
+
+<p>（三个的不同就在于返回值分别为 boolean   int   treeD)</p>
+
+<p>``` java
+TreeVisitorI</p>
+
+<pre><code>forBud();
+forFlat(FruitD, TreeD);
+forSplit(TreeD, TreeD);
+     IsFlatV implements TreeVisitorI
+        forBud();
+        forFlat(FruitD, TreeD)
+        forSplit(TreeD, TreeD)
+
+
+    OccursV implements TreeVisitorI
+        FruitD
+        OccursV(FruitD)
+        forBud();
+        forFlat(FruitD, TreeD)
+        forSplit(TreeD, TreeD)
+
+
+    class OccursV implements TreeVisitorI {
+        FruitD a;
+        OccursV(FruitD _a) {
+            a = _a;
+        }
+        public Object forBud() {
+            return new Integer(0);
+        }
+        public Object forFlat(FruitD f, TreeD t) {
+            if (f.equals(a))
+                return new Integer(((Integer)(t.accept(this))).intValue() + 1);
+            else
+                return t.accept(this);
+        }
+        public int forSplit(TreeD l, TreeD r) {
+            return new Integer(((Integer)(l.accept(this))).intValue()
+                               +
+                               ((Integer)(r.accept(this))).intValue());
+        }
+    }
+</code></pre>
+
+<p>TreeD</p>
+
+<pre><code>Accept(TreeVisitorI)
+    Bub 芽
+        Accept(TreeVisitorI)
+    Flat 平顶
+        FruitD
+        TreeD
+        Flat(FruitD, TreeD)
+        Accept(TreeVisitorI)
+    Split 分枝
+        TreeD
+        TreeD
+        Split(TreeD, TreeD)
+        Accept(tTreeVisitorI)
+</code></pre>
+
+<p>PieD</p>
+
+<pre><code>RemAV raFn
+RemFish rfFn
+remA()a;
+remFish(FishD)a;
+    Bot
+        remA();
+        remFish(FishD);
+    Top
+        Object
+        PieD
+        Top(Object, PieD)
+        remA();
+        remFish(FishD);
+</code></pre>
+
+<p>FishD</p>
+
+<pre><code>Salmon 鲑鱼
+Equals(Object);
+Anchovy 凤尾鱼
+Equals(Object);
+Tuna  金枪鱼
+Equals(Object);
+</code></pre>
+
+<p>RemAV</p>
+
+<pre><code>forBot
+fotTop(Object, PieD)
+</code></pre>
+
+<p>RemFishV</p>
+
+<pre><code>forBot(FishD)
+forTop(Object, PieD,  FishD)
+</code></pre>
+
+<p>RemIntV</p>
+
+<pre><code>forBot(int)
+forTop(Object, pieD, Integer)
+</code></pre>
+
+<p>```</p>
+
+<h3 id="8">重新设计RemAV RemFishV  RemIntV 为RemV(用Object替换）</h3>
+
+
+<p>``` java
+RemV</p>
+
+<pre><code>forBot(Object)
+forTop(Object, pieD, Object)
+</code></pre>
+
+<p>PieD</p>
+
+<pre><code>RemV
+Rem(Object)
+    Bot
+        Rem(Object)
+    Top
+        Object
+        PieD
+        Top(Object, PieD)
+        Rem(Object)
+</code></pre>
+
+<p>SubstFishV</p>
+
+<pre><code>forBot(FishD, FishD)
+forTop(Object , PieD, FishD, FishO)
+</code></pre>
+
+<p>SubstIntV</p>
+
+<pre><code>forBot(Int, Int)
+forTop(Object , PieD, Int, Int)
+</code></pre>
+
+<p>SubstV</p>
+
+<pre><code>forBot(Object, Object)
+forTop(Object , PieD, Object, Object)
+</code></pre>
+
+<p>```</p>
+
+<h3 id="9">然后现在把Remv 和Subst重新放入PieD</h3>
+
+
+<p>``` java
+PieD</p>
+
+<pre><code>Remv
+SubstV
+Rem(Object)
+Subst(Object, Object)
+    Bot
+        Rem(Object)
+        Subst(Object,Object)
+    Top
+        Object
+        PieD
+        Top(Object,PieD)
+        Rem(Object)
+        Subst(Object,Object)
+</code></pre>
+
+<p>```</p>
+
+<h3 id="9">紧接着 我们还想着把Remv  SubstV放入参数的位置</h3>
+
+
+<p>``` java
+PieD</p>
+
+<pre><code>Rem(Remv,Object)
+Subst(SubstV,Object, Object)
+    Bot
+        Rem(Renv,Object)
+        Subst(Substv,Object,Object)
+    Top
+        Object
+        PieD
+        Top(Object,PieD)
+        Rem(RemV,Object)
+        Subst(Substv,Object,Object)
+</code></pre>
+
+<p>```</p>
+
+<h3 id="10">紧接着我们进一步比较RemV SubstV的实现(我们就得重新修改rem和subst了)</h3>
+
+
+<p>``` java</p>
+
+<p>class RemV {</p>
+
+<pre><code>Object o;
+RemV(Object _o) {
+    o = _o;
+}
+PieD forBot(Object o){
+    return new Bot();
+}
+PieD forTop(Object t, PieD r){
+    if (o.equals(t))
+        return r.rem(this);
+    else
+        return new Top(t, r.rem(this));
+}
+</code></pre>
+
+<p>class RemV {</p>
+
+<pre><code>PieD forBot(Object o) {
+    return new Bot();
+}
+PieD forTop(Object t, PieD r, Object o) {
+    if (o.equals(t))
+        return r.rem(o);
+    else
+        return new Top(t, r.rem(o));
+}
+</code></pre>
+
+<p>}</p>
+
+<p>class SubstV {</p>
+
+<pre><code>PieD forBot(Object n, Object o) {
+    return new Bot();
+}
+PieD forTop (Object t, PieD r, Object n, Object o) {
+    if (o.equals(t))
+        return new Top(n, r.subst(n, o));
+    else
+        return new Top(t, r.subst(n, 0));
+}
+</code></pre>
+
+<p>}
+class SubstV {</p>
+
+<pre><code>Object n;
+Object o;
+SubstV(Object _n, Object _o){
+    n = _n;
+    o = _o;
+}
+PieD forBot(Object n, Object o){
+        return new Bot();
+    }
+PieD forTop(Object t, PieD r){
+    if (o.equals(t))
+        return new Top(n, r.subst(this));
+    else
+        return new Top(t, r.subst(this));
+}
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<h3 id="11">紧接着我们可以进行下一步抽象</h3>
+
+
+<p>``` java
+PieD</p>
+
+<pre><code>Rem(RemV)
+Subst(SubstV)
+    Top
+        Object
+        PieD
+        Top(Object, PieD)
+        Rem(RemV)
+        Subst(SubstV)
+    Bot
+        Object
+        PieD
+        Bot(Object, PieD)
+        Rem(RemV)
+        Subst(SubstV)
+</code></pre>
+
+<p>```</p>
+
+<h3 id="12">紧接着我们发现rem和subst代码类似</h3>
+
+
+<p>``` java
+PieVisitorI</p>
+
+<pre><code>forBot
+forTop
+    RemV implement PieVisitorI
+        Object
+        RemV(Object)
+        forBot();
+        forTop(Object,PieD）
+    SubstV implement PieVisitorI
+        Object
+        Object
+        SubstV(Object, Object)
+        forBot();
+        forTop(Object,PieD）
+    LtdSubstV implement PieVisitorI
+        int
+        Object
+        Object
+        LtdSubstV(int, Object, Object)
+        forBot();
+        forTop(Object,PieD）
+</code></pre>
+
+<p>PieD</p>
+
+<pre><code>Accept(PieVisitorI)
+    Bob
+        Accept(pieVisitorI)
+    Top
+        Object
+        PieD
+        Top(Object,PieD)
+        Accept(PieVisitorI)
+</code></pre>
+
+<p>ExprVisitorI</p>
+
+<p>ExprVisitorI</p>
+
+<pre><code>forPlus(ExprD, ExprD);
+forDiff(ExprD, ExprD);
+forProd(ExprD, ExprD);
+forConst(ExprD, ExprD);
+    IntEvalV implements  ExprVisitorI
+        forPlus(ExprD, ExprD);
+        forDiff(ExprD, ExprD);
+        forProd(ExprD, ExprD);
+        forConst(Object);
+        Plus(Object, Object)
+        Diff(Object, Object)
+        Prod(Object, Object)
+</code></pre>
+
+<p>ExprD</p>
+
+<pre><code>Accept(ExprVisitorI);
+    Plus
+        ExprD
+        ExprD
+        Plus(ExprD, ExprD);
+        Accept(ExprVisitorI);
+    Diff
+        ExprD
+        ExprD
+        Diff(ExprD, ExprD);
+        Accept(ExprVisitorI);
+    Prod
+        ExprD
+        ExprD
+        Prod(ExprD, ExprD);
+        Accept(ExprVisitorI);
+    ConstD
+        Object
+        ConstD(Object);
+        Accept(ExprVisitorI);
+</code></pre>
+
+<p>```</p>
+
+<h3 id="13">然后再实现Set集合的类型</h3>
+
+
+<p>``` java
+SetD</p>
+
+<pre><code>Add(integer i);
+Mem(integer i);
+Plus(SetD);
+Diff(SetD);
+Prod(SetD);
+    Empty
+        Mem(integer i);
+        Plus(SetD);
+        Diff(SetD);
+        Prod(SetD);
+
+    Add
+        Integer;
+        SetD;
+        Add(Integer, Integer)
+        Mem(integer i);
+        Plus(SetD);
+        Diff(SetD);
+        Prod(SetD);
+</code></pre>
+
+<p>ExprVisitorI</p>
+
+<pre><code>forPlus(ExprD, ExprD);
+forDiff(ExprD, ExprD);
+forProd(ExprD, ExprD);
+forConst(ExprD, ExprD);
+    IntEvalV implements  ExprVisitorI
+        forPlus(ExprD, ExprD);
+        forDiff(ExprD, ExprD);
+        forProd(ExprD, ExprD);
+        forConst(Object);
+        Plus(Object, Object)
+        Diff(Object, Object)
+        Prod(Object, Object)
+            SetEvalV implements IntEvalV
+                Plus(Object, Object)
+                Diff(Object, Object)
+                Prod(Object, Object)
+</code></pre>
+
+<p>```</p>
+
+<h3 id="14">SetEvalV 直接集成IntEvalV不合理？</h3>
+
+
+<p>从SetEvalV 和IntEvalV抽取出一个基类</p>
+
+<p>``` java
+EvalD implements ExprVisitorI</p>
+
+<pre><code>forPlus(ExprD, ExprD);
+forDiff(ExprD, ExprD);
+forProd(ExprD, ExprD);
+forConst(ExprD, ExprD);
+Plus(Object, Object)
+Diff(Object, Object)
+Prod(Object, Object)
+    IntEvalD
+        Plus(Object,    Object)
+        Diff(Object, Object)
+        Prod(Object, Object)
+        SetEvalD
+        Plus(Object, Object)
+        Diff(Object, Object)
+        Prod(Object, Object)
+</code></pre>
+
+<p>```</p>
+
+<h3 id="15">IntEvalD 和SetEvalD很多相似之处</h3>
+
+
+<p>于是我们进一步提取</p>
+
+<p>``` java
+SubstD implements pieVisitorI</p>
+
+<pre><code>Object
+Object
+SubstD(Object, Object)
+forBot();
+forTop(Object,PieD)
+</code></pre>
+
+<p>SubstV</p>
+
+<pre><code>SubstV(Object, Object)
+forTop(Object, Object)
+</code></pre>
+
+<p>LtdSubstV</p>
+
+<pre><code>int
+LtdSubstV(int,Object, Object)
+forTop(Object, Object)
+</code></pre>
+
+<p>```</p>
+
+<h3 id="16">根据extends使用override增加函数的丰富性</h3>
+
+
+<p>``` java
+SubstV implements PieVisitorI</p>
+
+<pre><code>Object
+Object
+SubstV(Object, Object)
+forBot()
+forTop(Object, PieD)
+</code></pre>
+
+<p>LtdSubstV</p>
+
+<pre><code>Int
+Object
+Object
+LtdSubstV(int, Object, Object)
+forTop(Object, PieD)
+</code></pre>
+
+<p>```</p>
+
+<p>原来，抽象类可以有构造方法.抽象类只要有一个abstract函数就可以叫做抽象类
+抽象类可以有构造方法，构造方法不可继承，但是可以供子类用super（）或者super（参数，参数。。。。）调用。
+构造函数是对象的基本，没有构造函数就没有对象。
+若果在父类中（这里就是你的抽象类）中显示的写了又参数的构造函数，在子类继承是就必须写一个构造函数来调用父类的构造函数。</p>
+
+<p>``` java
+PointD
+PointD(chapter1,2) 点</p>
+
+<pre><code>distanceTo0(int,int); //可以把它们移入到构造函数中
+closerTo0();
+PointD minus(PointD)
+int moveBy(int ,int)
+    CartesianPt 笛卡尔坐标
+        Int
+        Int
+        CartesianPt(int,int);
+        distanceTo0();
+        Closeto0();
+    ManhattenPt 曼哈顿坐标
+        Int
+        Int
+        ManhattenPt(int,int);
+        distanceTo0();
+        Closeto0();
+    圆柱坐标系
+    球坐标系
+</code></pre>
+
+<p>ShadowedCartesia</p>
+
+<pre><code>Int
+Int
+ShadowedCartesia(int, int, int, int)
+distanceTo0()
+</code></pre>
+
+<p>shapeVisitorI</p>
+
+<pre><code>forCircle(int)
+forSquare(int)
+forTrans(pointD, ShapeD)
+UnionVisitorI
+forUnion(ShapeD, ShapeD)
+    HasPtV implements ShapeVisitorI
+        PointD
+        HasPt(PointD)
+        forCircle(int)
+        forSquare(int)
+        forTrans(PointD, ShapeD)
+    UnionHasPtV implements ShapeVisitorI
+        UnionHasPtV(PointD)
+        forUnion(ShapeD, ShapeD)
+        return s.accept(new HasPtV(p.minus(q)));
+    HasPtV implements ShapeVisitorI
+        PointD
+        HasPt(PointD)
+        ShapeVisitorI newHasPt(PointD)
+        forCircle(int)
+        forSquare(int)
+        forTrans(PointD, ShapeD)
+    UnionHasPtV implements unionVisitorI
+        UnionHasPtV(PointD)
+        ShapeVisitorI newHasPt(PointD)_o
+        forUnion(ShapeD, ShapeD)
+        return s.accept(newHasPtV(p.minus(q)));
+</code></pre>
+
+<p>ShapeD</p>
+
+<pre><code>Accept(ShapeVisitorI)
+    Circle
+        Int
+        Circle(int)
+        Accept(ShapeVisitorI)_o
+    Square
+        Int
+        Square(int)
+        Accept(ShapeVisitorI)_o
+    Trans
+        PointD
+        ShapeD
+        Trans(int)
+        Accept(ShapeVisitorI)_o
+    Union
+        ShapeD
+        ShapeD
+        Union(ShapeD, ShapeD)
+        Accetp(ShapeVisitorI)_o
+</code></pre>
+
+<p>```</p>
+
+<h3 id="16">newHasPt和HasPtV are eta reduction</h3>
+
+
+<p>``` java
+PieManI</p>
+
+<pre><code>Int addTop(Object)
+Int remTop(Object)
+Int substTop(Object,Object)
+Int occTop(Object)
+</code></pre>
+
+<p>PieManM implements PieManI</p>
+
+<pre><code>PieD
+addTop(Object) _o
+remTop(Object)_o
+substTop(Object,Object)_o
+occTop(Object)
+</code></pre>
+
+<p>PieVisitorI</p>
+
+<pre><code>forBot();
+forTop(Object, Object)
+    OccursV
+        Object
+        OccursV(Object)
+        forBot()_o
+        forTop(Object,PieD)_o
+    SubstV
+        Object
+        Object
+        SubstV(Object, Object)
+        forBot();
+        forTop(Object,PieD)_o
+    RemV
+        Object
+        RemV(Object)
+        forBot(Object)
+        forTop(Object,PieD)
+</code></pre>
+
+<p>PieD</p>
+
+<pre><code>Accept(PieVisitorI)
+    Bot
+        Accept(PieVisitorI)_o
+    Top
+        Object
+        PieD
+        Top(Object, PieD)
+        Accept(PieVisitorI)_o
+</code></pre>
+
+<p>PieVisitorI</p>
+
+<pre><code>forBot(Bot)
+foTop(Top)
+    OccursV
+        Object
+        OccursV(Object)
+        forBot(Bot that)
+        forTop(Top that)
+    SubstV
+        Object
+        Object
+        SubstV(Object,Object)
+        forBot(Bot that)
+        forTop(Top That)
+    RemV
+        Object
+        RemV(Object)
+        forBot(Bot that)
+        fotTop(Top that)
+</code></pre>
+
+<p>PieD</p>
+
+<pre><code>Accept(PieVisitorI)
+    Bot
+        Accept(PieVisitorI)_o
+    Top
+        Object
+        Object
+        Top(Object, Objct)
+        Accept(PieVisitor)_o
+</code></pre>
+
+<p>```</p>
+
+<p><strong>每天你只能不断去思考 事情的要点和第一步和第二步 才能取得进步.</strong></p>
+
+<p>What’s the point of the visitor pattern? What’s the point of the software design?</p>
+
+<ul>
+<li>亮点</li>
+<li>突破点，并按照一定的方向。。</li>
+<li>关键点</li>
+</ul>
+
+
+<p><img src="/images/alittlejava/closure.png" alt="closure" /></p>
+
+<p><strong>Closure(Closure(this))</strong></p>
+
+<p>具体java源代码参考<a href="https://github.com/jueqingsizhe66/ALittleJava">the little java</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Java小结]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2016/07/19/javaxiao-jie/"/>
+    <updated>2016-07-19T18:42:25+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2016/07/19/javaxiao-jie</id>
+    <content type="html"><![CDATA[<p>很长没有做java小结，把最近浏览的几个链接添上去。</p>
+
+<!--more-->
+
+
+<p>java小结</p>
+
+<ol>
+<li><p><a href="https://github.com/JpressProjects/jpress">Jpress</a> 是一个不错的cms开源平台，慢慢可以取代wordpress,且速度较快。</p></li>
+<li><p><a href="http://luxiaolei.com/">路小磊</a>的工具包<a href="https://github.com/looly/hutool">Hutools utility</a>有在更新中。</p></li>
+<li><p>sourceTree可以用来做软件开发跟踪，内核当然是git。
+<img src="/images/java/javaSourceTree.png" alt="sourcetree" /></p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[压缩文件IO流的使用和简单封装（0213）]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/05/11/ya-suo-wen-jian-ioliu-de-shi-yong-he-jian-dan-feng-zhuang-%280213%29/"/>
+    <updated>2015-05-11T14:58:47+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/05/11/ya-suo-wen-jian-ioliu-de-shi-yong-he-jian-dan-feng-zhuang-(0213)</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<p>分为三个部分：
+第一部分 ，先是试用了zipinputstream的用法
+第二部分， 是进一步试用了压缩流zipoutputStream和加密的方法
+第三部分 ， 则是对上述过程封装为一个OOZip类</p>
+
+<p>功能简述：  分为普通的压缩和加密的压缩，对应的解压缩 。普通的压缩：文件和文件夹都可以。 加密的压缩：文件和文件夹都可以，当加密的时候，则生成的zip文件里面的文件打开时乱码，必须用对应的unzipCrypto方法进行解压才有效。当然不会像winzip会提醒你输入密码，可以让你打开，只不过打开的是乱码。</p>
+
+<p>1： 先从com.rupeng.gtk4j挖出了zipInputStream的用法，用于解压缩，测试只能针对zip文件。
+于是就有了初始版本的解压缩流：
+```java
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月12日下午1:19:18
+* @version   TestZipInputStream V1.0
+</em>/
+public class TestZipInputStream
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    public static void main(String[] args)
+    {
+            //unZipShared("e:\\test\\test.zip");
+            //unZipShared("e:\\test\\test1.zip");
+            //rar暂时无法解压出来，但是zip文件是可以的
+            unZipShared("e:\\test\\test1.zip","e:\\testOutput");
+    }
+
+    /**
+     *   解压缩 zip文件，只能限制为rar
+     * @param zipName        待解压的zip文件
+     * @param outputfolder   解压zip文件到outputFoler文件夹下
+     */
+    public static void unZipShared(String zipName,String outputfolder)
+    {
+            File gtkDir = new File(outputfolder);// *.dll放的文件夹
+            if (!gtkDir.exists())
+            {
+                    gtkDir.mkdirs();
+            }
+            InputStream inStream = null;
+            try
+            {
+                    inStream = new  FileInputStream(zipName);
+            } catch (FileNotFoundException e1)
+            {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+            }
+            //InputStream inStream = Utils.class.getResourceAsStream("/gtkshare.zip");
+            if (inStream == null)
+            {
+                    throw new UnsatisfiedLinkError("没找到"+zipName);
+            }
+            try
+            {                        
+                    unZip(inStream, gtkDir.toString());
+                    System.out.println(gtkDir.toString());
+            } catch (IOException e)
+            {
+                    System.err.println("解压缩gtkshare.zip失败" + toFullString(e));
+            }
+    }
+
+    /**
+     * 把streamToZip这个zip文件流解压到硬盘的destDir文件夹，支持多级目录
+     * @param streamToZip
+     * @param destDir
+     * @throws IOException
+     */
+    public static void unZip(InputStream streamToZip,String destDir)throws IOException
+    {  
+            ZipInputStream zipStream = new ZipInputStream(streamToZip);
+            try
+            {
+                    ZipEntry zipEntry = null;
+                    //通过zipEntry方式支持多级目录
+                    while((zipEntry=zipStream.getNextEntry())!=null)
+                    {
+    if(zipEntry.isDirectory())
+    {
+            File dir = new File(destDir,zipEntry.getName());
+            if(!dir.exists())
+            {
+                    dir.mkdirs();
+            }
+    }
+    else
+    {
+            FileOutputStream fileOutStream = new FileOutputStream(new File(destDir,zipEntry.getName()));
+            try
+            {
+                    copy(zipStream, fileOutStream);
+            }
+            finally
+            {
+                    close(fileOutStream);
+            }
+    }
+</code></pre>
+
+<p>}</p>
+
+<pre><code>            }
+            finally
+            {
+                    close(zipStream);
+            }
+
+}
+    /**
+     *     从zip文件包中拷贝文件
+     * @param inStream       zipEntry的某个文件
+     * @param outStream      输出的某个文件流
+     * @throws IOException
+     */
+    static void copy(InputStream inStream, OutputStream outStream)
+                    throws IOException
+    {
+            byte[] buffer = new byte[512 * 1024];// 0.5MB 的缓冲区
+            int len;
+            while ((len = inStream.read(buffer)) &gt;= 0)
+            {
+                    outStream.write(buffer, 0, len);
+            }
+    }
+    /**
+     *    摘自rupeng.gtk4j   不明白具体的作用    非主要问题
+     * @param throwable
+     * @return
+     */
+    static String toFullString(Throwable throwable)
+    {
+            StringWriter sw = null;
+            PrintWriter pw = null;
+            try
+            {
+                    sw = new StringWriter();
+                    pw = new PrintWriter(sw);
+                    throwable.printStackTrace(pw);
+                    return sw.toString();
+            } finally
+            {
+                    close(sw);
+                    close(pw);
+            }
+    }
+    /**
+     *     让文件流安静的关闭
+     * @param closeable   关闭接口
+     */
+    static void close(Closeable closeable)
+    {
+            if (closeable != null)
+            {
+                    try
+                    {
+                            closeable.close();
+                    } catch (IOException e)
+                    {
+
+                    }
+            }
+    }
+</code></pre>
+
+<p>}
+```</p>
+
+<p>2：后来想着有解压缩，必然也是有着压缩，于是就摆了一下，参考了一篇百度知道文章</p>
+
+<pre><code>2.1 首先加入了zip的方法
+2.2 改进了zip方法的文件压缩流的写入过程，利用buffersize
+2.3 常使用了文章中的加密过程，添加了加密压缩和加密解压缩的过程
+2.4 想着实用命令流来进一步实现 压缩和解压缩的调用，后来弃用，改用封装一个OOZip类来实现
+</code></pre>
+
+<p>于是就有了下面的升级版的压缩和解压缩的程序：
+```java
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Random;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;</p>
+
+<p>import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.interfaces.PBEKey;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.PBEParameterSpec;
+import javax.crypto.spec.SecretKeySpec;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月12日下午5:22:31
+* @version   TestZipInputStreamUpdate V1.0  增加了压缩
+*                              V2.0   ZipShared加入了 zosTemp.close(); 修复了 压缩的bug，删掉则无法压缩
+*                              V3.0   升级了ZipShared 使用了copy函数。
+*                              V4.0   增加了加密压缩 和解加密压缩
+</em>/
+public class TestZipInputStreamUpdate
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    private static final String ALGORITHM = "PBEWithMD5AndDES";
+    public static void main(String[] args)
+    {
+            // TODO Auto-generated method stub
+            TestZipInputStreamUpdate tisu = new TestZipInputStreamUpdate();
+            //不需要再次加入zip文件后缀了
+            //tisu.ZipShared("e://test1222bak","e://test1222");
+
+            tisu.ZipSharedCrypto("e://test1222bak", "e://test1222passwdByZhao.zip", "123456");
+            tisu.unzipCrypto("e://test1222passwdByZhao.zip","c://laoliang","123456");
+    //        tisu.unzipCrypto("e://test1222passwdByZhao.zip","c://laoliang","1234565");
+
+            /*
+             *  你正在进入e:\test1222bak文件夹
+                    你正在进入e:\test1222bak\test1222文件夹
+                    你正在压缩a1.zip
+                    你正在压缩test123.txt
+                    你正在压缩test124.txt
+
+                    通过这个实验总结了：所有操作系统内部的文件都是文件，无论是普通的文件
+                    还是文件夹文件，还是管道文件，还是索引文件，还是设备文件，本质上都是
+                    文件，只不过是在文件的头上面增加了一些特殊的标记，比如说你需要在文件夹
+                    的路径增加一个\路径标志 反斜杠的道理是一样的。
+             */
+
+            /*  这是一个命令流的使用方式：：
+             *         if(args.length==2){ 
+        String name = args[1]; 
+        Zip zip = new Zip(); 
+
+        if(args[0].equals("-zip")) 
+        {
+                zipname = args[2];
+                zip.doZip(name); 
+        }
+
+        else if(args[0].equals("-unzip")) 
+        {
+                outputfolder = args[2];
+                 zip.unZip(name);          
+        }     
+    } 
+    else{ 
+        System.out.println("Usage:"); 
+        System.out.println("压缩:java Zip -zip directoryName  zipname"); 
+        System.out.println("解压:java Zip -unzip fileName.zip outputfolder"); 
+        throw new Exception("Arguments error!"); 
+    } 
+             */
+    }
+    public void ZipShared(String fileinput,String zos)
+    {
+            try
+            {
+                    //加入"zip"后缀！
+                    ZipOutputStream zosTemp = new ZipOutputStream(new FileOutputStream(zos+"zip"));
+                    File fApple = new File(fileinput);
+                    ZipShared(fApple,zosTemp,"");
+                    try
+                    {
+                            /// 为什么加入这个就可以？？？？
+                            //  不加入这有异常？？？？why   Tell me 
+                            zosTemp.close();
+                    } catch (IOException e)
+                    {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                    }
+            } catch (FileNotFoundException e)
+            {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+            }
+
+    }
+    public  void ZipShared(File fileinput,ZipOutputStream zos,String base)
+    {
+            //ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(outputZipName));
+
+            //File fileinput = new File(outputZipName);
+</code></pre>
+
+<p>if(fileinput.isDirectory())
+{</p>
+
+<pre><code>    System.out.println("你正在进入"+fileinput+"文件夹");
+    File[] fBanana = fileinput.listFiles();
+    try
+    {
+            //传进一个文件夹标志
+            zos.putNextEntry(new ZipEntry(base+"/"));
+            //让base加上一个/
+            base = base.length()==0?"":base+"/";
+            for(int i = 0; i &lt; fBanana.length; i++)
+            {
+                    ZipShared(fBanana[i],zos,base+fBanana[i].getName());
+            }
+    } catch (IOException e)
+    {
+            // TODO Auto-generated catch block
+            System.out.println("压缩文件夹失败"+e.getMessage());
+    }
+</code></pre>
+
+<p>}else
+{</p>
+
+<pre><code>    try
+    {
+            zos.putNextEntry(new ZipEntry(base));
+            FileInputStream fis = new FileInputStream(fileinput);
+            //改进写入的方式
+            /*int b;
+            while((b = fis.read())!= -1)
+            {
+                    zos.write(b); 
+                    //效率很定不高  每一个字符  进行一次缓冲
+                    //zos.flush();
+            }*/
+            copy(fis,zos); //利用汝鹏版的copy函数
+            System.out.println("你正在压缩"+fileinput.getName());
+            //fis.close();
+
+            //zos.close();
+    } catch (IOException e)
+    {
+            // TODO Auto-generated catch block
+            System.out.println("压缩文件失败"+e.getMessage());
+    } 
+    //为什么加入则错误
+    /*finally
+    {
+            try
+            {
+                    zos.close();
+            }catch(IOException e)
+            {
+                    System.out.println("打开流错误！");
+            }
+    }*/
+            }
+    }
+    public  void ZipSharedCrypto(String fileinput,String zosFile,String pwd)
+    {
+
+            try
+            {        File f1 = new File(fileinput);
+            //采用和ZipShared一样的FileOutputStream
+                    ZipOutputStream zos  = null;
+                    zos = new ZipOutputStream(new FileOutputStream(zosFile));
+                    ZipSharedCrypto(f1,zos,"", pwd);
+                    try
+                    {
+                            zos.close();
+                    } catch (IOException e)
+                    {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                    }
+            } catch (FileNotFoundException e)
+            {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+            }
+            System.out.println("成了");
+    }
+    public  void ZipSharedCrypto(File fileinput,ZipOutputStream zos,String base,String pwd)
+    {
+</code></pre>
+
+<p>if(fileinput.isDirectory())
+{</p>
+
+<pre><code>    System.out.println("你正在进入"+fileinput+"文件夹");
+</code></pre>
+
+<p>File[] fApples = fileinput.listFiles();
+//因为ZipEntry的isDirectory()方法中，目录以"/&ldquo;结尾
+try
+{</p>
+
+<pre><code>    zos.putNextEntry(new ZipEntry(base+"/"));
+    base = base.length()==0?"":(base+"/");
+    //一种比较新型的方式循环读写东西。
+    for(File ftemp:fApples)
+    {
+            ZipSharedCrypto(ftemp,zos,base+ftemp.getName(),pwd);
+    }
+</code></pre>
+
+<p>}catch(IOException e)
+{</p>
+
+<pre><code>    System.out.println("文件夹加密压缩失败");
+    }
+</code></pre>
+
+<p>}else
+{</p>
+
+<pre><code>    try
+    {
+            zos.putNextEntry(new ZipEntry(base));
+            FileInputStream fis = new FileInputStream(fileinput);
+            System.out.println("你正在开始加密压缩"+fileinput+"文件");
+    PBEKeySpec keySpec = new PBEKeySpec(pwd.toCharArray());
+    SecretKeyFactory keyFactory = null;
+    try
+    {
+            keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
+    } catch (NoSuchAlgorithmException e)
+    {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+    }
+    SecretKey passwordKey = keyFactory.generateSecret(keySpec);
+    //生成一个炸弹 进行加密
+    byte[] bomb =  new byte[8];
+    Random rnd = new Random();
+    rnd.nextBytes(bomb);
+    int iterations = 100;
+    PBEParameterSpec parameterSpec = new PBEParameterSpec(bomb, iterations);
+    Cipher cipher = null;
+    try
+    {
+            cipher = Cipher.getInstance(ALGORITHM);
+    } catch (NoSuchAlgorithmException
+                    | NoSuchPaddingException e)
+    {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+    }
+    cipher.init(Cipher.ENCRYPT_MODE, passwordKey,parameterSpec);
+    //往输出流 添加炸弹
+    zos.write(bomb);
+
+    //添加加密的主文件内容  1KB缓存区
+    byte[] inputBuffer = new byte[1024];
+    int bytesRead = 0;
+    //如果没有读到信息则为-1
+    while((bytesRead = fis.read(inputBuffer))!= -1)
+    {
+            //每个缓冲区 进行加密写入
+            byte[] output = cipher.update(inputBuffer);
+            if(output != null)
+            {
+                    zos.write(output);
+            }
+    }
+
+    //加密结束语
+    byte[] outputFinal =null;
+    try
+    {
+            outputFinal = cipher.doFinal();
+    } catch (IllegalBlockSizeException | BadPaddingException e)
+    {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+    }
+    if(outputFinal != null)
+    {
+            zos.write(outputFinal);
+    }
+</code></pre>
+
+<p>/*        fis.close();</p>
+
+<pre><code>    zos.flush();
+    zos.close();*/
+</code></pre>
+
+<p>}catch(InvalidKeySpecException | InvalidKeyException | InvalidAlgorithmParameterException | IOException e)
+{</p>
+
+<pre><code>    System.out.println("加密失败");
+    }
+</code></pre>
+
+<p>}</p>
+
+<pre><code>    }
+    /**
+     *   解压缩 zip文件，只能限制为rar
+     * @param zipName        待解压的zip文件
+     * @param outputfolder   解压zip文件到outputFoler文件夹下
+     */
+    public static void unZipShared(String zipName,String outputfolder)
+    {
+            File gtkDir = new File(outputfolder);// *.dll放的文件夹
+            //指定的目录不存在  则创建之
+            if (!gtkDir.exists())
+            {
+                    gtkDir.mkdirs();
+            }
+            InputStream inStream = null;
+            try
+            {
+                    inStream = new  FileInputStream(zipName);
+            } catch (FileNotFoundException e1)
+            {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+            }
+            //InputStream inStream = Utils.class.getResourceAsStream("/gtkshare.zip");
+            if (inStream == null)
+            {
+                    throw new UnsatisfiedLinkError("没找到"+zipName);
+            }
+            try
+            {                        
+                    unZip(inStream, gtkDir.toString());
+                    System.out.println(gtkDir.toString());
+            } catch (IOException e)
+            {
+                    System.err.println("解压缩gtkshare.zip失败" + toFullString(e));
+            }
+    }
+
+    /**
+     * 把streamToZip这个zip文件流解压到硬盘的destDir文件夹，支持多级目录
+     * @param streamToZip
+     * @param destDir
+     * @throws IOException
+     */
+    public static void unZip(InputStream streamToZip,String destDir)throws IOException
+    {  
+            ZipInputStream zipStream = new ZipInputStream(streamToZip);
+            try
+            {
+                    ZipEntry zipEntry = null;
+                    //通过zipEntry方式支持多级目录
+    while((zipEntry=zipStream.getNextEntry())!=null)
+    {
+            if(zipEntry.isDirectory())
+            {
+                    System.out.println("你正在创建文件夹文件 比较特殊");
+                    File dir = new File(destDir,zipEntry.getName());
+                    //如果指定的目录不存在 则创建之
+                    if(!dir.exists())
+                    {
+                            dir.mkdirs();
+                    }
+            }
+            else
+            {
+                    FileOutputStream fileOutStream = new FileOutputStream(new File(destDir,zipEntry.getName()));
+                    try
+                    {
+                            copy(zipStream, fileOutStream);
+                    }
+                    finally
+                    {
+                            close(fileOutStream);
+                    }
+                    System.out.println("你正在解压缩压缩"+zipEntry.getName());
+            }
+    }
+</code></pre>
+
+<p>}
+finally
+{</p>
+
+<pre><code>    close(zipStream);
+</code></pre>
+
+<p>}</p>
+
+<pre><code>}
+    /**
+     *     从zip文件包中拷贝文件 ，按照0.5MB的缓冲写入文件(默认方式）
+     * @param inStream       zipEntry的某个文件
+     * @param outStream      输出的某个文件流
+     * @throws IOException
+     */
+    static void copy(InputStream inStream, OutputStream outStream)
+                    throws IOException
+    {
+            byte[] buffer = new byte[512 * 1024];// 0.5MB 的缓冲区
+            int len;
+            while ((len = inStream.read(buffer)) &gt;= 0)
+            {
+                    outStream.write(buffer, 0, len);
+            }
+    }
+    /**
+     *    摘自rupeng.gtk4j   不明白具体的作用    非主要问题
+     * @param throwable
+     * @return
+     */
+    static String toFullString(Throwable throwable)
+    {
+            StringWriter sw = null;
+            PrintWriter pw = null;
+            try
+            {
+                    sw = new StringWriter();
+                    pw = new PrintWriter(sw);
+                    throwable.printStackTrace(pw);
+                    return sw.toString();
+            } finally
+            {
+                    close(sw);
+                    close(pw);
+            }
+    }
+    /**
+     *     让文件流安静的关闭
+     * @param closeable   关闭接口
+     */
+    static void close(Closeable closeable)
+    {
+            if (closeable != null)
+            {
+                    try
+                    {
+                            closeable.close();
+                    } catch (IOException e)
+                    {
+
+                    }
+            }
+    }
+
+    // 加密解压缩
+</code></pre>
+
+<p>/**</p>
+
+<pre><code>     * 功能描述：将压缩文件解压到指定的文件目录下
+     * @param zipFileName      压缩文件名称(带路径)
+     * @param outputDirectory  指定解压目录
+     * @return
+     * @throws Exception
+     */
+    public  void unzipCrypto(String zipFileName, String outputDirectory, String pwd)
+    {
+            ZipInputStream inputStream;
+            try
+            {
+                    inputStream = new ZipInputStream(new FileInputStream(zipFileName));
+                    unzipCrypto(inputStream, outputDirectory, pwd);
+            } catch (Exception e)
+            {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+            }
+
+    }
+
+
+    public  void unzipCrypto(ZipInputStream inputStream, String outputDirectory, String pwd) throws Exception
+    {
+            ZipEntry zipEntry = null;
+            FileOutputStream outputStream = null;
+            try{
+                    while ((zipEntry = inputStream.getNextEntry()) != null) 
+                    {
+</code></pre>
+
+<p>if (zipEntry.isDirectory())
+{</p>
+
+<pre><code>    System.out.println("你正在进入"+zipEntry.getName()+"文件夹");
+    String name = zipEntry.getName();
+    name = name.substring(0, name.length() - 1);
+    File file = new File(outputDirectory + File.separator + name);
+    file.mkdir();
+</code></pre>
+
+<p>}
+else
+{</p>
+
+<pre><code>    File file = new File(outputDirectory + File.separator + zipEntry.getName());
+    file.createNewFile();
+    outputStream = new FileOutputStream(file);
+    System.out.println("你正在解压缩"+file.getName()+"文件");
+    PBEKeySpec keySpec = new PBEKeySpec(pwd.toCharArray());
+SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
+SecretKey passwordKey = keyFactory.generateSecret(keySpec);
+byte[] salt = new byte[8];
+inputStream.read(salt);
+int iterations = 100;
+PBEParameterSpec parameterSpec = new PBEParameterSpec(salt, iterations);
+Cipher cipher = Cipher.getInstance(ALGORITHM);
+cipher.init(Cipher.DECRYPT_MODE, passwordKey, parameterSpec);
+byte[] input = new byte[1024];
+int bytesRead;
+while ((bytesRead = inputStream.read(input)) != -1) 
+{
+        byte[] output = cipher.update(input, 0, bytesRead);
+        if (output != null)
+        {
+                outputStream.write(output);
+        }
+}
+byte[] output = cipher.doFinal();
+if (output != null)
+{
+        outputStream.write(output);
+}
+</code></pre>
+
+<p>/*                                    outputStream.flush();</p>
+
+<pre><code>                                outputStream.close();*/
+</code></pre>
+
+<p>}</p>
+
+<pre><code>                    }
+                    //inputStream.close();
+            }
+            catch(IOException ex)
+            {
+                    throw new Exception("解压读取文件失败");
+            }
+            catch(Exception ex)
+            {
+                    throw new Exception("解压文件密码不正确");
+            }
+</code></pre>
+
+<p>/*                finally</p>
+
+<pre><code>            {
+                    inputStream.close();
+                    outputStream.flush();
+                outputStream.close();
+            }*/
+    }
+</code></pre>
+
+<p>}
+```</p>
+
+<p>3：进一步 实现先前的想法，封装一个OOZip类，</p>
+
+<pre><code>基本思想：
+     1：抽取常用变量，比如bufferSize 缓冲区大小     buf缓冲区； 本想着加入压缩和解压缩的流变量，后来删掉了
+     2：定义构造函数， 设置缓冲区大小
+     3：复制之前的方法，并利用buffersize和buf改写copy函数和 文件的复制的函数
+     4：进行简单地压缩和解压缩文件夹      加密压缩和解加密压缩文件夹   的测试。 并找到了压缩单个文件的bug
+     5：bug修复
+</code></pre>
+
+<p>  完整代码如下：
+```java
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Random;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.PBEParameterSpec;</p>
+
+<p>/<em><em>
+* @author    叶昭良
+* @time      2015年2月12日下午9:51:11
+* @version   OOZip    用于压缩和解压缩
+*                   V1.0  增加了压缩
+*                   V2.0   ZipShared加入了 zosTemp.close(); 修复了 压缩的bug
+*                   V3.0   改进了构造函数 利用具有缓冲区的压缩
+*                   V4.0   升级了ZipShared 使用了copy函数。
+*                   V5.0   增加了加密压缩 和解加密压缩
+*                   V6.0   改用了面向对象方式修改了一番
+*                   V7.0   加入了一些压缩和解压缩完成的的console标记
+*                   V8.0   修复了单个文件无法加密的bug   new ZipEntry(base) 改为
+*                    new ZipEntry(base+fileinput.getName())，未添入到zipentry的缘故
+*                    而若是文件夹遍历的时候则是有加入文件名的标记！所以在单个文件的时候也需要加入文件名的
+*                    标记
+*                   V9.0   若有中文问题，可以进一步采用import org.apache.tools.zip.</em> 的zip包！ 更好的支持中文
+*                          具体参看<a href="http://blog.csdn.net/liu149339750/article/details/7887701  ">http://blog.csdn.net/liu149339750/article/details/7887701  </a>
+*                                 <a href="http://szhnet.iteye.com/blog/199059">http://szhnet.iteye.com/blog/199059</a> ，这个链接当中提供了ant版本
+*                          当然此版本，不需要org.apache.tool.zip包也不需要ant包  附录了ant版本的代码，的确看起来
+*                          是简单的。
+</em>/
+public class OOZip
+{</p>
+
+<p>/<em>*
+*  这几个私有变量的控制，主要体现在针对具体的文件的复制过程中
+</em>/</p>
+
+<pre><code>    private int bufSize ; //压缩和解压缩会用到。 一次从压缩文件zip读取多少文件信息
+                                                             //或者一次写入多少文件信息到压缩流
+    private byte[] buf;   //写入或者写出压缩流的字节数组
+    private int readBytes = 0;  //实际写入或者写出文件流的大小。
+    private static final String ALGORITHM = "PBEWithMD5AndDES";
+
+    //构造函数的定义
+</code></pre>
+
+<p>   public OOZip(){</p>
+
+<pre><code>       // 1025*512  //设置输入输出流的缓冲区的大小 ，统一设置
+    this(1024*512); 
+} 
+
+public OOZip(int bufSize){ 
+    this.bufSize = bufSize; 
+    this.buf = new byte[this.bufSize]; 
+} 
+
+    //常用的类中 内部函数
+
+    public static void main(String[] args)
+    {
+            // TODO Auto-generated method stub
+            OOZip oz = new OOZip();
+            //单个文件加密和非加密测试暂时失败
+            oz.ZipShared("e://student.txt", "e://laoliang"); 
+            //oz.ZipSharedCrypto("e://student.txt", "e://laoliang","1234");
+            //输入文件夹路径则加密和非加密测试通过
+            //oz.ZipShared("e://test1222bak", "e://laoliang");  //已测试通过
+            //oz.ZipSharedCrypto("e://test1222bak", "e://laoliang", "123456");
+
+            //解压缩，不用输入.zip后缀，只需要输入文件名
+            //oz.unzipCrypto("e://laoliang", "c://laozi","123456");
+            //测试成功
+    }
+
+    /**
+     *     压缩名字为fileinput变量内容的文件夹
+     * @param fileinput   文件夹名字
+     * @param zos         zip文件夹名字
+     */
+    public void ZipShared(String fileinput,String zos)
+    {
+            try
+            {
+                    //加入"zip"后缀！
+                    ZipOutputStream zosTemp = new ZipOutputStream(new FileOutputStream(zos+".zip"));
+                    File fApple = new File(fileinput);
+                    ZipShared(fApple,zosTemp,"");
+                    try
+                    {
+                            /// 为什么加入这个就可以？？？？
+                            //  不加入这有异常？？？？why   Tell me 
+                            zosTemp.close();
+                    } catch (IOException e)
+                    {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                    }
+            } catch (FileNotFoundException e)
+            {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+            }
+            System.out.println("success to create"+zos+".zip");
+    }
+    /**
+     *     压缩文件夹的中间函数
+     * @param fileinput    输入函数的文件对象
+     * @param zos          压缩输出流对象
+     * @param base         一般是"" 表示子目录的作用，在递归目录的时候会用到，在文件夹递归中，涉及到改变；
+     */
+    public  void ZipShared(File fileinput,ZipOutputStream zos,String base)
+    {
+</code></pre>
+
+<p>if(fileinput.isDirectory())
+{</p>
+
+<pre><code>    System.out.println("你正在进入"+fileinput+"文件夹");
+    File[] fBanana = fileinput.listFiles();
+    try
+    {
+            //传进一个文件夹标志
+            zos.putNextEntry(new ZipEntry(base+"/"));
+            //让base加上一个/
+            base = base.length()==0?"":base+"/";
+            for(int i = 0; i &lt; fBanana.length; i++)
+            {
+                    ZipShared(fBanana[i],zos,base+fBanana[i].getName());
+            }
+    } catch (IOException e)
+    {
+            System.out.println("压缩文件夹失败"+e.getMessage());
+    }
+</code></pre>
+
+<p>}else
+{</p>
+
+<pre><code>    try
+    {
+            zos.putNextEntry(new ZipEntry(base+fileinput.getName()));
+            FileInputStream fis = new FileInputStream(fileinput);
+            //改进写入的方式
+            /*int b;
+            while((b = fis.read())!= -1)
+            {
+                    zos.write(b); 
+                    //效率很定不高  每一个字符  进行一次缓冲
+                    //zos.flush();
+            }*/
+            copy(fis,zos); //利用汝鹏版的copy函数
+            System.out.println("你正在压缩"+fileinput.getName());
+    } catch (IOException e)
+    {
+            System.out.println("压缩文件失败"+e.getMessage());
+    } 
+</code></pre>
+
+<p>}</p>
+
+<pre><code>    }
+    /**
+     *     加密压缩文件夹
+     * @param fileinput    文件夹字符串
+     * @param zosFile      压缩字符串名字
+     * @param pwd          加密的密码
+     */
+    public  void ZipSharedCrypto(String fileinput,String zosFile,String pwd)
+    {
+
+            try
+            {        
+                    File f1 = new File(fileinput);
+                    //采用和ZipShared一样的FileOutputStream
+                    ZipOutputStream zos  = null;
+                    zos = new ZipOutputStream(new FileOutputStream(zosFile+".zip"));
+                    ZipSharedCrypto(f1,zos,"", pwd);
+                    try
+                    {
+                            zos.close();
+                    } catch (IOException e)
+                    {
+                            e.printStackTrace();
+                    }
+            } catch (FileNotFoundException e)
+            {
+                    System.out.println("未找到文件"+e.getMessage());
+            }
+            System.out.println("success to create crypto "+zosFile+".zip");
+    }
+    /**
+     *          加密压缩文件夹     
+     * @param fileinput     压缩文件夹的File对象
+     * @param zos           zip压缩输出流ZipOutputStream
+     * @param base          一般是""
+     * @param pwd           压缩的密码
+     */
+    public  void ZipSharedCrypto(File fileinput,ZipOutputStream zos,String base,String pwd)
+    {
+</code></pre>
+
+<p>if(fileinput.isDirectory())
+{</p>
+
+<pre><code>    System.out.println("你正在进入"+fileinput+"文件夹");
+    File[] fApples = fileinput.listFiles();
+    //因为ZipEntry的isDirectory()方法中，目录以"/"结尾
+    try
+    {        
+            zos.putNextEntry(new ZipEntry(base+"/"));
+            base = base.length()==0?"":(base+"/");
+            //一种比较新型的方式循环读写东西。
+            for(File ftemp:fApples)
+            {
+                    ZipSharedCrypto(ftemp,zos,base+ftemp.getName(),pwd);
+            }
+    }catch(IOException e)
+    {
+            System.out.println("文件夹加密压缩失败");
+    }
+</code></pre>
+
+<p>}else
+{</p>
+
+<pre><code>    try
+    {
+            zos.putNextEntry(new ZipEntry(base));
+            FileInputStream fis = new FileInputStream(fileinput);
+            System.out.println("你正在开始加密压缩"+fileinput+"文件");
+            //加密过程的开始
+            PBEKeySpec keySpec = new PBEKeySpec(pwd.toCharArray());
+            SecretKeyFactory keyFactory = null;
+            try
+            {
+                    keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
+            } catch (NoSuchAlgorithmException e)
+            {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+            }
+            SecretKey passwordKey = keyFactory.generateSecret(keySpec);
+            //生成一个炸弹 进行加密
+            byte[] bomb =  new byte[8];
+            Random rnd = new Random();
+            rnd.nextBytes(bomb);
+            int iterations = 100;
+            PBEParameterSpec parameterSpec = new PBEParameterSpec(bomb, iterations);
+            Cipher cipher = null;
+            try
+            {
+                    cipher = Cipher.getInstance(ALGORITHM);
+            } catch (NoSuchAlgorithmException
+                            | NoSuchPaddingException e)
+            {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+            }
+            cipher.init(Cipher.ENCRYPT_MODE, passwordKey,parameterSpec);
+            //往输出流 添加炸弹
+            zos.write(bomb);
+
+            //添加加密的主文件内容  1KB缓存区
+            //byte[] inputBuffer = new byte[1024];
+            //int bytesRead = 0;
+            //如果没有读到信息则为-1
+
+            //改用 readBytes  buf在类头定义的私有变量，进行统一的buffer缓存区大小的控制
+            while((this.readBytes = fis.read(this.buf))!= -1)
+            {
+                    //每个缓冲区 进行加密写入
+                    byte[] output = cipher.update(this.buf);
+                    if(output != null)
+                    {
+                            zos.write(output);
+                    }
+            }
+
+            //加密结束语-------------加密结束
+            byte[] outputFinal =null;
+            try
+            {
+                    outputFinal = cipher.doFinal();
+            } catch (IllegalBlockSizeException | BadPaddingException e)
+            {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+            }
+            if(outputFinal != null)
+            {
+                    zos.write(outputFinal);
+            }        
+    }catch(InvalidKeySpecException | InvalidKeyException | InvalidAlgorithmParameterException | IOException e)
+    {
+            System.out.println("加密失败");
+    }
+</code></pre>
+
+<p>}</p>
+
+<pre><code>    }
+    /**
+     *   解压缩 zip文件，只能限制为zip ,rar无法进行，利用如鹏版的
+     * @param zipName        待解压的zip文件
+     * @param outputfolder   解压zip文件到outputFoler文件夹下
+     */
+    public void unzip(String zipName,String outputfolder)
+    {
+            File gtkDir = new File(outputfolder);// *.dll放的文件夹
+            //指定的目录不存在  则创建之
+            if (!gtkDir.exists())
+            {
+                    gtkDir.mkdirs();
+            }
+            InputStream inStream = null;
+            try
+            {
+                    //不用输入.zip后缀，只需要输入文件名
+                    inStream = new  FileInputStream(zipName+".zip");
+            } catch (FileNotFoundException e1)
+            {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+            }
+            //InputStream inStream = Utils.class.getResourceAsStream("/gtkshare.zip");
+            if (inStream == null)
+            {
+                    throw new UnsatisfiedLinkError("没找到"+zipName);
+            }
+            try
+            {                        
+                    unzip(inStream, gtkDir.toString());
+                    //System.out.println(gtkDir.toString());
+                    System.out.println("成功解压缩"+zipName+".zip"+"文件 到"+outputfolder+"文件夹下");
+            } catch (IOException e)
+            {
+                    System.err.println("解压缩"+zipName+".zip失败" + toFullString(e));
+            }
+    }
+
+    /**
+     * 把streamToZip这个zip文件流解压到硬盘的destDir文件夹，支持多级目录
+     * @param streamToZip
+     * @param destDir
+     * @throws IOException
+     */
+    public  void unzip(InputStream streamToZip,String destDir)throws IOException
+    {  
+            ZipInputStream zipStream = new ZipInputStream(streamToZip);
+</code></pre>
+
+<p>try
+{</p>
+
+<pre><code>    ZipEntry zipEntry = null;
+    //通过zipEntry方式支持多级目录
+</code></pre>
+
+<p>while((zipEntry=zipStream.getNextEntry())!=null)
+{</p>
+
+<pre><code>    if(zipEntry.isDirectory())
+    {
+            System.out.println("你正在创建文件夹文件 比较特殊");
+            File dir = new File(destDir,zipEntry.getName());
+            //如果指定的目录不存在 则创建之
+            if(!dir.exists())
+            {
+                    dir.mkdirs();
+            }
+    }
+    else
+    {
+            FileOutputStream fileOutStream = new FileOutputStream(new File(destDir,zipEntry.getName()));
+            try
+            {
+                    copy(zipStream, fileOutStream);
+            }
+            finally
+            {
+                    close(fileOutStream);
+            }
+            System.out.println("你正在解压缩压缩"+zipEntry.getName());
+    }
+</code></pre>
+
+<p>}</p>
+
+<pre><code>            }
+            finally
+            {
+                    close(zipStream);
+            }
+
+}
+    /**
+     *     从zip文件包中拷贝文件 ，按照0.5MB的缓冲写入文件(默认方式）
+     * @param inStream       zipEntry的某个文件
+     * @param outStream      输出的某个文件流
+     * @throws IOException
+     */
+    public void copy(InputStream inStream, OutputStream outStream)
+                    throws IOException
+    {
+            //byte[] buffer = new byte[512 * 1024];// 0.5MB 的缓冲区
+            //int len;
+            while ((this.readBytes = inStream.read(this.buf)) &gt;= 0)
+            {
+                    outStream.write(this.buf, 0, this.readBytes);
+            }
+    }
+    /**
+     *    摘自rupeng.gtk4j   不明白具体的作用    非主要问题
+     * @param throwable
+     * @return
+     */
+    public String toFullString(Throwable throwable)
+    {
+            StringWriter sw = null;
+            PrintWriter pw = null;
+            try
+            {
+                    sw = new StringWriter();
+                    pw = new PrintWriter(sw);
+                    throwable.printStackTrace(pw);
+                    return sw.toString();
+            } finally
+            {
+                    close(sw);
+                    close(pw);
+            }
+    }
+    /**
+     *     让文件流安静的关闭
+     * @param closeable   关闭接口
+     */
+    public void close(Closeable closeable)
+    {
+            if (closeable != null)
+            {
+                    try
+                    {
+                            closeable.close();
+                    } catch (IOException e)
+                    {
+
+                    }
+            }
+    }
+
+    // 加密解压缩
+</code></pre>
+
+<p>/**</p>
+
+<pre><code>     * 功能描述：将压缩文件解压到指定的文件目录下
+     * @param zipFileName      压缩文件名称(带路径)
+     * @param outputDirectory  指定解压目录
+     * @return
+     * @throws Exception
+     */
+    public  void unzipCrypto(String zipFileName, String outputDirectory, String pwd)
+    {
+            ZipInputStream inputStream;
+            File outputDir;
+            try
+            {
+                    //不用输入.zip后缀，只需要输入文件名
+                    inputStream = new ZipInputStream(new FileInputStream(zipFileName+".zip"));
+                    outputDir = new File(outputDirectory);
+                    unzipCrypto(inputStream, outputDir, pwd);
+            } catch (Exception e)
+            {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+            }
+            System.out.println("成功解压缩"+zipFileName+".zip"+"文件 到"+outputDirectory+"文件夹下");
+
+    }
+
+
+    public void unzipCrypto(ZipInputStream inputStream, File outputDir, String pwd) throws Exception
+    {
+            ZipEntry zipEntry = null;
+            FileOutputStream outputStream = null;
+            try{
+</code></pre>
+
+<p>while ((zipEntry = inputStream.getNextEntry()) != null)
+{</p>
+
+<pre><code>    //如果是文件夹  则遍历
+    if (zipEntry.isDirectory())
+    {
+            System.out.println("你正在进入"+zipEntry.getName()+"文件夹");
+            String name = zipEntry.getName();
+            name = name.substring(0, name.length() - 1);
+            File file = new File(outputDir + File.separator + name);
+            file.mkdir();
+    } 
+    //对单个普通文件进行处理
+    else 
+    {
+            File file = new File(outputDir + File.separator + zipEntry.getName());
+            file.createNewFile();
+            outputStream = new FileOutputStream(file);
+            System.out.println("你正在解压缩"+file.getName()+"文件");
+            //解压加密过程的开始
+            PBEKeySpec keySpec = new PBEKeySpec(pwd.toCharArray());
+        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
+        SecretKey passwordKey = keyFactory.generateSecret(keySpec);
+        //准备排除加密的炸弹头
+        byte[] apple = new byte[8];
+        //在zip输入流添加read
+        inputStream.read(apple);
+        int iterations = 100;
+        PBEParameterSpec parameterSpec = new PBEParameterSpec(apple, iterations);
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        cipher.init(Cipher.DECRYPT_MODE, passwordKey, parameterSpec);
+        //byte[] input = new byte[1024];
+        //int bytesRead;
+        //利用全局的私有变量this.buf  this.readBytes ,已在类开头定义，统一控制
+        while ((this.readBytes = inputStream.read(this.buf)) != -1) 
+        {
+                byte[] output = cipher.update(this.buf, 0, this.readBytes);
+                if (output != null)
+                {
+                        outputStream.write(output);
+                }
+        }
+        byte[] output = cipher.doFinal();
+        if (output != null)
+        {
+                outputStream.write(output);
+        }
+
+    }
+</code></pre>
+
+<p>}</p>
+
+<pre><code>            }
+            catch(IOException ex)
+            {
+                    throw new Exception("解压读取文件失败");
+            }
+            catch(Exception ex)
+            {
+                    throw new Exception("解压文件密码不正确");
+            }
+    }
+</code></pre>
+
+<p>}
+/*
+*  附录ant版本的压缩实现<a href="http://szhnet.iteye.com/blog/199059">http://szhnet.iteye.com/blog/199059</a>
+*  可以加入某些文件和删除某些文件
+*  package net.szh.zip;</p>
+
+<p>import java.io.File;</p>
+
+<p>import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Zip;
+import org.apache.tools.ant.types.FileSet;</p>
+
+<p>public class ZipCompressorByAnt {</p>
+
+<pre><code>    private File zipFile;
+
+    public ZipCompressorByAnt(String pathName) {
+            zipFile = new File(pathName);
+    }
+
+    public void compress(String srcPathName) {
+            File srcdir = new File(srcPathName);
+            if (!srcdir.exists())
+                    throw new RuntimeException(srcPathName + "不存在！");
+
+            Project prj = new Project();
+            Zip zip = new Zip();
+            zip.setProject(prj);
+            zip.setDestFile(zipFile);
+            FileSet fileSet = new FileSet();
+            fileSet.setProject(prj);
+            fileSet.setDir(srcdir);
+            //fileSet.setIncludes("**//*.java"); 包括哪些文件或文件夹 eg:zip.setIncludes("*.java");
+            //fileSet.setExcludes(...); 排除哪些文件或文件夹
+            zip.addFileset(fileSet);
+
+            zip.execute();
+    }
+</code></pre>
+
+<p>}</p>
+
+<p>ant版本的使用：
+package net.szh.zip;</p>
+
+<p>public class TestZip {</p>
+
+<pre><code>    public static void main(String[] args) {                
+            ZipCompressorByAnt zca = new ZipCompressorByAnt("E:\\szhzipant.zip");
+            zca.compress("E:\\test");
+    }
+</code></pre>
+
+<p>}
+<em><br/>
+</em>/
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[网络编程8-12节笔记代码March18th]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/05/11/wang-luo-bian-cheng-8-12jie-bi-ji-dai-ma-march18th/"/>
+    <updated>2015-05-11T14:58:46+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/05/11/wang-luo-bian-cheng-8-12jie-bi-ji-dai-ma-march18th</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<p>复习目录
+1集合框架&hellip; 2
+ArrayList: 2
+栈的实现（先进后出）&hellip; 3
+队列的实现（先进先出）&hellip; 5
+LinkedList: 8
+小结：&hellip; 10
+HashSet: 10
+TreeSet. 14
+LinkedHashSet: 22
+HashMap: 23
+1.位运算符&hellip; 25
+2.字节的截断工具：&hellip; 29
+3.理解重新调整大小&hellip; 39
+4.理解添加&hellip; 41
+5.理解说明：&hellip; 44
+6.HashMap和HashSet的区别&hellip; 44
+7.理解Hash算法&hellip; 45
+TreeMap: 45
+LinkedHashMap: 45
+Iterator: 45
+泛型&hellip; 45
+Arrays: 46
+Collections: 46
+多重数据结构的实现：&hellip; 48
+ToString. 49
+2：反射机制&hellip; 49
+类（Class）&hellip; 50
+字段&hellip; 51
+构造函数&hellip; 52
+方法&hellip; 53
+3：内省&hellip; 58
+4：正则表达式&hellip; 61
+字符串内置函数：&hellip; 61
+Pattern&amp;Matcher组合：&hellip; 62</p>
+
+<p>1集合框架
+集合是存储对象的对象。
+用于存储数据的数据结构，重要！进行源码分析。
+要求：熟练掌握增删查改（针对每一种数据结构）！块增删查改等等。并掌握每一种数据结构的本质，优缺点</p>
+
+<p>|&mdash;Collection
+|&mdash;-List
+|&mdash;&mdash;&mdash;-ArrayList
+|&mdash;&mdash;&mdash;-LinkedList
+|&mdash;&mdash;&mdash;-HashLinkedList
+|&mdash;-Set
+  |&mdash;&mdash;&mdash;-HashSet
+  |&mdash;&mdash;&mdash;-TreeSet
+|&mdash;Map
+|&mdash;&mdash;&mdash;-HashMap
+|&mdash;&mdash;&mdash;-TreeMap
+|&mdash;&mdash;&mdash;-LinkedHashMap
+两个工具类(默认是静态类static 方法)：
+|&mdash;-Arrays
+|&mdash;-Collections</p>
+
+<p>重点：ArrayList , LinkedList, HashMap,进行HashMap的源码追踪。</p>
+
+<p>ArrayList:
+本质：数组，元素有序，可以重复
+优点：查找(或者叫做获取get方法效率极高)和遍历
+缺点：增加和删除
+ArrayList和LinkedList替换掉Vector,Vector在长度不足时候是百分百增长，而前面两个是50%。至于线程的独立性可以让ArrayList和LinkedList接续Serializable</p>
+
+<p>Vector的方法都是同步的(Synchronized),是线程安全的(thread-safe)，而ArrayList的方法不是，由于线程的同步必然要影响性能，因此,ArrayList的性能比Vector好。
+当Vector或ArrayList中的元素超过它的初始大小时,Vector会将它的容量翻倍,而ArrayList只增加50%的大小，这样,ArrayList就有利于节约内存空间
+栈的实现（先进后出）</p>
+
+<p>```java</p>
+
+<p>/<em>*
+*  堆栈是先进后出
+</em>/
+package com.collections.test;</p>
+
+<p>/<em><em>
+* @author    叶昭良
+* @time      2015年2月23日下午7:47:29
+* @version   com.collections.testTestStack V1.0
+</em>/
+import java.util.</em>;
+public class TestStack
+{</p>
+
+<pre><code>     /**
+      * @param args
+      */
+     private static List&lt;String&gt; list1 = new ArrayList&lt;String&gt;();
+     /**
+      *
+      * @param apple  添加字符串到堆栈中
+      */
+     public void push(String apple)
+     {
+               //list1.addLast(apple);
+               //list1.addOffer(apple);
+
+               list1.add(apple);
+     }
+     /**
+      *
+      * @return  返回待删除的字符串
+      */
+     public String pop()
+     {
+               int length = getListLength(); //笨蛋 直接用 list1.size()就可以了
+               //System.out.println("长度为："+length);
+               String apple = list1.get(length-1);
+               //String apple = list1.get(length-1);
+               //第一种方法
+               //return list1.removeLast() 更方便IE
+               //第二种方法
+               //return list1.pollLast();
+               list1.remove(length-1);
+               return apple;
+     }
+     /**
+      *  得到堆栈的长度
+      * @return
+      */
+     private static int getListLength()
+     {
+               int sum =0;
+               Iterator&lt;String&gt; it = list1.iterator();
+               while(it.hasNext())
+               {
+                        sum++;
+                        it.next();
+               }
+               return sum;
+     }
+
+     public  void sayStatck()
+     {
+               Iterator&lt;String&gt; it = list1.iterator();
+               while(it.hasNext())
+               {
+                        System.out.println(it.next());
+               }
+     }
+     public static void main(String[] args)
+     {
+               // TODO Auto-generated method stub
+               TestStack ts = new TestStack();
+               ts.push("apple");
+               ts.push("banana");
+               ts.push("orange");
+
+
+               ts.sayStatck();
+               String text = ts.pop();
+               ts.sayStatck();
+     }
+</code></pre>
+
+<p>}</p>
+
+<p>```java
+队列的实现（先进先出）</p>
+
+<p>```java
+/<em>*
+*
+</em>/
+package com.collections.test;</p>
+
+<p>import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月23日下午8:07:29
+* @version   com.collections.testTestQueue V1.0
+</em>/
+public class TestQueue
+{</p>
+
+<pre><code>     /**
+      * @param args
+      */
+     private static List&lt;String&gt; list1 = new ArrayList&lt;String&gt;();
+     /**
+      *
+      * @param apple  添加字符串到堆栈中
+      */
+     public void push(String apple)
+     {
+               list1.add(apple);
+     }
+     /**
+      *
+      * @return  返回待删除的字符串
+      */
+     public String pop()
+     {
+               //System.out.println("长度为："+length);
+               String apple = list1.get(0);
+               //String apple = list1.get(length-1);
+               list1.remove(0);
+               return apple;
+     }
+
+
+     public  void sayStatck()
+     {
+               Iterator&lt;String&gt; it = list1.iterator();
+               while(it.hasNext())
+               {
+                        System.out.println(it.next());
+               }
+     }
+     /**
+      * @param args
+      */
+     public static void main(String[] args)
+     {
+               // TODO Auto-generated method stub
+               // TODO Auto-generated method stub
+               TestQueue ts = new TestQueue();
+               ts.push("apple");
+               ts.push("banana");
+               ts.push("orange");
+
+
+               ts.sayStatck();
+               String text = ts.pop();
+               System.out.println("Pop值："+text);
+               ts.sayStatck();
+
+               String text1 = ts.pop();
+               System.out.println("Pop值："+text1);
+               ts.sayStatck();
+     }
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<p>ArrayList源码追踪部分：</p>
+
+<p>调查ArrayList发现了LastIndexOf的一个秒的地方，倒着过来找</p>
+
+<p>  ```java
+public int lastIndexOf(Object o) {</p>
+
+<pre><code>    if (o == null) {
+        for (int i = size-1; i &gt;= 0; i--)
+            if (elementData==null)
+                return i;
+    } else {
+        for (int i = size-1; i &gt;= 0; i--) //秒！
+            if (o.equals(elementData))
+                return i;
+    }
+    return -1;
+}
+</code></pre>
+
+<p>```</p>
+
+<p>下面的ArrayList.this.add真的是值得学习</p>
+
+<p> ```java    <br/>
+public void add(E e) {</p>
+
+<pre><code>        checkForComodification();
+
+        try {
+            int i = cursor;
+            ArrayList.this.add(i, e);
+            cursor = i + 1;
+            lastRet = -1;
+            expectedModCount = modCount;
+        } catch (IndexOutOfBoundsException ex) {
+            throw new ConcurrentModificationException();
+        }
+    }
+</code></pre>
+
+<p>```</p>
+
+<p>这样的话 会直接定义到本类的add方法，而不会是别的</p>
+
+<p>   ```java</p>
+
+<p>public void add(int index, E element) {</p>
+
+<pre><code>    rangeCheckForAdd(index);
+
+    ensureCapacityInternal(size + 1);  // Increments modCount!!
+    System.arraycopy(elementData, index, elementData, index + 1,
+                     size - index);
+    elementData[index] = element;
+    size++;
+}
+</code></pre>
+
+<p>  ```</p>
+
+<p>LinkedList:
+本质：链表，有序，可以重复
+优点：增加和删除
+缺点：查找（获取）</p>
+
+<p>ListIterator的常用方法：</p>
+
+<p>boolean    hasNext( )   //判断是否还要下一个元素</p>
+
+<p>Object      next( )   //取出下一个元素,并把指针移动到下一个元素</p>
+
+<p>int           nextIndex( )   //下一个元素的索引</p>
+
+<p>boolean    hasPrevious()   //判断是否有前一个元素</p>
+
+<p>Object      previous( )   //取出前一个元素,并把指针移动到前一个元素</p>
+
+<p>int           previousIndex( )   //前一个元素的索引</p>
+
+<p>void        add(Object   o)    //添加一个元素</p>
+
+<p>void        remove( )   //删除指针指向的当前元素</p>
+
+<p>void        set(Object   o)    //修改指针指向的当前元素</p>
+
+<p>package com.collections.test;</p>
+
+<p>```java
+import java.util.*;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月23日下午12:15:42
+* @version   com.collections.testListTest V1.0
+</em>/
+public class ListTest
+{</p>
+
+<pre><code>     /**
+      * @param args
+      */
+     public static void main(String[] args)
+     {
+               // TODO Auto-generated method stub
+</code></pre>
+
+<p>//               Collection c = new LinkedList();</p>
+
+<pre><code>               /**
+                *   测试list内部有别于Collection的特有的方法
+                */
+               List&lt;String&gt; list1 = new ArrayList&lt;String&gt;();
+               list1.add("abc0");
+               list1.add("abc1");
+               list1.add("abc2");
+               System.out.println(list1);
+
+               list1.add(1, "abchaha");
+               System.out.println(list1);
+
+               for(int i = 0 ; i &lt; list1.size(); i++)
+               {
+                        System.out.println("list1["+i+"]="+list1.get(i));
+               }
+               for(Object o:list1)
+               {
+                        System.out.println(o);
+               }
+
+               list1.set(3, "fdsf");
+               System.out.println(list1);
+
+               System.out.println("fdsf在list1的第"+list1.indexOf("fdsf")+"位");
+               //最后一次abc1出现的位置
+               System.out.println(list1.lastIndexOf("abc1"));
+               List list2 = list1.subList(1, 4);
+               System.out.println("list2:"+list2);
+
+               ListIterator lit = list1.listIterator();
+               while(lit.hasNext())
+               {
+                        Object  o = lit.next();
+                        System.out.println("List:"+o);
+               }
+     }
+</code></pre>
+
+<p>}</p>
+
+<p> ```</p>
+
+<p>小结：
+1：只想遍历  就会ArrayList
+2：希望不断添加   最好就是LinkedList
+3：可以使用Collections.synchronizedList()获得一个线程安全的ArrayList and LinkedList</p>
+
+<p>HashSet:
+本质：数组+链表，由entry链构成的数组，无序，不可重复。本质是HashMap
+优点：添加和删除效率高
+缺点：获取慢（遍历都一样）,只能遍历一遍，Set集合无法直接获取某个元素</p>
+
+<p>添加：1 计算hashcode</p>
+
+<pre><code> 2. 根据hashcode定位到某一索引处（数组）
+ 3. 添加值到索引处的链表（判断是否重复）
+</code></pre>
+
+<p>所以hashset == 数组（存放hashcode）+链表（存值）（其实就是为了提高大链表的添加和遍历的速度）
+HashSet的源码内部其实是HashMap</p>
+
+<p>1:重写hashCode and equals</p>
+
+<p>注意：hashCode  and equals的生成方式： 右键―>source&mdash;&ndash;>hashCode and equals即可自动</p>
+
+<pre><code> 生成。
+</code></pre>
+
+<p>```java
+package com.collections.test;</p>
+
+<p>import java.util.HashSet;
+import java.util.Iterator;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月23日下午8:35:46
+* @version   com.collections.testTestHashSet V1.0
+</em>/
+public class TestHashSet
+{</p>
+
+<pre><code>     /**
+      * @param args
+      */
+     public static void main(String[] args)
+     {
+               // TODO Auto-generated method stub
+               HashSet&lt;String&gt; hs = new HashSet&lt;String&gt;();
+               hs.add("abc0");
+               hs.add("abc1");
+               hs.add("abc2");
+               hs.add("abc3");
+               hs.add("abc4");
+               hs.add("abc0");
+
+               System.out.println(hs);
+
+               //set集合没有索引 index  所以必须用iterator
+               Iterator it = hs.iterator();
+               while(it.hasNext())
+               {
+                        System.out.println(it.next());
+               }
+
+               /**
+                * Person类的hashCode被执行
+                        Person类的hashCode被执行
+                        Person类的hashCode被执行
+                        Person类的hashCode被执行
+                        Person类的hashCode被执行
+                        Person类的equals方法被执行
+                */
+               Person p1 = new Person("zhao",32);
+               Person p2 = new Person("zhao1",34);
+               Person p5 = new Person("zhao1",34);
+               Person p3 = new Person("zhao2",35);
+               Person p4 = new Person("zhao3",36);
+
+               HashSet&lt;Person&gt; hs1 = new HashSet&lt;Person&gt;();
+               hs1.add(p1);
+               hs1.add(p2);
+               hs1.add(p3);
+               hs1.add(p4);
+               hs1.add(p5);
+
+               Iterator it1 = hs1.iterator();
+               while(it1.hasNext())
+               {
+                        Person p11 = (Person)it1.next();
+                        //System.out.println(p11.getName()+":"+p11.getAge());
+                        System.out.println(p11);
+               }
+     }
+</code></pre>
+
+<p>}</p>
+
+<p>//自定类中加入set需要重写hashCode和equals方法   集合的不可重复性！！所以必须
+//添加hashcode和equals这种比较低级的！如果是TreeSet还得考虑大小！必须是
+///Comparable
+class Person
+{</p>
+
+<pre><code>     /*public int compareTo(String anotherString)
+     {
+               return Name.compareTo(anotherString);
+     }*/
+     private int Age;
+     private String Name;
+
+     public Person( String name,int age)
+     {
+               //super();
+               this.Age = age;
+               this.Name = name;
+     }
+     public int getAge()
+     {
+               return this.Age;
+     }
+     public void setAge(int age)
+     {
+               this.Age = age;
+     }
+     public String getName()
+     {
+               return this.Name;
+     }
+     public void setName(String name)
+     {
+               this.Name = name;
+     }
+     /// 右键source---》 generate equals and hashcode method
+     @Override
+     public int hashCode()
+     {
+               System.out.println("Person类的hashCode被执行");
+               final int prime = 31;
+               int result = 1;
+               result = prime * result + Age;
+               result = prime * result + ((Name == null) ? 0 : Name.hashCode());
+               return result;
+     }
+     @Override
+     public boolean equals(Object obj)
+     {
+               System.out.println("Person类的equals方法被执行");
+               if (this == obj)
+                        return true;
+               if (obj == null)
+                        return false;
+               if (getClass() != obj.getClass())
+                        return false;
+               Person other = (Person) obj;
+               if (Age != other.Age)
+                        return false;
+               if (Name == null)
+               {
+                        if (other.Name != null)
+                                 return false;
+               } else if (!Name.equals(other.Name))
+                        return false;
+               return true;
+     }
+     @Override
+     public String toString()
+     {
+               return "Person [Age=" + Age + ", Name=" + Name + "]";
+     }                
+</code></pre>
+
+<p>}</p>
+
+<p>```
+TreeSet</p>
+
+<p>本质：二叉树，注意查看root节点（这是二叉树结构的标志）  TreeSet关键是排序！（不是插入 和获取元素）
+优点：增加和删除
+缺点：获取</p>
+
+<p>TreeSet右节点值大于父节点    左节点值小于父节点,根据这种推断，最小的是存在于左边的最下边！ 利用递归推断。</p>
+
+<p>1:重写equals  and  hashcode
+2:实现一个comparable接口或者一个Comparator类</p>
+
+<p>第一种方法：实现comparable接口</p>
+
+<p>只需要在Person类中增加implements comparable并重写compareTo(Object o)接口即可：</p>
+
+<p>```java
+class Person implements Comparable
+{</p>
+
+<pre><code>/*public int compareTo(String anotherString)
+{
+   return Name.compareTo(anotherString);
+}*/
+private int Age;
+private String Name;
+
+public Person( String name,int age)
+{
+   //super();
+   this.Age = age;
+   this.Name = name;
+}
+public int getAge()
+{
+   return this.Age;
+}
+public void setAge(int age)
+{
+   this.Age = age;
+}
+public String getName()
+{
+   return this.Name;
+}
+public void setName(String name)
+{
+   this.Name = name;
+}
+/// 右键source---》 generate equals and hashcode method
+@Override
+public int hashCode()
+{
+   System.out.println("Person类的hashCode被执行");
+   final int prime = 31;
+   int result = 1;
+   result = prime * result + Age;
+   result = prime * result + ((Name == null) ? 0 : Name.hashCode());
+   return result;
+}
+@Override
+public boolean equals(Object obj)
+{
+   System.out.println("Person类的equals方法被执行");
+   if (this == obj)
+       return true;
+   if (obj == null)
+       return false;
+   if (getClass() != obj.getClass())
+       return false;
+   Person other = (Person) obj;
+   if (Age != other.Age)
+       return false;
+   if (Name == null)
+   {
+       if (other.Name != null)
+          return false;
+   } else if (!Name.equals(other.Name))
+       return false;
+   return true;
+}
+@Override
+public String toString()
+{
+   return "Person [Age=" + Age + ", Name=" + Name + "]";
+}
+@Override
+public int compareTo(Object o)
+{
+   // TODO Auto-generated method stub
+   //按照年龄进行排序
+   if(this == o)
+   {
+       return 0;
+   }
+   if(this == null)
+   {
+       return -1;
+   }
+   if(!(o instanceof Person))
+   {
+       return -1;
+   }
+
+   Person p1 = (Person)o;
+   //先按照年龄排序
+   int temp = p1.Age - this.Age;
+
+   if(temp ==0)
+   {
+       if(this.Name == null)
+       {
+          if(p1.Name == null)
+          {
+              return 0;
+          }else
+          {
+              return -1;
+          }
+       }else
+       {
+          return this.Name.compareTo(p1.Name);
+       }
+   }
+   return 0;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>//第二种方法创建一个比较类，并返回一个比较器，在TreeSet的对象定义中使用</p>
+
+<p>class Comparators
+{</p>
+
+<pre><code>public Comparator getComparator()
+{
+   return new Comparator()
+   {
+
+       // 0 表示  o1  o2相等
+       // 负数 表示  o1 &lt; o2
+       // 整数 表示  o1 &gt; o2
+       @Override
+       public int compare(Object o1, Object o2)
+       {
+          if(o1 instanceof String)
+          {
+              //字符串的比较
+              return compare((String) o1,(String) o2);
+          }else if(o1 instanceof Integer)
+          {
+              //整数的比较
+              return compare((Integer) o1,(Integer) o2);
+          }else if(o1 instanceof Boolean)
+          {
+              //布尔类型的比较
+              return compare((Boolean) o1,(Boolean) o2);
+          }else if(o1 instanceof Person)
+          {
+              //布尔类型的比较
+              return compare((Person) o1,(Person) o2);
+          }else
+          {
+              System.out.println("未找到合适的比较器  ");
+              return 1; //默认大于0
+          }
+       }
+       //用于比较字符串
+       public int compare(String o1, String o2)
+       {
+          //暂时备份一下 字符串
+          String s1 = (String)o1;
+          String s2 = (String)o2;
+          //获取字符串的长度
+          int len1 = s1.length();
+          int len2 = s2.length();
+          //获取最小值
+          int n = Math.min(len1, len2);
+          //转化为字符数组
+          char[] v1 = s1.toCharArray();
+          char[] v2 = s2.toCharArray();
+
+          //设置位置参数
+          int pos = 0;
+
+          //从未到头  按照index下表从头到尾进行判断
+          while(n-- != 0)
+          {
+              char c1 = v1[pos];
+              char c2 = v2[pos];
+              if(c1 != c2)
+              {
+                 return c1 - c2;
+              }
+              pos++;
+          }
+          return len1-len2; //相反则是反序 降序
+       }
+       //用于比较整数
+       public int compare(Integer o1, Integer o2)
+       {
+          int val1 = o1.intValue();
+          int val2 = o2.intValue();
+          //return (val1 &lt; val2 ? -1 :(val1 == val2 ? 0 : 1));
+</code></pre>
+
+<p>//            return (val1 > val2 ? 1 :(val1 == val2 ? 0 : -1));</p>
+
+<pre><code>          //升序
+          //return (val2 &gt; val1 ? -1 :(val1 == val2 ? 0 : 1));
+          //降序
+          return (val2 &gt; val1 ? 1 :(val1 == val2 ? 0 : -1));
+       }
+       //用于比较布尔值
+       public int compare(Boolean o1,Boolean o2)
+       {
+          return (o1.equals(o2)? 0: (o1.booleanValue()==true)?1:-1);
+       }
+
+       public int compare(final Person o1, final Person o2)
+       {
+          String Name1 = o1.getName();
+          String Name2 = o2.getName();
+          int Age1 = o1.getAge();
+          int Age2 = o2.getAge();
+          Boolean sex1 = o1.getSex();
+          Boolean sex2 = o2.getSex();
+          /*//第一次 线比较年龄
+          return (compare(Age1,Age2)==0?
+                 //第二次比较名字
+                 (compare(Name1,Name2)==0?
+                        //第三次比较性别
+                        (compare(sex1,sex2)==0? 0 :compare(sex1,sex2)):
+                            compare(Name1,Name2)):
+                               compare(Age1,Age2));*/
+          //第一次  比较年龄
+          return (compare(Name1,Name2)==0?
+                 //第二次比较 岁数
+                 (compare(Age1,Age2)==0?
+                        //第三次比较岁数
+                        (compare(sex1,sex2)==0?0:compare(sex1,sex2)):
+                            compare(Age1,Age2)):
+                               compare(Name1,Name2));
+
+       }
+   };
+}
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<p>并在TreeSet定义对象时候，采用如下方式：
+  ```java
+//TreeSet<Person> ts2 = new TreeSet<Person>(); //找到解决办法了</p>
+
+<pre><code>   TreeSet&lt;Person&gt; ts2 = new TreeSet&lt;Person&gt;(new Comparators().getComparator());
+</code></pre>
+
+<p>```</p>
+
+<p>比较之前的
+  <code>java
+TreeSet&lt;Person1&gt; ts1 = new TreeSet&lt;Person1&gt;();
+</code></p>
+
+<p>另外此种方法也运用在Arrays.Sort当中：其中pdian 是一个person的数组
+  ```java
+Person[] pdian = new Person[]</p>
+
+<pre><code>          {
+              new Person("yezhao",34,Boolean.TRUE),
+              new Person("xinran",10,Boolean.FALSE),
+              new Person("zhaoliang",33,Boolean.TRUE),
+              new Person("zhaidc",30,Boolean.FALSE),
+              new Person("zhaidc",31,Boolean.FALSE),
+          };
+</code></pre>
+
+<p>Arrays.sort(pdian, new Comparators().getComparator());</p>
+
+<p>```</p>
+
+<p>另外的可以通过匿名类来实现：
+  ```java
+Arrays.sort(pdian, new Comparator<Object>()</p>
+
+<pre><code>   {
+       // 0 表示  o1  o2相等
+       // 负数 表示  o1 &lt; o2
+       // 整数 表示  o1 &gt; o2
+       @Override
+       public int compare(Object o1, Object o2)
+       {
+          if(o1 instanceof String)
+          {
+              //字符串的比较
+              return compare((String) o1,(String) o2);
+          }else if(o1 instanceof Integer)
+          {
+              //整数的比较
+              return compare((Integer) o1,(Integer) o2);
+          }else if(o1 instanceof Boolean)
+          {
+              //布尔类型的比较
+              return compare((Boolean) o1,(Boolean) o2);
+          }else if(o1 instanceof PersonMan)
+          {
+              //布尔类型的比较
+              return compare((PersonMan) o1,(PersonMan) o2);
+          }else
+          {
+              System.out.println("未找到合适的比较器  ");
+              return 1; //默认大于0
+          }
+       }
+       //用于比较字符串
+       public int compare(String o1, String o2)
+       {
+          //暂时备份一下 字符串
+          String s1 = (String)o1;
+          String s2 = (String)o2;
+          //获取字符串的长度
+          int len1 = s1.length();
+          int len2 = s2.length();
+          //获取最小值
+          int n = Math.min(len1, len2);
+          //转化为字符数组
+          char[] v1 = s1.toCharArray();
+          char[] v2 = s2.toCharArray();
+
+          //设置位置参数
+          int pos = 0;
+
+          //从未到头  按照index下表从头到尾进行判断
+          while(n-- != 0)
+          {
+              char c1 = v1[pos];
+              char c2 = v2[pos];
+              if(c1 != c2)
+              {
+                 return c1 - c2;
+              }
+              pos++;
+          }
+          return len1-len2; //相反则是反序 降序
+       }
+       //用于比较整数
+       public int compare(Integer o1, Integer o2)
+       {
+          int val1 = o1.intValue();
+          int val2 = o2.intValue();
+          //return (val1 &lt; val2 ? -1 :(val1 == val2 ? 0 : 1));
+</code></pre>
+
+<p>//                       return (val1 > val2 ? 1 :(val1 == val2 ? 0 : -1));</p>
+
+<pre><code>          //升序
+          //return (val2 &gt; val1 ? -1 :(val1 == val2 ? 0 : 1));
+          //降序
+          return (val2 &gt; val1 ? -1 :(val1 == val2 ? 0 : 1));
+       }
+       //用于比较布尔值
+       public int compare(Boolean o1,Boolean o2)
+       {
+          return (o1.equals(o2)? 0: (o1.booleanValue()==true)?1:-1);
+       }
+
+       public int compare(final PersonMan o1, final PersonMan o2)
+       {
+          String Name1 = o1.getName();
+          String Name2 = o2.getName();
+          int Age1 = o1.getAge();
+          int Age2 = o2.getAge();
+          Boolean sex1 = o1.getSex();
+          Boolean sex2 = o2.getSex();
+          /*//第一次 线比较年龄
+          return (compare(Age1,Age2)==0?
+                 //第二次比较名字
+                 (compare(Name1,Name2)==0?
+                        //第三次比较性别
+                        (compare(sex1,sex2)==0? 0 :compare(sex1,sex2)):
+                            compare(Name1,Name2)):
+                               compare(Age1,Age2));*/
+          //第一次  比较年龄
+          return (compare(Name1,Name2)==0?
+                 //第二次比较 岁数
+                 (compare(Age1,Age2)==0?
+                        //第三次比较岁数
+                        (compare(sex1,sex2)==0?0:compare(sex1,sex2)):
+                            compare(Age1,Age2)):
+                               compare(Name1,Name2));
+
+       }
+   });
+</code></pre>
+
+<p>  ```</p>
+
+<p>LinkedHashSet:
+本质：链表+ 有序
+优点：增加和删除
+缺点：查找（获取）
+Linkedlist也是有序但是可重复
+LinkedHashSet 不可重复！
+hashSet的高效率，但是无须！
+LinkedHashSet可以当做HashSet来使用</p>
+
+<p>Map集合基本操作：</p>
+
+<p>l   添加</p>
+
+<p>V         put(K key, V value)  //把一个键值对存入map集合中</p>
+
+<p>void    putAll(Map&lt;? extends K,? extends V> m) //把一组键值对存入到map集合中</p>
+
+<p>l   删除</p>
+
+<p>V         remove(Object key)  //删除key为指定对象的键值对</p>
+
+<p>void    clear()    //情况map中的所有元素</p>
+
+<p>l   判断</p>
+
+<p>boolean     containsKey(Object key)  //判断是否包含key为指定对象的键值对</p>
+
+<p>boolean     containsValue(Object value) //判断是否包含value为指定对象的元素</p>
+
+<p>boolean     isEmpty() //判断map集合是否包含元素</p>
+
+<p>l   获取</p>
+
+<p>   V                                        get(Object key) //获得指定key对应的value</p>
+
+<p>Set<K>                              keySet() //获得所有key组成的Set集合</p>
+
+<p>Collection<V>                   values()  //获得所有value组成的Set集合</p>
+
+<p>   Set&lt;Map.Entry&lt;K,V>>     entrySet() //获得所有键值对对象组成的Set集合</p>
+
+<p>int                                     size()  //获得map集合的大小(存了多少元素)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[挺有意思的一个bug，return解决问题]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/05/11/ting-you-yi-si-de-%5B%3F%5D-ge-bug%2Creturnjie-jue-wen-ti/"/>
+    <updated>2015-05-11T14:58:46+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/05/11/ting-you-yi-si-de-[?]-ge-bug,returnjie-jue-wen-ti</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<p>相信大家都写过省市联动选择的case，可是我写了一个版本却是bug不断，调了一个多小时，暂时未解，经杨老师指点知道问题所在，另外我写了另外一个版本的实现。目的是：当市发生变化的时候，可以把信息贴到一个标签上。</p>
+
+<p>下面是一个暂时无bug的代码（其中红色是杨老师增加的调试语句）//如果去掉下面的return语句bug就出现了,bug是直接退出。
+<code>java
+if(apple &lt; 0)
+{
+System.out.println("nothing in the city");
+return;  //不能删掉
+}
+</code>
+分析一下问题所在：
+界面很简单： 1个省的控件   另一个市的控件， 当切换省的时候，对应的市也改变过来，同时选择一个城市会显示出省市的信息到标签上。为此，设置了两个时间  cmbProvince有一个事件 用于增加市的内容</p>
+
+<pre><code>                              cmbCity       这个事件用于显示省市信息的内容到标签上
+</code></pre>
+
+<p>然而就这个简单的程序当时却没有想到 GTK.gtk_combo_box_text_remove_all(cmbCity)的函数可能会促发GTK.g_signal_connect(cmbCity, &ldquo;changed&rdquo;, new IGCallBack()的执行，但是此时cmbCity没有任何的内容，还读取，null就来了，所以加入了一个return语句，来避免这种碰瓷的现象。
+return如果一去除 就又出现问题，因为cmbCity其实没有内容，但是还在促发获取内容的事件。 而return 会导致cmbCity处于待命状态，或者是hold状态（这边我解释得不科学，但是基本可以明白） 当全部删除了，直接返回，然后就可以了不让他去促发cmbCity的改变事件，同时回到cmbProvince的事件（这个会到的过程是我猜测，不知道是否有理？ 因为我想到可能类似于入栈出栈的过程和递归的过程），然后继续往下执行，添加控件。</p>
+
+<p>学习：
+1：第一次使用   窗口&mdash;>复位透视图 进行调试
+2：第一次使用   if(?== null) return  等语句进行debug
+总结：
+事件的调用过程一定得自习思考，可能发生的冲突过程。
+```java
+import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;
+/<em>*
+*
+</em>/</p>
+
+<p>/<em>*
+* @author 叶昭良
+* @version 省市联轴器 V1.0
+*
+</em>/
+public class ProvincedSelect
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    static int window;
+    static int gridHouse;
+    static int cmbProvince;
+    static int cmbCity;
+    static int labelShow;
+    public static void main(String[] args)
+    {
+            // TODO 自动生成的方法存根
+            //初始化
+            GTK.gtk_init();
+            //建立窗口
+            window = GTK.gtk_window_new(GTK.GTK_WINDOW_TOPLEVEL);
+            //显示窗口
+            GTK.gtk_widget_show(window);
+            // 安静关闭
+            GTK.g_signal_connect(window, "destroy", new IGCallBack()
+            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            GTK.gtk_main_quit();
+                    }
+
+            }, null);
+            //布局设置
+            gridHouse = GTK.gtk_grid_new();                        
+            GTK.gtk_widget_show(gridHouse);        
+            //包含整租房
+            GTK.gtk_container_add(window, gridHouse);
+            //创建控件
+            //
+            labelShow = GTK.gtk_label_new("");
+            cmbProvince = GTK.gtk_combo_box_text_new();
+            cmbCity     = GTK.gtk_combo_box_text_new();
+
+
+            int start =  0;
+            //添加控件
+            GTK.gtk_grid_attach(gridHouse, cmbProvince, 0, start, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, cmbCity, 0,start+1, 1, 1);
+            GTK.gtk_grid_attach(gridHouse, labelShow, 1,start+2, 1, 1);
+
+            //显示控件
+
+            GTK.gtk_widget_show(cmbProvince);
+            GTK.gtk_widget_show(cmbCity);
+            GTK.gtk_widget_show(labelShow);
+            createProvince(window);
+
+
+
+            //启动循环
+            GTK.gtk_main();
+
+    }
+
+    public static void createProvince(int window)
+    {
+
+
+            GTK.gtk_combo_box_text_append(cmbProvince, "fj", "福建");
+            GTK.gtk_combo_box_text_append(cmbProvince, "bj", "北京");
+            GTK.gtk_combo_box_text_append(cmbProvince, "sh", "上海");
+            GTK.gtk_combo_box_text_append(cmbProvince, "hn", "河南");
+            GTK.gtk_combo_box_text_append(cmbProvince, "hb", "河北");
+            GTK.gtk_combo_box_text_append(cmbProvince, "sd","山东");
+
+            GTK.gtk_combo_box_set_active_id(cmbProvince, "bj");
+</code></pre>
+
+<p>//添加事件</p>
+
+<pre><code>            GTK.g_signal_connect(cmbProvince, "changed", new IGCallBack() 
+            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+
+                            String province  =  GTK.gtk_combo_box_get_active_id(cmbProvince);
+</code></pre>
+
+<p><font color="#ff0000">                                if(province==null)return;</font></p>
+
+<pre><code>                            System.out.println(province);
+                            GTK.gtk_combo_box_text_remove_all(cmbCity); //删除所有项
+                            //GTK.gtk_combo_box_text_remove_all(cmbCity); //删除所有项
+                            if(province.equals("fj"))
+                            {
+
+                                    GTK.gtk_combo_box_text_append(cmbCity, "zhz", "漳州");
+                                    GTK.gtk_combo_box_text_append(cmbCity, "xm", "厦门");
+                                    GTK.gtk_combo_box_text_append(cmbCity, "fz", "福州");
+                                    GTK.gtk_combo_box_text_append(cmbCity, "qz", "泉州");
+
+                            }else if(province.equals("bj"))
+                            {
+                                    GTK.gtk_combo_box_text_append(cmbCity, "cp", "昌平区");
+                                    GTK.gtk_combo_box_text_append(cmbCity, "hd", "海淀区");
+                                    GTK.gtk_combo_box_text_append(cmbCity, "tz", "通州区");
+                                    GTK.gtk_combo_box_text_append(cmbCity, "cy", "朝阳区");
+                            }else if(province.equals("hn"))
+                            {
+                           GTK.gtk_combo_box_text_append(cmbCity, "zz", "郑州");
+                           GTK.gtk_combo_box_text_append(cmbCity, "zmd", "驻马店");
+                           GTK.gtk_combo_box_text_append(cmbCity, "ny", "南阳");
+                            }else if(province.equals("hb"))
+                            {
+                           GTK.gtk_combo_box_text_append(cmbCity, "sjz", "石家庄");
+                           GTK.gtk_combo_box_text_append(cmbCity, "ts", "唐山");
+                           GTK.gtk_combo_box_text_append(cmbCity, "qhd", "秦皇岛");
+                            }else if(province.equals("sd"))
+                            {
+                               GTK.gtk_combo_box_text_append(cmbCity, "jn", "济南");
+                           GTK.gtk_combo_box_text_append(cmbCity, "qd", "青岛");
+                           GTK.gtk_combo_box_text_append(cmbCity, "yt", "烟台");
+                            }
+                    }        
+            }, null);
+
+            //原来remove之后 也是会促发cmbCity的 信号  而导致改变 ，根源在于这个
+            GTK.g_signal_connect(cmbCity, "changed", new IGCallBack()
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                             String tempProvince = GTK.gtk_combo_box_text_get_active_text(cmbProvince);
+</code></pre>
+
+<p><font color="#ff0000">                                int  apple  = GTK.gtk_combo_box_get_active(cmbCity);</p>
+
+<pre><code>                            if(apple &lt; 0)
+                            {
+                                    System.out.println("nothing in the city");
+                                    return;  //不能删掉
+                            }&lt;/font&gt;
+
+                            String tempCity = GTK.gtk_combo_box_text_get_active_text(cmbCity);
+</code></pre>
+
+<p><font color="#ff0000">                                if(tempProvince==null||tempCity==null)return;</font></p>
+
+<pre><code>                            //GTK.gtk_label_set_text(labelShow, "你准备去"+tempProvince+tempCity);
+                            GTK.gtk_label_set_text(labelShow,tempProvince+tempCity);
+                            System.out.println(tempProvince);
+                            System.out.println(tempCity);
+
+                    }
+            }, null);
+
+
+    }
+</code></pre>
+
+<p>}
+```
+我也是第一次 使用  窗口&mdash;&mdash;>复位透视图</p>
+]]></content>
+  </entry>
+  
+</feed>

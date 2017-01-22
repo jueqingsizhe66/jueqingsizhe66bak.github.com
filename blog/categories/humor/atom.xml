@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Humor | 网络书屋(Web Reading Room)]]></title>
+  <link href="http://jueqingsizhe66.github.io/blog/categories/humor/atom.xml" rel="self"/>
+  <link href="http://jueqingsizhe66.github.io/"/>
+  <updated>2017-01-22T12:24:26+08:00</updated>
+  <id>http://jueqingsizhe66.github.io/</id>
+  <author>
+    <name><![CDATA[Ye Zhaoliang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Funny Jokes]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2014/03/06/funny-jokes/"/>
+    <updated>2014-03-06T11:09:03+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2014/03/06/funny-jokes</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<p><img src="/images/limits.gif" alt="jokes" /></p>
+]]></content>
+  </entry>
+  
+</feed>

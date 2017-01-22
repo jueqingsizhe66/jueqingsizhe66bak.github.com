@@ -1,0 +1,1958 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>简易的代码运行模拟窗口 - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="有时候，可能需要做一个动态的代码演示的窗口，当然用ppt也可以做，用其他的相关软件也可以做。然而自己写代码也是可以的。相信大家在听杨老师讲解treeview的时候，老杨秀的代码分析小程序，凭着印象，自己也琢磨着写了这一个简易的代码运行模拟窗口。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2015/05/11/jian-yi-de-dai-ma-yun-xing-mo-ni-chuang-kou">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">简易的代码运行模拟窗口</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:46+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p> 有时候，可能需要做一个动态的代码演示的窗口，当然用ppt也可以做，用其他的相关软件也可以做。然而自己写代码也是可以的。相信大家在听杨老师讲解treeview的时候，老杨秀的代码分析小程序，凭着印象，自己也琢磨着写了这一个简易的代码运行模拟窗口。代码涉及到的主要是treeview和textview以及按钮事件控制，另外加上cairo的画图处理，当然也可以直接利用GtkImage载入图片（可能需要隐藏控件，达到箭头下移的目的）
+这边的缺点是，暂时不知道怎么销毁掉Cairo之前绘制的图形，其他还有很多缺点.</p>
+
+<!--more-->
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+<span class='line-number'>201</span>
+<span class='line-number'>202</span>
+<span class='line-number'>203</span>
+<span class='line-number'>204</span>
+<span class='line-number'>205</span>
+<span class='line-number'>206</span>
+<span class='line-number'>207</span>
+<span class='line-number'>208</span>
+<span class='line-number'>209</span>
+<span class='line-number'>210</span>
+<span class='line-number'>211</span>
+<span class='line-number'>212</span>
+<span class='line-number'>213</span>
+<span class='line-number'>214</span>
+<span class='line-number'>215</span>
+<span class='line-number'>216</span>
+<span class='line-number'>217</span>
+<span class='line-number'>218</span>
+<span class='line-number'>219</span>
+<span class='line-number'>220</span>
+<span class='line-number'>221</span>
+<span class='line-number'>222</span>
+<span class='line-number'>223</span>
+<span class='line-number'>224</span>
+<span class='line-number'>225</span>
+<span class='line-number'>226</span>
+<span class='line-number'>227</span>
+<span class='line-number'>228</span>
+<span class='line-number'>229</span>
+<span class='line-number'>230</span>
+<span class='line-number'>231</span>
+<span class='line-number'>232</span>
+<span class='line-number'>233</span>
+<span class='line-number'>234</span>
+<span class='line-number'>235</span>
+<span class='line-number'>236</span>
+<span class='line-number'>237</span>
+<span class='line-number'>238</span>
+<span class='line-number'>239</span>
+<span class='line-number'>240</span>
+<span class='line-number'>241</span>
+<span class='line-number'>242</span>
+<span class='line-number'>243</span>
+<span class='line-number'>244</span>
+<span class='line-number'>245</span>
+<span class='line-number'>246</span>
+<span class='line-number'>247</span>
+<span class='line-number'>248</span>
+<span class='line-number'>249</span>
+<span class='line-number'>250</span>
+<span class='line-number'>251</span>
+<span class='line-number'>252</span>
+<span class='line-number'>253</span>
+<span class='line-number'>254</span>
+<span class='line-number'>255</span>
+<span class='line-number'>256</span>
+<span class='line-number'>257</span>
+<span class='line-number'>258</span>
+<span class='line-number'>259</span>
+<span class='line-number'>260</span>
+<span class='line-number'>261</span>
+<span class='line-number'>262</span>
+<span class='line-number'>263</span>
+<span class='line-number'>264</span>
+<span class='line-number'>265</span>
+<span class='line-number'>266</span>
+<span class='line-number'>267</span>
+<span class='line-number'>268</span>
+<span class='line-number'>269</span>
+<span class='line-number'>270</span>
+<span class='line-number'>271</span>
+<span class='line-number'>272</span>
+<span class='line-number'>273</span>
+<span class='line-number'>274</span>
+<span class='line-number'>275</span>
+<span class='line-number'>276</span>
+<span class='line-number'>277</span>
+<span class='line-number'>278</span>
+<span class='line-number'>279</span>
+<span class='line-number'>280</span>
+<span class='line-number'>281</span>
+<span class='line-number'>282</span>
+<span class='line-number'>283</span>
+<span class='line-number'>284</span>
+<span class='line-number'>285</span>
+<span class='line-number'>286</span>
+<span class='line-number'>287</span>
+<span class='line-number'>288</span>
+<span class='line-number'>289</span>
+<span class='line-number'>290</span>
+<span class='line-number'>291</span>
+<span class='line-number'>292</span>
+<span class='line-number'>293</span>
+<span class='line-number'>294</span>
+<span class='line-number'>295</span>
+<span class='line-number'>296</span>
+<span class='line-number'>297</span>
+<span class='line-number'>298</span>
+<span class='line-number'>299</span>
+<span class='line-number'>300</span>
+<span class='line-number'>301</span>
+<span class='line-number'>302</span>
+<span class='line-number'>303</span>
+<span class='line-number'>304</span>
+<span class='line-number'>305</span>
+<span class='line-number'>306</span>
+<span class='line-number'>307</span>
+<span class='line-number'>308</span>
+<span class='line-number'>309</span>
+<span class='line-number'>310</span>
+<span class='line-number'>311</span>
+<span class='line-number'>312</span>
+<span class='line-number'>313</span>
+<span class='line-number'>314</span>
+<span class='line-number'>315</span>
+<span class='line-number'>316</span>
+<span class='line-number'>317</span>
+<span class='line-number'>318</span>
+<span class='line-number'>319</span>
+<span class='line-number'>320</span>
+<span class='line-number'>321</span>
+<span class='line-number'>322</span>
+<span class='line-number'>323</span>
+<span class='line-number'>324</span>
+<span class='line-number'>325</span>
+<span class='line-number'>326</span>
+<span class='line-number'>327</span>
+<span class='line-number'>328</span>
+<span class='line-number'>329</span>
+<span class='line-number'>330</span>
+<span class='line-number'>331</span>
+<span class='line-number'>332</span>
+<span class='line-number'>333</span>
+<span class='line-number'>334</span>
+<span class='line-number'>335</span>
+<span class='line-number'>336</span>
+<span class='line-number'>337</span>
+<span class='line-number'>338</span>
+<span class='line-number'>339</span>
+<span class='line-number'>340</span>
+<span class='line-number'>341</span>
+<span class='line-number'>342</span>
+<span class='line-number'>343</span>
+<span class='line-number'>344</span>
+<span class='line-number'>345</span>
+<span class='line-number'>346</span>
+<span class='line-number'>347</span>
+<span class='line-number'>348</span>
+<span class='line-number'>349</span>
+<span class='line-number'>350</span>
+<span class='line-number'>351</span>
+<span class='line-number'>352</span>
+<span class='line-number'>353</span>
+<span class='line-number'>354</span>
+<span class='line-number'>355</span>
+<span class='line-number'>356</span>
+<span class='line-number'>357</span>
+<span class='line-number'>358</span>
+<span class='line-number'>359</span>
+<span class='line-number'>360</span>
+<span class='line-number'>361</span>
+<span class='line-number'>362</span>
+<span class='line-number'>363</span>
+<span class='line-number'>364</span>
+<span class='line-number'>365</span>
+<span class='line-number'>366</span>
+<span class='line-number'>367</span>
+<span class='line-number'>368</span>
+<span class='line-number'>369</span>
+<span class='line-number'>370</span>
+<span class='line-number'>371</span>
+<span class='line-number'>372</span>
+<span class='line-number'>373</span>
+<span class='line-number'>374</span>
+<span class='line-number'>375</span>
+<span class='line-number'>376</span>
+<span class='line-number'>377</span>
+<span class='line-number'>378</span>
+<span class='line-number'>379</span>
+<span class='line-number'>380</span>
+<span class='line-number'>381</span>
+<span class='line-number'>382</span>
+<span class='line-number'>383</span>
+<span class='line-number'>384</span>
+<span class='line-number'>385</span>
+<span class='line-number'>386</span>
+<span class='line-number'>387</span>
+<span class='line-number'>388</span>
+<span class='line-number'>389</span>
+<span class='line-number'>390</span>
+<span class='line-number'>391</span>
+<span class='line-number'>392</span>
+<span class='line-number'>393</span>
+<span class='line-number'>394</span>
+<span class='line-number'>395</span>
+<span class='line-number'>396</span>
+<span class='line-number'>397</span>
+<span class='line-number'>398</span>
+<span class='line-number'>399</span>
+<span class='line-number'>400</span>
+<span class='line-number'>401</span>
+<span class='line-number'>402</span>
+<span class='line-number'>403</span>
+<span class='line-number'>404</span>
+<span class='line-number'>405</span>
+<span class='line-number'>406</span>
+<span class='line-number'>407</span>
+<span class='line-number'>408</span>
+<span class='line-number'>409</span>
+<span class='line-number'>410</span>
+<span class='line-number'>411</span>
+<span class='line-number'>412</span>
+<span class='line-number'>413</span>
+<span class='line-number'>414</span>
+<span class='line-number'>415</span>
+<span class='line-number'>416</span>
+<span class='line-number'>417</span>
+<span class='line-number'>418</span>
+<span class='line-number'>419</span>
+<span class='line-number'>420</span>
+<span class='line-number'>421</span>
+<span class='line-number'>422</span>
+<span class='line-number'>423</span>
+<span class='line-number'>424</span>
+<span class='line-number'>425</span>
+<span class='line-number'>426</span>
+<span class='line-number'>427</span>
+<span class='line-number'>428</span>
+<span class='line-number'>429</span>
+<span class='line-number'>430</span>
+<span class='line-number'>431</span>
+<span class='line-number'>432</span>
+<span class='line-number'>433</span>
+<span class='line-number'>434</span>
+<span class='line-number'>435</span>
+<span class='line-number'>436</span>
+<span class='line-number'>437</span>
+<span class='line-number'>438</span>
+<span class='line-number'>439</span>
+<span class='line-number'>440</span>
+<span class='line-number'>441</span>
+<span class='line-number'>442</span>
+<span class='line-number'>443</span>
+<span class='line-number'>444</span>
+<span class='line-number'>445</span>
+<span class='line-number'>446</span>
+<span class='line-number'>447</span>
+<span class='line-number'>448</span>
+<span class='line-number'>449</span>
+<span class='line-number'>450</span>
+<span class='line-number'>451</span>
+<span class='line-number'>452</span>
+<span class='line-number'>453</span>
+<span class='line-number'>454</span>
+<span class='line-number'>455</span>
+<span class='line-number'>456</span>
+<span class='line-number'>457</span>
+<span class='line-number'>458</span>
+<span class='line-number'>459</span>
+<span class='line-number'>460</span>
+<span class='line-number'>461</span>
+<span class='line-number'>462</span>
+<span class='line-number'>463</span>
+<span class='line-number'>464</span>
+<span class='line-number'>465</span>
+<span class='line-number'>466</span>
+<span class='line-number'>467</span>
+<span class='line-number'>468</span>
+<span class='line-number'>469</span>
+<span class='line-number'>470</span>
+<span class='line-number'>471</span>
+<span class='line-number'>472</span>
+<span class='line-number'>473</span>
+<span class='line-number'>474</span>
+<span class='line-number'>475</span>
+<span class='line-number'>476</span>
+<span class='line-number'>477</span>
+<span class='line-number'>478</span>
+<span class='line-number'>479</span>
+<span class='line-number'>480</span>
+<span class='line-number'>481</span>
+<span class='line-number'>482</span>
+<span class='line-number'>483</span>
+<span class='line-number'>484</span>
+<span class='line-number'>485</span>
+<span class='line-number'>486</span>
+<span class='line-number'>487</span>
+<span class='line-number'>488</span>
+<span class='line-number'>489</span>
+<span class='line-number'>490</span>
+<span class='line-number'>491</span>
+<span class='line-number'>492</span>
+<span class='line-number'>493</span>
+<span class='line-number'>494</span>
+<span class='line-number'>495</span>
+<span class='line-number'>496</span>
+<span class='line-number'>497</span>
+<span class='line-number'>498</span>
+<span class='line-number'>499</span>
+<span class='line-number'>500</span>
+<span class='line-number'>501</span>
+<span class='line-number'>502</span>
+<span class='line-number'>503</span>
+<span class='line-number'>504</span>
+<span class='line-number'>505</span>
+<span class='line-number'>506</span>
+<span class='line-number'>507</span>
+<span class='line-number'>508</span>
+<span class='line-number'>509</span>
+<span class='line-number'>510</span>
+<span class='line-number'>511</span>
+<span class='line-number'>512</span>
+<span class='line-number'>513</span>
+<span class='line-number'>514</span>
+<span class='line-number'>515</span>
+<span class='line-number'>516</span>
+<span class='line-number'>517</span>
+<span class='line-number'>518</span>
+<span class='line-number'>519</span>
+<span class='line-number'>520</span>
+<span class='line-number'>521</span>
+<span class='line-number'>522</span>
+<span class='line-number'>523</span>
+<span class='line-number'>524</span>
+<span class='line-number'>525</span>
+<span class='line-number'>526</span>
+<span class='line-number'>527</span>
+<span class='line-number'>528</span>
+<span class='line-number'>529</span>
+<span class='line-number'>530</span>
+<span class='line-number'>531</span>
+<span class='line-number'>532</span>
+<span class='line-number'>533</span>
+<span class='line-number'>534</span>
+<span class='line-number'>535</span>
+<span class='line-number'>536</span>
+<span class='line-number'>537</span>
+<span class='line-number'>538</span>
+<span class='line-number'>539</span>
+<span class='line-number'>540</span>
+<span class='line-number'>541</span>
+<span class='line-number'>542</span>
+<span class='line-number'>543</span>
+<span class='line-number'>544</span>
+<span class='line-number'>545</span>
+<span class='line-number'>546</span>
+<span class='line-number'>547</span>
+<span class='line-number'>548</span>
+<span class='line-number'>549</span>
+<span class='line-number'>550</span>
+<span class='line-number'>551</span>
+<span class='line-number'>552</span>
+<span class='line-number'>553</span>
+<span class='line-number'>554</span>
+<span class='line-number'>555</span>
+<span class='line-number'>556</span>
+<span class='line-number'>557</span>
+<span class='line-number'>558</span>
+<span class='line-number'>559</span>
+<span class='line-number'>560</span>
+<span class='line-number'>561</span>
+<span class='line-number'>562</span>
+<span class='line-number'>563</span>
+<span class='line-number'>564</span>
+<span class='line-number'>565</span>
+<span class='line-number'>566</span>
+<span class='line-number'>567</span>
+<span class='line-number'>568</span>
+<span class='line-number'>569</span>
+<span class='line-number'>570</span>
+<span class='line-number'>571</span>
+<span class='line-number'>572</span>
+<span class='line-number'>573</span>
+<span class='line-number'>574</span>
+<span class='line-number'>575</span>
+<span class='line-number'>576</span>
+<span class='line-number'>577</span>
+<span class='line-number'>578</span>
+<span class='line-number'>579</span>
+<span class='line-number'>580</span>
+<span class='line-number'>581</span>
+<span class='line-number'>582</span>
+<span class='line-number'>583</span>
+<span class='line-number'>584</span>
+<span class='line-number'>585</span>
+<span class='line-number'>586</span>
+<span class='line-number'>587</span>
+<span class='line-number'>588</span>
+<span class='line-number'>589</span>
+<span class='line-number'>590</span>
+<span class='line-number'>591</span>
+<span class='line-number'>592</span>
+<span class='line-number'>593</span>
+<span class='line-number'>594</span>
+<span class='line-number'>595</span>
+<span class='line-number'>596</span>
+<span class='line-number'>597</span>
+<span class='line-number'>598</span>
+<span class='line-number'>599</span>
+<span class='line-number'>600</span>
+<span class='line-number'>601</span>
+<span class='line-number'>602</span>
+<span class='line-number'>603</span>
+<span class='line-number'>604</span>
+<span class='line-number'>605</span>
+<span class='line-number'>606</span>
+<span class='line-number'>607</span>
+<span class='line-number'>608</span>
+<span class='line-number'>609</span>
+<span class='line-number'>610</span>
+<span class='line-number'>611</span>
+<span class='line-number'>612</span>
+<span class='line-number'>613</span>
+<span class='line-number'>614</span>
+<span class='line-number'>615</span>
+<span class='line-number'>616</span>
+<span class='line-number'>617</span>
+<span class='line-number'>618</span>
+<span class='line-number'>619</span>
+<span class='line-number'>620</span>
+<span class='line-number'>621</span>
+<span class='line-number'>622</span>
+<span class='line-number'>623</span>
+<span class='line-number'>624</span>
+<span class='line-number'>625</span>
+<span class='line-number'>626</span>
+<span class='line-number'>627</span>
+<span class='line-number'>628</span>
+<span class='line-number'>629</span>
+<span class='line-number'>630</span>
+<span class='line-number'>631</span>
+<span class='line-number'>632</span>
+<span class='line-number'>633</span>
+<span class='line-number'>634</span>
+<span class='line-number'>635</span>
+<span class='line-number'>636</span>
+<span class='line-number'>637</span>
+<span class='line-number'>638</span>
+<span class='line-number'>639</span>
+<span class='line-number'>640</span>
+<span class='line-number'>641</span>
+<span class='line-number'>642</span>
+<span class='line-number'>643</span>
+<span class='line-number'>644</span>
+<span class='line-number'>645</span>
+<span class='line-number'>646</span>
+<span class='line-number'>647</span>
+<span class='line-number'>648</span>
+<span class='line-number'>649</span>
+<span class='line-number'>650</span>
+<span class='line-number'>651</span>
+<span class='line-number'>652</span>
+<span class='line-number'>653</span>
+<span class='line-number'>654</span>
+<span class='line-number'>655</span>
+<span class='line-number'>656</span>
+<span class='line-number'>657</span>
+<span class='line-number'>658</span>
+<span class='line-number'>659</span>
+<span class='line-number'>660</span>
+<span class='line-number'>661</span>
+<span class='line-number'>662</span>
+<span class='line-number'>663</span>
+<span class='line-number'>664</span>
+<span class='line-number'>665</span>
+<span class='line-number'>666</span>
+<span class='line-number'>667</span>
+<span class='line-number'>668</span>
+<span class='line-number'>669</span>
+<span class='line-number'>670</span>
+<span class='line-number'>671</span>
+<span class='line-number'>672</span>
+<span class='line-number'>673</span>
+<span class='line-number'>674</span>
+<span class='line-number'>675</span>
+<span class='line-number'>676</span>
+<span class='line-number'>677</span>
+<span class='line-number'>678</span>
+<span class='line-number'>679</span>
+<span class='line-number'>680</span>
+<span class='line-number'>681</span>
+<span class='line-number'>682</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">com.rupeng.gtk4j.Cairo</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">com.rupeng.gtk4j.GTK</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">com.rupeng.gtk4j.IGCallBack</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm">* @author    叶昭良</span>
+</span><span class='line'><span class="cm">* @time      2015年2月3日上午10:24:23</span>
+</span><span class='line'><span class="cm">* @version   TestTeacher V1.0   一个简易的代码运行模拟窗口，未加入代码的高亮，采用图片控制</span>
+</span><span class='line'><span class="cm">*                               主要采用textview  treeview    cairo三个技术关键点</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestTeacher</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * @param args</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="c1">//部分类变量的定义</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">window</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">gridHouse</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">liststore</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">listiter</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">treeViewApple</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">imagePosition</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">rowPosition</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>        <span class="c1">//static int dan ;</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">circlePointx</span> <span class="o">=</span> <span class="mi">200</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">circlePointy</span> <span class="o">=</span> <span class="mi">45</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">circleRectangex</span> <span class="o">=</span> <span class="mi">200</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">circleRectangey</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">EndCirclex</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">EndCircley</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="n">String</span> <span class="n">note</span> <span class="o">=</span> <span class="s">&quot;指针下移&quot;</span><span class="o">;</span>
+</span><span class='line'>        <span class="kd">static</span> <span class="kt">int</span> <span class="n">labelResult</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">//static String loveWords;</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="c1">// TODO Auto-generated method stub</span>
+</span><span class='line'>                <span class="c1">//GTK初始化</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_init</span><span class="o">();</span>
+</span><span class='line'>                <span class="c1">//窗口对象标识的创建</span>
+</span><span class='line'>                <span class="n">window</span><span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_window_new</span><span class="o">(</span><span class="n">GTK</span><span class="o">.</span><span class="na">GTK_WINDOW_TOPLEVEL</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">//显示窗口</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">window</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">//安静关闭窗口</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">g_signal_connect</span><span class="o">(</span><span class="n">window</span><span class="o">,</span> <span class="s">&quot;destroy&quot;</span><span class="o">,</span> <span class="k">new</span> <span class="n">IGCallBack</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>                        <span class="nd">@Override</span>
+</span><span class='line'>                        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="kt">int</span> <span class="n">instance</span><span class="o">,</span> <span class="kt">int</span> <span class="n">eventData</span><span class="o">,</span> <span class="n">Object</span> <span class="n">object</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="c1">// TODO Auto-generated method stub</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_main_quit</span><span class="o">();</span>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                <span class="o">},</span> <span class="kc">null</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//设置网格布局</span>
+</span><span class='line'>                <span class="n">gridHouse</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_new</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">//添加网格布局到window中</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_container_add</span><span class="o">(</span><span class="n">window</span><span class="o">,</span> <span class="n">gridHouse</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//定义一些常用的控件</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//创建一个treeview 用于显示用户信息</span>
+</span><span class='line'>                <span class="n">createSingleTreeView</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span><span class="n">start</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">//创建一个笑脸</span>
+</span><span class='line'>                <span class="n">createDrawLaughFace</span><span class="o">(</span><span class="n">window</span><span class="o">,</span><span class="n">gridHouse</span><span class="o">,</span><span class="n">start</span><span class="o">,</span><span class="n">circlePointx</span><span class="o">,</span><span class="n">circlePointy</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">start</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
+</span><span class='line'>                <span class="c1">//创建一个标签</span>
+</span><span class='line'>                <span class="n">createLabel</span><span class="o">(</span><span class="s">&quot;源代码------&gt;&quot;</span><span class="o">,</span><span class="n">gridHouse</span><span class="o">,</span><span class="n">start</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">start</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+</span><span class='line'>                <span class="c1">//创建一个源码的textview窗口，不可编辑</span>
+</span><span class='line'>                <span class="n">createSingleTextView</span><span class="o">(</span><span class="n">window</span><span class="o">,</span><span class="n">gridHouse</span><span class="o">,</span><span class="n">start</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">createRectangleFace</span><span class="o">(</span><span class="n">window</span><span class="o">,</span><span class="n">gridHouse</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="n">circlePointx</span><span class="o">,</span><span class="n">circlePointy</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">start</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+</span><span class='line'>                <span class="c1">//创建一个按钮</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">textViewOutput</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_text_view_new</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">createNextButton</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span><span class="n">textViewOutput</span><span class="o">,</span><span class="n">start</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">start</span> <span class="o">=</span><span class="mi">3</span><span class="o">;</span>
+</span><span class='line'>                <span class="c1">//创建一个标签</span>
+</span><span class='line'>                <span class="n">labelResult</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_label_new</span><span class="o">(</span><span class="s">&quot;输出结果：&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">labelResult</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">labelResult</span><span class="o">,</span><span class="mi">7</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">start</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//创建一个输出界面，用于显示源码输出地结果</span>
+</span><span class='line'>                <span class="n">createOutputTextView</span><span class="o">(</span><span class="n">window</span><span class="o">,</span><span class="n">gridHouse</span><span class="o">,</span><span class="n">start</span><span class="o">,</span><span class="n">textViewOutput</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">//启动循环</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_main</span><span class="o">();</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param labelName  标签显示的字符串</span>
+</span><span class='line'><span class="cm">         * @param gridHouse  网格对象标识</span>
+</span><span class='line'><span class="cm">         * @param start      标签在网格对象标识的起始位置</span>
+</span><span class='line'><span class="cm">         * @purpose          创建一个标签对象表示，并显示在窗口中</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createLabel</span><span class="o">(</span><span class="n">String</span> <span class="n">labelName</span><span class="o">,</span><span class="kt">int</span> <span class="n">gridHouse</span><span class="o">,</span><span class="kt">int</span> <span class="n">start</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">labelTitle</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_label_new</span><span class="o">(</span><span class="n">labelName</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">labelTitle</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">labelTitle</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param scrolledBar    滚动条对象标识</span>
+</span><span class='line'><span class="cm">         * @param textview        textview的对象标识</span>
+</span><span class='line'><span class="cm">         * @param gridHouse       网格对象的对象标识</span>
+</span><span class='line'><span class="cm">         * @param start          textview在网格对象布局的起始位置</span>
+</span><span class='line'><span class="cm">         * @purpose              创建textView的滚动条</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createTextviewScrollBar</span><span class="o">(</span><span class="kt">int</span> <span class="n">scrolledBar</span><span class="o">,</span><span class="kt">int</span> <span class="n">textview</span><span class="o">,</span><span class="kt">int</span> <span class="n">gridHouse</span><span class="o">,</span><span class="kt">int</span> <span class="n">start</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">scrolledBar</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_scrolled_window_new</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">scrolledBar</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">scrolledBar</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_set_size_request</span><span class="o">(</span><span class="n">scrolledBar</span><span class="o">,</span> <span class="mi">400</span><span class="o">,</span> <span class="mi">400</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_container_add</span><span class="o">(</span><span class="n">scrolledBar</span><span class="o">,</span><span class="n">textview</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param scrolledBar     滚动条对象标识</span>
+</span><span class='line'><span class="cm">         * @param textview        textview的对象标识</span>
+</span><span class='line'><span class="cm">         * @param gridHouse       网格对象的对象标识</span>
+</span><span class='line'><span class="cm">         * @param start          textview在网格对象布局的起始位置</span>
+</span><span class='line'><span class="cm">         * @purpose               创建带滚动条的treeview对象标识,用于输出信息</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createTreeviewScrollBar</span><span class="o">(</span><span class="kt">int</span> <span class="n">scrolledBar</span><span class="o">,</span><span class="kt">int</span> <span class="n">textview</span><span class="o">,</span><span class="kt">int</span> <span class="n">gridHouse</span><span class="o">,</span><span class="kt">int</span> <span class="n">start</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">scrolledBar</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_scrolled_window_new</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">scrolledBar</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">scrolledBar</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_set_size_request</span><span class="o">(</span><span class="n">scrolledBar</span><span class="o">,</span> <span class="mi">200</span><span class="o">,</span> <span class="mi">200</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_container_add</span><span class="o">(</span><span class="n">scrolledBar</span><span class="o">,</span><span class="n">textview</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param scrolledBar    滚动条对象标识</span>
+</span><span class='line'><span class="cm">         * @param textview       textview的对象标识</span>
+</span><span class='line'><span class="cm">         * @param gridHouse      网格对象的对象标识</span>
+</span><span class='line'><span class="cm">         * @param start          textview在网格对象布局的起始位置</span>
+</span><span class='line'><span class="cm">         * @purpose              创建带滚动条的treeview对象标识，用于显示信息</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createTreeviewOutputScrollBar</span><span class="o">(</span><span class="kt">int</span> <span class="n">scrolledBar</span><span class="o">,</span><span class="kt">int</span> <span class="n">textview</span><span class="o">,</span><span class="kt">int</span> <span class="n">gridHouse</span><span class="o">,</span><span class="kt">int</span> <span class="n">start</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">scrolledBar</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_scrolled_window_new</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">scrolledBar</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">scrolledBar</span><span class="o">,</span><span class="mi">8</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_set_size_request</span><span class="o">(</span><span class="n">scrolledBar</span><span class="o">,</span> <span class="mi">200</span><span class="o">,</span> <span class="mi">200</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_container_add</span><span class="o">(</span><span class="n">scrolledBar</span><span class="o">,</span><span class="n">textview</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param window     窗口对象标识</span>
+</span><span class='line'><span class="cm">         * @param gridHouse  网格布局对象标识</span>
+</span><span class='line'><span class="cm">         * @param start       textview对象在网格布局对象中的起始位置</span>
+</span><span class='line'><span class="cm">         * @purpose          创建一个textview的源代码窗口对象</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createSingleTextView</span><span class="o">(</span><span class="kt">int</span> <span class="n">window</span><span class="o">,</span> <span class="kt">int</span> <span class="n">gridHouse</span><span class="o">,</span> <span class="kt">int</span> <span class="n">start</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="kd">final</span> <span class="kt">int</span> <span class="n">tvGirl</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_text_view_new</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_text_view_set_wrap_mode</span><span class="o">(</span><span class="n">tvGirl</span><span class="o">,</span> <span class="n">GTK</span><span class="o">.</span><span class="na">GTK_WRAP_WORD</span><span class="o">);</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">scrollBar</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span>
+</span><span class='line'>                <span class="c1">//添加控件</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_text_view_set_editable</span><span class="o">(</span><span class="n">tvGirl</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">createTextviewScrollBar</span><span class="o">(</span><span class="n">scrollBar</span><span class="o">,</span><span class="n">tvGirl</span><span class="o">,</span><span class="n">gridHouse</span><span class="o">,</span><span class="n">start</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">//GTK.gtk_grid_attach(gridHouse, tvGirl, 0, start+1, 1, 1);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//显示控件</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">tvGirl</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">String</span> <span class="n">loveWords</span> <span class="o">=</span> <span class="s">&quot;if(!GTK.gtk_tree_model_get_iter_first(liststore.listiter))&quot;</span>
+</span><span class='line'>                                <span class="o">+</span> <span class="s">&quot;\n{\n\tSystem.out.println(\&quot;100块钱都不给，真坏！\&quot;);\n}\nelse\n{\n\tdo&quot;</span>
+</span><span class='line'>                                <span class="o">+</span> <span class="s">&quot;\n\t{\n\t\tSystem.out.println(\&quot;我在do循环里面\&quot;);\n\t}while(GTK.gtk_tree_model_iter_next(liststore, iter));&quot;</span>
+</span><span class='line'>                                <span class="o">+</span> <span class="s">&quot;\n}\nGTK.gtk_text_iter_free(iter);&quot;</span><span class="o">;</span>
+</span><span class='line'>                <span class="c1">//读取文本框里面的内容 ，只适用小量的文本，一般用迭代器</span>
+</span><span class='line'>                <span class="c1">//方法1   先从TextView获取int TextBuffer </span>
+</span><span class='line'>                    <span class="c1">//    然后再从TextBuffer获取text</span>
+</span><span class='line'>                <span class="kd">final</span> <span class="kt">int</span> <span class="n">textbuffer</span><span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_text_view_get_buffer</span><span class="o">(</span><span class="n">tvGirl</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//可以直接通过缓冲区编号  设置信息</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_text_buffer_set_text</span><span class="o">(</span><span class="n">textbuffer</span><span class="o">,</span> <span class="n">loveWords</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param window     窗口对象标识（可省略）</span>
+</span><span class='line'><span class="cm">         * @param gridHouse  网格对象标识</span>
+</span><span class='line'><span class="cm">         * @param start      网格对象的起始位置标识</span>
+</span><span class='line'><span class="cm">         * @param tvGirl     treeview对象标识</span>
+</span><span class='line'><span class="cm">         * @purpose          创建一个TextView对象标识，加入滚动条，并显示。</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createOutputTextView</span><span class="o">(</span><span class="kt">int</span> <span class="n">window</span><span class="o">,</span> <span class="kt">int</span> <span class="n">gridHouse</span><span class="o">,</span> <span class="kt">int</span> <span class="n">start</span><span class="o">,</span><span class="kt">int</span> <span class="n">tvGirl</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//tvGirl = GTK.gtk_text_view_new();</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_text_view_set_wrap_mode</span><span class="o">(</span><span class="n">tvGirl</span><span class="o">,</span> <span class="n">GTK</span><span class="o">.</span><span class="na">GTK_WRAP_WORD</span><span class="o">);</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">scrollBar</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span>
+</span><span class='line'>                <span class="c1">//添加控件</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_text_view_set_editable</span><span class="o">(</span><span class="n">tvGirl</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">createTreeviewOutputScrollBar</span><span class="o">(</span><span class="n">scrollBar</span><span class="o">,</span><span class="n">tvGirl</span><span class="o">,</span><span class="n">gridHouse</span><span class="o">,</span><span class="n">start</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">//GTK.gtk_grid_attach(gridHouse, tvGirl, 0, start+1, 1, 1);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//显示控件</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">tvGirl</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">String</span> <span class="n">loveWords</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">;</span>
+</span><span class='line'>                <span class="c1">//读取文本框里面的内容 ，只适用小量的文本，一般用迭代器</span>
+</span><span class='line'>                <span class="c1">//方法1   先从TextView获取int TextBuffer </span>
+</span><span class='line'>                    <span class="c1">//    然后再从TextBuffer获取text</span>
+</span><span class='line'>                <span class="kd">final</span> <span class="kt">int</span> <span class="n">textbuffer</span><span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_text_view_get_buffer</span><span class="o">(</span><span class="n">tvGirl</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//可以直接通过缓冲区编号  设置信息</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_text_buffer_set_text</span><span class="o">(</span><span class="n">textbuffer</span><span class="o">,</span> <span class="n">loveWords</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param gridHouse  网格对象标识</span>
+</span><span class='line'><span class="cm">         * @param start      网格对象的起始位置标识</span>
+</span><span class='line'><span class="cm">         * @purpose          创建一个TreeView对象标识，写入字段，添加记录，加入滚动条，并显示。</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createSingleTreeView</span><span class="o">(</span><span class="kt">int</span> <span class="n">gridHouse</span><span class="o">,</span><span class="kt">int</span> <span class="n">start</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="c1">//3  treeview   是一个界面，相当于是一个淘宝前台， V  V的作用</span>
+</span><span class='line'>                                <span class="n">treeViewApple</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_view_new</span><span class="o">();</span>
+</span><span class='line'>                                <span class="c1">//4 建立字段  比较费劲</span>
+</span><span class='line'>                                <span class="c1">//4.1创建字段</span>
+</span><span class='line'>                                <span class="kt">int</span> <span class="n">columnID</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_view_column_new_with_attributes</span><span class="o">(</span><span class="s">&quot;ID&quot;</span><span class="o">,</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_cell_renderer_text_new</span><span class="o">(),</span> <span class="mi">0</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">//4.2添加字段</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_view_append_column</span><span class="o">(</span><span class="n">treeViewApple</span><span class="o">,</span> <span class="n">columnID</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">//4.3创建字段</span>
+</span><span class='line'>                                <span class="kt">int</span> <span class="n">columnName</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_view_column_new_with_attributes</span><span class="o">(</span><span class="s">&quot;Names&quot;</span><span class="o">,</span><span class="n">GTK</span><span class="o">.</span><span class="na">gtk_cell_renderer_text_new</span><span class="o">(),</span><span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">//4.4添加字段</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_view_append_column</span><span class="o">(</span><span class="n">treeViewApple</span><span class="o">,</span><span class="n">columnName</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">//4.5创建字段</span>
+</span><span class='line'>                                <span class="kt">int</span>  <span class="n">columnAge</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_view_column_new_with_attributes</span><span class="o">(</span><span class="s">&quot;Ages&quot;</span><span class="o">,</span><span class="n">GTK</span><span class="o">.</span><span class="na">gtk_cell_renderer_text_new</span><span class="o">(),</span><span class="mi">2</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_view_append_column</span><span class="o">(</span><span class="n">treeViewApple</span><span class="o">,</span><span class="n">columnAge</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                                <span class="c1">//创建控件</span>
+</span><span class='line'>                                <span class="c1">//1  list_store  是一个数据结构库，相当于一个仓库  M model的作用</span>
+</span><span class='line'>                                <span class="n">liststore</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_list_store_new</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span> <span class="c1">//3代表三个字段：ID  Names   Age</span>
+</span><span class='line'>                        <span class="c1">//        GTK.gtk_list_store_append(list_store, iter);</span>
+</span><span class='line'>                                <span class="c1">//2  list_iter,list_iter是一个内部的数据迭代的控制过程，不需要显示 C的作用，控制</span>
+</span><span class='line'>                                <span class="n">listiter</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_iter_new</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>                                <span class="c1">//5  第五步 把 iter和listStore联系起来</span>
+</span><span class='line'>                                          <span class="c1">//GTK.gtk_text_buffer_get_end_iter 类似于treeview的buffer和iter联系起来</span>
+</span><span class='line'>                                           <span class="c1">// 以后就可以通过GTK.gtk_text_buffer_insert默认是一个一个iter的执行。</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_list_store_append</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">listiter</span><span class="o">);</span> <span class="c1">//指针开始指到第一个位置</span>
+</span><span class='line'>                                <span class="c1">// 6 逐个iter添加数据到liststore当中:每个iter的意思，就是逐行或者逐个记录。</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_list_store_set_value</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">listiter</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="s">&quot;001&quot;</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_list_store_set_value</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">listiter</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="s">&quot;YinMuHuaDao&quot;</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_list_store_set_value</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">listiter</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="s">&quot;35&quot;</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_list_store_append</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">listiter</span><span class="o">);</span> <span class="c1">//如果不加入，指针不下移，只会覆盖掉前面的数据</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_list_store_set_value</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">listiter</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="s">&quot;002&quot;</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_list_store_set_value</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">listiter</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="s">&quot;Taiyanghua&quot;</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_list_store_set_value</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">listiter</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="s">&quot;29&quot;</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_list_store_append</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">listiter</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_list_store_set_value</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">listiter</span><span class="o">,</span> <span class="mi">0</span> <span class="o">,</span><span class="s">&quot;003&quot;</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_list_store_set_value</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">listiter</span><span class="o">,</span> <span class="mi">1</span> <span class="o">,</span><span class="s">&quot;Xiaojun&quot;</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_list_store_set_value</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">listiter</span><span class="o">,</span> <span class="mi">2</span> <span class="o">,</span><span class="s">&quot;10&quot;</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">// 之所以添加9次是因为  3个字段*3条记录 == 9</span>
+</span><span class='line'>
+</span><span class='line'>                                <span class="c1">//7  使用完iter之后一定要记得 关掉它</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_iter_free</span><span class="o">(</span><span class="n">listiter</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                                <span class="c1">//8 关键的一步，把数字显示出来</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_view_set_model</span><span class="o">(</span><span class="n">treeViewApple</span><span class="o">,</span> <span class="n">liststore</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                                <span class="c1">//并同时把它显示出来，前台必须显示</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">treeViewApple</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                                <span class="c1">//添加到滚动条中</span>
+</span><span class='line'>                                <span class="kt">int</span> <span class="n">scrolledbar2</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>                                <span class="n">createTreeviewScrollBar</span><span class="o">(</span><span class="n">scrolledbar2</span><span class="o">,</span><span class="n">treeViewApple</span><span class="o">,</span><span class="n">gridHouse</span><span class="o">,</span><span class="n">start</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                                <span class="c1">//设置部分参数</span>
+</span><span class='line'>                                <span class="kt">int</span> <span class="n">column</span> <span class="o">=</span><span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_view_get_column</span><span class="o">(</span><span class="n">treeViewApple</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_view_column_set_sort_column_id</span><span class="o">(</span><span class="n">column</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_view_column_set_resizable</span><span class="o">(</span><span class="n">column</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_view_column_set_reorderable</span><span class="o">(</span><span class="n">column</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param window          窗口的对象标识</span>
+</span><span class='line'><span class="cm">         * @param gridHouse       网格布局的对象标识</span>
+</span><span class='line'><span class="cm">         * @param start           对象所在的网格布局起始位置</span>
+</span><span class='line'><span class="cm">         * @param circlePointx    画笔的x轴位置</span>
+</span><span class='line'><span class="cm">         * @param circlePointy    画笔的y轴位置</span>
+</span><span class='line'><span class="cm">         * @purpose               绘制一个笑脸</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createDrawLaughFace</span><span class="o">(</span><span class="kt">int</span> <span class="n">window</span><span class="o">,</span><span class="kt">int</span> <span class="n">gridHouse</span><span class="o">,</span><span class="kt">int</span> <span class="n">start</span><span class="o">,</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">circlePointx</span><span class="o">,</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">circlePointy</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="c1">//创建画图板 或者叫画布</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">dan</span>  <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_drawing_area_new</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//创建源</span>
+</span><span class='line'>                <span class="c1">//添加控件</span>
+</span><span class='line'>                <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">dan</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">//显示画布</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">dan</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//设置画布的大小</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_set_size_request</span><span class="o">(</span><span class="n">dan</span><span class="o">,</span> <span class="mi">300</span><span class="o">,</span> <span class="mi">300</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//开始绘制  利用事件draw 来不断的绘制</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">g_signal_connect</span><span class="o">(</span><span class="n">dan</span><span class="o">,</span> <span class="s">&quot;draw&quot;</span><span class="o">,</span><span class="k">new</span> <span class="n">IGCallBack</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="nd">@Override</span>
+</span><span class='line'>                        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="kt">int</span> <span class="n">instance</span><span class="o">,</span> <span class="kt">int</span> <span class="n">eventData</span><span class="o">,</span> <span class="n">Object</span> <span class="n">object</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="c1">// TODO 自动生成的方法存根</span>
+</span><span class='line'>                                <span class="c1">//eventDate才是画布源</span>
+</span><span class='line'>                                <span class="c1">//设置画笔的颜色</span>
+</span><span class='line'>                                <span class="c1">//Cairo.cairo_destroy(eventData);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_set_source_rgb</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">//设置画笔的大小</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_set_line_width</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_move_to</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="n">circlePointx</span><span class="o">-</span><span class="mi">20</span><span class="o">,</span> <span class="n">circlePointy</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_line_to</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="n">circlePointx</span><span class="o">-</span><span class="mi">70</span><span class="o">,</span> <span class="n">circlePointy</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_line_to</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="n">circlePointx</span><span class="o">-</span><span class="mi">60</span><span class="o">,</span> <span class="n">circlePointy</span><span class="o">-</span><span class="mi">5</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_move_to</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="n">circlePointx</span><span class="o">-</span><span class="mi">70</span><span class="o">,</span> <span class="n">circlePointy</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_line_to</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="n">circlePointx</span><span class="o">-</span><span class="mi">60</span><span class="o">,</span> <span class="n">circlePointy</span><span class="o">+</span><span class="mi">5</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_stroke</span><span class="o">(</span><span class="n">eventData</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                                <span class="c1">//画一个圆</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_arc</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="n">circlePointx</span><span class="o">,</span> <span class="n">circlePointy</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">2</span><span class="o">*</span><span class="mf">3.1415926</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">//画一个圆弧</span>
+</span><span class='line'>                                <span class="c1">//Cairo.cairo_arc(eventData, 200, 200, 70,1.5*3.1415925, 2*3.1415926);</span>
+</span><span class='line'>                                <span class="c1">//显示画笔</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_stroke</span><span class="o">(</span><span class="n">eventData</span><span class="o">);</span> <span class="c1">//Cairo.cairo_fill(eventData)不同的效果</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                                <span class="c1">//画一个圆弧  有下面实验知道是从x轴沿顺时针开始画图</span>
+</span><span class='line'>
+</span><span class='line'>                                <span class="c1">//嘴巴的绘制</span>
+</span><span class='line'>                                <span class="kt">double</span> <span class="n">Pi</span> <span class="o">=</span> <span class="mf">3.1415926</span><span class="o">;</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_arc</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="n">circlePointx</span><span class="o">,</span> <span class="n">circlePointy</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mf">0.25</span><span class="o">*</span><span class="n">Pi</span><span class="o">,</span> <span class="mf">0.75</span><span class="o">*</span><span class="n">Pi</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_fill</span><span class="o">(</span><span class="n">eventData</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                                <span class="c1">//绘制两只眼睛</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_arc</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="n">circlePointx</span><span class="o">-</span><span class="mi">5</span><span class="o">,</span> <span class="n">circlePointy</span><span class="o">-</span><span class="mi">5</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">Pi</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_arc</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="n">circlePointx</span><span class="o">+</span><span class="mi">5</span><span class="o">,</span> <span class="n">circlePointy</span><span class="o">-</span><span class="mi">5</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">Pi</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_fill</span><span class="o">(</span><span class="n">eventData</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                                <span class="c1">//画文字</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_move_to</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="n">circlePointx</span><span class="o">+</span><span class="mi">10</span><span class="o">,</span> <span class="n">circlePointy</span><span class="o">+</span><span class="mi">5</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_set_source_rgb</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="mf">0.4</span><span class="o">,</span> <span class="mf">0.3</span><span class="o">,</span> <span class="mf">0.2</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_set_font_size</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="mi">16</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">//选择文字类型</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_select_font_face</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="s">&quot;宋体&quot;</span><span class="o">,</span> <span class="n">Cairo</span><span class="o">.</span><span class="na">CAIRO_FONT_SLANT_ITALIC</span><span class="o">,</span> <span class="n">Cairo</span><span class="o">.</span><span class="na">CAIRO_FONT_WEIGHT_BOLD</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_show_text</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span><span class="n">note</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">//Cairo.cairo_stroke(eventData);  //不需要这句话也可以</span>
+</span><span class='line'>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                <span class="o">},</span> <span class="kc">null</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param window          窗口的对象标识</span>
+</span><span class='line'><span class="cm">         * @param gridHouse       网格布局的对象标识</span>
+</span><span class='line'><span class="cm">         * @param start           矩形对象所在的网格布局起始位置</span>
+</span><span class='line'><span class="cm">         * @param circlePointx    画笔的x轴位置</span>
+</span><span class='line'><span class="cm">         * @param circlePointy    画笔的y轴位置</span>
+</span><span class='line'><span class="cm">         * @purpose               绘制一个矩形图像</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createRectangleFace</span><span class="o">(</span><span class="kt">int</span> <span class="n">window</span><span class="o">,</span><span class="kt">int</span> <span class="n">gridHouse</span><span class="o">,</span><span class="kt">int</span> <span class="n">start</span><span class="o">,</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">circlePointx</span><span class="o">,</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">circlePointy</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="c1">//创建画图板 或者叫画布</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">dan</span>  <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_drawing_area_new</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//创建源</span>
+</span><span class='line'>                <span class="c1">//添加控件</span>
+</span><span class='line'>                <span class="n">start</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">dan</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">//显示画布</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">dan</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//设置画布的大小</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_set_size_request</span><span class="o">(</span><span class="n">dan</span><span class="o">,</span> <span class="mi">300</span><span class="o">,</span> <span class="mi">300</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//开始绘制  利用事件draw 来不断的绘制</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">g_signal_connect</span><span class="o">(</span><span class="n">dan</span><span class="o">,</span> <span class="s">&quot;draw&quot;</span><span class="o">,</span><span class="k">new</span> <span class="n">IGCallBack</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="nd">@Override</span>
+</span><span class='line'>                        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="kt">int</span> <span class="n">instance</span><span class="o">,</span> <span class="kt">int</span> <span class="n">eventData</span><span class="o">,</span> <span class="n">Object</span> <span class="n">object</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="c1">// TODO 自动生成的方法存根</span>
+</span><span class='line'>                                <span class="c1">//eventDate才是画布源</span>
+</span><span class='line'>                                <span class="c1">//设置画笔的颜色</span>
+</span><span class='line'>                                <span class="c1">//Cairo.cairo_destroy(eventData);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_set_source_rgb</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">//设置画笔的大小</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_set_line_width</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">//Cairo.cairo_move_to(eventData, circlePointx-20, circlePointy);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                                <span class="c1">//画一个矩形</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_rectangle</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="n">circleRectangex</span><span class="o">-</span><span class="mi">150</span><span class="o">,</span> <span class="n">circleRectangey</span><span class="o">+</span><span class="mi">120</span><span class="o">,</span> <span class="mi">250</span><span class="o">,</span> <span class="mi">20</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_stroke</span><span class="o">(</span><span class="n">eventData</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">//画文字</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_move_to</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="n">circleRectangex</span><span class="o">+</span><span class="mi">10</span><span class="o">,</span> <span class="n">circleRectangey</span><span class="o">+</span><span class="mi">100</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_set_source_rgb</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_set_font_size</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="mi">18</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">//选择文字类型</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_select_font_face</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="s">&quot;宋体&quot;</span><span class="o">,</span> <span class="n">Cairo</span><span class="o">.</span><span class="na">CAIRO_FONT_SLANT_NORMAL</span><span class="o">,</span> <span class="n">Cairo</span><span class="o">.</span><span class="na">CAIRO_FONT_WEIGHT_BOLD</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_show_text</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span><span class="s">&quot;循环第&quot;</span><span class="o">+</span><span class="n">Integer</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">rowPosition</span><span class="o">)+</span><span class="s">&quot;次&quot;</span><span class="o">);</span><span class="c1">//</span>
+</span><span class='line'>                                <span class="c1">//Cairo.cairo_stroke(eventData);  //不需要这句话也可以</span>
+</span><span class='line'>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                <span class="o">},</span> <span class="kc">null</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param window          窗口的对象标识</span>
+</span><span class='line'><span class="cm">         * @param gridHouse       网格布局的对象标识</span>
+</span><span class='line'><span class="cm">         * @param start           矩形对象所在的网格布局起始位置</span>
+</span><span class='line'><span class="cm">         * @param circlePointx    画笔的x轴位置</span>
+</span><span class='line'><span class="cm">         * @param circlePointy    画笔的y轴位置</span>
+</span><span class='line'><span class="cm">         * @purpose               绘制一个圆圈图像 + 终止表示！</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createCircleFace</span><span class="o">(</span><span class="kt">int</span> <span class="n">window</span><span class="o">,</span><span class="kt">int</span> <span class="n">gridHouse</span><span class="o">,</span><span class="kt">int</span> <span class="n">start</span><span class="o">,</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">circlePointx</span><span class="o">,</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">circlePointy</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="c1">//创建画图板 或者叫画布</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">dan</span>  <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_drawing_area_new</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//创建源</span>
+</span><span class='line'>                <span class="c1">//添加控件</span>
+</span><span class='line'>                <span class="n">start</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">dan</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">//显示画布</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">dan</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//设置画布的大小</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_set_size_request</span><span class="o">(</span><span class="n">dan</span><span class="o">,</span> <span class="mi">300</span><span class="o">,</span> <span class="mi">300</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//开始绘制  利用事件draw 来不断的绘制</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">g_signal_connect</span><span class="o">(</span><span class="n">dan</span><span class="o">,</span> <span class="s">&quot;draw&quot;</span><span class="o">,</span><span class="k">new</span> <span class="n">IGCallBack</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="nd">@Override</span>
+</span><span class='line'>                        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="kt">int</span> <span class="n">instance</span><span class="o">,</span> <span class="kt">int</span> <span class="n">eventData</span><span class="o">,</span> <span class="n">Object</span> <span class="n">object</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="c1">// TODO 自动生成的方法存根</span>
+</span><span class='line'>                                <span class="c1">//eventDate才是画布源</span>
+</span><span class='line'>                                <span class="c1">//设置画笔的颜色</span>
+</span><span class='line'>                                <span class="c1">//Cairo.cairo_destroy(eventData);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_set_source_rgb</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">//设置画笔的大小</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_set_line_width</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">//Cairo.cairo_move_to(eventData, circlePointx-20, circlePointy);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>                                <span class="c1">//画一个矩形</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_arc</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="n">EndCirclex</span><span class="o">+</span><span class="mi">150</span><span class="o">,</span> <span class="n">EndCircley</span><span class="o">+</span><span class="mi">200</span><span class="o">,</span> <span class="mi">100</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mf">6.28</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_stroke</span><span class="o">(</span><span class="n">eventData</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">//画文字</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_move_to</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="n">EndCirclex</span><span class="o">+</span><span class="mi">50</span><span class="o">,</span> <span class="n">EndCircley</span><span class="o">+</span><span class="mi">200</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_set_source_rgb</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_set_font_size</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="mi">18</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">//选择文字类型</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_select_font_face</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span> <span class="s">&quot;宋体&quot;</span><span class="o">,</span> <span class="n">Cairo</span><span class="o">.</span><span class="na">CAIRO_FONT_SLANT_NORMAL</span><span class="o">,</span> <span class="n">Cairo</span><span class="o">.</span><span class="na">CAIRO_FONT_WEIGHT_BOLD</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">Cairo</span><span class="o">.</span><span class="na">cairo_show_text</span><span class="o">(</span><span class="n">eventData</span><span class="o">,</span><span class="s">&quot;循环第&quot;</span><span class="o">+</span><span class="n">Integer</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">rowPosition</span><span class="o">+</span><span class="mi">1</span><span class="o">)+</span><span class="s">&quot;次,程序终止退出！&quot;</span><span class="o">);</span><span class="c1">//</span>
+</span><span class='line'>                                <span class="c1">//Cairo.cairo_stroke(eventData);  //不需要这句话也可以</span>
+</span><span class='line'>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                <span class="o">},</span> <span class="kc">null</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param gridHouse         网格布局对象标识</span>
+</span><span class='line'><span class="cm">         * @param textViewOutput    textview的对象标识</span>
+</span><span class='line'><span class="cm">         * @param start             textview对象在网格布局的起始位置</span>
+</span><span class='line'><span class="cm">         * @purpose                 创建一个下一步button，并添加事件监听</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createNextButton</span><span class="o">(</span><span class="kt">int</span> <span class="n">gridHouse</span><span class="o">,</span><span class="kt">int</span> <span class="n">textViewOutput</span><span class="o">,</span><span class="kt">int</span> <span class="n">start</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">btnApple</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_button_new_with_label</span><span class="o">(</span><span class="s">&quot;下一步&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_show</span><span class="o">(</span><span class="n">btnApple</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_grid_attach</span><span class="o">(</span><span class="n">gridHouse</span><span class="o">,</span> <span class="n">btnApple</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">insertNextEvent</span><span class="o">(</span><span class="n">btnApple</span><span class="o">,</span><span class="n">textViewOutput</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param btnSin            button下一步的对象标识</span>
+</span><span class='line'><span class="cm">         * @param textViewOutput    textview的对象标识</span>
+</span><span class='line'><span class="cm">         * @purpose                 建立button下一步的事件监听</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">insertNextEvent</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">btnSin</span><span class="o">,</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">textViewOutput</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">g_signal_connect</span><span class="o">(</span><span class="n">btnSin</span><span class="o">,</span> <span class="s">&quot;clicked&quot;</span><span class="o">,</span><span class="k">new</span> <span class="n">IGCallBack</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="nd">@Override</span>
+</span><span class='line'>                        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="kt">int</span> <span class="n">instance</span><span class="o">,</span> <span class="kt">int</span> <span class="n">eventData</span><span class="o">,</span> <span class="n">Object</span> <span class="n">object</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>                                <span class="c1">// TODO 自动生成的方法存根</span>
+</span><span class='line'>                                <span class="c1">//double sbValue = GTK.gtk_spin_button_get_value(spinbox);</span>
+</span><span class='line'>                                <span class="k">if</span><span class="o">(</span><span class="n">rowPosition</span> <span class="o">&lt;</span> <span class="n">getNumberOfListstore</span><span class="o">(</span><span class="n">liststore</span><span class="o">))</span>
+</span><span class='line'>                                <span class="o">{</span>
+</span><span class='line'>                                        <span class="n">circlePointy</span> <span class="o">=</span> <span class="n">circlePointy</span><span class="o">+</span><span class="mi">20</span><span class="o">;</span>
+</span><span class='line'>                                        <span class="c1">//创建笑脸</span>
+</span><span class='line'>                                        <span class="n">createDrawLaughFace</span><span class="o">(</span><span class="n">window</span><span class="o">,</span><span class="n">gridHouse</span><span class="o">,</span><span class="n">start</span><span class="o">,</span><span class="n">circlePointx</span><span class="o">,</span><span class="n">circlePointy</span><span class="o">);</span>
+</span><span class='line'>                                        <span class="c1">//创建矩形框</span>
+</span><span class='line'>                                        <span class="n">createRectangleFace</span><span class="o">(</span><span class="n">window</span><span class="o">,</span><span class="n">gridHouse</span><span class="o">,</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span><span class="n">circleRectangex</span><span class="o">,</span><span class="n">circleRectangey</span><span class="o">);</span>
+</span><span class='line'>                                        <span class="n">printRecord</span><span class="o">(</span><span class="n">liststore</span><span class="o">);</span>
+</span><span class='line'>                                        <span class="n">InsertStringToTextViewFunction</span><span class="o">(</span><span class="n">textViewOutput</span><span class="o">,</span><span class="s">&quot;我在do循环里面  \n&quot;</span><span class="o">);</span>
+</span><span class='line'>                                        <span class="n">rowPosition</span> <span class="o">=</span>  <span class="n">rowPosition</span> <span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+</span><span class='line'>                                <span class="o">}</span>
+</span><span class='line'>                                <span class="k">else</span>
+</span><span class='line'>                                <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>                                        <span class="c1">//note = &quot;指针无法下移&quot;;</span>
+</span><span class='line'>                                        <span class="n">circlePointy</span> <span class="o">=</span> <span class="n">circlePointy</span><span class="o">+</span><span class="mi">20</span><span class="o">;</span>
+</span><span class='line'>                                        <span class="k">if</span><span class="o">(</span><span class="n">rowPosition</span> <span class="o">&gt;</span> <span class="n">getNumberOfListstore</span><span class="o">(</span><span class="n">liststore</span><span class="o">))</span>
+</span><span class='line'>                                        <span class="o">{</span>
+</span><span class='line'>                                                <span class="n">createDrawLaughFace</span><span class="o">(</span><span class="n">window</span><span class="o">,</span><span class="n">gridHouse</span><span class="o">,</span><span class="n">start</span><span class="o">,</span><span class="n">circlePointx</span><span class="o">,</span><span class="n">circlePointy</span><span class="o">);</span>
+</span><span class='line'>                                        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>                                        <span class="n">createRectangleFace</span><span class="o">(</span><span class="n">window</span><span class="o">,</span><span class="n">gridHouse</span><span class="o">,</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span><span class="n">circleRectangex</span><span class="o">,</span><span class="n">circleRectangey</span><span class="o">);</span>
+</span><span class='line'>                                        <span class="n">createCircleFace</span><span class="o">(</span><span class="n">window</span><span class="o">,</span><span class="n">gridHouse</span><span class="o">,</span><span class="n">start</span><span class="o">,</span><span class="n">EndCirclex</span><span class="o">,</span><span class="n">EndCircley</span><span class="o">);</span>
+</span><span class='line'>                                        <span class="n">InsertStringToTextViewFunction</span><span class="o">(</span><span class="n">textViewOutput</span><span class="o">,</span><span class="s">&quot;别嗯了！程序没有数据了\n&quot;</span><span class="o">);</span>
+</span><span class='line'>                                        <span class="n">showInfo</span><span class="o">(</span><span class="s">&quot;没有数据了&quot;</span><span class="o">,</span><span class="s">&quot;指针无法下移&quot;</span><span class="o">);</span>
+</span><span class='line'>                                <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                <span class="o">},</span> <span class="kc">null</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param liststore   liststore是treeview的原始数据</span>
+</span><span class='line'><span class="cm">         * @return            返回liststore的记录个数</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">getNumberOfListstore</span><span class="o">(</span><span class="kt">int</span> <span class="n">liststore</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_iter_new</span><span class="o">();</span>
+</span><span class='line'>                <span class="k">if</span><span class="o">(!</span><span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_model_get_iter_first</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">iter</span><span class="o">))</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="k">return</span> <span class="n">sum</span><span class="o">;</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>                <span class="k">do</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">sum</span><span class="o">++;</span>
+</span><span class='line'>                <span class="o">}</span><span class="k">while</span><span class="o">(</span><span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_model_iter_next</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">iter</span><span class="o">));</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">sum</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param liststore   liststore是treeview的原始数据</span>
+</span><span class='line'><span class="cm">         * @purpose           打印liststore的所有内容</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">printRecord</span><span class="o">(</span><span class="kt">int</span> <span class="n">liststore</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="c1">//必须新建，不能利用原先的listiter,哪边需要用控制，就需要建一个控件。！！！否则报错！！不能用全局的 listiter</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_iter_new</span><span class="o">();</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">i</span>  <span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+</span><span class='line'><span class="cm">/*                if(GTK.gtk_tree_model_get_iter_first(liststore, listiter))</span>
+</span><span class='line'><span class="cm">                {</span>
+</span><span class='line'><span class="cm">                        do</span>
+</span><span class='line'><span class="cm">                        {</span>
+</span><span class='line'><span class="cm">                                String ID = GTK.gtk_tree_model_get_value(liststore, listiter, 0);</span>
+</span><span class='line'><span class="cm">                                String Names = GTK.gtk_tree_model_get_value(liststore, listiter, 1);</span>
+</span><span class='line'><span class="cm">                                String Ages = GTK.gtk_tree_model_get_value(liststore, listiter, 2);</span>
+</span><span class='line'><span class="cm">                                //showInfo(&quot;这个员工的ID是&quot;+ID+&quot;,他的名字是&quot;+Names+&quot;,并且它的年龄是&quot;+Ages,&quot;显示员工信息&quot;);</span>
+</span><span class='line'><span class="cm">                                System.out.println(&quot;这个员工的ID是&quot;+ID+&quot;,他的名字是&quot;+Names+&quot;,并且它的年龄是&quot;+Ages);</span>
+</span><span class='line'><span class="cm">                                </span>
+</span><span class='line'><span class="cm">                        }while(GTK.gtk_tree_model_iter_next(liststore,listiter));</span>
+</span><span class='line'><span class="cm">                }else</span>
+</span><span class='line'><span class="cm">                {</span>
+</span><span class='line'><span class="cm">                        System.out.println(&quot;表中无数据&quot;);</span>
+</span><span class='line'><span class="cm">                }*/</span>
+</span><span class='line'>                <span class="c1">// 减少代码的深度。</span>
+</span><span class='line'>                <span class="k">if</span><span class="o">(!</span><span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_model_get_iter_first</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">iter</span><span class="o">))</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;treeview没有数据  请添加记录&quot;</span><span class="o">);</span>
+</span><span class='line'>                        <span class="k">return</span><span class="o">;</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>                <span class="k">do</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="k">if</span><span class="o">(</span><span class="n">rowPosition</span> <span class="o">==</span> <span class="n">i</span><span class="o">)</span>
+</span><span class='line'>                        <span class="o">{</span>
+</span><span class='line'>                                <span class="n">String</span> <span class="n">ID</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_model_get_value</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">iter</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">String</span> <span class="n">Names</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_model_get_value</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">iter</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">String</span> <span class="n">Ages</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_model_get_value</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span> <span class="n">iter</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+</span><span class='line'>                                <span class="n">showInfo</span><span class="o">(</span><span class="s">&quot;这个员工的ID是&quot;</span><span class="o">+</span><span class="n">ID</span><span class="o">+</span><span class="s">&quot;,他的名字是&quot;</span><span class="o">+</span><span class="n">Names</span><span class="o">+</span><span class="s">&quot;,并且它的年龄是&quot;</span><span class="o">+</span><span class="n">Ages</span><span class="o">,</span><span class="s">&quot;显示员工信息&quot;</span><span class="o">);</span>
+</span><span class='line'>                                <span class="c1">//System.out.println(&quot;这个员工的ID是&quot;+ID+&quot;,他的名字是&quot;+Names+&quot;,并且它的年龄是&quot;+Ages);</span>
+</span><span class='line'>                                <span class="k">return</span><span class="o">;</span>
+</span><span class='line'>                        <span class="o">}</span>
+</span><span class='line'>                        <span class="n">i</span><span class="o">++;</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="o">}</span><span class="k">while</span><span class="o">(</span><span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_model_iter_next</span><span class="o">(</span><span class="n">liststore</span><span class="o">,</span><span class="n">iter</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_tree_iter_free</span><span class="o">(</span><span class="n">iter</span><span class="o">);</span><span class="c1">//释放了 还是有错误。。。</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param message    输入一个消息，显示在消息框</span>
+</span><span class='line'><span class="cm">         * @param title      消息框的标题</span>
+</span><span class='line'><span class="cm">         * @purpose          创建一个消息提示对话框</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">showInfo</span><span class="o">(</span>  <span class="n">String</span>  <span class="n">message</span><span class="o">,</span><span class="n">String</span> <span class="n">title</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">msgDlg</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_message_dialog_new</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">GTK</span><span class="o">.</span><span class="na">GTK_DIALOG_DESTROY_WITH_PARENT</span><span class="o">|</span>
+</span><span class='line'>                                <span class="n">GTK</span><span class="o">.</span><span class="na">GTK_DIALOG_MODAL</span><span class="o">,</span><span class="n">GTK</span><span class="o">.</span><span class="na">GTK_MESSAGE_INFO</span><span class="o">,</span> <span class="n">GTK</span><span class="o">.</span><span class="na">GTK_BUTTONS_OK</span><span class="o">,</span><span class="n">message</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_window_set_title</span><span class="o">(</span><span class="n">msgDlg</span><span class="o">,</span> <span class="n">title</span><span class="o">);</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_dialog_run</span><span class="o">(</span><span class="n">msgDlg</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="k">if</span><span class="o">(</span> <span class="n">ret</span> <span class="o">==</span> <span class="n">GTK</span><span class="o">.</span><span class="na">GTK_RESPONSE_OK</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_destroy</span><span class="o">(</span><span class="n">msgDlg</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span><span class="k">else</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_widget_destroy</span><span class="o">(</span><span class="n">msgDlg</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createSelection</span><span class="o">(</span><span class="kt">int</span> <span class="n">gridHouse</span><span class="o">,</span><span class="kt">int</span> <span class="n">start</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="cm">/**</span>
+</span><span class='line'><span class="cm">         * </span>
+</span><span class='line'><span class="cm">         * @param textview   textview对象标识</span>
+</span><span class='line'><span class="cm">         * @param temp       待插入textview的字符串</span>
+</span><span class='line'><span class="cm">         * @purpose          插入一行数据岛textview当中</span>
+</span><span class='line'><span class="cm">         */</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">InsertStringToTextViewFunction</span><span class="o">(</span><span class="kt">int</span> <span class="n">textview</span><span class="o">,</span><span class="n">String</span> <span class="n">temp</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="c1">//TextIter是一个TextView的迭代器。</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">textBuffer</span> <span class="o">=</span>  <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_text_view_get_buffer</span><span class="o">(</span><span class="n">textview</span><span class="o">);</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">textIter</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_text_iter_new</span><span class="o">();</span>  <span class="c1">//这是一个空的iter，需要用textBuffer进行赋值</span>
+</span><span class='line'>                <span class="c1">//GTK.gtk_text_iter_forward_to_end(textIter);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_text_buffer_get_end_iter</span><span class="o">(</span><span class="n">textBuffer</span><span class="o">,</span> <span class="n">textIter</span><span class="o">);</span><span class="c1">// 或者textview的textBuffer的末尾！</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_text_buffer_insert</span><span class="o">(</span><span class="n">textBuffer</span><span class="o">,</span> <span class="n">textIter</span><span class="o">,</span> <span class="n">temp</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//GTK.gtk_text_buffer_g</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_text_iter_free</span><span class="o">(</span><span class="n">textIter</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>复制代码</p>
+
+<p>有什么意见，欢迎交流，有什么想法，欢迎交流。~&ndash;~</p>
+
+<p><img src="/images/java/chushi.gif" alt="初始时刻" />
+<img src="/images/java/diyici.gif" alt="运行第一次" />
+<img src="/images/java/chengxujiesu.gif" alt="程序结束" /></p>
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2015/05/11/jian-yi-de-dai-ma-yun-xing-mo-ni-chuang-kou/'>http://jueqingsizhe66.github.io/blog/2015/05/11/jian-yi-de-dai-ma-yun-xing-mo-ni-chuang-kou/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:46+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javabasic/'>JavaBasic</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/11/fan-she-ji-zhi-nei-sheng-zheng-ze/" title="Previous Post: 反射机制内省正则">&laquo; 反射机制内省正则</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/11/ting-you-yi-si-de-%5B%3F%5D-ge-bug%2Creturnjie-jue-wen-ti/" title="Next Post: 挺有意思的一个bug，return解决问题">挺有意思的一个bug，return解决问题 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><div class="ds-thread" > </div>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"f708708"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+  <p><img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> <!--不是他的原因-->
+ <!--而是yellow的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (3)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (22)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (3)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (18)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/physics-and-maths/">Physics and Maths</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/jump-out-of-ontology/">Jump Out of Ontology</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/machine-learning-some-search-record/">Machine Learning Some Search Record</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/graphviz-notebook/">Graphviz Notebook</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="1" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+
+</section>
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2015/05/11/jian-yi-de-dai-ma-yun-xing-mo-ni-chuang-kou/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2015/05/11/jian-yi-de-dai-ma-yun-xing-mo-ni-chuang-kou/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

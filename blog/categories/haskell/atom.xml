@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Haskell | 网络书屋(Web Reading Room)]]></title>
+  <link href="http://jueqingsizhe66.github.io/blog/categories/haskell/atom.xml" rel="self"/>
+  <link href="http://jueqingsizhe66.github.io/"/>
+  <updated>2017-01-22T12:24:26+08:00</updated>
+  <id>http://jueqingsizhe66.github.io/</id>
+  <author>
+    <name><![CDATA[Ye Zhaoliang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[编程的时候，你到底在想什么？]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/06/08/bian-cheng-de-shi-hou-%2Cni-dao-di-zai-xiang-shi-yao-%3F/"/>
+    <updated>2015-06-08T00:00:05+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/06/08/bian-cheng-de-shi-hou-,ni-dao-di-zai-xiang-shi-yao-?</id>
+    <content type="html"><![CDATA[<p>我静下心来思考，linux bash给你带来的是从<strong>文件角度</strong>的编程。
+而比如c、fortran、java、python、haskell、scheme等更像是从<strong>思维的细节角度</strong>编程。
+然而我又在想，如果程序仅仅是他展现出来的那样，是什么一步一步执行，那就太没意思？
+所以我在思考程序给你带来的乐趣是什么？给你带来的成就感是什么？何为elegant code?
+<img src="/images/balei.jpg" alt="芭蕾舞女" /></p>
+
+<!--more-->
+
+
+<h2><a href="http://blog.csdn.net/liang13664759/article/details/1771246">Makefile</a>的项目管理</h2>
+
+<p>makefile给我们带来的感觉，也是从文件的角度进行编程，只不过他需要你的思维细节存在着<strong>编译</strong>和<strong>链接</strong>的过程。Makefile
+给我们带来的乐趣也许更多的是对于整个项目文件的把握，让各个文件各司其职。</p>
+
+<h2><a href="http://blog.sina.com.cn/s/blog_4e16c5a901000aky.html">java</a>存在包机制：</h2>
+
+<p>``` java</p>
+
+<p>// Fighterplane.java
+package com.resource;
+/<em>*
+  * Classname：FighterPlane
+  * @version 1.0 6.08.2015
+  * @author yzl
+ </em>/
+public class FighterPlane {</p>
+
+<pre><code>//变量定义
+//方法定义
+</code></pre>
+
+<p>}</p>
+
+<p>```
+在一个包内可以包含很多的java文件，他更多的是方便我们建立类的抽象，把很多的方法属性放在对应的包中，让我们
+思维陷在一个一个的包中、类中。</p>
+
+<h2><a href="http://jueqingsizhe66.github.io/blog/2015/05/21/haskellku-wen-dang-jie-gou">Haskell</a> 也有一套包管理系统。</h2>
+
+<p>在这个系统里面,你需要不断的去思考每一个module中到底需要包括多少函数（一种映射关系），具体可以经常查看haskell的一些<a href="http://jueqingsizhe66.github.io/blog/categories/haskell/">优雅的代码</a>.通过haskell给你带来的最大的震撼就是<strong>类型映射</strong>，你会发现这个世界有迹可循。</p>
+
+<ul>
+<li><a href="http://jueqingsizhe66.github.io/blog/2015/05/21/haskell-one-line/">haskell elegant code</a>
+``` haskell
+f x = 5 + 8/x
+f x = (+) 5 (8/x)
+f x = (+) 5 ((/) 8 x)
+f x = ((+) 5) ((/) 8 x)
+f x = ((+) 5) (((/) 8) x)
+f x = ((+) 5).(((/) 8)) x</li>
+</ul>
+
+
+<p>f= ((+) 5).((/) 8)
+f= (5+).(8/)</p>
+
+<p><code>
++ [scheme elegant code](http://jueqingsizhe66.github.io/blog/2015/05/17/cong-lambdadao-simple-plus-complexjie-shi-qi-zai-dao-shu-xing-chou-xiang/)
+</code> scheme
+(lambda (le)</p>
+
+<pre><code>((lambda (f)
+  (f f))
+ (lambda (f)
+   (le (lambda (x) ((f f) x))))))
+</code></pre>
+
+<p>```</p>
+
+<h2><a href="http://wenku.baidu.com/link?url=0qejjb1Ts8GQemVRic71KyAnduYVE3ldHsdIrtbbkB70fEkyxQfuga_nT3ITd8lvq-WIYvKeiJAU2KRD-EpaK4ZEUH2HuOH_5B-wEodzUtC">fortran</a> 的新语法中也提供了一套新的模块管理方法（只是为了方便编程管理、对于提速没什么关系）。</h2>
+
+<p>他和java当中的类思想很相近。fortran这门语言给你的思维改造其实不大，我一直不觉得他是一门很好的语言，但它的确是一门很好的科学计算语言，在数值计算中做了很大的优化。</p>
+
+<p>暂时先从Makefile、java、Haskell、fortran这四个编程语言（都有<a href="http://developer.51cto.com/art/201208/352423_1.htm">变量、表达式、函数</a>、模块，从低到高的逐次演化），想着重让自己理解的是<strong>代码的优雅性</strong>,代码让你看上一遍会印象深刻，会让你的思维活跃，而不像命令式语言真的让你木楞的感觉。刚才我发呆了一小会，思考本文的初衷:到底code乐趣是什么？为什么那么多人觉得没意思？</p>
+
+<p>大家都知道得吃点苦才能干成一件事情（人这一辈子能成一件事情就不容易），可是不能坚持吃苦。<strong>代码的优雅性体现在反复修改和反复的抽象，简单化的过程</strong>。优雅的代码让你感觉干净，有时候bash写的代码真心有一种让你恶心，但是如果稍加修改用其他方式（减少很多${}的形式）,却又让你<a href="http://jueqingsizhe66.github.io/blog/2015/06/02/bashzhi-neng-fen-lei-sheng-ji-ban/">豁然开朗</a>。</p>
+
+<p>你在编成的时候，你想的是如何实现这个功能？于是你需要进行逐步分解，并最终组合起来，但是细节是很多人都抛弃了函数化和模块化的思想，不然你去看一下刚开始大家写的就像一条一条<a href="http://www.cr173.com/soft/18964.html">汇编语言</a>一样，与机器对话。建立于生态系统之上的优雅代码，应该是让功能能够顺利实现的同时，也要增加代码的可读性。<a href="http://baike.baidu.com/link?url=UrkX_KZjr1AU4ROv15Pr-auiRs5NTHbhAx69j8aP617_KWg48cBCBAhn6auK8X8KvKpzoWJVhMNfZuf0z4R68K">《人月神话》</a><a href="http://www.chnxp.com.cn/soft/down-89638.html">《重构代码》</a>等书籍都讲述着类似的道理。<strong>美应该是反复修改的，并趋于简单，体现优雅</strong>。</p>
+
+<ul>
+<li>扭转思维的滚珠，如果能够让你的这条滚珠适应大部分的情况，或者减少滚珠的数量，那就像优雅更迈进一步。</li>
+<li>思索思维的步骤，一个好的coder应该记得他需要<a href="http://mindhacks.cn/">思考什么</a>，以及他不需要思考什么，因为优雅让其知道该去做什么。</li>
+</ul>
+
+
+<p>你会发现，haskell给你的类型映射，深深的影响你的抽象映射；<a href="http://jueqingsizhe66.github.io/blog/categories/scheme/">scheme</a>的递归思想，也不断的让你的思维细化，然而这种细化是优雅的，反复修改的。优雅源自气质，却是反复修改的，趋于简单。Haskell和scheme的气质相比于bash shell的粗俗（但是的确能够解决问题，而且有时候他也可以用更少的代码解决问题），他们是曲径通幽处，芬芳四溢，罄人心鼻。函数式编程（我理解是关系式编程，haskell表示为->)一直犹如跳着芭蕾舞的舞女一样，在时尚的c、java等命令语言静静生存。
+<img src="/images/qujin.jpg" alt="曲径通幽处" /></p>
+
+<p><strong>代码需要修改，思维需要细化，同时思维也需要提升</strong>；事情分先后，也要掌流程，万事不应皆掌握，得分而治之(这也是unix的哲学思想所在，用众多最优雅的代码，组合起来形成一朵美丽的潘多拉之盒)。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Haskell在脑海里的踪迹]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/05/29/haskellzai-nao-hai-li-de-zong-ji/"/>
+    <updated>2015-05-29T14:59:44+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/05/29/haskellzai-nao-hai-li-de-zong-ji</id>
+    <content type="html"><![CDATA[<p>基于范畴理论，在每一个范畴里面都包含一个objects和fmap关系，利用functor映射到不同的category。
+可以继续思考的是一个fmap:(*&ndash;>*)
+一个fmap是可以充当形参的，因为他正如在一个<a href="https://www.haskell.org/onlinereport/list.html#sect17.3">List module</a>中
+一个一个的破折号和箭头构成的map关系被放进List这个category中。</p>
+
+<!--more-->
+
+
+<p>``` haskell
+module List (</p>
+
+<pre><code>elemIndex, elemIndices,
+find, findIndex, findIndices,
+nub, nubBy, delete, deleteBy, (\\), deleteFirstsBy,
+union, unionBy, intersect, intersectBy,
+intersperse, transpose, partition, group, groupBy,
+inits, tails, isPrefixOf, isSuffixOf,
+mapAccumL, mapAccumR,
+sort, sortBy, insert, insertBy, maximumBy, minimumBy,
+genericLength, genericTake, genericDrop,
+genericSplitAt, genericIndex, genericReplicate,
+zip4, zip5, zip6, zip7,
+zipWith4, zipWith5, zipWith6, zipWith7,
+unzip4, unzip5, unzip6, unzip7, unfoldr,
+
+-- ...and what the Prelude exports
+-- []((:), []), -- This is built-in syntax
+map, (++), concat, filter,
+head, last, tail, init, null, length, (!!),
+foldl, foldl1, scanl, scanl1, foldr, foldr1, scanr, scanr1,
+iterate, repeat, replicate, cycle,
+take, drop, splitAt, takeWhile, dropWhile, span, break,
+lines, words, unlines, unwords, reverse, and, or,
+any, all, elem, notElem, lookup,
+sum, product, maximum, minimum, concatMap, 
+zip, zip3, zipWith, zipWith3, unzip, unzip3
+) where
+</code></pre>
+
+<p>```</p>
+
+<p>我们所看到
+``` haskell
+data  Bool  =  False | True deriving</p>
+
+<pre><code>                         (Read, Show, Eq, Ord, Enum, Bounded)
+</code></pre>
+
+<p>data Int = -65532|&hellip;|-1|0|1|2|&hellip;|65532
+data Integer = &hellip;-2|-1|0|1|2|3|4|&hellip;
+```
+从这边我们可以看到False ，True， 1，2，3，4&hellip;.叫做Data constructor
+而Bool,Integer叫做Type Constructor,所以你完全可以把类型当作数据，而这个类型包含表达式、函数、数据。</p>
+
+<p>类也包含
++ 原子类型 Integer  Char   Integer->Char(functions mapping from Integer to Char)
++ 结构类型 [Integer] 数字列表 (Integer,Char)数字字符tuple</p>
+
+<p>比如：
+``` haskell
+1::Int
+inc::Integer->Integer
+(&lsquo;b&rsquo;,4)::[Char,Integer]</p>
+
+<p>::可以读作 has type类型为
+```</p>
+
+<hr />
+
+<p>我们也会看到很多类的继承
+``` haskell
+  class Foo a => Bar a where &hellip;</p>
+
+<p>  instance (Eq a, Show a) => Foo [a] where &hellip;</p>
+
+<p>  instance Num a => Bar [a] where &hellip;</p>
+
+<p>  class (Eq a) => Ord a where</p>
+
+<pre><code>(&lt;),(&lt;=),(&gt;=),(&gt;)::a-&gt;a-&gt;Bool
+max,min          ::a-&gt;a-&gt;a
+----此时Eq叫做Ord的子类
+</code></pre>
+
+<p>```</p>
+
+<p>其实更多的可以参考<a href="https://www.haskell.org/onlinereport/standard-prelude.html#sect8.2">Haskell 98 Report</a></p>
+
+<p>当然你事先得知道类的定义
+<code>haskell
+class cx =&gt; C u where { cbody }
+</code></p>
+
+<p>class 方法被叫做haskell里的顶层声明。</p>
+
+<hr />
+
+<p>而有一些比较有趣的lambda转换
+``` haskell
+\x->\y->(+) x  y &mdash;&ndash;>  \x y &ndash;> (+) x  y</p>
+
+<p>(x+) &mdash;> \y->x+y
+(+y) &mdash;> \x->x+y
+(+)  &mdash;> \x y &ndash;> x+y</p>
+
+<p>(.) :: (b->c) &ndash;>(a-b)&ndash;>(a->c)
+f.g  = \x-> f (g x)
+```</p>
+
+<p>在你编写函数的时候：
+一个数据组和可以变为(x:xs) == x+xs完整的数据组和 ，只不过x代表这个数据组和的head部分，而xs表示tail部分
+而如果 s@(x:xs) 其中的s代表就是整个数据组和了，这是一个不错的技巧。</p>
+
+<p><code>haskell
+f (x:xs) = x:x:xs
+f s@(x:xs) = x:s
+</code></p>
+
+<p>当然你也可能遇到Wild-cards情况
+<code>haskell
+head (x:_) = x
+head (_:xs) = xs
+</code></p>
+
+<hr />
+
+<p>另外一个分支关于模式匹配的相似效果是case定义
+f p11 &hellip; p1k = e1
+&hellip;
+f pn1 &hellip; pnk = en
+其中pij是模式组合，</p>
+
+<p>如果你使用case进行书写
+``` haskell
+f x1 x2 &hellip; xk = case (x1,&hellip;,xk) of (p11,&hellip;,p1k) &ndash;> e1</p>
+
+<pre><code>                                    ...
+                                  (pn1,...,pnk)-&gt;en
+</code></pre>
+
+<p>```</p>
+
+<p>比如下面：
+``` haskell
+&mdash;采用模式匹配方式
+take _ [] = []
+take 0 [] = []
+take n (x:xs) = x:take (n-1) xs</p>
+
+<p>&mdash;采用case方式
+take m ys = case (m,ys) of</p>
+
+<pre><code>(0,_) -&gt; []
+(_,[]) -&gt; []
+(n,x:xs) -&gt; x:take (n-1) xs
+</code></pre>
+
+<p>```</p>
+
+<hr />
+
+<p>一个比较重要的functor的定义，因为它用于范畴之间的链接，主要是一个Functor类的实现和fmap函数的定义</p>
+
+<p>``` haskell
+class Functor f where</p>
+
+<pre><code>fmap :: (a-&gt;b) -&gt; f a-&gt;f b
+</code></pre>
+
+<p>对应的Functor实例是
+instance Functor Tree where</p>
+
+<pre><code>fmap f (Leaf x) = Leaf (f x)
+fmap f (Branch t1 t2) = Branch (f t1) (f t2)
+</code></pre>
+
+<p>之所以写上这个你会发现，我们使用
+Date Tree a= Leaf a| Branch a a
+只是定义了类型，但是该类型（或者说大点，叫做范畴）并没有定义fmap，基本上所有的calss类型定义完之后都需要使用instance Functor进行fmap的
+定义,这样对象和映射的组合才够成了范畴。
+```</p>
+
+<p>这也是为什么他比较重要，因为我们可能一直在用，但是并未知晓。当然上面需要特别注意的是实例声明额时候使用的是Tree，而不是Tree a.
+也就是haskell和c++\java不同的是类型变量和methods的定义是分开的。
+Haskell类类似于java的interface，定义的是一个协议，而不是一个定义一个对象本身。而且最重要的一个区别是haskell没有访问控制
+修饰符比如public 、private。取而代之的是使用module模块系统用来隐藏和显示一个类的组成。</p>
+
+<p>其实写到这边，模块系统你可能有所理解，当然模式匹配在函数定义中也是训练的很多，参考<a href="http://jueqingsizhe66.github.io/blog/2015/05/21/haskellku-wen-dang-jie-gou/">Haskell库文档结构</a>
+但是关于instance，你接触、练习还是有点少，所以这部分内容可以继续探索，包括IOMonad（一个新的IO范畴，可以当做一种抽象数据类型）
+也包括图形化的制作等。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[伟大的范畴理论]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/05/21/wei-da-de-fan-chou-li-lun/"/>
+    <updated>2015-05-21T20:56:51+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/05/21/wei-da-de-fan-chou-li-lun</id>
+    <content type="html"><![CDATA[<p><a href="http://yogsototh.github.io/Category-Theory-Presentation/">范畴理论</a>是数学上的一种新的语言和框架结构.
+对于程序员来说，它是另一种思考方式，一种极度有效的方式来提取规律(Extremely
+efficient for generalization)
+Programming is doing Math.编成的工作其实就是数学的工作。</p>
+
+<p>范畴是一种表达事物(things) 和路径(ways)  to go between things.
+这可以参考<a href="http://think-like-a-git.net/">thinking like a git</a>，因为他也是一种基于范畴理论，
+而延伸出来的实际产物，方便程序员对于development的管理。</p>
+
+<!--more-->
+
+
+<p>A Category C is defined by:</p>
+
+<ul>
+<li>Objects ob(C),</li>
+<li>Morphisms hom(C),</li>
+<li>a Composition law (∘)</li>
+</ul>
+
+
+<p>Functor : (ob->ob)
+<img src="http://yogsototh.github.io/Category-Theory-Presentation/categories/img/mp/functor.png" alt="Functor part1" /></p>
+
+<p>Functor : (hom->hom)
+<img src="http://yogsototh.github.io/Category-Theory-Presentation/categories/img/mp/functor-morphism.png" alt="Functor part2" /></p>
+
+<p>Endofunctors:
+<img src="http://yogsototh.github.io/Category-Theory-Presentation/categories/img/mp/functor-morphism.png" alt="自指" /></p>
+
+<p><img src="http://yogsototh.github.io/Category-Theory-Presentation/categories/img/fractalcat.jpg" alt="一只可爱的猫" /></p>
+
+<h2>Categories and functors form a category: Cat</h2>
+
+<ul>
+<li>ob(Cat) are categories</li>
+<li>hom(Cat) are functors</li>
+<li>∘ is functor composition</li>
+</ul>
+
+
+<h2>A Haskell Functor is a type F :: * &ndash;> * which belong to the type class Functor ; thus instantiate fmap :: (a &ndash;> b) &ndash;> (F a &ndash;> F b).</h2>
+
+<ul>
+<li>F: ob(Hask)→ob(Hask)</li>
+<li>&amp; fmap: hom(Hask)→hom(Hask)</li>
+</ul>
+
+
+<h2>The couple (F,fmap) is a Hask&rsquo;s functor if for any x :: F a:</h2>
+
+<p><code>haskell
+fmap id x = x
+fmap (f.g) x= (fmap f . fmap g) x
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[HaskellWiki]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/05/21/haskellwiki/"/>
+    <updated>2015-05-21T13:01:13+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/05/21/haskellwiki</id>
+    <content type="html"><![CDATA[<p>一些常用的资料查询地。</p>
+
+<ul>
+<li><a href="http://www.haskell.org/haskellwiki/Category:Tutorials">130 tutorials</a></li>
+<li><a href="http://www.haskell.org/haskellwiki/Category:Mathematics">46 articles on mathematicas</a></li>
+<li><a href="http://www.haskell.org/haskellwiki/Category:FAQ">46 FAQ topics</a></li>
+<li><a href="http://www.haskell.org/haskellwiki/Category:Community">186 articles on other Haskell communities</a></li>
+<li><a href="http://stackoverflow.com/questions/tagged?tagnames=haskell">Stackoverflow:more than 10,000 problems discussed</a></li>
+<li><a href="http://www.reddit.com/r/haskell/">Reddit:类似于google group (more than 10,000 subbscribers)</a></li>
+<li><a href="http://hackage.haskell.org/packages/archive/pkg-list.html">Hackage 最终的收集网址</a></li>
+<li><a href="https://www.haskell.org/hoogle/">Hoogle:Haskell字典</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Haskell库文档结构]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/05/21/haskellku-wen-dang-jie-gou/"/>
+    <updated>2015-05-21T12:27:42+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/05/21/haskellku-wen-dang-jie-gou</id>
+    <content type="html"><![CDATA[<p><code>
+/src
+Folder for source-code
+Setup.hs
+Haskell build script
+app.cabal
+Cabal build script
+README
+Informative text file
+LICENCE
+Software licence statement
+</code>
+下面是我的建立过程:</p>
+
+<!--more-->
+
+
+<h2>1新建一个HELLO文件夹,在HELLO文件夹新建一个src</h2>
+
+<p><code>sh
+mkdir HELLO
+cd HELLO
+mdkir src
+</code></p>
+
+<h2>2 main.hs  在src内新建一个main.hs</h2>
+
+<p>``` haskell
+module Main where</p>
+
+<p>import Control.Monad</p>
+
+<p>main=do
+  putStrLn &ldquo;Quit? y/n&rdquo;
+  ans &lt;&ndash; getLine
+  when (ans /= &ldquo;y&rdquo;) $ do</p>
+
+<pre><code>   putStrLn "not quiting"
+   main
+</code></pre>
+
+<p>```</p>
+
+<h2>3 cabal init</h2>
+
+<p>Return to the<em> top</em> directory, and run cabal init.
+It helps you fill out the following information:</p>
+
+<ul>
+<li>Package name</li>
+<li>Package version</li>
+<li>License</li>
+<li>Author name</li>
+<li>Maintainer email</li>
+<li>Project homepage URL</li>
+<li>Project synopsis</li>
+<li>Build type</li>
+</ul>
+
+
+<p><code>sh
+cabal init
+</code></p>
+
+<p><a href="https://github.com/CGenie/haskell-snake/blob/master/snake.cabal">一个填写模板</a></p>
+
+<p>至此现在你的文件结构应该是
+<code>`` sh
+$ tree
+.
+|-- HELLO.cabal
+|-- LICENSE
+|-- Setup.hs
+</code>&mdash; src</p>
+
+<pre><code>`-- Main.hs
+</code></pre>
+
+<p>```</p>
+
+<p>现在你就可以分享你的程序，而如果你要安装，则可以继续看下面简单操作</p>
+
+<p>Run +cabal install+ at the project directory
+然后就会把你的执行程序放在~/.cabal/bin中了
+<code>sh
+cabal install
+</code>
+一定要注意 修改HELLO.cabal中的main-is,不要注释他，默认是注释
+并且填入src的主文件名 Main.hs
+``` sh</p>
+
+<p>executable HELLO
+  &mdash; .hs or .lhs file containing the Main module.
+   main-is: Main.hs            一定要补好，否则cabal install 失败</p>
+
+<p>  &mdash; Modules included in this executable, other than Main.
+  &mdash; other-modules:</p>
+
+<p>  &mdash; Other library packages from which modules are imported.
+  build-depends:       base ==4.6.*</p>
+
+<p>  &mdash; Directories containing source files.
+  hs-source-dirs:      src</p>
+
+<p>```</p>
+
+<p>结果是：
+``` sh
+$ cabal install
+Resolving dependencies&hellip;
+Configuring HELLO-1.0.0&hellip;
+Building HELLO-1.0.0&hellip;
+Preprocessing executable &lsquo;HELLO&rsquo; for HELLO-1.0.0&hellip;
+[1 of 1] Compiling Main             ( src/Main.hs, dist/build/HELLO/HELLO-tmp/Main.o )
+Linking dist/build/HELLO/HELLO &hellip;
+Installing executable(s) in /home/javazhao/.cabal/bin
+Installed HELLO-1.0.0</p>
+
+<p><code>
+此时的文档结构如下:
+</code> haskell
+$ tree
+.
+|&mdash; dist
+|   |&mdash; build
+|   |   |&mdash; autogen
+|   |   |   |&mdash; cabal_macros.h
+|   |   |   <code>-- Paths_HELLO.hs
+|   |  </code>&mdash; HELLO
+|   |       |&mdash; HELLO
+|   |       <code>-- HELLO-tmp
+|   |           |-- Main.hi
+|   |          </code>&mdash; Main.o
+|   |&mdash; package.conf.inplace
+|   <code>-- setup-config
+|-- HELLO.cabal
+|-- LICENSE
+|-- Setup.hs
+</code>&mdash; src</p>
+
+<pre><code>`-- Main.hs
+</code></pre>
+
+<p>```</p>
+
+<p>一些额外知识：</p>
+
+<p>Open up Main.hs and add some documentation
+&mdash; | is the syntax for documenting function type signature, type declaration, or class declaration,记住&mdash;和|中间有一个空格
+``` haskell
+module Main where</p>
+
+<p>&mdash; |This is the main function
+main :: IO()
+main = do
+  putStrLn &ldquo;What&rsquo;s your name?&rdquo;
+  name &lt;&ndash; getLine
+  putStrLn (&ldquo;Hi &rdquo; ++ name)
+```</p>
+
+<p>然后就可以使用Haddock(前提是你运行了cabal install,这样你的文件夹下才有dist)
+Haddock is a documentation engine</p>
+
+<p>首先需要安装alex：
+``` sh
+cabal install alex
+Linking dist/build/alex/alex &hellip;
+Installing executable(s) in /home/javazhao/.cabal/bin
+Installed alex-3.1.4</p>
+
+<p><code>
+然后安装happy
+</code> sh
+cabal install happy</p>
+
+<p>Linking dist/build/happy/happy &hellip;
+Installing executable(s) in /home/javazhao/.cabal/bin
+Installed happy-1.19.5</p>
+
+<p><code>
+最后安装haddock：
+</code> sh
+cabal install haddock
+Linking dist/build/haddock/haddock &hellip;
+Installing library in /home/javazhao/.cabal/lib/haddock-2.13.2.1/ghc-7.6.3
+Installing executable(s) in /home/javazhao/.cabal/bin
+Registering haddock-2.13.2.1&hellip;
+Installed haddock-2.13.2.1
+```</p>
+
+<p>最后运行结果
+``` sh
+ cabal haddock &mdash;executables
+$ cabal haddock &mdash;executables
+Running Haddock for HELLO-1.0.0&hellip;
+Preprocessing executable &lsquo;HELLO&rsquo; for HELLO-1.0.0&hellip;
+Warning: The documentation for the following packages are not installed. No
+links will be generated to these packages: base-4.6.0.1, rts-1.0,
+ghc-prim-0.3.0.0, integer-gmp-0.5.0.0
+Haddock coverage:
+  50% (  1 /  2) in &lsquo;Main&rsquo;
+Warning: Main: could not find link destinations for:</p>
+
+<pre><code>GHC.Types.IO
+</code></pre>
+
+<p>Documentation created: dist/doc/html/HELLO/HELLO/index.html</p>
+
+<p>```
+然后你的文档就会存在dist/doc/html/HELLO/HELLO/index.html
+这其实就是官网的那些类库网页的的产生方式.</p>
+
+<p>最终的文档结构：
+<code>`` sh
+$ tree
+.
+|-- dist
+|   |-- build
+|   |   |-- autogen
+|   |   |   |-- cabal_macros.h
+|   |   |  </code>&mdash; Paths_HELLO.hs
+|   |   <code>-- HELLO
+|   |       |-- HELLO
+|   |      </code>&mdash; HELLO-tmp
+|   |           |&mdash; Main.hi
+|   |           <code>-- Main.o
+|   |-- doc
+|   |  </code>&mdash; html
+|   |       <code>-- HELLO
+|   |          </code>&mdash; HELLO
+|   |               |&mdash; doc-index.html
+|   |               |&mdash; frames.html
+|   |               |&mdash; haddock-util.js
+|   |               |&mdash; HELLO.haddock
+|   |               |&mdash; hslogo-16.png
+|   |               |&mdash; index-frames.html
+|   |               |&mdash; index.html
+|   |               |&mdash; Main.html
+|   |               |&mdash; mini_Main.html
+|   |               |&mdash; minus.gif
+|   |               |&mdash; ocean.css
+|   |               |&mdash; plus.gif
+|   |               <code>-- synopsis.png
+|   |-- package.conf.inplace
+|  </code>&mdash; setup-config
+|&mdash; HELLO.cabal
+|&mdash; LICENSE
+|&mdash; Setup.hs
+`&mdash; src</p>
+
+<pre><code>`-- Main.hs
+</code></pre>
+
+<p>```</p>
+
+<h2><a href="https://www.haskell.org/haddock/doc/html/markup.html#id564988">一个提醒</a></h2>
+
+<p>以后写代码的时候，一定要注意标注</p>
+
+<ul>
+<li>使用&mdash; |</li>
+<li>使用{&ndash; &ndash;} 针对快注释</li>
+</ul>
+
+
+<p><a href="https://www.haskell.org/haddock/doc/html/index.html">一个链接关于haddock的用户指南</a></p>
+]]></content>
+  </entry>
+  
+</feed>

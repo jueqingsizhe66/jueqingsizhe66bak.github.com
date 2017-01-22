@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Fortran | 网络书屋(Web Reading Room)]]></title>
+  <link href="http://jueqingsizhe66.github.io/blog/categories/fortran/atom.xml" rel="self"/>
+  <link href="http://jueqingsizhe66.github.io/"/>
+  <updated>2017-01-22T12:24:26+08:00</updated>
+  <id>http://jueqingsizhe66.github.io/</id>
+  <author>
+    <name><![CDATA[Ye Zhaoliang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Fortran宫殿]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/08/09/fortrangong-dian/"/>
+    <updated>2015-08-09T15:06:38+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/08/09/fortrangong-dian</id>
+    <content type="html"><![CDATA[<p>任何语言应该都可以有类似宫殿的想法，在纵横交错的街道中，能过找到进口和出口，
+并可以使用很多条道路完成你想去的地方，而不是拘泥于一条道路。Fortran也是如此。
+诞生于1951年左右的第一个面向对象的高级语言Fortran 语言，也已经65岁左右了，它以其
+快速有效的科学数值计算，一直运用于科学研究领域中。
+浅显针对fortran的理解&mdash;&mdash;宫殿式的介绍.</p>
+
+<!--more-->
+
+
+<h2>宫殿</h2>
+
+<p>  宫殿蕴含着纵横交错，阡陌交通，但是确实零落有序，复合规律。通过宫殿群来认识这门科学语言。</p>
+
+<p>  <img src="/images/fortran/palace.jpg" alt="宫殿" /></p>
+
+<h2>fortran</h2>
+
+<p>fortran包含以下主要几个部分</p>
+
+<ol>
+<li><a href="#3.1">进口(初始化)</a></li>
+<li><a href="#3.2">数组</a></li>
+<li><a href="#3.3">过程定义(子程序和函数)</a></li>
+<li><a href="#3.4">模块</a></li>
+<li><a href="#3.5">出口</a></li>
+<li><a href="#3.6">文件组合</a></li>
+</ol>
+
+
+<h3 id="3.1"> 进口</h3>
+
+
+<p>   程序在开始设计的时候，需要变量初始化，也就是进行进口的布置。</p>
+
+<p>   <img src="/images/fortran/wumen.jpg" alt="input" /></p>
+
+<h3 id="3.2"> 数组arrays and allocatable </h3>
+
+
+<p>   有时候我们发现一条街到应该相同的样式，于是我们采用数组把具有相同的
+  数据形成放进一个一个的房屋。<img src="/images/fortran/wumen.jpg" alt="arrays" />
+  fortran的dimension是相当常见的形式，因为他就是数组的体现。
+  一般房屋的建造都是需要allocatable的属性，也就是政府指定的可用地，利用allocate建房，使用完，废弃了，就deallocate。<img src="/images/fortran/zhengdi.jpg" alt="zhengdi" /></p>
+
+<h3 id="3.3">subroutine and function</h3>
+
+
+<p>   房屋一多我们发现没法管理，于是我们就把很多的房屋放在对应的街道中去,也就是
+subroutine或者function当中。</p>
+
+<p><img src="/images/fortran/street.png" alt="街道" /></p>
+
+<p>   另外有时候有一些已经在外建的subroutine和function一定得把他们的头和参数类型和end部分提交到program（政府）当中的INTERFACE当中，这样才能确定这块地的合法性等。
+   这也是为什么fortran中有时会有额外的子程序的定义（和主文件不在同一个文件夹当中），为了让主文件能够识别，使用INTERFACE把它嵌入进来(后来引入module减少了interface的作用)。</p>
+
+<p>   <img src="/images/fortran/zhai.jpg" alt="interface" /></p>
+
+<h3 id="3.4"> 升级版的module</h3>
+
+
+<p>  为了管理和维护房间(arrays)和街道(subs)，于是我们把他们放在一个一个区域当中。<img src="/images/fortran/module.png" alt="module" /></p>
+
+<h3 id="3.5"> 出口 </h3>
+
+
+<p>   当我们绕过了整个宫殿后，还需要布置一个或多个的出口。 <img src="/images/fortran/shenwu.jpg" alt="output" /></p>
+
+<h3 id="3.6"> 然而我们发现我们需要更大的进口说明</h3>
+
+
+<p>   有时候我们进一步组装多个输入文件，而为了方便，我们把他们组装成一个更大的进口装置，放置在最前面。</p>
+
+<p>   <img src="/images/fortran/square.jpg" alt="square" /></p>
+
+<h2>后续</h2>
+
+<p>   无论模块化，还是函数化，亦或者模式化，都是基于原先大的过程式变成的改成，
+   只不过是为了减少冗余、重复，同时简化和方便阅读，另外还有就是方便拓展。
+   <em>从现在开始可以建立你自己的fortranlibrary modal</em> (<font color="red">一个不错的建议</font>)</p>
+
+<p>   fortran2003出来了个type这个数据结构的创建，方便的把多个变量或者数组组合成为一种数据类型，这就有点像3D打印的功能：</p>
+
+<p>```
+  type creat_a</p>
+
+<pre><code>real :: a
+integer :: b
+real,allocatable :: c(:)
+</code></pre>
+
+<p>  end type creat_a</p>
+
+<p>  type(creat_a) :: creat_b,creat_c</p>
+
+<p>  creat_b%a = 1.0
+  creat_b%b = 2
+  allocate (creat_b%c(3))
+  creat_b%c = 6.0</p>
+
+<p>  creat_c = creat_b
+  creat_c%b = 8</p>
+
+<p>```</p>
+
+<p>type的作用类似Hashkell的data的作用，没有行为只有数据类型。
+先开个头……</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[积累和重写对于程序员很重要]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/06/22/ji-lei-he-zhong-xie-dui-yu-cheng-xu-yuan-hen-zhong-yao/"/>
+    <updated>2015-06-22T15:35:19+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/06/22/ji-lei-he-zhong-xie-dui-yu-cheng-xu-yuan-hen-zhong-yao</id>
+    <content type="html"><![CDATA[<p>积累，你才能厚积而薄发。
+重写，你才能进一步认识你的积累.
+重写有时候会带来对于知识的进一步深入的理解.</p>
+
+<!--more-->
+
+
+<p>今天听了<a href="http://www.fcode.cn">Fcode</a>的一个视频讲座，一个立志于开源的非营利小团队，还有一个专门的Fortran Coder的qq群。听完感觉，自己真的很有缺点，之前上过一个java培训班，其实套路都一样，写代码，重复写，直到你睡觉醒来还能写，喝了半斤52度二锅头还能写。</p>
+
+<p>并且需要在一定的时间内回顾，重写之前你写过的东西，虽然听起来很简单，可是我经常也是忘记了这个该做的工作。</p>
+
+<ul>
+<li>积累</li>
+<li>重写</li>
+</ul>
+
+
+<p>这两项对于学习任何一个科目都至关重要和必不可少。武功再高,也要练操。</p>
+
+<p>fortran是简单，而且是基于解决数学、物理问题,擅长科学计算，而不是利用它做一个漂亮的界面。基本上fortran的很多算法都可以通过网络资源搜索得到，并进行适当修改，这也需要你去积累。但是fortran给你思维层次的改造不是特别明显，所以从这个角度来说，我并不觉得他是一门好的语言，但是他的计算能力还真的不错，特别是矩阵计算能力。也许我也该经常整理fortran相关的编程知识。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu Gtk-fortran]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/05/19/ubuntu-gtk-fortran/"/>
+    <updated>2015-05-19T17:03:25+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/05/19/ubuntu-gtk-fortran</id>
+    <content type="html"><![CDATA[<p>Fortran：一门古老的<a href="http://micro.ustc.edu.cn/Fortran/ZJDing/">计算机数值科学计算语言</a>,1950.</p>
+
+<p>Fortran的强项就是数值计算，图形编程是一个鸡肋所在，但是有时候又需要做一些图形的展示，借助于<a href="http://www.gtk.org/">GTK+ project</a>可以方便我们达到目的.</p>
+
+<p>GTK是c语言编写的源程序，运用到fortran需要相应的库转换,在github上找到一个<a href="https://github.com/jueqingsizhe66/gtk-fortran">gtk-fortran库</a>.下面是ubuntu上面的搭建过程(windows 未实现,可以参考 gtk+makefile)</p>
+
+<!--more-->
+
+
+<h2>Ubuntu 搭建</h2>
+
+<h3>环境搭建</h3>
+
+<p>GTK3+是跨平台的，既可以在windows上使用，也可以在linux上使用
+下面的代码可以直接打包进一个gtk.sh文件，直接运行sh gtk.sh进行安装
+``` sh</p>
+
+<h1>1 刚装好的Ubuntu系统中已经有GCC了，但是这个GCC几乎什么文件都不能编译，因为缺少一些必须的头文件，所以要安装build-essential这个软件包</h1>
+
+<p>sudo apt-get install build-essential</p>
+
+<h1>2 安装GTK/GNOME开发环境  需要下载一系列的安装包，时间比较长</h1>
+
+<p>sudo apt-get install gnome-devel gnome-devel-docs</p>
+
+<h1>3 用于在编译GTK程序时自动找出头文件及库文件位置　　</h1>
+
+<p>sudo apt-get install pkg-config</p>
+
+<h1>4安装 devhelp GTK文档查看程序</h1>
+
+<p>sudo apt-get install devhelp</p>
+
+<h1>5安装 gtk/glib 的API参考手册及其它帮助文档</h1>
+
+<p>sudo apt-get install libglib2.0-doc libgtk2.0-doc</p>
+
+<h1>6  安装基于GTK的界面GTK是开发Gnome窗口的c/c++语言图形库</h1>
+
+<p>sudo apt-get install glade libglade2-dev</p>
+
+<h2>或者sudo apt-get install glade-gnome glade-common glade-doc</h2>
+
+<h1>7安装gtk3.0 或者 将gtk+3.0所需的所有文件统通下载安装完毕 (安装时间较长)</h1>
+
+<p>sudo apt-get install libgtk3*</p>
+
+<h2>查看信息</h2>
+
+<h1>查看 2.x 版本</h1>
+
+<h1>pkg-config &mdash;modversion gtk+-3.0</h1>
+
+<h1>查看pkg-config的版本</h1>
+
+<h1>$pkg-config -version</h1>
+
+<h1>查看是否安装了gtk</h1>
+
+<h1>pkg-config &mdash;list-all | grep gtk</h1>
+
+<p>```</p>
+
+<p>这个流程做完了，就可以进行gtk测试,当然仅仅是c语言的测试</p>
+
+<h3>测试文件</h3>
+
+<p>``` c
+//Helloworld.c</p>
+
+<h1>include &lt;gtk/gtk.h></h1>
+
+<p>int main(int argc,char *argv[])<br/>
+{</p>
+
+<pre><code>GtkWidget    *window;  
+GtkWidget    *label;  
+
+gtk_init(&amp;argc,&amp;argv);  
+
+/* create the main, top level, window */  
+window = gtk_window_new(GTK_WINDOW_TOPLEVEL);  
+
+/* give it the title */  
+gtk_window_set_title(GTK_WINDOW(window),"Hello World");  
+
+/* connect the destroy signal of the window to gtk_main_quit 
+ * when the window is about to be destroyed we get a notification and 
+ * stop the main GTK+ loop 
+ */  
+g_signal_connect(window,"destroy",G_CALLBACK(gtk_main_quit),NULL);  
+
+/* create the "Hello, World" label */  
+label = gtk_label_new("GTK可以运行了！");  
+
+/* and insert it into the main window */  
+gtk_container_add(GTK_CONTAINER(window),label);  
+
+/* make sure that everything, window and label, are visible */  
+gtk_widget_show_all(window);  
+
+/* start the main loop, and let it rest until the application is closed */  
+gtk_main();  
+
+return 0;  
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<h3>编译</h3>
+
+<p><code>sh
+gcc -o Helloworld Helloworld.c `pkg-config --cflags --libs gtk+-3.0`
+</code></p>
+
+<h3>运行</h3>
+
+<p>``` sh
+./Helloworld</p>
+
+<p>```</p>
+
+<p>如果你得到一个小窗口"GTK可以运行了" 证明你的gtk环境是正确的。</p>
+
+<p>然后我们开始进一步配置gtk-fortran</p>
+
+<ol>
+<li>下载
+<a href="https://github.com/jueqingsizhe66/gtk-fortran">https://github.com/jueqingsizhe66/gtk-fortran</a></li>
+<li>编译</li>
+</ol>
+
+
+<p>``` sh
+mkdir build
+cd build</p>
+
+<p>在gtk-fortran目录下：/home/happycamp-of-fortran/gtk-fortran/build
+cmake ..
+make
+make install</p>
+
+<p>```</p>
+
+<p>会得到如下结果:
+<code>sh
+Install the project...
+-- Install configuration: "release"
+-- Installing: /usr/local/lib/libgtk-2-fortran.a
+-- Installing: /usr/local/lib/libgtk-2-fortran.so.0.1
+-- Installing: /usr/local/lib/libgtk-2-fortran.so
+-- Installing: /usr/local/include/gtk-2-fortran/atk.mod
+-- Installing: /usr/local/include/gtk-2-fortran/cairo.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gdk.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gdk_pixbuf.mod
+-- Installing: /usr/local/include/gtk-2-fortran/g.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_hl.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_hl_container.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_hl_button.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_hl_entry.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_hl_tree.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_hl_menu.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_hl_combobox.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_hl_spin_slider.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_hl_chooser.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_hl_dialog.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_hl_progress.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_hl_accelerator.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_hl_infobar.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_hl_assistant.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_hl_misc.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_draw_hl.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gdk_pixbuf_hl.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_sup.mod
+-- Installing: /usr/local/include/gtk-2-fortran/pango.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gdk_events.mod
+-- Installing: /usr/local/include/gtk-2-fortran/gtk_os_dependent.mod
+-- Installing: /usr/local/bin/gtk-2-fortran-modscan
+-- Installing: /usr/local/share/gtk-fortran/gtk-2-fortran-index.csv
+-- Installing: /usr/local/share/gtk-fortran/gtk-2-enumerators.lis
+-- Installing: /usr/local/lib/pkgconfig/gtk-2-fortran.pc
+-- Installing: /usr/local/share/man/man1/gtk-2-fortran-modscan.1
+</code></p>
+
+<p>3: 测试软件
+然后你就会发现
+cd 到 /home/happycamp-of-fortran/gtk-fortran/examples
+然后
+<code>`` sh
+root at javazhao-N53SM [19:27:20ä��午] in /home/happycamp-of-fortran/gtk-fortran/examples on git:master?
+$ gfortran gtkhello2.f90 -o gtkhello2</code>pkg-config &mdash;cflags &mdash;libs gtk-2-fortran`</p>
+
+<p>就可以了. 一定记住加入的是gtk-2-fortran 这个库。而不是gtk+-2.0或者gtk+-3.0,这两个库是针对c语言的。
+$ ./gtkhello2</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,1116 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>1月28日Java班笔记提交帖 - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="第一部分：笔记
+引用杨老师笔记，的确经典
+1、GTK命名规则 1）一般以gtk_开头 2）gtk_widget_代表这个函数可以应用于GtkWidget及所有子类。gtk_container_代表这个函数可以应用于GtkContainer及所有子类。 3）gtk_***_new， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2015/05/11/1yue-28ri-javaban-bi-ji-ti-jiao-tie">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">1月28日Java班笔记提交帖</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:40+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--more-->
+
+
+<p>第一部分：笔记
+引用杨老师笔记，的确经典
+1、GTK命名规则</p>
+
+<pre><code> 1）一般以gtk_开头
+ 2）gtk_widget_代表这个函数可以应用于GtkWidget及所有子类。gtk_container_代表这个函数可以应用于GtkContainer及所有子类。
+ 3）gtk_***_new，创建一个控件并且返回它的标识(编号)。
+ 4）gtk_AAA_get_BBB，从AAA类型的控件的标识获得控件的BBB属性的值；gtk_AAA_set_BBB，设置指定标识的类型为AAA的控件的BBB属性的值
+</code></pre>
+
+<p>  分析上述结论：</p>
+
+<pre><code> a.        的确原始的gtk程序都是以gtk_开头的  ，而现在com.rupeng.gtk4j.*，则是利用GTK这个类封装起来这些方法。
+ b.        一般的规律都是gtk_widget_开头表示继承GtkWidget及所有子类，所以需要有一张GTK的总体继承图
+   看 总体继承图.gif
+  说明：也就是说在思考widget的时候，一般接着思考Container、Entry、Label,针对Container有需要思考Bin\Box\Grid\Fixed，针对Bin有需要接着思      考Window|NoteBook|,ScrolledWindow|Button,针对Window有需要接着思考Dialog
+
+ c. 之所以是gtk_***_new_*** 是因为***既可以代表 gtk_window_new  也可以代表gtk_progress_bar_new                   gtk_check_box_new   gtk_button_new_with_label   gtk_toggle_button_new等。
+     d.  Gtk_AAA_get|set_BBB   其实AAA一般代表控件   BBB一般代表属性，也可以代表地方  比如  gtk_screen_get_width()   gtk_entry_set_max_length   gtk_widget_set_visible()
+ Gtk_tool_item_set_toolkit_item   AAA也可以有两个_连接。
+</code></pre>
+
+<ol>
+<li><p>GTK的使用框架：
+              //初始化
+             GTK.gtk_init();
+             //建立窗口  设置成static int window变量
+             window = GTK.gtk_window_new(GTK.GTK_WINDOW_TOPLEVEL);
+             //设置窗口名称
+             GTK.gtk_window_set_title(window, &ldquo;计算器v1.0&rdquo;);
+             //添加窗口
+             GTK.gtk_widget_show(window);</p>
+
+<pre><code>         //关闭对话框
+         GTK.g_signal_connect(window, "destroy", new IGCallBack() 
+         {
+                 @Override
+                 public void execute(int instance, int eventData, Object object)
+                 {
+                         // TODO 自动生成的方法存根
+                         GTK.gtk_main_quit();
+                 }
+         }, null);
+
+         //网格布局  盒子布局   固定布局。。。 当前选择网格布局
+     int houseGrid = GTK.gtk_grid_new();
+     //载入控件
+     //省略 一万行代码。。。。
+
+     //载入到windows当中
+         GTK.gtk_container_add(window, houseGrid);
+         //启动循环
+         GTK.gtk_main();
+</code></pre></li>
+<li><p>GTK.gtk_container_add(window,box1) ;在一个main中只能使用一次gtk_container_add..</p></li>
+<li><p>CheckBox
+int gtk_check_button_new_with_label(String label)
+CheckButton继承自ToggleButton
+所以可以使用 void gtk_toggle_button_set_active(int toggle_button, boolean is_active) 设置是否选中
+boolean gtk_toggle_button_get_active(int toggle_button) 获得是否选中</p></li>
+</ol>
+
+
+<p>5.gtk_entry_new
+基本的文本框设置
+使用void gtk_label_set_text(int label, String str)修改Label的文本内容
+void gtk_entry_set_max_length(int entry, int max)设置输入框最大的宽度
+void gtk_entry_set_text(int entry, String text)设置输入框的文本
+String gtk_entry_get_text(int entry)获得输入框的文本值</p>
+
+<p>密码文本框设置：
+void gtk_entry_set_visibility(int entry,boolean visible)当把visible设置为false的时候输入的内容都会显示成 gtk_entry_set_invisible_char(int entry,char inv_char)设置的字符。用于实现密码框</p>
+
+<p>第二部分： 作业</p>
+
+<p>case1: 固定布局的测试</p>
+
+<p>/<em>*
+* @author 叶昭良
+* @version  v1.0
+</em>/
+import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;
+//import com.rupeng.gtk4j.Utils;
+public class TestGtkWidgetFixedLayout
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    public static void main(String[] args)
+    {
+            // TODO 自动生成的方法存根
+            GTK.gtk_init();
+        int window = GTK.gtk_window_new(GTK.GTK_WINDOW_TOPLEVEL); // 原来还有个POPUP估计是右键菜单
+        GTK.gtk_widget_show(window);
+
+        GTK.gtk_window_set_title(window, "霜雪"); // widget下没有 只有在window下有。
+       // GTK.gtk_window_set_position(window, GTK.GTK_WIN_POS_CENTER);
+
+        GTK.gtk_window_set_position(window, GTK.GTK_WIN_POS_CENTER_ALWAYS);
+        //GTK.gtk_window_set_resizable(window, true);  //默认可以拉伸
+        // 默认的窗口可以最大化， GTK.gtk_widget_set_maximize(widget)
+
+        //新建了一个文本框
+        int entry1  = GTK.gtk_entry_new();
+        GTK.gtk_widget_show(entry1);
+        //新建了一个button 
+        int button1 = GTK.gtk_button_new_with_label("click me");
+        GTK.gtk_widget_show(button1);
+
+        //新建了一个标签
+        int label1 =  GTK.gtk_label_new("请输入：");
+        GTK.gtk_widget_show(label1);
+
+        // 安静的关闭对话框
+        GTK.g_signal_connect(window, "destroy", new IGCallBack()
+        {
+                @Override
+                public void execute(int instance, int eventData, Object object)
+                {
+                        // TODO 自动生成的方法存根
+                        GTK.gtk_main_quit();
+                }
+        }, null);
+
+        //int box1= GTK.gtk_box_new(GTK., spacing)
+        //新加了一个house  用来整租给文本框 +button+label
+        int house = GTK.gtk_fixed_new();
+        GTK.gtk_fixed_put(house, entry1,0,0);
+        GTK.gtk_fixed_put(house,button1,50,0);
+        GTK.gtk_fixed_put(house,label1,0,100); //很难适应屏幕大小！！所以一般很少用
+        GTK.gtk_widget_show(house);
+
+        GTK.gtk_container_add(window,house);
+
+        GTK.gtk_main();
+    }
+</code></pre>
+
+<p>}
+复制代码</p>
+
+<p>case2 盒子布局的测试</p>
+
+<p>/<em>*
+* @author 叶昭良
+* @version  v1.0
+</em>/
+import java.awt.AWTException;
+import java.awt.Robot;</p>
+
+<p>import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;
+//import com.rupeng.gtk4j.Utils;
+public class TestGtkWidgetBoxLayout
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    public static void main(String[] args)
+    {
+            // TODO 自动生成的方法存根
+            GTK.gtk_init();
+        int window = GTK.gtk_window_new(GTK.GTK_WINDOW_TOPLEVEL); // 原来还有个POPUP估计是右键菜单
+        GTK.gtk_widget_show(window);
+
+        GTK.gtk_window_set_title(window, "霜雪"); // widget下没有 只有在window下有。
+       // GTK.gtk_window_set_position(window, GTK.GTK_WIN_POS_CENTER);
+
+        GTK.gtk_window_set_position(window, GTK.GTK_WIN_POS_CENTER_ALWAYS);
+        //GTK.gtk_window_set_resizable(window, true);  //默认可以拉伸
+        // 默认的窗口可以最大化， GTK.gtk_widget_set_maximize(widget)
+
+        //新建了一个文本框
+        int entry1  = GTK.gtk_entry_new();
+        GTK.gtk_widget_show(entry1);
+        //新建了一个button 
+        int button1 = GTK.gtk_button_new_with_label("click me");
+        GTK.gtk_widget_show(button1);
+
+        //新建了一个标签
+        int label1 =  GTK.gtk_label_new("请输入：");
+        int label2 =  GTK.gtk_label_new("");
+        int label3 =  GTK.gtk_label_new("");
+
+        // 显示标签
+        GTK.gtk_widget_show(label1);
+        GTK.gtk_widget_show(label2);
+        GTK.gtk_widget_show(label3);
+        // 安静的关闭对话框
+        GTK.g_signal_connect(window, "destroy", new IGCallBack()
+        {
+                @Override
+                public void execute(int instance, int eventData, Object object)
+                {
+                        // TODO 自动生成的方法存根
+                        GTK.gtk_main_quit();
+                }
+        }, null);
+
+        //int box1= GTK.gtk_box_new(GTK., spacing)
+        //新加了一个house  用来整租给文本框 +button+label
+        // gtk_box_new 的第一个参数 一般是两种赋值方式GTK.GTK_ORIENTATION_HORIZONTAL和_VERTICAL
+        // 第二个参数表示的间隔space,如果设置为5则为5pt的间隔
+        int houseApple = GTK.gtk_box_new(GTK.GTK_ORIENTATION_HORIZONTAL, 0);
+        int houseBanana = GTK.gtk_box_new(GTK.GTK_ORIENTATION_HORIZONTAL, 0);
+        int houseTree = GTK.gtk_box_new(GTK.GTK_ORIENTATION_VERTICAL, 0);
+        //水平house
+        GTK.gtk_box_pack_start(houseApple, label1, true, true, 0);
+        GTK.gtk_box_pack_start(houseApple,entry1 , true, true, 0);
+        GTK.gtk_box_pack_start(houseBanana,label2 , true, true, 0);
+        GTK.gtk_box_pack_start(houseBanana,button1 , true, true, 0);
+        GTK.gtk_box_pack_start(houseBanana,label3 , true, true, 0);
+        //垂直house
+        GTK.gtk_box_pack_start(houseTree, houseApple, true, true, 0);
+        GTK.gtk_box_pack_start(houseTree, houseBanana, true, true, 0);
+
+
+        // 显示三个容器 的house
+        GTK.gtk_widget_show(houseApple);
+        GTK.gtk_widget_show(houseBanana);
+        GTK.gtk_widget_show(houseTree);
+
+        GTK.gtk_container_add(window,houseTree);
+
+        GTK.gtk_main();
+
+
+    }
+</code></pre>
+
+<p>}
+复制代码</p>
+
+<p>case3 网格布局的测试</p>
+
+<p>/<em>*
+* @author 叶昭良
+* @version v1.0
+* @version v1.1 改进了密码框<br/>
+</em>/
+import java.awt.AWTException;
+import java.awt.Robot;</p>
+
+<p>import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;
+//import com.rupeng.gtk4j.Utils;
+public class TestGtkWidgetGridLayout
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    public static void main(String[] args)
+    {
+            // TODO 自动生成的方法存根
+            GTK.gtk_init();
+        int window = GTK.gtk_window_new(GTK.GTK_WINDOW_TOPLEVEL); // 原来还有个POPUP估计是右键菜单
+        GTK.gtk_widget_show(window);
+
+        GTK.gtk_window_set_title(window, "霜雪"); // widget下没有 只有在window下有。
+       // GTK.gtk_window_set_position(window, GTK.GTK_WIN_POS_CENTER);
+
+        GTK.gtk_window_set_position(window, GTK.GTK_WIN_POS_CENTER_ALWAYS);
+        //GTK.gtk_window_set_resizable(window, true);  //默认可以拉伸
+        // 默认的窗口可以最大化， GTK.gtk_widget_set_maximize(widget)
+
+
+        // 安静的关闭对话框
+        GTK.g_signal_connect(window, "destroy", new IGCallBack()
+        {
+                @Override
+                public void execute(int instance, int eventData, Object object)
+                {
+                        // TODO 自动生成的方法存根
+                        GTK.gtk_main_quit();
+                }
+        }, null);
+
+        //int box1= GTK.gtk_box_new(GTK., spacing)
+        //新加了一个网格屋子
+        int houseGrid = GTK.gtk_grid_new();
+
+
+
+
+        // 显示 的houseGrid
+        GTK.gtk_widget_show(houseGrid);
+        // 0开头是程序员的惯例
+        testGtk(houseGrid,0);
+        landInternet(houseGrid,2);
+
+
+
+        GTK.gtk_container_add(window,houseGrid);
+        GTK.gtk_main();
+
+
+    }
+    //新建一个测试的界面
+    /**
+     * 
+     * @param houseGrid  整租的大房子  表示gtk_grid_new的返回值
+     * @param start      在houseGrid分配到的第几行开始编号
+     */
+    public static void testGtk(int houseGrid,int start)
+    {
+               //新建了一个文本框
+        int entry1  = GTK.gtk_entry_new();
+        GTK.gtk_widget_show(entry1);
+        //新建了一个button 
+        int button1 = GTK.gtk_button_new_with_label("click me");
+        GTK.gtk_widget_show(button1);
+
+        //新建了一个标签
+        int label1 =  GTK.gtk_label_new("请输入：");
+        int label2 =  GTK.gtk_label_new("");
+        int label3 =  GTK.gtk_label_new("");
+
+        // 显示标签
+        GTK.gtk_widget_show(label1);
+        GTK.gtk_widget_show(label2);
+        GTK.gtk_widget_show(label3);
+
+        //整租到housegrid
+        // gtk_grid_attach(int grid, int child, int left,int top, int width, int height);
+        GTK.gtk_grid_attach(houseGrid, label1, 0, start, 1, 1);
+        GTK.gtk_grid_attach(houseGrid, entry1, 1, start, 1, 1);
+
+        GTK.gtk_grid_attach(houseGrid, button1, 1, start+1, 1, 1);
+    }
+
+//新建一个登陆界面的GTK
+    public static void landInternet(int houseGrid,int start) 
+    {
+               //新建了一个文本框
+        int entry1  = GTK.gtk_entry_new();
+
+        int entry2  = GTK.gtk_entry_new();
+
+        //增加了文本框的密码框的设置y2, false);
+        //可以设置显示的
+        GTK.gtk_entry_set_visibility(entry2,false);  //字符 默认的密码框为*
+        GTK.gtk_entry_set_invisible_char(entry2, '1'); //只能是字符  不能是"1"
+
+        //新建了一个button 
+        int buttonEnter = GTK.gtk_button_new_with_label("登陆");
+
+        int buttonClosed = GTK.gtk_button_new_with_label("取消");
+
+        int checkbox1= GTK.gtk_check_button_new_with_label("是否保存密码");
+        //新建了一个标签
+        int label1 =  GTK.gtk_label_new("用户名：");
+        int label2 =  GTK.gtk_label_new("密码  ：");
+
+        //为什么要声明为final暂时不是特别清楚
+        final int label3 =  GTK.gtk_label_new("");
+
+        // 显示标签
+        GTK.gtk_widget_show(entry1);
+        GTK.gtk_widget_show(entry2);
+        GTK.gtk_widget_show(label1);
+        GTK.gtk_widget_show(label2);
+        GTK.gtk_widget_show(label3);
+        GTK.gtk_widget_show(checkbox1);
+        GTK.gtk_widget_show(buttonEnter);
+        GTK.gtk_widget_show(buttonClosed);
+
+        //整租到houseGrid
+        GTK.gtk_grid_attach(houseGrid, label1, 0, start, 1, 1);
+        GTK.gtk_grid_attach(houseGrid, entry1, 1, start, 1, 1);
+        GTK.gtk_grid_attach(houseGrid, label2, 0, start+1, 1, 1);
+        GTK.gtk_grid_attach(houseGrid, entry2, 1, start+1, 1, 1);
+        GTK.gtk_grid_attach(houseGrid, checkbox1, 1, start+2, 1, 1);
+        GTK.gtk_grid_attach(houseGrid, buttonEnter, 1, start+3, 1, 1);
+        GTK.gtk_grid_attach(houseGrid, buttonClosed, 2, start+3, 1, 1);
+        GTK.gtk_grid_attach(houseGrid, label3, 1, start+5, 1, 1);
+
+
+        // 进行按钮的事件连接
+        GTK.g_signal_connect(buttonEnter,"clicked",new IGCallBack()
+        {
+                @Override
+                public void execute(int instance, int eventData, Object object)
+                {
+                        // TODO 自动生成的方法存根
+                        System.out.println("你点击了登陆");
+                        GTK.gtk_label_set_text(label3, "你点击了登陆");
+                }
+        },null);
+
+        GTK.g_signal_connect(buttonClosed,"clicked",new IGCallBack()
+        {
+                @Override
+                public void execute(int instance, int eventData, Object object)
+                {
+                        // TODO 自动生成的方法存根
+                        System.out.println("你点击了关闭");
+                        GTK.gtk_label_set_text(label3, "你点击了关闭");
+                }
+        },null);
+    }
+</code></pre>
+
+<p>}
+复制代码</p>
+
+<p>case4 checkBox模拟 安装界面
+import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;
+/<em>*
+*
+</em>/</p>
+
+<p>/<em>*
+* @author 叶昭良
+* @version  v1.0
+</em>/
+public class TestGtkCheckBox
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    private static int window ;
+    private static int box;
+    public static void main(String[] args)
+    {
+            // TODO 自动生成的方法存根
+
+    //        gtkHead(window,"gtkCheckbox测试");
+            GTK.gtk_init();
+            window = GTK.gtk_window_new(GTK.GTK_WINDOW_TOPLEVEL);
+            GTK.gtk_window_set_title(window, "hello");
+            GTK.gtk_widget_show(window);
+            GTK.g_signal_connect(window,"destroy",new IGCallBack() 
+            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            GTK.gtk_main_quit();
+                    }
+
+            },null);
+            box = GTK.gtk_box_new(GTK.GTK_ORIENTATION_VERTICAL, 0);
+            int box2= GTK.gtk_box_new(GTK.GTK_ORIENTATION_VERTICAL,0);
+            int box1= GTK.gtk_box_new(GTK.GTK_ORIENTATION_VERTICAL,0);
+            testGtkCheckBox(window,box2);
+            testGtkCheckBoxInstall(window,box1);
+            GTK.gtk_box_pack_start(box, box2, false, false, 0);
+            GTK.gtk_box_pack_start(box, box1, false, false, 0);
+
+            GTK.gtk_container_add(window, box);
+            GTK.gtk_widget_show(box);
+            GTK.gtk_main();
+
+    }
+
+
+    public static void testGtkCheckBox(int window,int box2)
+    {
+
+            int cbMan = GTK.gtk_check_button_new_with_label("男");
+            int cbWoman = GTK.gtk_check_button_new_with_label("女");
+
+
+            GTK.gtk_box_pack_start(box2, cbMan, false,false        , 0);
+            GTK.gtk_box_pack_start(box2, cbWoman, false,false        , 0);
+
+
+            GTK.gtk_widget_show(cbMan);
+            GTK.gtk_widget_show(cbWoman);
+            GTK.gtk_widget_show(box2);
+
+    }
+    public static void testGtkCheckBoxInstall(int window,int box1)
+    {
+            int entryLicense = GTK.gtk_entry_new();
+            GTK.gtk_entry_set_text(entryLicense, "产品使用声明:\n 尊重ISIS国际标准");
+
+            //定义控件
+            int boxInner = GTK.gtk_box_new(GTK.GTK_ORIENTATION_HORIZONTAL, 0);
+            //为什么要修改为终态
+            final int cbAgree = GTK.gtk_check_button_new_with_label("我同意上面的协议");
+            final int btnInstall = GTK.gtk_button_new_with_label("install");
+            int btnClosed  = GTK.gtk_button_new_with_label("close");
+            GTK.gtk_widget_set_sensitive(btnInstall, false);
+
+            //添加控件
+            GTK.gtk_box_pack_start(box1, entryLicense, false,false        , 0);
+            GTK.gtk_box_pack_start(box1, cbAgree, false,false, 0);
+            GTK.gtk_box_pack_start(boxInner, btnInstall, false,false,0);
+            GTK.gtk_box_pack_start(boxInner, btnClosed, false,false,0);
+            GTK.gtk_box_pack_start(box1, boxInner, false,false        , 0);
+
+            //显示控件
+            GTK.gtk_widget_show(entryLicense);
+            GTK.gtk_widget_show(cbAgree);
+            GTK.gtk_widget_show(btnInstall);
+            GTK.gtk_widget_show(btnClosed);
+            GTK.gtk_widget_show(boxInner);
+            GTK.gtk_widget_show(box1);
+
+            //添加事件
+            GTK.g_signal_connect(cbAgree, "clicked", new IGCallBack() 
+            {
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO 自动生成的方法存根
+                            boolean isChecked =  GTK.gtk_toggle_button_get_active(cbAgree);
+
+                            //写了gtk_checkbox发现没有set命令 于是用了widget..
+                            GTK.gtk_widget_set_sensitive(btnInstall, isChecked);
+                    }
+            }, null);
+    }
+</code></pre>
+
+<p>}
+复制代码</p>
+
+<p>通过上面的练习： 学习了GTK框架的编程方式，掌握了 label,entry,checkbox(继承toggle_button),Box Layout, Grid Layout , Fixed Layout的基本使用方法，包括clicked,destroy这两个信号的事件处理。  另外拓展的学习了匿名类 new IGCallback(){..}的使用方法。</p>
+
+<p><img src="/images/java/checkbox.gif" alt="checkbox的结果" />
+<img src="/images/java/%E7%9B%92%E5%AD%90.gif" alt="盒子布局的结果" />
+<img src="/images/java/%E5%9B%BA%E5%AE%9A.gif" alt="固定布局的结果" />
+<img src="/images/java/%E7%BD%91%E6%A0%BC%E5%B8%83%E5%B1%80.gif" alt="网格布局的结果" />
+<img src="/images/java/%E6%80%BB%E4%BD%93%E6%A1%86%E6%9E%B6%E5%9B%BE.gif" alt="GTK的总体框架图" /></p>
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2015/05/11/1yue-28ri-javaban-bi-ji-ti-jiao-tie/'>http://jueqingsizhe66.github.io/blog/2015/05/11/1yue-28ri-javaban-bi-ji-ti-jiao-tie/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:40+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javabasic/'>JavaBasic</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/11/1yue-26ri-javaban-bi-ji/" title="Previous Post: 1月26日Java班笔记">&laquo; 1月26日Java班笔记</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/11/1yue-31ri-javaban-bi-ji-zuo-ye/" title="Next Post: 1月31日Java班笔记作业">1月31日Java班笔记作业 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><div class="ds-thread" > </div>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"f708708"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+  <p><img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> <!--不是他的原因-->
+ <!--而是yellow的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (3)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (22)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (3)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (18)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/physics-and-maths/">Physics and Maths</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/jump-out-of-ontology/">Jump Out of Ontology</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/machine-learning-some-search-record/">Machine Learning Some Search Record</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/graphviz-notebook/">Graphviz Notebook</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="1" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+
+</section>
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2015/05/11/1yue-28ri-javaban-bi-ji-ti-jiao-tie/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2015/05/11/1yue-28ri-javaban-bi-ji-ti-jiao-tie/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

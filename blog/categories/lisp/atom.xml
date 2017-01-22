@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Lisp | 网络书屋(Web Reading Room)]]></title>
+  <link href="http://jueqingsizhe66.github.io/blog/categories/lisp/atom.xml" rel="self"/>
+  <link href="http://jueqingsizhe66.github.io/"/>
+  <updated>2017-01-22T12:24:26+08:00</updated>
+  <id>http://jueqingsizhe66.github.io/</id>
+  <author>
+    <name><![CDATA[Ye Zhaoliang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Think in the Variable and Macro in the Common Lisp]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/11/01/think-in-the-variable-and-macro-in-the-common-lisp/"/>
+    <updated>2015-11-01T17:26:23+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/11/01/think-in-the-variable-and-macro-in-the-common-lisp</id>
+    <content type="html"><![CDATA[<p>As you all know we can use defun to define a function in the common lisp,</p>
+
+<p>``` common-lisp</p>
+
+<p>(defun add (x)</p>
+
+<pre><code>(+ x 1))
+</code></pre>
+
+<p>(defun foo (a b c)</p>
+
+<pre><code>(list  a b c))
+</code></pre>
+
+<p>```</p>
+
+<p>Definition above is the most essential method to create a function. Due to the</p>
+
+<p><strong>convience</strong> we will have to think about the variables and functions again.</p>
+
+<p>Writing thinking path: from thinking the variables to functions and get the knowledge of the common lisp.</p>
+
+<!--more-->
+
+
+<h2>I. Variables</h2>
+
+<p>We we execute one function ,we should let the interpreter know:</p>
+
+<ol>
+<li>call the Mac first? or call the compiler first?</li>
+<li>Mac will not get the value of the variables ,but change the expression to  another forms</li>
+<li>But compiler will directly get the value of the variables.</li>
+</ol>
+
+
+<p>Variables can be shown with &amp;key,&amp;optional,&amp;rest,&amp;body forms etc.</p>
+
+<h3>keyword variables</h3>
+
+<p>The variables start with colon( it means :) is the keyword variables, but there are exception,</p>
+
+<p>such as in the defsystem(asdf grammer), you can depends on other system (depends on :macro-utilities)</p>
+
+<p>here macro-utilities is called as a system,not the keyword variables.</p>
+
+<p>``` common-lisp</p>
+
+<p>(defun foo (&amp;key a (b 20) (c 30 c-p))</p>
+
+<pre><code>(list  a b c c-p))
+</code></pre>
+
+<p>```</p>
+
+<h3>optional variables</h3>
+
+<p>``` common-lisp</p>
+
+<p>(defun foo (a &amp;optional (b 20) (c 30 c-p))  ;;c-supplied-p</p>
+
+<pre><code>(list  a b c c-p))
+</code></pre>
+
+<p>;; it means the variables b and c is optional ,if b is not written in the
+;; the parameter list, the interpreter will set b = 20,similary  c.</p>
+
+<p>(defun make-rectangle (width &amp;optional (height width)) &hellip;)</p>
+
+<p>;;; the rectangle will set height =width when height is not supplied.</p>
+
+<p>(defun foo (a &amp;optional (b 20) (c 30 c-supplied-p))</p>
+
+<pre><code>(list  a b c c-supplied-p))
+</code></pre>
+
+<p>```</p>
+
+<h3>rest variables</h3>
+
+<p>``` common-lisp</p>
+
+<p>(defun format (stream string &amp;rest values) &hellip;)</p>
+
+<p>(defun + (&amp;rest numbers) &hellip;)</p>
+
+<p>(defmacro when (condition &amp;rest body)</p>
+
+<pre><code>`(if (not ,condition) (progn ,@body) ;; The difference between , and ,@ in the `() is ,@ will delete the brace more than once 
+
+;; (if condition then-part [else-part])
+</code></pre>
+
+<p>)</p>
+
+<p>```</p>
+
+<h3>body  variables</h3>
+
+<p>``` common-lisp</p>
+
+<p>```</p>
+
+<h3>macro definition</h3>
+
+<p>I think Mac(Macro-> defmacro) is a form to change the input of the variables.Actually it is</p>
+
+<p>most powerful tool in the lisp programming</p>
+
+<p>``` common-lisp</p>
+
+<p>(format t &ldquo;hello world&rdquo;)</p>
+
+<p>(defun backwords (str)</p>
+
+<pre><code>(reverse str))
+</code></pre>
+
+<p>(backwords (&ldquo;hello world&rdquo; t format))  ;; take care not (backwords &lsquo;(&ldquo;hello world&rdquo; t format))
+```</p>
+
+<p>So when you execute the backwords macro, the interpreter will tell the Mac to do the works.</p>
+
+<p>When  he finished his work. The compiler will continue execute the result of the Mac. That</p>
+
+<p>is the process of the macro function.</p>
+
+<h2>II. Functions</h2>
+
+<p>Orient Object Programming&rsquo;s CLOS is  to tell you how to rearrange the functions and variables into one class.</p>
+
+<p>``` common-lisp</p>
+
+<p>```</p>
+
+<h2>III. Format function</h2>
+
+<p>format is a most powerful decorate function to output in the common lisp.</p>
+
+<p>so every field in the format function , you should take note <em>~</em> ,such as <em>~a</em>, <em>~{~}</em>, <em>~%</em>, <em>~:a</em>, <em>~r</em>,<em>~d</em> etc</p>
+
+<p>``` common-lisp</p>
+
+<p>```</p>
+
+<p><strong>added-later</strong></p>
+]]></content>
+  </entry>
+  
+</feed>

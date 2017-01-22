@@ -1,0 +1,2685 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JSDOM7-13节笔记代码March31th - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="连接到前文JavaScript 7-11节笔记代码 8: 注册和调用的不同：
+注册 Onclick=function(){}; //匿名函数的注册行为 Onclick=ff;
+调用 Onclick=ff(); 9:计时器
+setInterval反复性计时器（随着一定时间之后 再跳出来） 1
+2 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2015/05/11/jsdom7-13jie-bi-ji-dai-ma-march31th">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">JSDOM7-13节笔记代码March31th</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:44+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--more-->
+
+
+<p>连接到前文JavaScript 7-11节笔记代码</p>
+
+<p>8: 注册和调用的不同：
+注册
+  Onclick=function(){}; //匿名函数的注册行为
+  Onclick=ff;
+调用
+   Onclick=ff();</p>
+
+<p>9:计时器
+setInterval反复性计时器（随着一定时间之后 再跳出来）</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">Var</span> <span class="nx">setId</span><span class="o">=</span><span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="nx">Alert</span><span class="p">(</span><span class="err">‘你名函数’</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="err">，</span><span class="mi">1000</span><span class="p">);</span>
+</span><span class='line'><span class="nx">clearInterval</span><span class="p">(</span><span class="nx">setId</span><span class="p">);</span>
+</span><span class='line'><span class="nx">setTimeout</span><span class="err">一次性计时器：</span>
+</span><span class='line'><span class="nx">Var</span> <span class="nx">setID</span><span class="o">=</span> <span class="nx">setTimeOut</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="nx">Alert</span><span class="p">(</span><span class="err">‘这是一次性计时器’</span><span class="p">);</span>
+</span><span class='line'><span class="p">},</span><span class="mi">1000</span><span class="p">);</span>
+</span><span class='line'><span class="nx">clearTimeOut</span><span class="p">(</span><span class="nx">setId</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>计时器小案例1：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">onload</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span><span class='line'>        <span class="nx">setIntervar</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>               <span class="nx">i</span><span class="o">--</span><span class="p">;</span>
+</span><span class='line'>               <span class="kd">var</span> <span class="nx">btnObj</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;btn&#39;</span><span class="p">);</span><span class="c1">//获得btn对象</span>
+</span><span class='line'>               <span class="nx">btnObj</span><span class="p">.</span><span class="nx">value</span><span class="o">=</span><span class="nx">i</span><span class="p">;</span><span class="c1">//设置该对象的value值即可！</span>
+</span><span class='line'>            <span class="p">},</span><span class="mi">1000</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>经这么一写：</p>
+
+<p>规律：所有的标签都可以有id-value对 或者name-value对象 或者class-value对</p>
+
+<pre><code>      完全可以通过document对象获得所有的标签元素的id，name,class进行对应标签内容的设置
+</code></pre>
+
+<p>计时器小案例2：
+//跑马灯效果</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">setIntervale</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">tt</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">title</span><span class="p">;</span>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="nx">tt</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="nx">tt</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="c1">//1-尾部  + 0-1的字符</span>
+</span><span class='line'><span class="p">},</span><span class="mi">1000</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>10 页面加载事件（3个）
+前面接触最多的就是onload ,另外还有onunload,onbeforeload
+Onload:页面加载后触发
+Onunload 页面退出后触发
+Onbeforeunload: 页面关闭之前触发（发表帖子 和   你确定退出？）</p>
+
+<p>11 刷新后，返回的页面
+回顾window.location.href(‘www.baidu.com’); 类似于window.navigaete(‘’)</p>
+
+<p>12 Document.write的两个作用
+动态的创建控件(但是只能在页面加载时候动态创建  ) 但是有一个缺点：在IE中会删掉之前的控件标签，在源代码浏览时候，发现原先的标签都没有了
+镶嵌广告</p>
+
+<p>1.打开 news.baidu.com/newscode<br/>
+输入关键字获得新闻的代码
+2.复制代码
+代码包含两个部分：
+样式部分：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="o">&lt;</span><span class="nt">style</span> <span class="nt">type</span><span class="o">=</span><span class="nt">text</span><span class="o">/</span><span class="nt">css</span><span class="o">&gt;</span> <span class="nt">div</span><span class="p">{</span><span class="k">font-size</span><span class="o">:</span><span class="m">12px</span><span class="p">;</span><span class="k">font-family</span><span class="o">:</span><span class="n">arial</span><span class="p">}</span><span class="nc">.baidu</span><span class="p">{</span><span class="k">font-size</span><span class="o">:</span><span class="m">14px</span><span class="p">;</span><span class="k">line-height</span><span class="o">:</span><span class="m">24px</span><span class="p">;</span><span class="k">font-family</span><span class="o">:</span><span class="n">arial</span><span class="p">}</span> <span class="nt">a</span><span class="o">,</span><span class="nt">a</span><span class="nd">:link</span><span class="p">{</span><span class="k">color</span><span class="o">:</span><span class="m">#0000cc</span><span class="p">;}</span>
+</span><span class='line'><span class="nc">.baidu</span> <span class="nt">span</span><span class="p">{</span><span class="k">color</span><span class="o">:</span><span class="m">#6f6f6f</span><span class="p">;</span><span class="k">font-size</span><span class="o">:</span><span class="m">12px</span><span class="p">}</span> <span class="nt">a</span><span class="nc">.more</span><span class="p">{</span><span class="k">color</span><span class="o">:</span><span class="m">#008000</span><span class="p">;}</span><span class="nt">a</span><span class="nc">.blk</span><span class="p">{</span><span class="k">color</span><span class="o">:</span><span class="m">#000</span><span class="p">;</span><span class="k">font-weight</span><span class="o">:</span><span class="k">bold</span><span class="p">;}</span><span class="o">&lt;/</span><span class="nt">style</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Js脚本部分：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;script </span><span class="na">language=</span><span class="s">&quot;JavaScript&quot;</span> <span class="na">type=</span><span class="s">&quot;text/JavaScript&quot;</span> <span class="na">src=</span><span class="s">&quot;http://news.baidu.com/ns?word=title%3A%E9%A3%8E%E5%8A%9B%E5%8F%91%E7%94%B5&amp;tn=newsfcu&amp;from=news&amp;cl=2&amp;rn=5&amp;ct=0&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>说明src其实就是document.write的实现！！但是为什么？原理暂时不知道</p>
+
+<p>查询src里面内容的方式：
+1：notepad
+2：open-?黏贴进 src的地址
+3： 就可以在记事本看到src所代表的新闻内容，他其实就是document.write()的内容！为了保证百度更新新闻的时候他也能更新新闻，所以采用这种document.write()来实现</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;Html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;Head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nx">onload</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//第一个功能动态加载控件标签  但是在IE中会使其他的控件消失</span>
+</span><span class='line'>        <span class="c1">//d当然这边加载 会把原先的页面的控件给隐藏掉！！</span>
+</span><span class='line'><span class="c1">//        document.write(&#39;&lt;Font color=&quot;red&quot; size=&quot;6&quot;&gt;Today is &lt;/font&gt;&#39;);</span>
+</span><span class='line'><span class="c1">//       document.write(&#39;&lt;Input type=&quot;button&quot; value=&quot;click me&quot;\&gt;&#39;);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'><span class="nt">&lt;style </span><span class="na">type=</span><span class="s">text/css</span><span class="nt">&gt;</span> <span class="nt">div</span><span class="p">{</span><span class="k">font-size</span><span class="o">:</span><span class="m">12px</span><span class="p">;</span><span class="k">font-family</span><span class="o">:</span><span class="n">arial</span><span class="p">}</span><span class="nc">.baidu</span><span class="p">{</span><span class="k">font-size</span><span class="o">:</span><span class="m">14px</span><span class="p">;</span><span class="k">line-height</span><span class="o">:</span><span class="m">24px</span><span class="p">;</span><span class="k">font-family</span><span class="o">:</span><span class="n">arial</span><span class="p">}</span> <span class="nt">a</span><span class="o">,</span><span class="nt">a</span><span class="nd">:link</span><span class="p">{</span><span class="k">color</span><span class="o">:</span><span class="m">#0000cc</span><span class="p">;}</span>
+</span><span class='line'><span class="nc">.baidu</span> <span class="nt">span</span><span class="p">{</span><span class="k">color</span><span class="o">:</span><span class="m">#6f6f6f</span><span class="p">;</span><span class="k">font-size</span><span class="o">:</span><span class="m">12px</span><span class="p">}</span> <span class="nt">a</span><span class="nc">.more</span><span class="p">{</span><span class="k">color</span><span class="o">:</span><span class="m">#008000</span><span class="p">;}</span><span class="nt">a</span><span class="nc">.blk</span><span class="p">{</span><span class="k">color</span><span class="o">:</span><span class="m">#000</span><span class="p">;</span><span class="k">font-weight</span><span class="o">:</span><span class="k">bold</span><span class="p">;}</span><span class="nt">&lt;/style&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;/Head&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;Body&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;script </span><span class="na">language=</span><span class="s">&quot;JavaScript&quot;</span> <span class="na">type=</span><span class="s">&quot;text/JavaScript&quot;</span> <span class="na">src=</span><span class="s">&quot;http://news.baidu.com/ns?word=title%3A%E9%A3%8E%E5%8A%9B%E5%8F%91%E7%94%B5&amp;tn=newsfcu&amp;from=news&amp;cl=2&amp;rn=5&amp;ct=0&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/Html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>13 获得页面元素的三张方法
+Document.getElementById(‘btn’)&mdash;&mdash;>最常用的方式
+Document.getElementByName(‘fds’) &mdash;&mdash;>name=”fds”
+Document.getElementByTagName(‘Input’)&mdash;&mdash;>标签名</p>
+
+<p>14获取坐标点
+顶级对象window包含一个比较重要的对象event可以由此获得当前对象、页面、屏幕</p>
+
+<p>1：当前对象作为参考点 &mdash;>offsetX|Y
+2：当前页面作为参考点 &mdash;&ndash;>clientX|Y
+3：：当前屏幕作为参考点&mdash;>screenX|Y</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;Html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;Head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Title&gt;</span>hellow<span class="nt">&lt;/Title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="c1">//      alert(document.getElementById(&#39;btn&#39;).titleLabel.text)</span>
+</span><span class='line'>     <span class="c1">// alert(window.event.button);</span>
+</span><span class='line'>      <span class="nx">alert</span><span class="p">(</span><span class="nx">screen</span><span class="p">.</span><span class="nx">width</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nx">screen</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">onload</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;ak&#39;</span><span class="p">).</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="nx">alert</span><span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">toLocaleTimeString</span><span class="p">());</span>
+</span><span class='line'>          <span class="nb">window</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">returnValue</span><span class="o">=</span><span class="kc">false</span><span class="p">;</span><span class="c1">//IE Opera  google支持  火狐不支持</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;dv&#39;</span><span class="p">).</span><span class="nx">onmousemove</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="c1">//鲁棒性最好的参数</span>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span><span class="nx">arguments</span><span class="p">.</span><span class="nx">length</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>              <span class="c1">//火狐 google  IE不行</span>
+</span><span class='line'>              <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;ipClient&#39;</span><span class="p">).</span><span class="nx">value</span><span class="o">=</span><span class="nx">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">clientX</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nx">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">clientY</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span><span class="k">else</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>              <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;ipClient&#39;</span><span class="p">).</span><span class="nx">value</span><span class="o">=</span><span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>          <span class="c1">//也可以另外一种鲁棒性的优化</span>
+</span><span class='line'>          <span class="c1">//能力检测方式！ </span>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">event</span><span class="p">)</span><span class="c1">//判断如果存在则是IE不存在则是火狐  window.event是IE下的重要的属性</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>              <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;ipClient2&#39;</span><span class="p">).</span><span class="nx">value</span><span class="o">=</span><span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span><span class="k">else</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>              <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;ipClient2&#39;</span><span class="p">).</span><span class="nx">value</span><span class="o">=</span><span class="nx">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">clientX</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nx">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">clientY</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>          <span class="c1">//火弧+google可以通过  IE不行</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>          <span class="c1">//下面代码google和IE支持</span>
+</span><span class='line'>          <span class="c1">//相对于页面的左上角</span>
+</span><span class='line'>            <span class="nb">document</span><span class="p">.</span><span class="nx">title</span><span class="o">=</span><span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">;</span>
+</span><span class='line'>          <span class="c1">//相对于屏幕的左上角</span>
+</span><span class='line'>            <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;btn&#39;</span><span class="p">).</span><span class="nx">value</span><span class="o">=</span><span class="nx">event</span><span class="p">.</span><span class="nx">screenX</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nx">event</span><span class="p">.</span><span class="nx">screenY</span><span class="p">;</span>
+</span><span class='line'>            <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;ip1&#39;</span><span class="p">).</span><span class="nx">value</span><span class="o">=</span><span class="nx">event</span><span class="p">.</span><span class="nx">screenX</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nx">event</span><span class="p">.</span><span class="nx">screenY</span><span class="p">;</span>
+</span><span class='line'>          <span class="c1">//相对于当前对象的左上角（this)对象</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;ip&#39;</span><span class="p">).</span><span class="nx">value</span><span class="o">=</span><span class="nx">event</span><span class="p">.</span><span class="nx">offsetX</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nx">event</span><span class="p">.</span><span class="nx">offsetY</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Head&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;Body&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Div</span> <span class="na">id=</span><span class="s">&quot;dv&quot;</span> <span class="na">color=</span><span class="s">&quot;red&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">id=</span><span class="s">&quot;btn&quot;</span> <span class="na">class=</span><span class="s">&quot;button&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>          屏幕值
+</span><span class='line'>      <span class="nt">&lt;/button&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">id=</span><span class="s">&quot;ipClient&quot;</span> <span class="na">value=</span><span class="s">&quot;页面左上角偏移&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">id=</span><span class="s">&quot;ipClient2&quot;</span> <span class="na">value=</span><span class="s">&quot;页面左上角偏移&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">id=</span><span class="s">&quot;ip&quot;</span> <span class="na">value=</span><span class="s">&quot;对象的左上角偏移&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">id=</span><span class="s">&quot;ip1&quot;</span> <span class="na">value=</span><span class="s">&quot;屏幕的偏移坐标&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>        hello
+</span><span class='line'>      <span class="nt">&lt;/Div&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Div&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;A</span> <span class="na">id=</span><span class="s">&quot;ak&quot;</span> <span class="na">href=</span><span class="s">&quot;www.baidu.com&quot;</span><span class="nt">&gt;</span>百度<span class="nt">&lt;/A&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/Div&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/Html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>15：剪切板clipboard</p>
+
+<p>当在网页复制的时候或者ctrl+C的时候，会激活body的oncopy函数。
+当在网页黏贴的时候或者ctrl+V的时候，会激活body的onpaste函数。</p>
+
+<pre><code>    由此可以模拟页面的进制复制和黏贴的案例，具体如代码所示：
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;Html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;Head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Title&gt;</span>Test copy  clipdata<span class="nt">&lt;/Title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&#39;text/javascript&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="c1">// 一复制则激活oncopy函数</span>
+</span><span class='line'><span class="cm">/*</span>
+</span><span class='line'><span class="cm">      onload=function()</span>
+</span><span class='line'><span class="cm">      {</span>
+</span><span class='line'><span class="cm">        document.body.oncopy=function()</span>
+</span><span class='line'><span class="cm">        {</span>
+</span><span class='line'><span class="cm">          alert(&#39;不让复制&#39;);</span>
+</span><span class='line'><span class="cm">          return false;</span>
+</span><span class='line'><span class="cm">        };</span>
+</span><span class='line'><span class="cm">        document.getElementById(&#39;txt&#39;).onpaste=function()</span>
+</span><span class='line'><span class="cm">        {</span>
+</span><span class='line'><span class="cm">          alert(&#39;不能黏贴&#39;);</span>
+</span><span class='line'><span class="cm">          return false</span>
+</span><span class='line'><span class="cm">        };</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">      };</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'>      <span class="nx">onload</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">oncopy</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>                      <span class="p">{</span>
+</span><span class='line'>                        <span class="c1">//IE支持！！  opera 火狐不支持</span>
+</span><span class='line'><span class="c1">//出现此错误是因为 window.clipboardData 为 IE 专有，其他浏览器均没有此对象。</span>
+</span><span class='line'>                        <span class="k">if</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">clipboardData</span><span class="p">)</span>
+</span><span class='line'>                          <span class="p">{</span>
+</span><span class='line'>                            <span class="kd">var</span> <span class="nx">dataFromClip</span><span class="o">=</span><span class="nx">clipboardData</span><span class="p">.</span><span class="nx">getData</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;你这个拷贝党&#39;</span><span class="p">;</span>
+</span><span class='line'>                              <span class="nx">alert</span><span class="p">(</span><span class="nx">dataFromClip</span><span class="p">);</span>
+</span><span class='line'>                              <span class="nx">clipboardData</span><span class="p">.</span><span class="nx">setData</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>  <span class="nx">dataFromClip</span><span class="p">);</span>
+</span><span class='line'>                          <span class="p">}</span><span class="k">else</span>
+</span><span class='line'>                            <span class="p">{</span>
+</span><span class='line'>                              <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Opera不知道如何做了  Opera        无操作剪贴板的对象。&#39;</span><span class="p">);</span>
+</span><span class='line'>                             <span class="c1">// window.location=dataFromClip;</span>
+</span><span class='line'>                              <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;&lt;Strong&gt;复制&lt;/Strong&gt;成功！&#39;</span><span class="p">)</span>
+</span><span class='line'>                              <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>                            <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>                      <span class="p">},</span><span class="mi">10</span><span class="p">);</span>
+</span><span class='line'>       <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>       <span class="p">};</span>
+</span><span class='line'>      <span class="nb">document</span><span class="p">.</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Head&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;Body&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">id=</span><span class="s">&quot;txt&quot;</span> <span class="na">value=</span><span class="s">&quot;&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    good weather!
+</span><span class='line'>  <span class="nt">&lt;/Body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/Html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>16：this和事件源srcElement</p>
+
+<pre><code> this只记录当前对象的id
+ alert(window.event.srcElement.id) 只记录最初加载完body第一次点击的id；
+</code></pre>
+
+<p>而srcElement其实是可以和事件冒泡的规律相结合的。
+事件冒泡是指内层事件的触发，会由内至外的触发外层事件。
+为了只是显示最内层的事件，可以用srcElement.id,比如：</p>
+
+<p>注意点：</p>
+
+<pre><code>如果text/javscript 则 不会去检查 fucntion的错误！如果写成text/javascript
+则客户端浏览器会去检查 js的语法。
+</code></pre>
+
+<p>一般规律：
+   一定要注意 style里面用的是 background-color  而 在js中用的是  backgroundColor 两者是不同的写法</p>
+
+<pre><code>并且这个是一个基本的规律！ js中去除了破折号  然后大写后一个单词首字母。
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;Html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;Head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Title&gt;</span>事件冒泡程序<span class="nt">&lt;/Title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="c1">// 如果text/javscript 则 不会去检查 fucntion的错误！如果写成text/javascript</span>
+</span><span class='line'>      <span class="c1">//则客户端浏览器会去检查 js的语法！</span>
+</span><span class='line'>      <span class="nx">onload</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>         <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;div1&#39;</span><span class="p">).</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//  alert(this.id);</span>
+</span><span class='line'>        <span class="nx">alert</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">srcElement</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">};</span>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;p1&#39;</span><span class="p">).</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">};</span>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;str1&#39;</span><span class="p">).</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+</span><span class='line'>          <span class="c1">//opera IE可以！</span>
+</span><span class='line'>          <span class="nb">window</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">cancelBubble</span><span class="o">=</span><span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>          <span class="c1">// 火狐e.stopPropagation();</span>
+</span><span class='line'>        <span class="p">};</span>
+</span><span class='line'>      <span class="p">};</span>
+</span><span class='line'>    <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Head&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;Body&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!--一定要注意 style里面用的是 background-color  而 在js中用的是  backgroundColor 两者是不同的写法</span>
+</span><span class='line'><span class="c">    并且这个是一个基本的规律！ js中去除了破折号  然后大写后一个单词首字母--&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Div</span> <span class="na">id=</span><span class="s">&quot;div1&quot;</span> <span class="na">style=</span><span class="s">&quot;width:300px;height:200px;background-color:red;cursor:pointer;&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="c">&lt;!--&lt;Div id=&quot;div1&quot; style=&quot;width:300px;height:200px;backgroundColor=red;cursor:pointer;&quot;&gt; 一定要注意不要写成=号形式 style里面写成json形式--&gt;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c">&lt;!--&lt;P id= &quot;p1&quot; style=&quot;width:100px;height:100px;background-color:blue;cursor:pointer;&quot;&gt;这是第二层文字 --&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;P</span> <span class="na">id=</span><span class="err"> </span><span class="s">&quot;p1&quot;</span> <span class="na">style=</span><span class="s">&quot;width:100px;height:100px;background-color:blue;cursor:pointer;&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;Strong</span> <span class="na">id=</span><span class="s">&quot;str1&quot;</span><span class="nt">&gt;</span>这是第三层文字<span class="nt">&lt;/Strong&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/P&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/Div&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/Html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>17：innerText和innerhtml</p>
+
+<p>注意1：innerhtml 不要写成innerHtml 否则是undefined
+注意2：  var btnObjAgree=document.getElementsByName(&lsquo;agree&rsquo;);</p>
+
+<pre><code>         var timeControl=document.getElementById('time');
+        正因为Id没有s 所以他必然是唯一的， 而name TagName都是可以重复 所以他的Element是复数的
+</code></pre>
+
+<p>案例1：四个按钮 分别显示 设置innerText 设置innerhtml  获取innerText 获取innerhtml</p>
+
+<pre><code> 注意：
+    //1   在添加文本时候 Text模式是直接添加无效果  而html是有效果 
+    //2   在获取文本时候  Text模式是直接获得文本   而html是包含着标签信息
+   另外//在firefox不行!!firefox and  Ie is a pair of enemy
+      //In Firefox , You should use the statement below
+      // dvObj.contentText=''
+</code></pre>
+
+<p>具体如下所示：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;Html&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;Head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Title&gt;</span>Test  InnerText And InnerHtml IN fireFox and IE ! <span class="nt">&lt;/Title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">div</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="k">width</span><span class="o">:</span><span class="m">300px</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">height</span><span class="o">:</span><span class="m">200px</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">background-color</span><span class="o">:</span><span class="nb">green</span><span class="p">;</span>
+</span><span class='line'>        <span class="o">//</span> <span class="err">在</span><span class="n">style</span><span class="err">中使用</span> <span class="n">json</span><span class="err">形式的数据结构</span>
+</span><span class='line'>        <span class="o">//</span> <span class="err">在</span><span class="n">js</span><span class="err">中使用</span>  <span class="o">=</span><span class="err">形式的数据结构</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="nt">&lt;/style&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nx">onload</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">dvObj</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;dv&#39;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;btn1&#39;</span><span class="p">).</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="c1">//显示原始的内容  不带上效果</span>
+</span><span class='line'>          <span class="c1">//Ie  google可以</span>
+</span><span class='line'>          <span class="nx">dvObj</span><span class="p">.</span><span class="nx">innerText</span><span class="o">=</span><span class="s1">&#39;&lt;A href=&quot;http://www.163.com&quot;&gt;网易&lt;/A&gt;&#39;</span><span class="p">;</span>
+</span><span class='line'>          <span class="c1">//在firefox不行!!firefox and  Ie is a pair of enemy</span>
+</span><span class='line'>          <span class="c1">//In Firefox , You should use the statement below</span>
+</span><span class='line'>          <span class="c1">// dvObj.contentText=&#39;&#39;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">//1   在添加文本时候 Text模式是直接添加无效果  而html是有效果 </span>
+</span><span class='line'>        <span class="c1">//2   在获取文本时候  Text模式是直接获得文本   而html是包含着标签信息</span>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;btn2&#39;</span><span class="p">).</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="c1">//直接添加上效果</span>
+</span><span class='line'>          <span class="c1">//document.getElementById(&#39;dv&#39;).innerHtml=&#39;&lt;A href=&quot;www.163.com&quot;&gt;网易&lt;/A&gt;&#39;;</span>
+</span><span class='line'>          <span class="c1">//注意大小写 否则不能显示出 结果</span>
+</span><span class='line'>          <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;dv&#39;</span><span class="p">).</span><span class="nx">innerhtml</span><span class="o">=</span><span class="s1">&#39;&lt;A href=&quot;http://www.163.com&quot;&gt;网易&lt;/A&gt;&#39;</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;btn3&#39;</span><span class="p">).</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="nx">alert</span><span class="p">(</span><span class="nx">dvObj</span><span class="p">.</span><span class="nx">innerText</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;btn4&#39;</span><span class="p">).</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="nx">alert</span><span class="p">(</span><span class="nx">dvObj</span><span class="p">.</span><span class="nx">innerhtml</span><span class="p">);</span>
+</span><span class='line'>          <span class="c1">//alert(dvObj.innerHtml);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">};</span>
+</span><span class='line'>    <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Head&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;Body&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">value=</span><span class="s">&quot;innerText insert&quot;</span> <span class="na">id=</span><span class="s">&quot;btn1&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">value=</span><span class="s">&quot;innerHtml insert&quot;</span> <span class="na">id=</span><span class="s">&quot;btn2&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">value=</span><span class="s">&quot;innerText get&quot;</span> <span class="na">id=</span><span class="s">&quot;btn3&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">value=</span><span class="s">&quot;innerHtml get&quot;</span> <span class="na">id=</span><span class="s">&quot;btn4&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Div</span> <span class="na">id=</span><span class="s">&quot;dv&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/Div&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/Html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>案例2：   innerText和计时器联合的一个小程序</p>
+
+<pre><code>         功能需求： 起先按钮是灰色，显示“请仔细阅读协议(5)”  并随时间递减，
+                          当回归到0时，则按钮变成可选状态，并其值设置为“同意”。
+
+
+
+          实现如下：
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;Html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;Head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Title&gt;</span> Three small practices<span class="nt">&lt;/Title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">onload</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">btnObjs</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByName</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">);</span>
+</span><span class='line'>          <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span> <span class="nx">btnObjs</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>            <span class="c1">//你再点击之前得把所有的其他颜色都给他恢复成默认</span>
+</span><span class='line'>            <span class="c1">//这点很重要 ！！ 否则你会发现之前点过的按钮依然是红色的！没有</span>
+</span><span class='line'>            <span class="c1">//恢复回默认的状态</span>
+</span><span class='line'>            <span class="nx">btnObjs</span><span class="p">.</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>            <span class="c1">//对这个网页的逻辑不是特别清楚！ 应该是点击之后才触发的事件</span>
+</span><span class='line'>            <span class="c1">//而不是你想着我让他点的时候  他就触发！！必须有一个介质！</span>
+</span><span class='line'>            <span class="c1">//这个介质说大点叫做计算机，说小点叫做onclick</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>             <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">j</span><span class="o">&lt;</span> <span class="nx">btnObjs</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">j</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>              <span class="p">{</span>
+</span><span class='line'>                <span class="nx">btnObjs</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="k">this</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">sec</span><span class="o">=</span><span class="mi">5</span><span class="p">;</span>
+</span><span class='line'>          <span class="c1">//不要少了一个s   间接说明 name可以有多个</span>
+</span><span class='line'>          <span class="c1">//var btnObjAgree=document.getElementsByName(&#39;agree&#39;);</span>
+</span><span class='line'>          <span class="c1">// 返回的是一个name数组！！！一定得注意 单写上btnobjagree.value不起作用</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">btnObjAgree</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByName</span><span class="p">(</span><span class="s1">&#39;agree&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="c1">//不要多了一个s   间接说明Id只能有一个</span>
+</span><span class='line'>          <span class="c1">//var btnObjAgree=document.getElementById(&#39;btn&#39;);</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">setId</span><span class="o">=</span> <span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>                     <span class="p">{</span>
+</span><span class='line'>                        <span class="k">if</span><span class="p">(</span><span class="nx">sec</span><span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>                          <span class="p">{</span>
+</span><span class='line'>                            <span class="nx">sec</span><span class="o">--</span><span class="p">;</span>
+</span><span class='line'>                            <span class="nx">btnObjAgree</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">value</span><span class="o">=</span><span class="s1">&#39;请仔细阅读下列协议(&#39;</span><span class="o">+</span><span class="nx">sec</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>                          <span class="p">}</span><span class="k">else</span>
+</span><span class='line'>                          <span class="p">{</span>
+</span><span class='line'>                            <span class="nx">btnObjAgree</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">value</span><span class="o">=</span><span class="s1">&#39;同意&#39;</span><span class="p">;</span>
+</span><span class='line'>                            <span class="nx">btnObjAgree</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">disabled</span><span class="o">=</span><span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>                            <span class="nx">clearInterval</span><span class="p">(</span><span class="nx">setId</span><span class="p">);</span>
+</span><span class='line'>                          <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>                      <span class="p">},</span><span class="mi">1000</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>                      <span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>                            <span class="kd">var</span> <span class="nx">timeControl</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">);</span>
+</span><span class='line'>                            <span class="c1">//timeControl.innerText=new Date().toLocalTimeString();//别写错了Locale而不是Local</span>
+</span><span class='line'>                            <span class="nx">timeControl</span><span class="p">.</span><span class="nx">innerText</span><span class="o">=</span><span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">toLocaleTimeString</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>                      <span class="p">},</span><span class="mi">1000</span><span class="p">);</span>
+</span><span class='line'>          <span class="p">};</span>
+</span><span class='line'>    <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Head&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;Body&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span> <span class="na">value=</span><span class="s">&quot;小明&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span> <span class="na">value=</span><span class="s">&quot;小明&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span> <span class="na">value=</span><span class="s">&quot;小明&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span> <span class="na">value=</span><span class="s">&quot;小明&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span> <span class="na">value=</span><span class="s">&quot;小明&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span> <span class="na">value=</span><span class="s">&quot;小明&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span> <span class="na">value=</span><span class="s">&quot;小明&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span> <span class="na">value=</span><span class="s">&quot;小明&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">id=</span><span class="s">&quot;btn&quot;</span> <span class="na">name=</span><span class="s">&quot;agree&quot;</span> <span class="na">value=</span><span class="s">&quot;请仔细阅读下列协议(5)&quot;</span> <span class="na">disabled=</span><span class="s">&quot;disabled&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;P</span> <span class="na">id=</span><span class="s">&quot;time&quot;</span><span class="nt">&gt;&lt;/P&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/Html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>案例3：通过一个JSON数据结构，解析到一个表格中，其中表格分为两列，第一列是网址名字(innerText)，第二列是网址的连接（innerhtml）</p>
+
+<p>注意 ：
+1:再进行能力测试的时候，typeof不能写成typeOf
+2:  //如果不加入下面一行代码则无法显示！！！甚至调试不出来</p>
+
+<pre><code>      document.body.appendChild(tableObj);
+</code></pre>
+
+<p>3: JSON数据结构使用逗号进行分隔，不同于在<style type="text/css"> 中使用分号进行分隔；</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;Html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;Head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Title&gt;</span> Create JSon database and insert them into the table with innerText and Innerhtml<span class="nt">&lt;/Title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">onload</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;create&#39;</span><span class="p">).</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>        <span class="cm">/*</span>
+</span><span class='line'><span class="cm">        var dic={&quot;如鹏&quot;:&quot;http://www.rupeng.com&quot;; </span>
+</span><span class='line'><span class="cm">                &quot;百度&quot;:&quot;http://www.baidu.com&quot;;</span>
+</span><span class='line'><span class="cm">                &quot;网易&quot;:&quot;http://www.163.com&quot;;</span>
+</span><span class='line'><span class="cm">                &quot;搜狗&quot;:&quot;http://www.sougou.com&quot;;</span>
+</span><span class='line'><span class="cm">                &quot;新浪&quot;:&quot;http://www.sina.com.cn&quot;;</span>
+</span><span class='line'><span class="cm">                &quot;github&quot;:&quot;http://www.github.com&quot;;</span>
+</span><span class='line'><span class="cm">        };</span>
+</span><span class='line'><span class="cm">        */</span>
+</span><span class='line'>
+</span><span class='line'>       <span class="c1">//用逗号隔开  而不是分号</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">dic</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;如鹏&quot;</span><span class="o">:</span><span class="s2">&quot;http://www.rupeng.com&quot;</span><span class="p">,</span>
+</span><span class='line'>                <span class="s2">&quot;百度&quot;</span><span class="o">:</span><span class="s2">&quot;http://www.baidu.com&quot;</span><span class="p">,</span>
+</span><span class='line'>                <span class="s2">&quot;网易&quot;</span><span class="o">:</span><span class="s2">&quot;http://www.163.com&quot;</span><span class="p">,</span>
+</span><span class='line'>                <span class="s2">&quot;搜狗&quot;</span><span class="o">:</span><span class="s2">&quot;http://www.sougou.com&quot;</span><span class="p">,</span>
+</span><span class='line'>                <span class="s2">&quot;新浪&quot;</span><span class="o">:</span><span class="s2">&quot;http://www.sina.com.cn&quot;</span><span class="p">,</span>
+</span><span class='line'>                <span class="s2">&quot;github&quot;</span><span class="o">:</span><span class="s2">&quot;http://www.github.com&quot;</span>
+</span><span class='line'>        <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">tableObj</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;table&#39;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">tableObj</span><span class="p">.</span><span class="nx">border</span><span class="o">=</span><span class="s1">&#39;1 &#39;</span><span class="p">;</span>
+</span><span class='line'>        <span class="c1">//tableObj.border=&#39;1 dashed red&#39;;</span>
+</span><span class='line'>        <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">dic</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>            <span class="c1">//create line or record</span>
+</span><span class='line'>            <span class="kd">var</span> <span class="nx">trObj</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;tr&#39;</span><span class="p">);</span>
+</span><span class='line'>            <span class="c1">///create column</span>
+</span><span class='line'>            <span class="kd">var</span> <span class="nx">tdObj1</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="c1">// for the safety between firefox and Ie,so talent test</span>
+</span><span class='line'>            <span class="c1">//if(typeOf(tdObj1.innerText)==&#39;string&#39;)    typeOf应改为typeof</span>
+</span><span class='line'>            <span class="k">if</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">tdObj1</span><span class="p">.</span><span class="nx">innerText</span><span class="p">)</span><span class="o">==</span><span class="s1">&#39;string&#39;</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>              <span class="nx">tdObj1</span><span class="p">.</span><span class="nx">innerText</span><span class="o">=</span><span class="nx">key</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span><span class="k">else</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>              <span class="nx">td1</span><span class="p">.</span><span class="nx">textContent</span><span class="o">=</span><span class="nx">key</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="kd">var</span> <span class="nx">tdObj2</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">);</span>
+</span><span class='line'>            <span class="nx">tdObj2</span><span class="p">.</span><span class="nx">innerhtml</span><span class="o">=</span><span class="s1">&#39;&lt;A href=+&#39;</span><span class="o">+</span><span class="nx">dic</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;&gt;&#39;</span><span class="o">+</span><span class="nx">key</span><span class="o">+</span><span class="s1">&#39;&lt;/A&gt;&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="c1">//add tdObj1 and tdObj2 to the line or record</span>
+</span><span class='line'>            <span class="nx">trObj</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">tdObj1</span><span class="p">);</span>
+</span><span class='line'>            <span class="nx">trObj</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">tdObj2</span><span class="p">);</span>
+</span><span class='line'>            <span class="c1">//add the trObj to the table</span>
+</span><span class='line'>            <span class="nx">tableObj</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">trObj</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="c1">//如果不加入下面一行代码则无法显示！！！甚至调试不出来</span>
+</span><span class='line'>          <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">tableObj</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Head&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;Body&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">value=</span><span class="s">&quot;create list&quot;</span> <span class="na">id=</span><span class="s">&quot;create&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/Html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>18：createElement 动态创建标签（无刷新评论的案例，即直接添加评论内容到页面的表格中）</p>
+
+<pre><code>  在之前我们知道只在页面加载的时候可以用document.write()来动态加载控件，那么如何在页面使用的过程中动态加载呢？ 
+</code></pre>
+
+<p>具体方法是利用 createElement(&ldquo;标签名&rdquo;) ，最终 会返回一个标签的对象。</p>
+
+<p>案例1：  创建一个层  并在层中添加按钮   插入按钮  和删除所有按钮
+注意1： 给层中加一个id的作用是为了可以供document对象进行调用
+注意2：firstChild and lastChild是层的属性  区分于   removeChild()  appendChild()  insertBefore()等方法</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;Html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;Head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Title&gt;</span>  Create Element dynamic <span class="nt">&lt;/Title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nx">onload</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;btn&#39;</span><span class="p">).</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">divObj</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nx">divObj</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">width</span><span class="o">=</span><span class="s1">&#39;400px&#39;</span><span class="p">;</span>
+</span><span class='line'>          <span class="nx">divObj</span><span class="p">.</span><span class="nx">id</span><span class="o">=</span><span class="s1">&#39;dv&#39;</span><span class="p">;</span> <span class="c1">//用于解决在层中添加标签的方式</span>
+</span><span class='line'>          <span class="nx">divObj</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">height</span><span class="o">=</span><span class="s1">&#39;200px&#39;</span><span class="p">;</span>
+</span><span class='line'>          <span class="nx">divObj</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">;</span>
+</span><span class='line'>          <span class="nx">divObj</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">border</span><span class="o">=</span><span class="s1">&#39;1px solid yellow&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">divObj</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">count</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;btnadd&#39;</span><span class="p">).</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">inputObj</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">);</span>
+</span><span class='line'>          <span class="nx">inputObj</span><span class="p">.</span><span class="nx">type</span><span class="o">=</span><span class="s1">&#39;button&#39;</span><span class="p">;</span>
+</span><span class='line'>          <span class="nx">inputObj</span><span class="p">.</span><span class="nx">value</span><span class="o">=</span><span class="s1">&#39;xiaoMing&#39;</span><span class="o">+</span><span class="nx">count</span><span class="p">;</span>
+</span><span class='line'>          <span class="nx">count</span><span class="o">++</span><span class="p">;</span>
+</span><span class='line'>          <span class="c1">// divObj.appendChild(inputObj);//不起作用</span>
+</span><span class='line'>          <span class="c1">//解决办法  给divObj加一个Id</span>
+</span><span class='line'>          <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;dv&#39;</span><span class="p">).</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">inputObj</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;btnInsert&#39;</span><span class="p">).</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">inputInObj</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">);</span>
+</span><span class='line'>         <span class="nx">inputInObj</span><span class="p">.</span><span class="nx">type</span><span class="o">=</span><span class="s1">&#39;button&#39;</span><span class="p">;</span>
+</span><span class='line'>         <span class="nx">inputInObj</span><span class="p">.</span><span class="nx">value</span><span class="o">=</span><span class="s1">&#39;xiaoming&#39;</span><span class="o">+</span><span class="nx">count</span><span class="p">;</span>
+</span><span class='line'>         <span class="nx">count</span><span class="o">++</span><span class="p">;</span>
+</span><span class='line'>         <span class="kd">var</span> <span class="nx">objDivD</span><span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;dv&#39;</span><span class="p">);</span>
+</span><span class='line'>         <span class="nx">objDivD</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">inputInObj</span><span class="p">,</span><span class="nx">objDivD</span><span class="p">.</span><span class="nx">firstChild</span><span class="p">);</span> <span class="c1">//必须先找到层中的第一个元素！ 然后插入新的元速</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;btnDelete&#39;</span><span class="p">).</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>         <span class="kd">var</span> <span class="nx">objDivD</span><span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;dv&#39;</span><span class="p">);</span>
+</span><span class='line'>         <span class="c1">//firstChild 是层的第一个元素的属性</span>
+</span><span class='line'>         <span class="c1">//lastChild 是层的最后一个元素的属性</span>
+</span><span class='line'>
+</span><span class='line'>         <span class="k">while</span><span class="p">(</span><span class="nx">objDivD</span><span class="p">.</span><span class="nx">firstChild</span><span class="p">)</span>
+</span><span class='line'>           <span class="p">{</span>
+</span><span class='line'>             <span class="nx">objDivD</span><span class="p">.</span><span class="nx">removeChild</span><span class="p">(</span><span class="nx">objDivD</span><span class="p">.</span><span class="nx">firstChild</span><span class="p">);</span>
+</span><span class='line'>           <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Head&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;Body&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">id=</span><span class="s">&quot;btn&quot;</span> <span class="na">value=</span><span class="s">&quot;创建&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">id=</span><span class="s">&quot;btnadd&quot;</span> <span class="na">value=</span><span class="s">&quot;层中创建&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">id=</span><span class="s">&quot;btnInsert&quot;</span> <span class="na">value=</span><span class="s">&quot;层中插入&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">id=</span><span class="s">&quot;btnDelete&quot;</span> <span class="na">value=</span><span class="s">&quot;删除层中所有元素&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/Html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>案例2： 提供一个评论的界面，包含昵称：</p>
+
+<pre><code>                                             以及评论内容框和一个input的提交框
+        最终把结果展示到页面的下面表格控件中
+</code></pre>
+
+<p>注意：</p>
+
+<pre><code>   1: 在提交之后 ，进行name 和评论区域是否为空的判断
+                    若评论内容为空，则把屏幕焦点移到评论区域，不进行提交 
+                    若名称区域为空，则把屏幕焦点移到名称区域，不进行提交
+
+   2：若没有问题，提交之后得清空name和评论区域的内容
+   3：进行能力测试
+        火狐和IE是两个不友好的朋友。
+        typeof(tdObj1.innerText)=='string'
+</code></pre>
+
+<p>具体代码如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;Html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;Head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Title&gt;</span> Test comment submited without refresh 1<span class="nt">&lt;/Title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nf">#submitArea</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="k">width</span><span class="o">:</span><span class="m">300px</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">height</span><span class="o">:</span><span class="m">300px</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">background-color</span><span class="o">:</span><span class="nb">blue</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="nf">#showArea</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="o">//</span><span class="err">这边使用分号进行隔开！！</span> <span class="err">在</span><span class="n">js</span><span class="err">中定义</span><span class="n">json</span><span class="err">数据格式</span> <span class="err">一般用逗号隔开！！</span>
+</span><span class='line'>        <span class="k">width</span><span class="o">:</span><span class="m">400px</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">height</span><span class="o">:</span><span class="m">500</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">background-color</span><span class="o">:</span><span class="nb">green</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="nt">textarea</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="k">width</span><span class="o">:</span><span class="m">200px</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">height</span><span class="o">:</span><span class="m">200px</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="nt">table</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="k">border</span><span class="o">:</span><span class="m">1px</span> <span class="k">dashed</span> <span class="nb">yellow</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">background-color</span><span class="o">:</span><span class="nb">red</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="nt">td</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="k">border</span><span class="o">:</span><span class="m">1px</span> <span class="k">solid</span> <span class="nb">black</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="nt">&lt;/style&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nx">onload</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;tijiao&#39;</span><span class="p">).</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//获取昵称</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">names</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;nicheng&#39;</span><span class="p">).</span><span class="nx">value</span><span class="p">;</span>
+</span><span class='line'>        <span class="c1">//获取评论内容</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">content</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;pinglun&#39;</span><span class="p">).</span><span class="nx">value</span><span class="p">;</span>
+</span><span class='line'>        <span class="c1">//保存信息到一个table中</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">tableObj</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;tb1&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="c1">//创建一行记录</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">trObj</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;tr&#39;</span><span class="p">);</span>
+</span><span class='line'>          <span class="c1">//创建一列</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">tdObj1</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">);</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">tdObj2</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="c1">//设置值</span>
+</span><span class='line'><span class="cm">/*</span>
+</span><span class='line'><span class="cm">          tdObj1.value=names;</span>
+</span><span class='line'><span class="cm">          tdObj2.value=content;</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'>          <span class="c1">//忘记了使用innerText and innerhtml</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">tdObj1</span><span class="p">.</span><span class="nx">innerText</span><span class="p">)</span><span class="o">==</span><span class="s1">&#39;string&#39;</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>            <span class="nx">tdObj1</span><span class="p">.</span><span class="nx">innerText</span><span class="o">=</span><span class="nx">names</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span><span class="k">else</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>            <span class="nx">tdObj1</span><span class="p">.</span><span class="nx">textContent</span><span class="o">=</span><span class="nx">names</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">tdObj2</span><span class="p">.</span><span class="nx">innerText</span><span class="p">)</span><span class="o">==</span><span class="s1">&#39;string&#39;</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>            <span class="nx">tdObj2</span><span class="p">.</span><span class="nx">innerText</span><span class="o">=</span><span class="nx">content</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span><span class="k">else</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>            <span class="nx">tdObj2</span><span class="p">.</span><span class="nx">textContent</span><span class="o">=</span><span class="nx">content</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>                  <span class="c1">//添加列到记录中</span>
+</span><span class='line'>          <span class="nx">trObj</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">tdObj1</span><span class="p">);</span>
+</span><span class='line'>          <span class="nx">trObj</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">tdObj2</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nx">tableObj</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">trObj</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nx">names</span><span class="p">.</span><span class="nx">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+</span><span class='line'>          <span class="nx">content</span><span class="p">.</span><span class="nx">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;nicheng&#39;</span><span class="p">).</span><span class="nx">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+</span><span class='line'>          <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;nicheng&#39;</span><span class="p">).</span><span class="nx">focus</span><span class="p">();</span>
+</span><span class='line'>          <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;pinglun&#39;</span><span class="p">).</span><span class="nx">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Head&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;Body&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Div</span> <span class="na">id=</span><span class="s">&quot;submitArea&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Label&gt;</span>昵称:<span class="nt">&lt;/Label&gt;&lt;Input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">id=</span><span class="s">&quot;nicheng&quot;</span> <span class="na">value=</span><span class="s">&quot;&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Textarea</span> <span class="na">id=</span><span class="s">&quot;pinglun&quot;</span> <span class="na">rows=</span><span class="s">&quot;15&quot;</span> <span class="na">cols=</span><span class="s">&quot;10&quot;</span><span class="nt">&gt;</span> <span class="nt">&lt;/Textarea&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;br/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">id=</span><span class="s">&quot;tijiao&quot;</span> <span class="na">value=</span><span class="s">&quot;提交&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/Div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;Div</span> <span class="na">id=</span><span class="s">&quot;showArea&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Table</span> <span class="na">id=</span><span class="s">&quot;tb1&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nt">&lt;/Table&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/Div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;/Body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/Html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>案例延展
+案例3： 上面并没有进行名称区域和评论区域为空的判断</p>
+
+<pre><code>   另外的，也可以使用table.insertRow(-1)  并利用返回来的行对象创建列insertCell(-1)来创建
+    一个好处是不需要像createElement，在结尾需要进行appendChild添加节点的错做。
+</code></pre>
+
+<p>注意点：列的值设置需要用innerText或者innerhtml进行设置（style部分保持一样）</p>
+
+<p>具体如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;Html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;Head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Title&gt;</span> Test comment submited without refresh 2<span class="nt">&lt;/Title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nf">#submitArea</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="k">width</span><span class="o">:</span><span class="m">300px</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">height</span><span class="o">:</span><span class="m">300px</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">background-color</span><span class="o">:</span><span class="nb">blue</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="nf">#showArea</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="o">//</span><span class="err">这边使用分号进行隔开！！</span> <span class="err">在</span><span class="n">js</span><span class="err">中定义</span><span class="n">json</span><span class="err">数据格式</span> <span class="err">一般用逗号隔开！！</span>
+</span><span class='line'>        <span class="k">width</span><span class="o">:</span><span class="m">400px</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">height</span><span class="o">:</span><span class="m">500</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">background-color</span><span class="o">:</span><span class="nb">green</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="nt">textarea</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="k">width</span><span class="o">:</span><span class="m">200px</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">height</span><span class="o">:</span><span class="m">200px</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="nt">table</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="k">border</span><span class="o">:</span><span class="m">1px</span> <span class="k">dashed</span> <span class="nb">yellow</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">background-color</span><span class="o">:</span><span class="nb">red</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="nt">td</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="k">border</span><span class="o">:</span><span class="m">1px</span> <span class="k">solid</span> <span class="nb">black</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="nt">&lt;/style&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nx">onload</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;tijiao&#39;</span><span class="p">).</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//获取昵称</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">names</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;nicheng&#39;</span><span class="p">).</span><span class="nx">value</span><span class="p">;</span>
+</span><span class='line'>        <span class="c1">//获取评论内容</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">//增加一个输入参数值的有效性 判断！</span>
+</span><span class='line'>             <span class="k">if</span><span class="p">(</span><span class="nx">names</span><span class="o">==</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>              <span class="p">{</span>
+</span><span class='line'>               <span class="c1">// alert(names+typeof(names));</span>
+</span><span class='line'>                <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;请输入昵称内容&#39;</span><span class="p">);</span>
+</span><span class='line'>                <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;nicheng&#39;</span><span class="p">).</span><span class="nx">focus</span><span class="p">();</span>
+</span><span class='line'>                <span class="k">return</span> <span class="p">;</span>
+</span><span class='line'>              <span class="p">}</span><span class="k">else</span>
+</span><span class='line'>              <span class="p">{</span>
+</span><span class='line'>                <span class="kd">var</span> <span class="nx">content</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;pinglun&#39;</span><span class="p">).</span><span class="nx">value</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">//alert(content+typeof(content));</span>
+</span><span class='line'>                  <span class="k">if</span><span class="p">(</span><span class="nx">content</span><span class="o">==</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>                  <span class="p">{</span>
+</span><span class='line'>                    <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;请输入评论内容&#39;</span><span class="p">);</span>
+</span><span class='line'>                    <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;pinglun&#39;</span><span class="p">).</span><span class="nx">focus</span><span class="p">();</span>
+</span><span class='line'>                    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>                  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">//保存信息到一个table中</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">tableObj</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;tb1&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="c1">//不需要CreateElement之后还需要 appendChild的操作</span>
+</span><span class='line'>          <span class="c1">//创建一行记录</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">trObj</span><span class="o">=</span><span class="nx">tableObj</span><span class="p">.</span><span class="nx">insertRow</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>          <span class="c1">//创建一列</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">tdObj1</span><span class="o">=</span><span class="nx">trObj</span><span class="p">.</span><span class="nx">insertCell</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">tdObj2</span><span class="o">=</span><span class="nx">trObj</span><span class="p">.</span><span class="nx">insertCell</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="c1">//设置值</span>
+</span><span class='line'><span class="cm">/*</span>
+</span><span class='line'><span class="cm">          tdObj1.value=names;</span>
+</span><span class='line'><span class="cm">          tdObj2.value=content;</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'>          <span class="c1">//忘记了使用innerText and innerhtml</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">tdObj1</span><span class="p">.</span><span class="nx">innerText</span><span class="p">)</span><span class="o">==</span><span class="s1">&#39;string&#39;</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>             <span class="nx">tdObj1</span><span class="p">.</span><span class="nx">innerText</span><span class="o">=</span><span class="nx">names</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span><span class="k">else</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>             <span class="nx">tdObj1</span><span class="p">.</span><span class="nx">textContent</span><span class="o">=</span><span class="nx">names</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">tdObj2</span><span class="p">.</span><span class="nx">innerText</span><span class="p">)</span><span class="o">==</span><span class="s1">&#39;string&#39;</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>            <span class="nx">tdObj2</span><span class="p">.</span><span class="nx">innerText</span><span class="o">=</span><span class="nx">content</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span><span class="k">else</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="nx">tdObj2</span><span class="p">.</span><span class="nx">textContent</span><span class="o">=</span><span class="nx">content</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>                  <span class="c1">//添加列到记录中</span>
+</span><span class='line'>          <span class="c1">//names.value=&quot;&quot;;</span>
+</span><span class='line'>          <span class="c1">//content.value=&quot;&quot;;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;nicheng&#39;</span><span class="p">).</span><span class="nx">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+</span><span class='line'>          <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;nicheng&#39;</span><span class="p">).</span><span class="nx">focus</span><span class="p">();</span>
+</span><span class='line'>          <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;pinglun&#39;</span><span class="p">).</span><span class="nx">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Head&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;Body&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Div</span> <span class="na">id=</span><span class="s">&quot;submitArea&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Label&gt;</span>昵称:<span class="nt">&lt;/Label&gt;&lt;Input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">id=</span><span class="s">&quot;nicheng&quot;</span> <span class="na">value=</span><span class="s">&quot;&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Textarea</span> <span class="na">id=</span><span class="s">&quot;pinglun&quot;</span> <span class="na">rows=</span><span class="s">&quot;15&quot;</span> <span class="na">cols=</span><span class="s">&quot;10&quot;</span><span class="nt">&gt;</span> <span class="nt">&lt;/Textarea&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;br/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">id=</span><span class="s">&quot;tijiao&quot;</span> <span class="na">value=</span><span class="s">&quot;提交&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/Div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;Div</span> <span class="na">id=</span><span class="s">&quot;showArea&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Table</span> <span class="na">id=</span><span class="s">&quot;tb1&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nt">&lt;/Table&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/Div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;/Body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/Html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>19：一个综合的小案例：
+   功能： 1点击按钮，则奇数行为红色，偶数行蓝色</p>
+
+<pre><code>          2鼠标移动时候，对应的对象变红色，其他的默认颜色：
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;Html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;Head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Title&gt;</span> change the table&#39;s even and odd line&#39;s color<span class="nt">&lt;/Title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nx">onload</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//获得点击的按钮</span>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;changeColor&#39;</span><span class="p">).</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="c1">//如何获得表格的长度？？？</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">tds</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;tb1&#39;</span><span class="p">).</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">);</span>
+</span><span class='line'>          <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">tds</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>            <span class="c1">//当为奇数的时候  其实也可以用css解决方式</span>
+</span><span class='line'>            <span class="k">if</span><span class="p">(</span><span class="nx">i</span><span class="o">%</span><span class="mi">2</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>              <span class="p">{</span>
+</span><span class='line'>                <span class="nx">tds</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">;</span>
+</span><span class='line'>              <span class="p">}</span><span class="k">else</span>
+</span><span class='line'>              <span class="p">{</span>
+</span><span class='line'>                <span class="nx">tds</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">;</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>        <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">//进行鼠标移动变色的事件</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">tds1</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;tb1&#39;</span><span class="p">).</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">);</span>
+</span><span class='line'>          <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">j</span><span class="o">&lt;</span><span class="nx">tds1</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">j</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>            <span class="nx">tds1</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">onmousemove</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>              <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">k</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">k</span><span class="o">&lt;</span><span class="nx">tds1</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">k</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>              <span class="p">{</span>
+</span><span class='line'>                  <span class="nx">tds1</span><span class="p">[</span><span class="nx">k</span><span class="p">].</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>      <span class="p">};</span>
+</span><span class='line'>    <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Head&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;Body&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">id=</span><span class="s">&quot;changeColor&quot;</span> <span class="na">value=</span><span class="s">&quot;change color of the table&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;Table</span> <span class="na">id=</span><span class="s">&quot;tb1&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;tr&gt;&lt;td&gt;</span>第一行<span class="nt">&lt;/td&gt;&lt;/tr&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;tr&gt;&lt;td&gt;</span>第二行<span class="nt">&lt;/td&gt;&lt;/tr&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;tr&gt;&lt;td&gt;</span>第三行<span class="nt">&lt;/td&gt;&lt;/tr&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;tr&gt;&lt;td&gt;</span>第四行<span class="nt">&lt;/td&gt;&lt;/tr&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;tr&gt;&lt;td&gt;</span>第五行<span class="nt">&lt;/td&gt;&lt;/tr&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;tr&gt;&lt;td&gt;</span>第六行<span class="nt">&lt;/td&gt;&lt;/tr&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/Table&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/Html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>小结： 学会了添加事件，认识了事件冒泡过程，理解了document.write的两个作用（document.writeln暂时不管 实际上只有<br>才是真正的网页换行）</p>
+
+<pre><code>      并对innerText和innerHtml进行区分，结合createElement可以动态的创建标签，弥补了document.write的不足之处（只在网页加载的时候创建），
+       再次利用JSon数据结构来动态显示数据，我们会发现所有的html代码中犹如一颗颗树，可以利用三种调用标签的方式来调用所有的元素，可是我们
+       总是需要写那么长的代码，可以简化？有。
+</code></pre>
+
+<p>   20：最后通过一个较典型的案例来结尾：</p>
+
+<pre><code>      功能1: 把JSON数据结构进行table侠士
+                功能2：设置复选框的全选
+                 功能3：设置title的走马灯效果
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;Html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;Head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Title&gt;</span>
+</span><span class='line'>        Tree! Tree ! Everywhere fills with trees.
+</span><span class='line'>    <span class="nt">&lt;/Title&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">de</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">;</span>
+</span><span class='line'>      <span class="nx">alert</span><span class="p">(</span><span class="nx">de</span><span class="p">.</span><span class="nx">tagName</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">head</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s2">&quot;Head&quot;</span><span class="p">);</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">body</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s2">&quot;Body&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">alert</span><span class="p">(</span><span class="nx">head</span><span class="p">);</span>
+</span><span class='line'>     <span class="c1">// alert(head.firstChild.nodeName);</span>
+</span><span class='line'>      <span class="nx">alert</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">imgObj</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s2">&quot;img&quot;</span><span class="p">);</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">imgObj1</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s2">&quot;34&quot;</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">alert</span><span class="p">(</span><span class="nx">imgObj</span><span class="p">.</span><span class="nx">alt</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">alert</span><span class="p">(</span><span class="nx">imgObj1</span><span class="p">.</span><span class="nx">alt</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">//用于把JSON的数据结构 生成一个列表</span>
+</span><span class='line'>      <span class="kd">function</span> <span class="nx">createTable</span><span class="p">()</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">div</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;news&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">table</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">table</span><span class="p">.</span><span class="nx">border</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>        <span class="c1">//创建一个JSON数据结构，用于存储网络地址d</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">newsBlog</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;如鹏网站&quot;</span><span class="o">:</span><span class="s2">&quot;http://www.rupeng.com&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;网易博客&quot;</span><span class="o">:</span><span class="s2">&quot;http://www.163.com&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;sina网站&quot;</span><span class="o">:</span><span class="s2">&quot;http://www.sina.com&quot;</span><span class="p">};</span><span class="c1">//可以进行无限的添加</span>
+</span><span class='line'>        <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">name</span> <span class="k">in</span> <span class="nx">newsBlog</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>            <span class="c1">//创建行列结构</span>
+</span><span class='line'>            <span class="kd">var</span> <span class="nx">tr</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;tr&quot;</span><span class="p">);</span> <span class="c1">//创建一个tr对象</span>
+</span><span class='line'>            <span class="kd">var</span> <span class="nx">td1</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;td&quot;</span><span class="p">);</span> <span class="c1">//创建一个第一列td1</span>
+</span><span class='line'>            <span class="kd">var</span> <span class="nx">td2</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;td&quot;</span><span class="p">);</span> <span class="c1">//创建一个第一列td1</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="c1">//设置行列属性</span>
+</span><span class='line'>            <span class="nx">td1</span><span class="p">.</span><span class="nx">innerText</span><span class="o">=</span><span class="nx">name</span><span class="p">;</span>
+</span><span class='line'>            <span class="nx">td2</span><span class="p">.</span><span class="nx">innerhtml</span><span class="o">=</span><span class="s2">&quot;&lt;a href=&quot;</span><span class="o">+</span><span class="nx">newsBlog</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;&gt;&quot;</span><span class="o">+</span><span class="nx">newsBlog</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;&lt;/A&gt;&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="c1">//添加节点</span>
+</span><span class='line'>            <span class="nx">tr</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">td1</span><span class="p">);</span>
+</span><span class='line'>            <span class="nx">tr</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">td2</span><span class="p">);</span>
+</span><span class='line'>            <span class="c1">//添加行到表中</span>
+</span><span class='line'>            <span class="nx">table</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">tr</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="c1">//div层添加table节点</span>
+</span><span class='line'>          <span class="nx">div</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">table</span><span class="p">);</span>
+</span><span class='line'>          <span class="nx">table</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">listStyle</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">;</span>
+</span><span class='line'>          <span class="nx">table</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">//设置全选</span>
+</span><span class='line'>      <span class="kd">function</span> <span class="nx">setCheckedAll</span><span class="p">()</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//获取所有name=&quot;setall&quot;的标签   注意多一个s</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">allBtns</span><span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByName</span><span class="p">(</span><span class="s2">&quot;setall&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="c1">//var allBtns= document.getElementByName(&quot;setall&quot;);</span>
+</span><span class='line'>        <span class="c1">//获取id=”all&quot;的标签节点</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">setOpenBtn</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">allBtns</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="nx">allBtns</span><span class="p">.</span><span class="nx">checked</span> <span class="o">=</span> <span class="nx">setOpenBtn</span><span class="p">.</span><span class="nx">checked</span><span class="p">;</span>
+</span><span class='line'>          <span class="nx">allBtns</span><span class="p">.</span><span class="nx">onclick</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>            <span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>            <span class="c1">//为什么要进行一个循环</span>
+</span><span class='line'>            <span class="c1">//因为  再进行单选时候 得清楚所有之前的checkbox的状态！</span>
+</span><span class='line'>            <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span> <span class="nx">allBtns</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>              <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">allBtns</span><span class="p">.</span><span class="nx">checked</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">{</span>
+</span><span class='line'>                  <span class="nx">b</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>                  <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>                <span class="nx">setOpenBtn</span><span class="p">.</span><span class="nx">checked</span> <span class="o">=</span> <span class="nx">b</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">//设置标签title的走马灯效果</span>
+</span><span class='line'>      <span class="kd">function</span> <span class="nx">scroll</span><span class="p">()</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">title</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">title</span><span class="p">;</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">first</span><span class="o">=</span><span class="nx">title</span><span class="p">.</span><span class="nx">charAt</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">last</span> <span class="o">=</span><span class="nx">title</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nx">title</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">title</span><span class="o">=</span><span class="nx">last</span><span class="o">+</span><span class="nx">first</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="nx">setInterval</span><span class="p">(</span><span class="s2">&quot;scroll()&quot;</span><span class="p">,</span><span class="mi">500</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="cm">/*</span>
+</span><span class='line'><span class="cm">      鼠标事件</span>
+</span><span class='line'><span class="cm">      onclick</span>
+</span><span class='line'><span class="cm">      ondbclick</span>
+</span><span class='line'><span class="cm">      onkeydown</span>
+</span><span class='line'><span class="cm">      onkeyup</span>
+</span><span class='line'><span class="cm">      onkeypress</span>
+</span><span class='line'><span class="cm">      onmousedown</span>
+</span><span class='line'><span class="cm">      onmousemove</span>
+</span><span class='line'><span class="cm">      onmouseout</span>
+</span><span class='line'><span class="cm">      onmouseover</span>
+</span><span class='line'><span class="cm">      onmouseup</span>
+</span><span class='line'><span class="cm">       </span>
+</span><span class='line'><span class="cm">       </span>
+</span><span class='line'><span class="cm">      */</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Head&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;Body&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Div</span> <span class="na">value=</span><span class="s">&quot;全选区&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">name=</span><span class="s">&quot;setall&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">name=</span><span class="s">&quot;setall&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">name=</span><span class="s">&quot;setall&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">name=</span><span class="s">&quot;setall&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">name=</span><span class="s">&quot;setall&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">name=</span><span class="s">&quot;setall&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">name=</span><span class="s">&quot;&quot;</span> <span class="na">id=</span><span class="s">&quot;all&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/Div&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Div</span> <span class="na">id =</span><span class="s">&quot;news&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;/Div&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">value=</span><span class="s">&quot;生成列表&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;H1&gt;</span>Tree ! Everything can become trees.<span class="nt">&lt;/H1&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;P&gt;</span>Html代码层层嵌套像一颗颗<span class="nt">&lt;Em&gt;</span>树<span class="nt">&lt;/Em&gt;</span>一样。<span class="nt">&lt;/P&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;Div&gt;</span>一层一层的数<span class="nt">&lt;Img</span> <span class="na">id=</span><span class="s">&quot;34&quot;</span> <span class="na">src=</span><span class="s">&quot;&quot;</span> <span class="na">alt=</span><span class="s">&quot;如果没有图片会显示我&quot;</span><span class="nt">/&gt;&lt;/Div&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/Body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/Html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面为止是到第JSDom15的内容。</p>
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2015/05/11/jsdom7-13jie-bi-ji-dai-ma-march31th/'>http://jueqingsizhe66.github.io/blog/2015/05/11/jsdom7-13jie-bi-ji-dai-ma-march31th/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:44+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/jsdom/'>JSDom</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/11/jsdom14-19jie-bi-ji-dai-ma-april1th/" title="Previous Post: JSDOM14-19节笔记代码April1th">&laquo; JSDOM14-19节笔记代码April1th</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/11/march15th/" title="Next Post: March15th">March15th &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><div class="ds-thread" > </div>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"f708708"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+  <p><img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> <!--不是他的原因-->
+ <!--而是yellow的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (3)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (22)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (3)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (18)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/physics-and-maths/">Physics and Maths</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/jump-out-of-ontology/">Jump Out of Ontology</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/machine-learning-some-search-record/">Machine Learning Some Search Record</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/graphviz-notebook/">Graphviz Notebook</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="1" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+
+</section>
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2015/05/11/jsdom7-13jie-bi-ji-dai-ma-march31th/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2015/05/11/jsdom7-13jie-bi-ji-dai-ma-march31th/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

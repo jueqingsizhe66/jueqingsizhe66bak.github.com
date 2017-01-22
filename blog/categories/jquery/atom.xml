@@ -1,0 +1,3042 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: jQuery | 网络书屋(Web Reading Room)]]></title>
+  <link href="http://jueqingsizhe66.github.io/blog/categories/jquery/atom.xml" rel="self"/>
+  <link href="http://jueqingsizhe66.github.io/"/>
+  <updated>2017-01-22T12:24:26+08:00</updated>
+  <id>http://jueqingsizhe66.github.io/</id>
+  <author>
+    <name><![CDATA[Ye Zhaoliang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[jQuery10-18节笔记代码April5th]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/05/11/jquery10-18jie-bi-ji-dai-ma-april5th/"/>
+    <updated>2015-05-11T14:58:44+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/05/11/jquery10-18jie-bi-ji-dai-ma-april5th</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<p><a href="http://www.rupeng.com/forum/thread-45422-1-1.html">http://www.rupeng.com/forum/thread-45422-1-1.html</a> jquery1-9
+1：移除元素
+$(&lsquo;div&rsquo;).empty()  清空层中的元素
+$(&lsquo;div&rsquo;).remove(&lsquo;.cls&rsquo;)   清空层中运用cls样式的元素
+$(&lsquo;div&rsquo;).remove()  自我删除
+2: select 下拉框的练习
+单选移到另一个框
+全选移到另一个框
+option:selected表示已选中的元素
+:selected表示所有选中的下列框元素，前提是select设置了 multiple=&ldquo;multiple&rdquo;</p>
+
+<p>案例1：（单选和全选）</p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;Test select and option &lt;/Title&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js" &gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    $('#btnLeft').click(function(){
+      $('#sel2 option:selected').appendTo('#sel1');
+      //$('#sel1 option:selected').appendTo($('#sel2'));
+    });
+    $('#btnRight').click(function(){
+      $('#sel1 option:selected').appendTo('#sel2');
+    });
+
+    $('#btnAllRight').click(function(){
+      $('#sel1 option').appendTo('#sel2');
+    });
+
+    $('#btnAllLeft').click(function(){
+      $('#sel2 option').appendTo('#sel1');
+    });
+
+  })
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Select id="sel1" multiple="multiple" style="float:left; width:400px;height:100px;"&gt;
+  &lt;!--Multipel can show all the contains in the selector--&gt;
+  &lt;Option &gt; delete&lt;/Option&gt;
+  &lt;Option &gt; create&lt;/Option&gt;
+  &lt;Option &gt; check&lt;/Option&gt;
+  &lt;Option &gt; update&lt;/Option&gt;
+  &lt;Option &gt; select&lt;/Option&gt;
+&lt;/Select&gt;
+&lt;!--In the div, the width:50px  then inside the div
+is 50px width,so it change the line!
+And because the float:left ,so it will try to align
+along the left--&gt;
+&lt;Div style="float:left;width:50px"&gt;
+  &lt;Input type="button" id="btnLeft" value="&lt;" style="width:50px"/&gt;
+  &lt;Input type="button" id="btnRight" value="&gt;" "width:50px"/&gt;
+  &lt;Input type="button" id="btnAllLeft" value="&lt;&lt;" "width:50px"/&gt;
+  &lt;Input type="button" id="btnAllRight" value="&gt;&gt;" "width:50px"/&gt;
+
+&lt;/Div&gt;
+&lt;Button type="button" id="btnLeft1" value="To the left"&gt;"To the left"&lt;/Button&gt;
+&lt;Button type="button" id="btnRight1" value="To the right"/&gt;"To the right"&lt;/Button&gt;
+&lt;Button type="button" id="btnAllLeft1" value="All To the left"/&gt;"All To the left"&lt;/Button&gt;
+&lt;Button type="button" id="btnAllRight1" value="All To the left"/&gt;"All To the left"&lt;/Button&gt;
+&lt;!--Because of the float:left,so selector will focuse to
+    take occupy of the left position--&gt;
+&lt;Select id="sel2" multiple="multiple" style="float:left; width:400px;height:100px;"&gt;
+  &lt;!--&lt;Select id="sel2" multiple="multiple"&gt;--&gt;
+&lt;/Select&gt;
+</code></pre>
+
+<p>  </Body></p>
+
+<p></Html>
+```
+案例2：计算器</p>
+
+<p>使用switch &hellip;case 判断选中的计算器操作符
+注意：输入参数的有效性的判断。</p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;Test Calculator with the basic operator&lt;/Title&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js" &gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    $('#equal').click(function(){
+      var leftvalue=$('#one').val();
+      var rightvalue=$('#two').val();
+      if(leftvalue=='')
+      {
+        console.log('The empty of the one!;');
+        return;
+      }
+      if(rightvalue=='')
+      {
+        console.log('The empty of the two!;');
+        return;
+      }
+      var result=0.0;
+      //alert($('#operator :selected').val());
+      //alert(typeof($('#operator :selected').val()));
+      switch($('#operator :selected').val())
+      {
+        case '+':
+          result=parseFloat(leftvalue)+parseFloat(rightvalue);
+          break;
+          case '-':
+</code></pre>
+
+<p>result=parseFloat(leftvalue)-parseFloat(rightvalue);</p>
+
+<pre><code>          break;
+         case '*':
+</code></pre>
+
+<p>result=parseFloat(leftvalue)*parseFloat(rightvalue);</p>
+
+<pre><code>          break;
+         case '/':
+</code></pre>
+
+<p>result=parseFloat(leftvalue)/parseFloat(rightvalue);</p>
+
+<pre><code>          break;
+
+          default:
+            break;
+      }
+      $('#result').val(result);
+    })
+  })
+&lt;/script&gt;
+</code></pre>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Input type="text" id="one"/&gt;
+&lt;Select id="operator" style=" width:40px;height:30px;"&gt;
+  &lt;Option&gt;+&lt;/Option&gt;
+  &lt;Option&gt;-&lt;/Option&gt;
+  &lt;Option&gt;*&lt;/Option&gt;
+  &lt;Option&gt;/&lt;/Option&gt;
+&lt;/Select&gt;
+&lt;Input type="text" id="two"/&gt;
+&lt;Input type="button" id="equal"value="="/&gt;
+&lt;Input type="text" id="result"/&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>4: checkbox的练习</p>
+
+<p>:disabled 属性的练习</p>
+
+<p>案例1： 软件安装时需要提醒用户阅读协议，一般是5s，然后才可以点击同意。</p>
+
+<p>注意：计时器setInterval和清除计时器clearInterval() .  回顾： setTimeout 和 clearTimeout</p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;Test Time machine &lt;/Title&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js" &gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    var i =5;
+    var timeMeter=setInterval(function(){
+      if(i&gt;0)
+      {
+        i--;
+        $('#span1').text('Please read the agreement carefully('+i+'s)');
+      }else
+      {
+        //forget clear The time meter
+        clearInterval(timeMeter);
+        $('#span1').text('Agree');
+        $('#chk').attr('disabled',false);
+      }
+    },1000);
+  })
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Input type="checkbox" id="chk" disabled="disabled"&gt;&lt;Span id="span1"&gt;Please read the agreement carefully(5s)&lt;/Span&gt;
+</code></pre>
+
+<p>  </Body></p>
+
+<p></Html></p>
+
+<pre><code>        $('#span1').text('Agree');
+        $('#chk').attr('disabled',false);
+      }
+    },1000);
+  })
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Input type="checkbox" id="chk" disabled="disabled"&gt;&lt;Span id="span1"&gt;Please read the agreement carefully(5s)&lt;/Span&gt;
+</code></pre>
+
+<p>  </Body></p>
+
+<p></Html>
+```
+5:事件冒泡</p>
+
+<p>取消事件冒泡的方法
+arguments[0].stopPropagation 或者
+function(e){e.stopPropagation();}</p>
+
+<p>附加上图片的脱离文档流操作和一次事件</p>
+
+<p>但是one在jquery-1.8.3.min.js 能够试验通过 ，在2.1.3.js新版本则不行。</p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;Test select and option &lt;/Title&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js" &gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    $('#btn').click({'name':'xiaomin'},function(e){
+      alert(e.data.name) ;
+    });
+    $('#dv').click(function(){
+      alert($(this).attr('id'));
+    });
+
+    $('#ps').click(function(){
+      alert($(this).attr('id'));
+    });
+    $('#sp1').click(function(){
+      alert($(this).attr('id'));
+      //如果加上这句话，事件就不会冒泡了
+      //可不敢露了一个s
+      //$(argument[0]).stopPropagation();//取消底层的事件冒泡
+      arguments[0].stopPropagation();//取消底层的事件冒泡
+      //方法2  function(e){e.stoppropagation();}
+    });
+
+
+    //Test Image
+    $(document).mouseover(function(e){
+      //1 脱离文档流
+      //2 给定坐标
+      $('img').css('position','absolute').css({"left":e.pageX,"top":e.pageY});
+    });
+
+    //一次事件
+    $('#btnOnce').one(function(){
+      alert('烟花总是灿烂，但是只开一次');
+    });
+  });
+&lt;/script&gt;
+
+&lt;/Head&gt;
+</code></pre>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Input type="button" name="name" value="getData" id="btn"/&gt;
+&lt;Div id="dv" style="width:300px; height:200px; border:1px solid red;"&gt;
+  &lt;P id="ps" &gt;
+    &lt;Span id="sp1" style="width:200px; height:100px; border:1px solid yellow"&gt; This is zone of span&lt;/Span&gt;
+  &lt;/P&gt;
+&lt;/Div&gt;
+
+&lt;Input type="button" id="btnOnce" value="onceEvent"/&gt;
+
+&lt;Img src="2.png"/&gt;
+</code></pre>
+
+<p>  </Body></p>
+
+<p></Html>
+```</p>
+
+<p>7: replaceAll  and replaceWith</p>
+
+<p>repalceAll  把左边的标签替换包含右边文本的标签</p>
+
+<p>replaceWith 把右边的标签替换左边文本的标签</p>
+
+<pre><code>    $('#btn').click({'name':'xiaomin'},function(e){
+      alert(e.data.name) ;
+</code></pre>
+
+<p>7.1  标签包裹</p>
+
+<p>1 wrap   每个p标签各自被一个 font包裹
+2 wrapAll  所有p标签被一个font 包裹
+3 wrapInner 每个P标签内部都有意个font标签</p>
+
+<p>7.2 百度搜索框</p>
+
+<p>focus   blur</p>
+
+<p>以及removeClass的操作</p>
+
+<p>7.3 RadioButton 的选择 :checked</p>
+
+<p>通过attr(&lsquo;checked&rsquo;,true);进行设置</p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;&lt;/Title&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js"&gt;
+&lt;/script&gt;
+
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    //with all label
+    $('#btn1').click(function(){
+      $('br').replaceWith('&lt;Hr/&gt;')
+    });
+
+    //replaceAll with not all labels
+    $('#btn2').click(function(){
+      $('&lt;br/&gt;').replaceAll('hr');
+    });
+
+    $('#btn3').click(function(){
+      //1wrap   每个p标签各自被一个 font包裹
+      //2wrapAll  所有p标签被一个font 包裹
+      //3wrapInner 每个P标签内部都有意个font标签
+      //$('div p').wrap('&lt;Font color="red" size="8" &gt;&lt;/Font&gt;');
+      //$('div p').wrapAll('&lt;Font color="red" size="8" &gt;&lt;/Font&gt;');
+      $('div p').wrapInner('&lt;Font color="red" size="8" &gt;&lt;/Font&gt;');
+    });
+
+    //你可以通过浏览器的探测功能，观察每一个过程html代码结构的
+    //变化
+    //下面代码适应所有的html文件！！！
+    //只有body里面有东西都是可以的
+    // 回顾： 聚焦控件联系    其实还包括focus and blur的联系
+    /// 另外这些知识点统归为jQuery的时间编程
+    /*
+    $('body *').mouseover(function(){
+      $(this).addClass('cls');
+    }).mouseout(function(){
+      $(this).removeClass('cls');
+    });
+    */
+
+
+    //focus and blur
+    //回顾了 事件编程 包括click  mouseover  mouseout hover悬停事件等
+
+    // 百度搜索框的jquery实现
+    //var contents=$(this).val();
+    $('#baidu001').focus(function(){
+
+      if($(this).val() =='Please input some value')
+      {
+        // 作用是如果当前的值为这个，那我就证明需要我输入什么
+        //于是我就removeClass 然后开始写上值
+        $(this).val('').removeClass('baidu');
+      }
+    }).blur(function(){
+      if($(this).val().length==0)
+      {
+        //如果用户没有填写任何东西，就主动给他附上值
+        $(this).val('Please input some value').addClass('baidu');
+      }
+    });
+
+    $('#btnRadio').click(function(){
+</code></pre>
+
+<p>//          $(&lsquo;:radio[value=1]&rsquo;).attr(&lsquo;checked&rsquo;,true);
+//          $(&lsquo;input[value=1]&rsquo;).attr(&lsquo;checked&rsquo;,true);
+//          $(&lsquo;input[type=radio][value=1]&rsquo;).attr(&lsquo;checked&rsquo;,true);</p>
+
+<pre><code>        //$(':radio').val(['1','2','6']);  必须一一对应才会被选中？
+        //$(':radio').val(['1','2','3']);
+      $(':radio').val(['4','2','3']);// 哪个不对应上 则不选择哪个
+
+      //也就是radiobutton是按照alue值来进行区分的
+
+
+    })
+
+  });
+&lt;/script&gt;
+&lt;style type="text/css"&gt;
+  .cls
+  {
+    background-color:red;
+  }
+  .baidu
+  {
+    background-color:gray;
+  }
+  div
+  {
+    width:300px;
+    height:200px;
+    background-color:green;
+  }
+&lt;/style&gt;
+</code></pre>
+
+<p>  </Head>
+  <Body></p>
+
+<pre><code>&lt;Input type="button" id="btn1" value="with"/&gt;
+&lt;Input type="button" id="btn2" value="All"/&gt;
+
+&lt;P&gt;Good morning 1&lt;/P&gt;
+&lt;Br/&gt;
+&lt;P&gt;Good morning 2&lt;/P&gt;
+&lt;Br/&gt;
+&lt;P&gt;Good morning 3&lt;/P&gt;
+&lt;Br/&gt;
+&lt;P&gt;Good morning 4&lt;/P&gt;
+&lt;Br/&gt;
+
+&lt;Input type="button" id="btn3" value="packet with one font"/&gt;
+&lt;Div id="dv"&gt;
+  &lt;P&gt; Good Afternoon&lt;/P&gt;
+  &lt;P&gt; Good Afternoon&lt;/P&gt;
+  &lt;P&gt; Good Afternoon&lt;/P&gt;
+  &lt;P&gt; Good Afternoon&lt;/P&gt;
+  &lt;P&gt; Good Afternoon&lt;/P&gt;
+&lt;/Div&gt;
+&lt;Input type="text" id="baidu001" class="baidu" value="Please input some value"&gt;
+
+&lt;Input type="button" id="btnRadio" value="selectTheRadio"/&gt;
+&lt;Input type="radio" name="1" value="1"&gt; Man
+&lt;Input type="radio" name="2" value="2"&gt; Woman
+&lt;Input type="radio" name="3" value="3"&gt; Secret
+</code></pre>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>8:checkbox事件bind</p>
+
+<p>属性选择器</p>
+
+<p>attr 和prop的区别和联系：</p>
+
+<p>```javascript
+attr: function( elem, name, value, pass ) {
+var ret, hooks, notxml,
+nType = elem.nodeType;
+// don&rsquo;t get/set attributes on text, comment and attribute nodes
+if ( !elem || nType === 3 || nType === 8 || nType === 2 ) {
+return;
+}
+if ( pass &amp;&amp; jQuery.isFunction( jQuery.fn[ name ] ) ) {
+return jQuery( elem )<a href="value"> name </a>;
+}
+// Fallback to prop when attributes are not supported
+if ( typeof elem.getAttribute === &ldquo;undefined&rdquo; ) {
+return jQuery.prop( elem, name, value );
+}
+notxml = nType !== 1 || !jQuery.isXMLDoc( elem );
+// All attributes are lowercase
+// Grab necessary hook if one is defined
+if ( notxml ) {
+name = name.toLowerCase();
+hooks = jQuery.attrHooks[ name ] || ( rboolean.test( name ) ? boolHook : nodeHook );
+}
+if ( value !== undefined ) {
+if ( value === null ) {
+jQuery.removeAttr( elem, name );
+return;
+} else if ( hooks &amp;&amp; &ldquo;set&rdquo; in hooks &amp;&amp; notxml &amp;&amp; (ret = hooks.set( elem, value, name )) !== undefined ) {
+return ret;
+} else {
+elem.setAttribute( name, value + &ldquo;&rdquo; );
+return value;
+}
+} else if ( hooks &amp;&amp; &ldquo;get&rdquo; in hooks &amp;&amp; notxml &amp;&amp; (ret = hooks.get( elem, name )) !== null ) {
+return ret;
+} else {
+ret = elem.getAttribute( name );
+// Non-existent attributes return null, we normalize to undefined
+return ret === null ?
+undefined :
+ret;
+}
+}</p>
+
+<p>prop:</p>
+
+<p><code>javascript
+prop: function( elem, name, value ) {
+var ret, hooks, notxml,
+nType = elem.nodeType;
+// don't get/set properties on text, comment and attribute nodes
+if ( !elem || nType === 3 || nType === 8 || nType === 2 ) {
+return;
+}
+notxml = nType !== 1 || !jQuery.isXMLDoc( elem );
+if ( notxml ) {
+// Fix name and attach hooks
+name = jQuery.propFix[ name ] || name;
+hooks = jQuery.propHooks[ name ];
+}
+if ( value !== undefined ) {
+if ( hooks &amp;&amp; "set" in hooks &amp;&amp; (ret = hooks.set( elem, value, name )) !== undefined ) {
+return ret;
+} else {
+return ( elem[ name ] = value );
+}
+} else {
+if ( hooks &amp;&amp; "get" in hooks &amp;&amp; (ret = hooks.get( elem, name )) !== null ) {
+return ret;
+} else {
+return elem[ name ];
+}
+}
+}
+</code></p>
+
+<p>attr方法里面，最关键的两行代码，elem.setAttribute( name, value + “” )和ret = elem.getAttribute( name )，很明显的看出来，使用的DOM的API setAttribute和getAttribute方法操作的属性元素节点。而prop方法里面，最关键的两行代码，return ( elem[ name ] = value )和return elem[ name ]，你可以理解成这样document.getElementById(el)[name] = value，这是转化成JS对象的一个属性。(Perfect的确这样，有两种方法一种是[] 另外一种是get(0))</p>
+
+<p>分别做了文本框和checkbox的测试：
+1：在遇到要获取或设置checked,selected,readonly和disabled等属性时，用prop方法显然更好
+2：需要true or false的时候 最好使用 prop ，因为他返回的是true or false
+3：其他情况再考虑attr, checkbox返回的是checked</p>
+
+<p>```html
+&lt;!DOCTYPE html>
+<html>
+<head lang="en"></p>
+
+<pre><code>&lt;meta charset="UTF-8"&gt;
+&lt;title&gt;&lt;/title&gt;
+&lt;style type="text/css"&gt;
+
+    .cls
+    {
+        width: 300px;
+        height: 200px;
+        background-color: red;
+    }
+&lt;/style&gt;
+&lt;script type="text/javascript"src="jquery-2.1.3.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+</code></pre>
+
+<p>$(function(){</p>
+
+<pre><code>$('#btn').click(function(){
+
+    //$('div').empty();//清空层中的元素
+    //$('div').remove();//层没了,自杀
+
+
+    $('div').remove('.cls');//移除应用了cls样式的层;
+});
+var el=$('#atr1');
+console.log('attr :'+el.attr('style')); //undefined 
+console.log('prop() :'+el.prop('style')); //CSSStyleDeclaration对象 
+console.log('prop() :'+document.getElementById('atr1').style); //CSSStyleDeclaration对象 
+//attr 定义 只能attr('')去掉用  attr是一种jQuery的对象操作
+//prop 定义 只能prop('')去掉用  prop是一种JSDom的对象操作
+</code></pre>
+
+<p>  el.attr(&lsquo;abc&rsquo;,&lsquo;111&rsquo;);
+console.log(&lsquo;attr el:abc&mdash;&mdash;&mdash;&mdash;&rsquo;+el.attr(&lsquo;abc&rsquo;));
+console.log(&lsquo;prop el:abc&mdash;&mdash;&mdash;&mdash;&rsquo;+el.prop(&lsquo;abc&rsquo;));</p>
+
+<pre><code> el.prop('def','2222');
+</code></pre>
+
+<p>console.log(&lsquo;attr el:def&mdash;&mdash;&mdash;&mdash;&rsquo;+el.attr(&lsquo;def&rsquo;));
+console.log(&lsquo;prop el:def&mdash;&mdash;&mdash;&mdash;&rsquo;+el.prop(&lsquo;def&rsquo;));</p>
+
+<p>// prop显示的checked之类的是  true or false 而不是attr的undefined or checked
+var ek=$(&lsquo;#chk1&rsquo;);
+console.log(&lsquo;attr el:checked&mdash;&mdash;&mdash;&mdash;&rsquo;+el.attr(&lsquo;checked&rsquo;));
+console.log(&lsquo;prop el:checked&mdash;&mdash;&mdash;&mdash;&rsquo;+el.prop(&lsquo;checked&rsquo;));
+console.log(&lsquo;attr el:disabled&mdash;&mdash;&mdash;&mdash;&rsquo;+el.attr(&lsquo;disabled&rsquo;));
+console.log(&lsquo;prop() 的方法叫合理些&rsquo;);
+console.log(&lsquo;prop el:disabled&mdash;&mdash;&mdash;&mdash;&rsquo;+el.prop(&lsquo;disabled&rsquo;));</p>
+
+<p>});</p>
+
+<pre><code>&lt;/script&gt;
+</code></pre>
+
+<p></head>
+<body>
+<input type="button" name="name" value="删除元素" id="btn"/></p>
+
+<div class="cls">
+
+    <input type="text" name="name" value="文本框" id="atr1"/>
+    <input type="checkbox" name="name" value="ceshi" id="chk1" checked="checked"/>
+</div>
+
+
+<p></body>
+</html>
+```</p>
+
+<p>checkbox的测试案例：
+```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt; &lt;/Title&gt;
+&lt;Meta charset="UTF-8"&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" &gt;
+  $(function(){
+    $('#btnAll').click(function(){
+      //可以但是不好用
+      //$('#dv :checkbox').attr('checked','checked');
+      //$('#dv :checkbox').attr('checked',true);
+      //$('div :checkbox').attr('checked',true);
+      $('div :checkbox').prop('checked',true);
+
+    });
+  $('#btnNot').click(function(){
+    //1
+      //$('#dv :checkbox').removeAttr('checked');
+    //2
+      //$('#dv :checkbox').attr('checked',false);
+      //$('div :checkbox').attr('checked',false);
+      $('div :checkbox').prop('checked',false);
+    });
+  $('#btnInverse').click(function(){
+    //$('#dv :checkbox').each(function(){
+    $('div :checkbox').each(function(){
+      //错误1
+      //$(this).setAttribute('checked',!$(this)['checked']);
+      //不行
+      //$(this).setAttribute('checked',!$(this).attr('checked'));
+      //思路对了！！但是就是不行！！是不是跟编码有关系
+      //$(this).attr('checked',!$(this).attr('checked'));
+      $(this).prop('checked',!$(this).prop('checked'));
+    });
+  });
+
+  });
+&lt;/script&gt;
+&lt;style type="text/css"&gt;
+  /*
+  div
+  {
+    margin:5px;
+    background-color:green;
+  }
+  */
+&lt;/style&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Div id="btnDv"&gt;
+  &lt;Input type="button" value="allSelected" id="btnAll"/&gt;
+  &lt;Input type="button" value="allNotSelected" id="btnNot"/&gt;
+  &lt;Input type="button" value="allSelectedInverse" id="btnInverse"/&gt;
+&lt;/Div&gt;
+
+&lt;Div id="dv"&gt;
+  &lt;Input type="checkbox" name="name" value="1" id="btnEat"/&gt;eating
+  &lt;Input type="checkbox"  name="name" value="2" id="btnSleep"/&gt;sleeping
+  &lt;Input type="checkbox"  name="name" value="3" id="btnPlay"/&gt;playing
+&lt;/Div&gt;
+</code></pre>
+
+<p>  </Body></p>
+
+<p></Html>
+```
+最终通过prop解决了属性问题。attr在2.1.3.js是有问题的</p>
+
+<p>另外2.1.3.js还存在toggle的点击切换问题，在1.8.3测试中未发现问题，类似先前的one点击事件</p>
+
+<p>TestBind.html: 用于测试toggle</p>
+
+<p>但是在2.1.3无法切换，在1.8.3可以</p>
+
+<p>本想通过下述代码 实现toggle，却发现无法返回到first当中
+```javascript</p>
+
+<pre><code>$('#btn').click()
+ {
+   alert('first');
+   $(this).unbind().bind('click',function(){
+     alert('second');
+     $(this).unbind().bind('click',function(){
+       alert('third');
+
+     });
+   });
+</code></pre>
+
+<p>```</p>
+
+<p>9: 文本输入框的测试</p>
+
+<p>1:如果文本框没有输入文本，那么鼠标离开变成红色</p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;Test select and option &lt;/Title&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js" &gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    $('input[type=text]').blur(function(){
+      if($(this).val().length==0)
+      {
+        $(this).css('backgroundColor','red');
+      }else
+      {
+        $(this).css('backgroundColor','');
+      }
+    });
+  });
+&lt;/script&gt;
+&lt;style type="text/css"&gt;
+  div
+  {
+    width:100px;
+    float:left;
+  }
+  input
+  {
+    width:100px;
+    margin:10px;
+  }
+&lt;/style&gt;
+</code></pre>
+
+<p>  </Head>
+  <Body></p>
+
+<p>  <Div id="dv" ></p>
+
+<pre><code>&lt;Input type="text"/&gt;
+&lt;Input type="text"/&gt;
+&lt;Input type="text"/&gt;
+&lt;Input type="text"/&gt;
+&lt;Input type="text"/&gt;
+</code></pre>
+
+<p>  </Div>
+  </Body>
+</Html></p>
+
+<p>```</p>
+
+<p>10:获取鼠标的点击</p>
+
+<p>左键：1
+中键：2
+右键：3
+e.which 返回其值</p>
+
+<p>注意：js中使用 backgroundColor:pink     css中使用background-color:pink;
+```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;Test select and option &lt;/Title&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js" &gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+  $(function(){
+
+    $('#countMouse').click(function(e){
+      //获得鼠标敲击的值
+      //左键 1
+      //中键 2
+      //右键 3
+      alert(e.which);
+    });
+});
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;!--可不敢再犯这种backgroundColor:pink的错误--&gt;
+</code></pre>
+
+<Div id="countMouse" style="width:300px;height:200px;background-color:pink">
+    </Div>
+
+
+<p>  </Body></p>
+
+<p></Html>
+```
+11.  隐藏和显示</p>
+
+<p>1:  标签显示和隐藏</p>
+
+<pre><code>show
+ hide
+toggle  在2.1.3中不行
+</code></pre>
+
+<p>2:slide 幻灯片</p>
+
+<pre><code> slideDown
+slideUp
+</code></pre>
+
+<p>   slideToggle</p>
+
+<p>3: Fade 渐进</p>
+
+<pre><code>  FadeIn
+ FadeOut
+  FadeToggle
+</code></pre>
+
+<p>1000 代表1000ms<br/>
+一般分为三等 slow  normal   fast  ，默认是normal
+```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Meta charset="utf-8"&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js"&gt;&lt;/script&gt;
+
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    $('#btnShow').click(function(){
+     // $('div').show(1000);
+     //slide 分为三个 
+     $('div').slideDown(1000);
+     //$('div').fadeIn(1000);
+    });
+    $('#btnHide').click(function(){
+     // $('div').hide(1000);
+      //在1.8.3.min效果一样
+
+      $('div').slideUp(1000);
+
+     //Fade in out toggle 都可以实现
+     //$('div').fadeOut(1000);
+    });
+    $('#btnToggle').click(function(){
+      $('div').slideToggle(1000);
+      //$('div').fadeToggle(1000);
+    });
+
+  });
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head>
+  <Body></p>
+
+<pre><code>  &lt;Input type="button" id="btnShow" value="show"/&gt;
+  &lt;Input type="button" id="btnHide" value="hide"/&gt;
+  &lt;Input type="button" id="btnToggle" value="toggle"/&gt;
+  &lt;Div id="dv" style="width:400px;height:400px;background-color:pink"&gt;
+  &lt;/Div&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>12.NBA东西部篮球队</p>
+
+<p>a.通过unbind().bind()来绑定已经解绑的标签事件
+b.attr 包含很多属性 比如style（主要是一些背景颜色  border   width heigth 等）</p>
+
+<p>功能是：
+a.鼠标经过时候变沉红色 其他的为白色背景
+b.鼠标点击后则把该只球队剔除，并放在退赛球队中</p>
+
+<p>bug:
+   东部球队在剔除后，分配到outEast中，mouseover的鼠标移动事件无法实现，然而西部却是可以。。。。</p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Meta charset="utf-8"&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js"&gt;&lt;/script&gt;
+
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    $('#east li').mouseover(function(){
+      $(this).css('backgroundColor','red').siblings().css('backgroundColor','');
+      //alert($(this).style);
+    }).click(function()
+       {
+         //$(this).removeAttr('style').unbind().appendTo('#outerEast');
+         //$(this).attr('backgroundColor','blue').appendTo('#outerEast');
+         //$(this).css('backgroundColor','blue').unbind().appendTo('#outerEast');
+         //$(this).attr('backgroundColor','blue').unbind().appendTo('#outerEast');
+         //可不敢犯这个错误，如果不加end()的断链操作，会把所有的siblings()元素
+         //提交到下边哐当中！
+         //$(this).css('backgroundColor','blue').siblings().css('backgroundColor','').end().unbind().appendTo('#outerEast');
+         //在appendTo的事件发生之后（发展的角度来看）
+         //但是发现不行，于是留下一个疑问
+
+         //现在明白了既然unbind就得需要用bind()来解决
+         //$(this).unbind().appendTo('#outerEast').attr('onmouseover','').mouseover(function(){
+         $(this).css('backgroundColor','blue').siblings().css('backgroundColor','').end().unbind().appendTo('#outerEast').bind('mouseover',function(){
+           //错误阿！！！居然把所有的其他都给功能禁用了！
+         //$(this).css('backgroundColor','blue').siblings().css('backgroundColor','').unbind().end().appendTo('#outerEast').bind('mouseover',function(){
+           $(this).css('backgroundcolor','blue').siblings().css('backgroundColor','');
+         });
+       });
+    $('#west li').mouseover(function(){
+      $(this).css('backgroundColor','red').siblings().css('backgroundColor','');
+    }).click(function()
+       {
+         //可不敢再犯这个错误
+         //attr不止一个属性，不仅仅是style
+         //而css只是设置界面属性
+         //$(this).removeAttr('style').unbind().appendTo('#outeWest');
+
+         //可行阿！！！试验了一个小时   bind之后再到之后的地方unbind即可
+         //$(this).unbind().appendTo('#outerWest').bind('mouseover',function(){
+         //好处是直接显示蓝色
+         $(this).css('backgroundColor','blue').siblings().css('backgroundColor','').end().unbind().appendTo('#outerWest').bind('mouseover',function(){
+          $(this).css('backgroundColor','blue').siblings().css('backgroundColor','');
+         });
+         //$(this).attr('backgroundColor','blue').unbind().appendTo('#outerWest');
+         //attr只会保存着第一个backgroundcolor的值！
+       });
+
+       //增加一个功能，可以返回到原先的竞争队列中
+       // 先清空一下试试
+     //$('#outerEast li').click(function(){
+
+     /*
+     $('#outerEast li').attr('onclick','').click(function(){
+       $(this).css('backgroundColor','blue').bind('click',function(){
+        $(this).css('backgroundColor','red').appendTo($('#east'));
+       });
+     });
+
+     $('#outerEast li').attr('onclick','').click(function(){
+       $(this).css('backgroundColor','blue').bind('click',function(){
+        $(this).css('backgroundColor','red').appendTo($('#east'));
+       });
+     });
+     */
+</code></pre>
+
+<p>//如果onclick事件原先有值，要先清空，再用click(
+//为什么？</p>
+
+<pre><code>  });
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;H2&gt;The basketball team&lt;/H2&gt;
+&lt;Ol id="east"&gt;
+  &lt;H3&gt;The East Basketbal Teams&lt;/H3&gt;
+  &lt;Li&gt;亚特兰大 老鹰&lt;/Li&gt;
+  &lt;Li&gt;芝加哥 公牛&lt;/Li&gt;
+  &lt;Li&gt;波士顿 凯尔特人&lt;/Li&gt;
+  &lt;Li&gt;夏洛特 黄蜂&lt;/Li&gt;
+  &lt;Li&gt;克利夫兰 骑士&lt;/Li&gt;
+  &lt;Li&gt;布鲁克林 篮网&lt;/Li&gt;
+  &lt;Li&gt;迈阿密 热火&lt;/Li&gt;
+  &lt;Li&gt;底特律 活塞&lt;/Li&gt;
+  &lt;Li&gt;纽约 尼克斯&lt;/Li&gt;
+  &lt;Li&gt;奥兰多 魔术&lt;/Li&gt;
+  &lt;Li&gt;印第安纳 步行者&lt;/Li&gt;
+  &lt;Li&gt;费城 76人&lt;/Li&gt;
+  &lt;Li&gt;华盛顿 奇才&lt;/Li&gt;
+  &lt;Li&gt;密尔沃基 雄鹿&lt;/Li&gt;
+  &lt;Li&gt;多伦多 猛龙&lt;/Li&gt;
+&lt;/Ol&gt;
+&lt;Ol id="west"&gt;
+  &lt;H3&gt;The West Basketbal Teams&lt;/H3&gt;
+  &lt;Li&gt;金州 勇士&lt;/Li&gt;
+  &lt;Li&gt;丹佛 掘金&lt;/Li&gt;
+  &lt;Li&gt;达拉斯 小牛&lt;/Li&gt;
+  &lt;Li&gt;洛杉矶 快船&lt;/Li&gt;
+  &lt;Li&gt;明尼苏达 森林狼&lt;/Li&gt;
+  &lt;Li&gt;休斯顿 火箭&lt;/Li&gt;
+  &lt;Li&gt;洛杉矶 湖人&lt;/Li&gt;
+  &lt;Li&gt;奥克兰陈马成 雷霆&lt;/Li&gt;
+  &lt;Li&gt;孟菲斯 灰熊&lt;/Li&gt;
+  &lt;Li&gt;菲尼克斯 太阳&lt;/Li&gt;
+  &lt;Li&gt;波特兰 开拓者&lt;/Li&gt;
+  &lt;Li&gt;新奥尔良 鹈鹕&lt;/Li&gt;
+  &lt;Li&gt;萨克拉门托 国王&lt;/Li&gt;
+  &lt;Li&gt;犹他 爵士&lt;/Li&gt;
+  &lt;Li&gt;圣安东尼奥 马刺&lt;/Li&gt;
+&lt;/Ol&gt;
+&lt;Ul id="other"&gt;
+  &lt;Li&gt;步行者&lt;/Li&gt;
+  &lt;Li&gt;山猫&lt;/Li&gt;
+&lt;/Ul&gt;
+
+&lt;H2&gt;The basketball team which have been out of the game.&lt;/H2&gt;
+
+&lt;Hr color="red"/&gt;
+&lt;H3&gt;The team of the west&lt;/H3&gt;
+&lt;Ol id="outerWest"&gt;
+
+&lt;/Ol&gt;
+
+&lt;Hr color="red"/&gt;
+&lt;H3&gt;The team of the east&lt;/H3&gt;
+&lt;Ol id="outerEast"&gt;
+
+&lt;/Ol&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>12:逐帧变化Animate</p>
+
+<pre><code>    //animate的作用其实就是动态的改变效果
+    // 比如从某个点 移动某个点
+    //     慢慢的拉伸长度  高度  模仿人的动作，并可以通过设置
+    //     ms数 
+</code></pre>
+
+<p>会飞的鸟：
+功能： 1 先让他从(0,0)移动到 （200，50）  1s移动时间</p>
+
+<pre><code>   2 再让其从(200,50)   移动到(700,150)  2s移动时间(可以使用+= 注意了)
+</code></pre>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;Test select and option &lt;/Title&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js" &gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    //animate的作用其实就是动态的改变效果
+    // 比如从某个点 移动某个点
+    //     慢慢的拉伸长度  高度  模仿人的动作，并可以通过设置
+    //     ms数 
+    $('#btn1').click(function(){
+      //按照 默认的正常速度 延长高度到300px
+      $('#box').animate({height:"300px"});
+    });
+    $('#fly').click(function(){
+      //1000ms 从(0 0)  运行到200 50 的位置 时间1s
+      //可不敢犯这个错误
+      //$('#bird').animate('{"left":"200px","top":"500px"}',1000);
+      $('#bird').animate({"left":"200px","top":"50px"},1000);
+      // 加一个变小飞退的效果
+      $('#bird').animate({"left":"+=500px","top":"+=100px","width":"40px","height":"30px"},2000);
+    })
+  })
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Input type="button" id="btn1" value="animate"/&gt;
+&lt;Div id="box" style="width:300px;height:200px ;background-color:red"&gt; 
+&lt;/Div&gt;
+&lt;Input type="button" value="let me fly" id="fly"&gt;
+&lt;Img src="2.png" style="position:absolute;" id="bird"/&gt;
+</code></pre>
+
+<p>  </Body></p>
+
+<p></Html>
+```</p>
+
+<p>13: Cookie</p>
+
+<pre><code>    //突然明白  cookie只不过是一堆hashmap  临时存储在浏览器当中哦 
+</code></pre>
+
+<p>定义：</p>
+
+<p>$.cookie(&lsquo;uName&rsquo;, $(&lsquo;#YourName&rsquo;).val());</p>
+
+<p>使用：</p>
+
+<p>$.cookie(&lsquo;uName&rsquo;)</p>
+
+<p>作用：</p>
+
+<p>当刷新页面仍然会保存uName的值！</p>
+
+<p>需要加载jquery.cookie.js 插件</p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;Test select and option &lt;/Title&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js" &gt;&lt;/script&gt;
+&lt;!--$.cookie有效必须加载 jquery.cookie.js--&gt;
+&lt;script type="text/javascript" src="jquery.cookie.js" &gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    $('#btn').click(function(){
+        $.cookie('uName', $('#YourName').val());
+        alert('I browser have record your name');
+    });
+    //突然明白  cookie只不过是一堆hashmap  临时存储在浏览器当中哦 
+    if($.cookie('uName'))
+    {
+        $('span').text('welcome  Mr/Mrs '+$.cookie('uName')+' coming back');
+    }else
+    {
+      $('span').text('welcome you !Little Bird . ')
+    }
+  });
+
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>  &lt;Input type="text" name="name" value="" id="YourName"/&gt;
+  &lt;INput type="button" name="name" value="record" id="btn"/&gt;
+  &lt;Span&gt;&lt;/Span&gt;
+</code></pre>
+
+<p>  </Body></p>
+
+<p></Html></p>
+
+<p>```</p>
+
+<p>14:jqZoom局部放大器</p>
+
+<p>注意点1：jqZoom在2.1.3测试失败！  但在1.8.3.min.js测试通过</p>
+
+<p>注意点2: 要  <br/>
+  连接上css否则效果不好：<LINK rel=stylesheet  type=text/css href="jquery.jqzoom.css" /></p>
+
+<p>注意点3： jqzoom()失效写的</p>
+
+<p>注意点4： 大图片是放在一个<A class=MYCLASS href="大图片"> <img src="小图片"/></A></p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;Test select and option &lt;/Title&gt;
+&lt;script type="text/javascript" src="jquery-1.8.3.min.js" &gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="jquery.jqzoom-core.js" &gt;&lt;/script&gt;
+&lt;!-- 可不敢犯这个错误
+&lt;script type="text/css" src="jquery.jqzoom.css" &gt;&lt;/script&gt;
+--&gt;
+&lt;LINK rel=stylesheet  type=text/css href="jquery.jqzoom.css" /&gt;
+&lt;script type="text/javascript"&gt;
+  $(function(){
+  //$(document).ready(function(){
+  //可不敢写错函数 z不可以大写
+    //$('.MYCLASS').jqZoom();
+    $('.MYCLASS').jqzoom();
+        /*
+      {
+            zoomType: 'standard',
+            lens:true,
+            zoomWidth: 300,
+            zoomHeight:450,
+            xOffset:90,
+            yOffset:30,
+            preloadImages: true,
+            alwaysOn:false
+      });
+          */
+  });
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;!--可不敢把 &lt;/A&gt;放在 IMg标签外了--&gt;
+&lt;A class=MYCLASS  title=MYTITLE href="triumph_big1.jpg"&gt;
+  &lt;Img title="IMAGE TITLE" src="triumph_small1.jpg"&gt;
+</code></pre>
+
+<p></A>
+  </Body></p>
+
+<p></Html></p>
+
+<p>```</p>
+
+<p>15 qq微博案例</p>
+
+<p>模拟微博140个字的提交案例</p>
+
+<p>1： html部分</p>
+
+<pre><code>加载weibo.css
+加载weibo.js
+加载logo
+加载textarea文本框
+加载附件区
+加载按钮
+</code></pre>
+
+<p>2： css部分</p>
+
+<pre><code>no-repeat 不进行平铺
+</code></pre>
+
+<p>3： js部分</p>
+
+<p>  3.1需要着重掌握 拓展的写法
+  3.2通过脱离文档流  来加在朋友列表和表情列表
+  3.3 学习广播的 追踪显示部分图片的功能 配合 background   background-position</p>
+
+<pre><code>  以及坐标进行设置  当然背景框是有大小限制的 no-repeat不平铺  利用css进
+  如果超出多少个字  则变红色警告
+</code></pre>
+
+<p>  3.4 有三个地方 Please write down the topic  为什么？  1: 为了添加Topic 点击事件需要 2：在朋友列表和表情列表</p>
+
+<pre><code>        第二个是因为当没有只有#Please write..# 则使用val()进行替换
+
+    但是当textarea原先有内容时候，如果直接使用val（新内容）则会覆盖原先的旧内容 ，所以需要进行判断
+</code></pre>
+
+<p>  3.5 selectRange的作用就是选择掉从第一个字符到最后一个字符，但是我的测试结果变成了选择
+  3.6 朋友列表，表情列表 都是通过建立一个新的层来设置</p>
+
+<pre><code>    注意添加完close 标签后，在添加 朋友列表的时候需要在style属性中添加clear:both来清除 float:right的属性
+</code></pre>
+
+<p>3.7  表情层中 显示的文件夹路径得设置正确</p>
+
+<pre><code>          注意 1： userFaces[key]在 表情上面的title
+           2： 小手功能
+          //     3： 点击功能  单机事件  鼠标mouseover的事件 会显示文字信息
+</code></pre>
+
+<p>weibo.html:</p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;Test select and option &lt;/Title&gt;
+&lt;Link rel=stylesheet href="weibo.css" type="text/css"&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js" &gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="weibo.js"&gt;
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Img id="logo" src="weiboPic/b3_100901.png" alt="log"/&gt;
+&lt;!--让评论居中--&gt;
+&lt;Center&gt;
+  &lt;Div id="Weibo"&gt;
+    &lt;Div id="WL"&gt;
+      &lt;Div id="Talking"&gt;
+        &lt;H2&gt;&lt;A&gt;Weibo Title: communication&lt;/A&gt;&lt;/H2&gt;
+        &lt;Textarea id="Msg"&gt;&lt;/Textarea&gt;
+        &lt;Div id="Attach"&gt;
+          &lt;A href="javascript:void();" class="NewTopic"&gt;Topic&lt;/A&gt;
+          &lt;A href="javascript:void();" class="Friend"&gt;Friends&lt;/A&gt;
+          &lt;A href="javascript:void();" class="Face"&gt;Face&lt;/A&gt;
+          &lt;A href="javascript:void();" class="Pic"&gt;Picture&lt;/A&gt;
+          &lt;A href="javascript:void();" class="Video"&gt;Video&lt;/A&gt;
+        &lt;/Div&gt;
+        &lt;Div id="Send"&gt;
+          &lt;Input type="button" class="sendBtn" value=""/&gt;
+          &lt;Span class="CountTxt"&gt;You can still write&lt;Em&gt;140&lt;/Em&gt;words&lt;/Span&gt;
+        &lt;/Div&gt;
+
+    &lt;/Div&gt;
+    &lt;!--
+    &lt;Div id="WR"&gt;
+
+    &lt;/Div&gt;
+    --&gt;
+  &lt;/Div&gt; 
+&lt;/Center&gt;
+</code></pre>
+
+<p>  </Body></p>
+
+<p></Html>
+```</p>
+
+<p>weibo.css:
+```css</p>
+
+<pre><code>    body
+    {
+        margin: 0px;
+        background: url('weiboPic/wrapBg.jpg') no-repeat #EBF1F1;
+    }
+    #logo
+    {
+        margin: 30px 0 0 300px;
+    }
+    #Weibo
+    {
+        width: 800px;
+        height: 200px;
+        border: 1px solid #000;
+    }
+    /* WL: weiboLeft*/
+    #WL
+    {
+        width: 590px;
+        height: 100%;
+        background: #fff;
+        float: left;
+    }
+    /* WR: weiboLeft */
+    #WR
+    {
+        background: #CCEBF4;
+        width: 210px;
+        height: 100%;
+        float: right;
+    }
+
+    #Talking
+    {
+        text-align: left;
+        margin: 0 0 0 25px;
+    }
+    /*增加文本框的大小*/
+    #Msg
+    {
+        width: 540px;
+        height: 80px;
+        overflow: hidden;
+        font-family: Tahoma, Arial;
+        font-size: 14px;
+        border: 1px solid gray;
+    }
+    #Talking H2
+    {
+        text-align: left;
+        padding: 0px;
+        margin: 0px;
+        font: normal normal normal 18px/29px 'MicroSoft YaHei' , SimHei;
+    }
+    #Attach
+    {
+        width: 540px;
+    }
+    #Attach a
+    {
+        color: #000;
+        text-decoration: none;
+        font-size: 14px;
+    }
+    .NewTopic, .Friend, .Face, .Pic, .Video
+    {
+        background-position: -170px -33px;
+        display: inline-block;
+        height: 16px;
+        padding-left: 18px;
+    }
+    .CountTxt
+    {
+        color: #999;
+        float: right;
+        line-height: 33px;
+        margin: 0 15px 0 0;
+    }
+    .CountTxt em
+    {
+        font-family: Georgia, Tahoma, Arial;
+        font-size: 26px;
+        position: relative;
+        top: -5px;
+        vertical-align: middle;
+    }
+    .sendBtn
+    {
+        float: right;
+        margin: 0 20px 0 0;
+        padding: 0px;
+        background: url(weiboPic/bg1.png) -117px -165px no-repeat;
+        line-height: 33px;
+        margin-left: 14px;
+        height: 30px;
+        width: 112px;
+        border: 0px;
+        cursor: pointer;
+    }
+    #btnCloFri
+    {
+        cursor: pointer;
+    }
+</code></pre>
+
+<p>```</p>
+
+<p>weibo.js:
+//1。扩展jQuery
+//需要着重掌握 拓展的写法
+//通过脱离文档流  来加在朋友列表和表情列表
+//学习广播的 追踪显示部分图片的功能 配合 background   background-position
+//   以及坐标进行设置  当然背景框是有大小限制的 no-repeat不平铺  利用css进行
+//   切换
+//如果超出多少个字  则变红色警告
+```javascript</p>
+
+<pre><code>    $.fn.selectRange = function (start, end) 
+    {
+      //please write down the topic 高亮显示
+      //转化为 js对象
+        var curObj = $(this).get(0);
+        if (!curObj)
+          return;
+        else if (curObj.setSelectionRange) 
+        {
+            curObj.focus(); curObj.setSelectionRange(start, end);
+        } /* WebKit */
+        else if (curObj.createTextRange) 
+        {
+            var range = curObj.createTextRange();
+            range.collapse(true);
+            range.moveEnd('character', end);
+            range.moveStart('character', start);
+            range.select();
+        } /* IE */
+        else if (curObj.selectionStart) 
+        {
+            curObj.selectionStart = start;
+            curObj.selectionEnd = end;
+        }
+    };
+    //====上面的代码是扩展的
+
+$(function()
+{
+
+    //按钮高亮显示
+    $('#Send .sendBtn').mouseover(function(){
+      $(this).css('backgroundPosition','0 -195px');
+    }).mouseout(function(){
+        $(this).css('backgroundPosition','-117px -165px');
+</code></pre>
+
+<p>//-117px -165px</p>
+
+<pre><code>    });
+    //计算文本框还能输入多少个字
+    $('#Msg').change(function(){
+        //还能输入多少个字
+       var len= 140- $(this).val().length;
+       if(len&gt;=0){
+            $('#Send .CountTxt').html('You can still write down&lt;em&gt;'+len+'&lt;/em&gt;words');
+        }else{
+          //设置 变成高亮的红色
+            $('#Send .CountTxt').html('Already exceed &lt;em&gt;&lt;font color="red"&gt;'+Math.abs(len)+'&lt;/font&gt;&lt;/em&gt;words');
+        }
+
+    });
+    setInterval(function(){
+        $('#Msg').change();
+    },500);
+
+
+ //显示话题
+    ////有三个地方 Please write down the topic  为什么？  1: 为了添加Topic 点击事件需要 2：在朋友列表和表情列表
+    //为什么？
+    $('#Attach .NewTopic').click(function(){
+
+        if($('#Msg').val().length==0){
+          //selectRange的作用就是去除掉 从第一个字符到最后一个字符
+          //已方便我们输入话题
+            $('#Msg').val('#Please write down the topic#').selectRange(1,28);
+        }
+    });
+</code></pre>
+
+<p>//显示朋友</p>
+
+<pre><code>    $('#Attach .Friend').click(function(){
+        var friendsList = ['Foleide', 'Risse', 'LiLei','HanMeiMei','Tom','Turkkey','John'];
+        if($('#dvF').length&gt;0){
+            $('#dvF').remove();
+        }
+        //增加了一个 朋友层 用于选择！！
+        var dvFriends=$('&lt;div id="dvF" style="width:100px;border:1px solid blue;background-color:white;position: absolute;"&gt;&lt;/div&gt;').appendTo($('body'));
+        //设置完层的脱离文档流 后，设置他的偏移
+        var dvX=$(this).offset().left+'px';//层距离左侧的像素 注意 height() 有圆括号包裹
+        var dvY=$(this).offset().top+$(this).height()+'px';
+        //设置他的上和左的坐标
+        dvFriends.css({"left":dvX,"top":dvY});
+        //添加一个关闭按钮
+        //float:right 向右浮动
+        $('&lt;span style="background-color: gray;cursor: pointer; float: right;"&gt;Close&lt;/span&gt;').click(function(){
+            $(this).parent().remove();
+        }).appendTo(dvFriends);
+
+        //显示朋友列表
+        //clear:both 清除掉 span所具有的float效果！！
+        //    规律： 如果同一级的元素有浮动的，就需要用clear:both来清除
+        //否则 ulobj会跟close处在同一行当中
+        //list-style-type:square
+       var ulObj= $('&lt;Ul style="clear: both; list-style-type: square; margin: 0;padding: 0;"&gt;&lt;/Ul&gt;').appendTo(dvFriends);
+        for(var i=0;i&lt;friendsList.length;i++){
+          //设置移到的鼠标为手型
+           $('&lt;Li style="margin-bottom: 5px; cursor: pointer;"&gt;@'+friendsList[i]+'&lt;/Li&gt;').mouseover(function(){
+             //鼠标进入时候的高亮显示
+               $(this).css('backgroundColor','yellow');
+
+               //鼠标离开又得恢复过来
+           }).mouseout(function(){
+               $(this).css('backgroundColor','');
+           }).click(function(){
+             //不太明白这边的写法 ok
+             //如果用户没有输入任何内容 则替换掉原先的内容
+               if($('#Msg').val()=='##'){
+                   $('#Msg').val($(this).text());
+               }else{
+                 //如果用户已经输入了，则必须保证用户的数据不被覆盖
+                   $('#Msg').val($('#Msg').val()+$(this).text());
+               }
+
+
+           }).appendTo(ulObj);
+        }
+    });
+
+    //显示表情
+    var userFaces = { '0.gif': '微笑', '1.gif': '撇嘴', '2.gif': '色', '3.gif': '发呆', '4.gif': '得意', '5.gif': '流泪', '6.gif': '害羞', '7.gif': '闭嘴', '8.gif': '睡', '9.gif': '大哭', '10.gif': '尴尬', '11.gif': '发怒', '12.gif': '调皮', '13.gif': '呲牙', '14.gif': '惊讶', '15.gif': '难过', '16.gif': '酷', '17.gif': '冷汗', '18.gif': '抓狂', '19.gif': '吐', '20.gif': '偷笑', '21.gif': '可爱', '22.gif': '白眼', '23.gif': '傲慢', '24.gif': '饥饿', '25.gif': '困', '26.gif': '惊恐', '27.gif': '流汗', '28.gif': '憨笑', '29.gif': '大兵', '30.gif': '奋斗', '31.gif': '咒骂', '32.gif': '疑问', '33.gif': '嘘', '34.gif': '晕', '35.gif': '折磨', '36.gif': '衰', '37.gif': '骷髅', '38.gif': '敲打', '39.gif': '再见', '40.gif': '擦汗', '41.gif': '抠鼻', '42.gif': '鼓掌', '43.gif': '糗大了', '44.gif': '坏笑', '45.gif': '左哼哼', '46.gif': '右哼哼', '47.gif': '哈欠', '48.gif': '鄙视', '49.gif': '委屈', '50.gif': '快哭了', '51.gif': '阴险', '52.gif': '亲亲', '53.gif': '吓', '54.gif': '可怜', '55.gif': '菜刀', '56.gif': '西瓜', '57.gif': '啤酒', '58.gif': '篮球 ', '59.gif': '乒乓', '60.gif': '咖啡', '61.gif': '饭', '62.gif': '猪头', '63.gif': '玫瑰', '64.gif': '凋谢', '65.gif': '示爱', '66.gif': '爱心', '67.gif': '心碎', '68.gif': '蛋糕', '69.gif': '闪电', '70.gif': '炸弹', '71.gif': '刀', '72.gif': '足球', '73.gif': '瓢虫', '74.gif': '便便', '75.gif': '月亮', '76.gif': '太阳', '77.gif': '礼物', '78.gif': '拥抱', '79.gif': '强', '80.gif': '弱', '81.gif': '握手', '82.gif': '胜利', '83.gif': '抱拳', '84.gif': '勾引', '85.gif': '拳头', '86.gif': '差劲', '87.gif': '爱你', '88.gif': 'NO', '89.gif': 'OK', '90.gif': '爱情', '91.gif': '飞吻', '92.gif': '跳跳', '93.gif': '发抖', '94.gif': '怄火', '95.gif': '转圈', '96.gif': '磕头', '97.gif': '回头', '98.gif': '跳绳', '99.gif': '挥手', '100.gif': '激动', '101.gif': '街舞', '102.gif': '献吻', '103.gif': '左太极', '104.gif': '右太极', '105.gif': '淡定', '106.gif': '晕', '107.gif': '不满', '108.gif': '睡觉', '109.gif': '小调皮', '110.gif': '咒骂', '111.gif': '发怒', '112.gif': '偷笑', '113.gif': '微笑', '114.gif': '震惊', '115.gif': '囧' };
+    $('#Attach .Face').click(function(){
+
+        if($('#dvfaceImg').length&gt;0){
+            $('#dvfaceImg').remove();
+        }
+       var dvFace= $('&lt;div id="dvfaceImg" style="width:370px;border:1px solid blue;background-color: white;position: absolute;"&gt;&lt;/div&gt;').appendTo($('body'));
+       //和朋友列表相同的操作过程！！！
+        var dvXX=$(this).offset().left-100+'px';
+        var dvYY=$(this).offset().top+$(this).height()+'px';
+        //最终设置他的坐标
+        dvFace.css({"left":dvXX,"top":dvYY});
+        //显示 表情  关闭
+        $('&lt;Span style="float: left;"&gt;Expression&lt;/Span&gt;').appendTo(dvFace);
+        $('&lt;Span style="float: right;cursor: pointer; background-color: gray;"&gt;close&lt;/Span&gt;').click(function(){
+
+            $(this).parent().remove();//删除层
+        }).appendTo(dvFace);
+
+        //显示表情
+       var dvfaceimage= $('&lt;div style="clear: both;"&gt;&lt;/div&gt;').appendTo(dvFace);
+        for(var key in userFaces){
+          //显示的文件夹路径得设置正确
+          //注意 1： userFaces[key]在 表情上面的title
+          //     2： 小手功能
+          //     3： 点击功能  单机事件
+            $('&lt;Img src="weiboPic/faces/'+key+'" title="'+userFaces[key]+'" /&gt;').mouseover(function(){
+                $(this).css('cursor','pointer');
+
+            }).click(function(){
+              //不清楚 这边为什么这样写  同样的 在friend也是如此
+                //if($('#Msg').val()=='#Please write down the topic#'){
+                if($('#Msg').val()=='##'){
+                    $('#Msg').val( '['+$(this).attr('title')+']');
+                }else{
+                    $('#Msg').val($('#Msg').val()+'['+$(this).attr('title')+']');
+                }
+
+
+            }).appendTo(dvfaceimage);
+        }
+    });
+
+});
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JQuery1-9April4th]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2015/05/11/jquery1-9april4th/"/>
+    <updated>2015-05-11T14:58:44+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2015/05/11/jquery1-9april4th</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<p>1: jquery的加载顺序</p>
+
+<p>IE中会有不同点
+结论：jquery中使用$(function(){})即可！其他知道即可
+```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;script type="text/javascript" src="jquery-2.1.3.js"&gt;
+&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+
+  //javascript
+  //第四个加载
+  //在IE中居然无法加载！！！
+  //需要等待页面完全加载完毕才会触发
+  onload=function()
+  {
+    //console的作用就是在浏览器的控制台 打印出结果
+    console.log('javascript\'s onload');
+    alert('javascript window.onload js ok 4');
+  };
+  //window object change into jQuery object
+  //第五个加载
+  $(window).load(function(){
+    console.log('window onload');
+    alert('$(window).load No 5');
+  });
+</code></pre>
+
+<p>//第二个加载</p>
+
+<pre><code>  $(function()
+    {
+      console.log('dom ready='+$('#span').html());
+      alert('$(function(){}niming hanshu! 2');
+    });
+
+
+  //Dom object change into Jquery Object
+  // 很是奇怪 第一个加载
+  //可以多次触发
+  $(document).ready(function(){
+    console.log('document ready')
+    alert('$(document).ready Ok 1');
+  });
+
+  // THe most common  and most convininet
+  //jQuery(function(){})
+       //第三个加载  跟第二个一样的  按照前后顺序进行布置
+  jQuery(function()
+   {
+    console.log('dom ready='+$('#span').html());
+    alert(' jQuery(function(){}niming hanshu 3!')
+   });
+
+   function init()
+   {
+     console.log('body init');
+   }
+
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head>
+  <Body onload="init()"></p>
+
+<pre><code>&lt;Span id="span"&gt; Rupeng!&lt;/Span&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```
+2：Map 和each函数的使用
+map：用于修改
+each：用于遍历</p>
+
+<p>map:  value index
+each:  key  value
+```
+<Html>
+  <Head></p>
+
+<pre><code>&lt;script type="text/javascript" src="jquery-2.1.3.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+
+   var arr=[1,2,4,5,6];
+   $.map(arr,function()
+         {
+           alert('element'+arguments[1]+'=='+arguments[0]);
+         });
+    //namely  ,we can write below
+    $.map(arr,function(ele,index)
+          {
+            alert('element'+index+'=='+ele);
+          });
+
+    //return a  new array ==2*old_array
+          var newArray=$.map(arr,function(ele,index)
+           {
+             return ele*2;
+           })
+
+    //$.map is similar to lisp's (map ...) 
+    // so we can get the two properties of array with $.map function
+
+    //print new array
+    alert(newArray);   
+
+
+    var newArray2=$.map(arr,function(ele,index){
+      return index&gt;2?ele*2:ele;
+    })
+
+    alert(newArray2);
+
+
+&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+  var dic={"name":"xiaoming","age":3,"gender":"1"};
+  //each 主要用于遍历    map主要用于修改
+  $.each(dic,function(key,value)
+         {
+           alert(key+'=='+value);
+         })
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head>
+</Html>
+```
+3:jquery和jsDom的互转</p>
+
+<p>1：jsDom &ndash;> jquery       把jsDom对象放在$()括号中即可
+2： jquery &ndash;> jsDom</p>
+
+<pre><code> 两种方法
+     a:  $().get(0)
+     b: $()[0]
+</code></pre>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt; Test the transformation between jQuery and Dom &lt;/Title&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js"&gt;&lt;/script&gt;
+
+&lt;script type="text/javascript" &gt;
+
+
+  $(function(){
+</code></pre>
+
+<p>  /*</p>
+
+<pre><code>    document.getElementById('btn').onclick=function()
+    {
+      var dvObj=document.getElementById('dv');
+      //方法1  Dom
+      //dvObj.style.backgroundColor='black'; 
+
+      //方法2 jQuery 方法
+       //Dom object change into jQuery
+</code></pre>
+
+<p>//          var dvObjJquery=$(dvObj);
+//          dvObjJquery.css(&lsquo;backgroundColor&rsquo;,&lsquo;yellow&rsquo;);</p>
+
+<pre><code>      // 把jquery对象转回到Dom对象
+      var dvObjJquery=$(dvObj);
+      //1  转回去dom的方法1
+</code></pre>
+
+<p>//          var dvObjAgain=dvObjJquery[0];</p>
+
+<pre><code>      //2  转回去dom的方法2
+      var dvObjAgain=dvObjJquery.get(0); 
+       dvObjAgain.style.backgroundColor='black'; 
+
+
+
+    }
+</code></pre>
+
+<p>   */</p>
+
+<pre><code>    //1  省略了  等号
+    //2  省略了   Dom长长的函数名调用
+    //2  取而代之的是简易的jQuery语法  利用链式法则
+    $('#btn').click(function()
+                    {
+                      $('#dv').css('backgroundColor','purple');
+                    });
+  })
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Input type="button" id="btn" value="changeColor"/&gt;
+&lt;Div id="dv" style="width:300px; height:200px; background-color:green"&gt;
+  hello
+  &lt;/Div&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>4多重选择器
+注意：中间不能有空格  否则没有反应 这是需要注意的</p>
+
+<pre><code>      text() 类似于jsDom的innerText()
+      html()类似于 innerHtml()
+</code></pre>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;script type="text/javascript" src="jquery-2.1.3.js"&gt;&lt;/script&gt;
+
+&lt;script type="text/javascript"&gt;
+</code></pre>
+
+<p>//      alert(&lsquo;hello&rsquo;)</p>
+
+<pre><code>  $(function()
+    {
+      $('#btn').click(function(){
+</code></pre>
+
+<p>//            alert(&lsquo;hello&rsquo;);
+//            $(&lsquo;#cls&rsquo;).text(&lsquo;This is  a  layer&rsquo;);  // class selector</p>
+
+<pre><code>        //$('div#cls').css('backgroundColor','yellow');  // label with Id selector
+</code></pre>
+
+<p>//            $(&lsquo;div #cls&rsquo;).css(&lsquo;backgroundColor&rsquo;,&lsquo;yellow&rsquo;); //中间不能有空格  否则没有反应 这是需要注意的
+//   同样的标签加上lei也不是不能加上空格</p>
+
+<pre><code>        $('div#cls').text('InnerText方式添加');
+        $('div#cls').html('&lt;H1&gt;InnerHTML方式添加&lt;/H1&gt;');
+
+        //标签选择器的隐式编程   隐式循环！ 这是一个jQuery的一个好处 implicit cycle
+        $('p').text('Set all the p the value');
+
+      });
+    });
+&lt;/script&gt;
+
+&lt;style type="text/css"&gt;
+   #cls
+   {
+     width:300px;
+     height:200px;
+     background-color:green;
+   }
+&lt;/style&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;input type="button" id="btn" value="change"/&gt;
+&lt;div id="cls"&gt;
+
+&lt;/div&gt;
+&lt;p class="name"&gt;&lt;/p&gt;
+&lt;p class="name"&gt;&lt;/p&gt;
+&lt;p class="name"&gt;&lt;/p&gt;
+&lt;p class="name"&gt;&lt;/p&gt;
+&lt;p class="name"&gt;&lt;/p&gt;
+&lt;p class="name"&gt;&lt;/p&gt;
+&lt;p class="name"&gt;&lt;/p&gt;
+&lt;p class="name"&gt;&lt;/p&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```</p>
+
+<p>5： 选择器  过滤器的使用
+:first   first()
+:last   last()
+:eq()
+:lt()
+:gt()</p>
+
+<p>注意：可不敢再把siblings()漏掉了！
+```html
+<html>
+  <head></p>
+
+<pre><code>&lt;title&gt;  test  the start mark&lt;/title&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    //注意是tr  行
+    $('#tb tr:first').css('backgroundColor','green').css('fontSize','50px');
+    $('#tb tr:last').css('color','black');
+    // 0-3之间  0 1 2 3
+    $('#tb tr:gt(0):lt(3)').css('fontSize','25px');
+    $('#tb tr:odd').css('backgroundColor','yellow');
+
+    $('#tb tr').click(function(){
+      //可不敢再犯这种错误了！ ！ siblings()  加上括号
+      $(this).css('backgroundColor','red').siblings().css('backgroundColor','gray');
+    })
+  })
+&lt;/script&gt;
+</code></pre>
+
+<p>   <style type="text/css"></p>
+
+<pre><code>  .cls
+  {
+    background-color:black;
+  }
+  td
+  {
+    border:1px solid red;
+  }
+&lt;/style&gt;
+</code></pre>
+
+<p>  </head></p>
+
+<p>  <body></p>
+
+<pre><code>&lt;table id="tb" style="width:2\450px;height:20px;text-align:center; font-size:14px ;border:1px solid black;cursor:pointer"&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Name&lt;/td&gt;
+    &lt;td&gt;Mark&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Chairman Mao&lt;/td&gt;
+    &lt;td&gt;89&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Chairman Hu&lt;/td&gt;
+    &lt;td&gt;79&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Chairman Deng&lt;/td&gt;
+    &lt;td&gt;99&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Chairman Xi&lt;/td&gt;
+    &lt;td&gt;98&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Chairman jiang&lt;/td&gt;
+    &lt;td&gt;76&lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/table&gt;
+</code></pre>
+
+<p>  </body>
+</html>
+```
+6：相对容器 和绝对容器</p>
+
+<p>$(&lsquo;p div&rsquo;)  绝对容器  p的后代
+$(&lsquo;div&rsquo;,&lsquo;p&rsquo;)  相对容器   所有在p标签中的 div
+参考点不一样</p>
+
+<p>注意</p>
+
+<pre><code>      //$('this').siblings.css('backgroundColor','');//可不敢再犯这个错误
+      //this不需要加上单引号
+      //为什么无法直接行t添加上 颜色？ 因为真正在表面显示的是td
+      //$(this).siblings().css('backgroundColor','');
+</code></pre>
+
+<p>```html</p>
+
+<p><html>
+  <head></p>
+
+<pre><code>&lt;title&gt;  test  the start mark&lt;/title&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+  $(function(){
+
+    //绝对定位
+    // $('div p')表示div下的p元素
+    //相对定位
+    //相对div元素的p标签
+    //$('p','div') 表示在div层中的p元素
+
+    $('#tb tr').click(function(){
+      //$('this').siblings.css('backgroundColor','');//可不敢再犯这个错误
+      //this不需要加上单引号
+      //为什么无法直接行t添加上 颜色？ 因为真正在表面显示的是td
+      //$(this).siblings().css('backgroundColor','');
+
+      $('td',$(this).siblings()).css('backgroundColor','');
+      $('td:even',$(this)).css('backgroundColor','red');
+      $('td:odd',$(this)).css('backgroundColor','yellow');
+    });
+
+    //学习了.hover(,) 函数的使用方式
+    //来的时候是第一个参数
+    //去的时候是第二个参数
+    $('tr').hover(function(){
+      $(this).find('td').addClass('hover');
+    },function(){
+      $(this).find('td').removeClass('hover');
+    });
+
+
+    //l列的追踪
+    $('td').hover(function(){
+      var $index=$(this).index();
+      $(this).addClass('hover');
+      $('td:nth-child('+($index+1)+')').addClass('hover');
+    },function(){
+      $('#tb tr').children().removeClass('hover');
+    });
+    alert('Total rows:'+$('#tb tr').length);
+
+
+  })
+&lt;/script&gt;
+</code></pre>
+
+<p>   <style type="text/css"></p>
+
+<pre><code> .hover
+ {
+   color:#fff;
+   background-color:gray;
+ }
+  .cls
+  {
+    background-color:black;
+  }
+  td
+  {
+    border:1px solid red;
+  }
+&lt;/style&gt;
+</code></pre>
+
+<p>  </head></p>
+
+<p>  <body></p>
+
+<pre><code>&lt;table id="tb" style="width:2\450px;height:20px;text-align:center; font-size:14px ;border:1px solid black;cursor:pointer"&gt;
+  &lt;tr&gt;
+    &lt;td&gt;First&lt;/td&gt;
+    &lt;td&gt;Second&lt;/td&gt;
+    &lt;td&gt;Third&lt;/td&gt;
+    &lt;td&gt;Fourth&lt;/td&gt;
+    &lt;td&gt;Fifth&lt;/td&gt;
+    &lt;td&gt;Sixth&lt;/td&gt;
+    &lt;td&gt;Seventh&lt;/td&gt;
+    &lt;td&gt;eighth&lt;/td&gt;
+    &lt;td&gt;nineth&lt;/td&gt;
+    &lt;td&gt;tenth&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;First&lt;/td&gt;
+    &lt;td&gt;Second&lt;/td&gt;
+    &lt;td&gt;Third&lt;/td&gt;
+    &lt;td&gt;Fourth&lt;/td&gt;
+    &lt;td&gt;Fifth&lt;/td&gt;
+    &lt;td&gt;Sixth&lt;/td&gt;
+    &lt;td&gt;Seventh&lt;/td&gt;
+    &lt;td&gt;eighth&lt;/td&gt;
+    &lt;td&gt;nineth&lt;/td&gt;
+    &lt;td&gt;tenth&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;First&lt;/td&gt;
+    &lt;td&gt;Second&lt;/td&gt;
+    &lt;td&gt;Third&lt;/td&gt;
+    &lt;td&gt;Fourth&lt;/td&gt;
+    &lt;td&gt;Fifth&lt;/td&gt;
+    &lt;td&gt;Sixth&lt;/td&gt;
+    &lt;td&gt;Seventh&lt;/td&gt;
+    &lt;td&gt;eighth&lt;/td&gt;
+    &lt;td&gt;nineth&lt;/td&gt;
+    &lt;td&gt;tenth&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;First&lt;/td&gt;
+    &lt;td&gt;Second&lt;/td&gt;
+    &lt;td&gt;Third&lt;/td&gt;
+    &lt;td&gt;Fourth&lt;/td&gt;
+    &lt;td&gt;Fifth&lt;/td&gt;
+    &lt;td&gt;Sixth&lt;/td&gt;
+    &lt;td&gt;Seventh&lt;/td&gt;
+    &lt;td&gt;eighth&lt;/td&gt;
+    &lt;td&gt;nineth&lt;/td&gt;
+    &lt;td&gt;tenth&lt;/td&gt;
+  &lt;/tr&gt;
+
+&lt;/table&gt;
+</code></pre>
+
+<p>  </body>
+</html>
+```</p>
+
+<p>一个有趣的分页</p>
+
+<p>奇巧淫技</p>
+
+<p>```html
+&lt;!DOCTYPE html PUBLIC &ldquo;&ndash;//W3C//DTD XHTML 1.0 Transitional//EN&rdquo; &ldquo;<a href="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd</a>&rdquo;></p>
+
+<p><html xmlns="http://www.w3.org/1999/xhtml">
+<head></p>
+
+<pre><code>&lt;title&gt;&lt;/title&gt;
+&lt;style type="text/css"&gt;
+</code></pre>
+
+<p>   .page
+   {</p>
+
+<pre><code>   margin:5px;
+</code></pre>
+
+<p>   }
+   .hover
+   {</p>
+
+<pre><code>   background-color:#00f;
+   color:#fff;
+   cursor:hand;
+</code></pre>
+
+<p>   }</p>
+
+<pre><code>&lt;/style&gt;
+
+ &lt;script src="jquery-2.1.3.js" type="text/javascript"&gt;&lt;/script&gt;
+ &lt;script type="text/javascript"&gt;
+
+     $(document).ready(function () {
+       //实际的效果是在先前的表格中进行隐藏和显示的小伎俩！ 奇巧淫技
+       //get the rows
+         var $rows = $('table tbody tr').length;
+      // get the show lines  页面行数
+         var $pagesize = 2;
+      //总页数
+         var $pagecount = Math.ceil($rows / $pagesize);
+      //创建一个层
+         var $div = $('&lt;div id="pages"&gt;&lt;/div&gt;');
+      //在层中加入page
+         for (var i = 0; i &lt; $pagecount; i++) {
+           //把创建的东西加入到层中
+             $('&lt;span class="page"&gt;' + (i + 1) + '&lt;/span&gt;').appendTo($div);
+         }
+         $div.appendTo('table');
+
+         //appendd the hover
+         //设置页面的数字的悬浮效果
+         $('.page').hover(function () {
+             $(this).addClass('hover');
+         }, function () {
+             $(this).removeClass('hover');
+         });
+
+         //增加了页面行的点击隐藏的事件
+         $('table tbody tr').click(function(){
+           $(this).hide();
+
+         })
+         //隐藏所有行
+         $('table tbody tr').hide();
+         //获得所有的tr行对象
+         var tr = $('table tbody tr');
+         for (var i = 0; i &lt; $pagecount - 1; i++) {
+             $(tr[i]).show();
+         }
+
+         //设置页面的点击事件 效果
+         $('span').click(function () {
+             $('table tbody tr').hide();
+             for (i = ($(this).text() - 1) * $pagesize; i &lt;= $(this).text() * $pagesize - 1; i++) {
+                 $(tr[i]).show();
+             }
+         })
+     });
+ &lt;/script&gt;
+</code></pre>
+
+<p></head>
+<body></p>
+
+<table border="1" width="200px">
+<thead>
+<tr>
+<th>ID</th><th>Name</th><th>Mark</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>100</td><td>Steven</td><td>100</td></tr>
+<tr><td>101</td><td>Mike</td><td>70</td></tr>
+<tr><td>102</td><td>Robot</td><td>80</td></tr>
+<tr><td>103</td><td>Perry</td><td>100</td></tr>
+<tr><td>104</td><td>Lion</td><td>90</td></tr>
+<tr><td>105</td><td>Andy</td><td>85</td></tr>
+</tbody>
+
+</table>
+
+
+<p></body>
+</html>
+```</p>
+
+<p>一个小练习： 东西部篮球队</p>
+
+<p>注意：</p>
+
+<pre><code>   //可不敢再犯这个错误   1  逗号写成了句话   2： siblings后直接街上css的参数
+      //$(this).css('backgroundColor'.'red').siblings()'backgroundColor','');
+
+      //由此错误可得到一个结论
+      // jQuery分成两个部分一个是获得Dom对象  紧接着是设置CSS样式！
+      // 也就是js其实就是把这两个部分按照链条一样一对一对的串起来了
+      //一个Dom一个Css  然后再一个Dom 一个CSS
+</code></pre>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Meta charset="utf-8"&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js"&gt;&lt;/script&gt;
+
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    $('ol li').mouseover(function(){
+      //可不敢再犯这个错误   1  逗号写成了句话   2： siblings后直接街上css的参数
+      //$(this).css('backgroundColor'.'red').siblings()'backgroundColor','');
+
+      //由此错误可得到一个结论
+      // jQuery分成两个部分一个是获得Dom对象  紧接着是设置CSS样式！
+      // 也就是js其实就是把这两个部分按照链条一样一对一对的串起来了
+      //一个Dom一个Css  然后再一个Dom 一个CSS
+      $(this).css('backgroundColor','red').siblings().css('backgroundColor','');
+    });
+    $('ol li').click(function()
+       {
+
+         //第一种写法
+</code></pre>
+
+<p>//             $(this).prevAll().css(&lsquo;backgroundColor&rsquo;,&lsquo;blue&rsquo;);
+//             $(this).nextAll().css(&lsquo;backgroundColor&rsquo;,&lsquo;yellow&rsquo;);</p>
+
+<pre><code>         //第二种写法
+         //end的作用就是从前面所有 又跳回到$(this)的作用！！关键点是end() 这样才可以帮助我们就你行链式编程
+         $(this).prevAll().css('backgroundColor','blue').end().nextAll().css('backgroundColor','yellow');
+       })
+  });
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;Ol id="east"&gt;
+  &lt;Li&gt;亚特兰大 老鹰&lt;/Li&gt;
+  &lt;Li&gt;芝加哥 公牛&lt;/Li&gt;
+  &lt;Li&gt;波士顿 凯尔特人&lt;/Li&gt;
+  &lt;Li&gt;夏洛特 黄蜂&lt;/Li&gt;
+  &lt;Li&gt;克利夫兰 骑士&lt;/Li&gt;
+  &lt;Li&gt;布鲁克林 篮网&lt;/Li&gt;
+  &lt;Li&gt;迈阿密 热火&lt;/Li&gt;
+  &lt;Li&gt;底特律 活塞&lt;/Li&gt;
+  &lt;Li&gt;纽约 尼克斯&lt;/Li&gt;
+  &lt;Li&gt;奥兰多 魔术&lt;/Li&gt;
+  &lt;Li&gt;印第安纳 步行者&lt;/Li&gt;
+  &lt;Li&gt;费城 76人&lt;/Li&gt;
+  &lt;Li&gt;华盛顿 奇才&lt;/Li&gt;
+  &lt;Li&gt;密尔沃基 雄鹿&lt;/Li&gt;
+  &lt;Li&gt;多伦多 猛龙&lt;/Li&gt;
+&lt;/Ol&gt;
+&lt;Ol id="west"&gt;
+  &lt;Li&gt;金州 勇士&lt;/Li&gt;
+  &lt;Li&gt;丹佛 掘金&lt;/Li&gt;
+  &lt;Li&gt;达拉斯 小牛&lt;/Li&gt;
+  &lt;Li&gt;洛杉矶 快船&lt;/Li&gt;
+  &lt;Li&gt;明尼苏达 森林狼&lt;/Li&gt;
+  &lt;Li&gt;休斯顿 火箭&lt;/Li&gt;
+  &lt;Li&gt;洛杉矶 湖人&lt;/Li&gt;
+  &lt;Li&gt;奥克兰陈马成 雷霆&lt;/Li&gt;
+  &lt;Li&gt;孟菲斯 灰熊&lt;/Li&gt;
+  &lt;Li&gt;菲尼克斯 太阳&lt;/Li&gt;
+  &lt;Li&gt;波特兰 开拓者&lt;/Li&gt;
+  &lt;Li&gt;新奥尔良 鹈鹕&lt;/Li&gt;
+  &lt;Li&gt;萨克拉门托 国王&lt;/Li&gt;
+  &lt;Li&gt;犹他 爵士&lt;/Li&gt;
+  &lt;Li&gt;圣安东尼奥 马刺&lt;/Li&gt;
+&lt;/Ol&gt;
+&lt;Ul id="other"&gt;
+  &lt;Li&gt;步行者&lt;/Li&gt;
+  &lt;Li&gt;山猫&lt;/Li&gt;
+&lt;/Ul&gt;
+</code></pre>
+
+<p>  </Body>
+</Html>
+```
+7：过滤器的练习</p>
+
+<p>注意：
+   even和odd选择器     index从0开始。</p>
+
+<p>```html
+<html>
+  <head></p>
+
+<pre><code>&lt;title&gt;  test  the start mark&lt;/title&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    $('#btnFirst').click(function(){
+      $('div:first').css('backgroundColor','green').siblings().css('backgroundColor','blue');
+    });
+    $('#btnFirst2').click(function(){
+      $('div').first().css('backgroundColor','red').siblings().css('backgroundColor','blue');
+    });
+    $('#Last').click(function(){
+      $('div:last').css('backgroundColor','purple').siblings().css('backgroundColor','blue');
+    });
+    $('#Last2').click(function(){
+      $('div').last().css('backgroundColor','red').siblings().css('backgroundColor','blue');
+    });
+
+    $('#eq2').click(function(){
+      $('div:eq(2)').css('backgroundColor','black').siblings().css('backgroundColor','blue');
+    });
+    $('#lt2').click(function(){
+      //范围性内容 不能用siblings
+      //$('div:lt(2)').css('backgroundColor','black').siblings().css('backgroundColor','blue');
+      $('div:lt(2)').css('backgroundColor','black');
+    });
+    $('#gt2').click(function(){
+    // $('div:gt(2)').css('backgroundColor','red').siblings().css('backgroundColor','blue');
+      $('div:gt(2)').css('backgroundColor','red');
+    });
+    //下标从0开始  index 所以表面上even是第一个元素 
+    $('#even2').click(function(){
+     // $('div:even').css('backgroundColor','red').siblings().css('backgroundColor','blue');
+      $('div:even').css('backgroundColor','red');
+    });
+    $('#odd2').click(function(){
+      //$('div:odd').css('backgroundColor','red').siblings().css('backgroundColor','blue');
+      $('div:odd').css('backgroundColor','red');
+    });
+    // 当然也是可以组合起来  $('div:gt(3):lt(2)')
+    // $('div:not(.cls)')
+    $('#olivenot').click(function(){
+      //必须加上. 句话才是有效的
+      $('div:not(.cls)').css('backgroundColor','yellow');
+    });
+  $('#header1').click(function(){
+    $('h1,h2,h3,h4,h5,h6').css('backgroundColor','gray');
+  });
+  $('#header2').click(function(){
+    $(':header').css('backgroundColor','yellow');
+  });
+
+
+
+  });
+&lt;/script&gt;
+&lt;style type="text/css"&gt;
+  div
+  {
+    width:150px;
+    height:30px;
+    margin-bottom:10px;
+    background-color:blue;
+  }
+  td
+  {
+    border:1px solid red;
+  }
+  .cls
+  {
+       background-color:olive;
+  }
+&lt;/style&gt;
+</code></pre>
+
+<p>  </head></p>
+
+<p>  <body></p>
+
+<pre><code>&lt;Input type="button" id="btnFirst" value="divColorToGreenFirst"/&gt;
+&lt;Input type="button" id="btnFirst2" value="divColorToGreenFirst2"/&gt;
+&lt;Input type="button" id="Last" value="divColorToGreenLast"/&gt;
+&lt;Input type="button" id="Last2" value="divColorToGreenLast2"/&gt;
+&lt;Input type="button" id="gt2" value="divColorToGreenGreater2"/&gt;
+&lt;Input type="button" id="eq2" value="divColorToGreenEqual2"/&gt;
+&lt;Input type="button" id="lt2" value="divColorToGreenLess2"/&gt;
+&lt;Input type="button" id="even2" value="divColorToGreenEven"/&gt;
+&lt;Input type="button" id="odd2" value="divColorToGreenOdd"/&gt;
+&lt;Input type="button" id="olivenot" value="not olive"/&gt;
+&lt;Input type="button" id="header1" value="header1"/&gt;
+&lt;Input type="button" id="header2" value="header2"/&gt;
+&lt;Div&gt;&lt;/Div&gt;
+&lt;Div&gt;&lt;/Div&gt;
+&lt;Div class="cls"&gt;&lt;/Div&gt;
+&lt;Div&gt;&lt;/Div&gt;
+&lt;Div&gt;&lt;/Div&gt;
+
+&lt;H1&gt;Header 1&lt;/H1&gt;
+&lt;H2&gt;Header 2&lt;/H2&gt;
+&lt;H3&gt;Header 3&lt;/H3&gt;
+&lt;H4&gt;Header 4&lt;/H4&gt;
+&lt;H5&gt;Header 5&lt;/H5&gt;
+&lt;H6&gt;Header 6&lt;/H6&gt;
+</code></pre>
+
+<p>  </body>
+</html>
+```</p>
+
+<p>一个有趣的slideup and down 小案例：</p>
+
+<p>```html
+&lt;!DOCTYPE html PUBLIC &ldquo;&ndash;//W3C//DTD XHTML 1.0 Transitional//EN&rdquo; &ldquo;<a href="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd</a>&rdquo;></p>
+
+<p><html xmlns="http://www.w3.org/1999/xhtml">
+<head></p>
+
+<pre><code>&lt;title&gt;&lt;/title&gt;
+&lt;style type="text/css"&gt;
+&lt;/style&gt;
+ &lt;script src="jquery-2.1.3.js" type="text/javascript"&gt;&lt;/script&gt;
+ &lt;script type="text/javascript"&gt;
+     $(document).ready(function () {
+         $('#message1').css({ 'backgroundColor': '#f00', 'text-align': 'center','width':'200px' }).hide();
+         $("#message2").css({ 'backgroundColor': 'gray', 'text-align': 'center','width': '200px' }).click(function () {
+             $(this).slideUp();
+             $("#message1").slideDown();
+         });
+     });
+ &lt;/script&gt;
+</code></pre>
+
+<p></head>
+<body></p>
+
+<p id="message1">Welome to My Blog</p>
+
+
+
+
+<p id="message2">Welcome to My Facebook</p>
+
+
+<p></body>
+</html>
+```</p>
+
+<p>8： 评分和addClass</p>
+
+<p>.end()断链的使用，之所以要断链也是因为返回来的是集合，而不是原先的对象
+注意：</p>
+
+<pre><code>  //测试开关灯
+  //隐含着规律是：jquery获得的都是集合的元素
+//做判断一定得是 $(function(){})里面中
+</code></pre>
+
+<p>五角星是直接输入，而不是通过图片</p>
+
+<p>```html
+<html>
+  <head></p>
+
+<pre><code>&lt;title&gt;  test  the start mark&lt;/title&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+
+  // 测试评分
+  $(function(){
+    $('#tb td').mouseover(function(){
+        //$(this).prevall().css('backgroundcolor','red');
+        $(this).text('○').prevall().text('○').end().nextall().text('☆');
+    });
+    $('#tb td').mouseout(function()
+    {
+      $('#tb td').text('☆');
+    });
+  });
+&lt;/script&gt;
+
+
+&lt;script type="text/javascript"&gt;
+  //测试开关灯
+  //隐含着规律是：jquery获得的都是集合的元素
+//做判断一定得是 $(function(){})里面中
+$(function(){
+  if($('#btn').length&gt;0)
+    {
+      alert('存在id=#tb的标签');
+    }else
+    {
+      alert('不存在id=#tb的标签');
+    }
+    $('#btnopen').click(function(){
+      $('body').addclass('cls');
+    });
+    $('#btnclose').click(function(){
+      $('body').removeclass('cls');
+    });
+    $('#btncloseopen').click(function(){
+      if($('body').hasclass('cls'))
+        {
+            $('body').removeclass('cls');
+        }else
+        {
+            $('body').addclass('cls');
+
+        }
+    });
+    $('#btncloseopen2').click(function(){
+        $('body').toggleclass('cls');
+    });
+
+});
+
+
+&lt;/script&gt;
+&lt;style type="text/css"&gt;
+  .cls
+  {
+    background-color:black;
+  }
+  td
+  {
+    border:1px solid red;
+  }
+&lt;/style&gt;
+</code></pre>
+
+<p>  </head></p>
+
+<p>  <body></p>
+
+<pre><code>&lt;table id="tb" style="width:250px;height:20px;text-align:center; font-size:20px ;border:1px solid black;cursor:pointer"&gt;
+  &lt;tr&gt;
+    &lt;td&gt;☆&lt;/td&gt;
+    &lt;td&gt;☆&lt;/td&gt;
+    &lt;td&gt;☆&lt;/td&gt;
+    &lt;td&gt;☆&lt;/td&gt;
+    &lt;td&gt;☆&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;input type='button' name="hello" value="hello" id="btn"/&gt;
+&lt;input type='button' name="open" value="turn on the light" id="btnopen"/&gt;
+&lt;input type='button' name="close" value="turn off the light" id="btnclose"/&gt;
+&lt;input type='button' name="openclose" value="turn off|on the light" id="btncloseopen"/&gt;
+&lt;input type='button' name="openclose2" value="turn off|on the light2" id="btncloseopen2"/&gt;
+</code></pre>
+
+<p>  </body>
+</html>
+```</p>
+
+<p>两个综合实验：</p>
+
+<p>case1: 数组 练习join()
+append()
+sort()
+splice()
+hover()悬停事件
+concat()</p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;  test  the start mark&lt;/Title&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js"&gt;&lt;/script&gt;
+
+&lt;!--1 touppercase--&gt;
+&lt;style type="text/css"&gt;
+  .hover
+  {
+      background-color:red;
+      font-size:24px;
+  }
+&lt;/style&gt;
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    //核心：touppercase
+    // Good!  Let the array become beautiful
+    var namePostion=$('#names'); 
+    var Member=['basket','foot','tennis','running','pingpong','net'];
+    // map() 迭代数组中每个元素  并为每个元素分别调用一次回调函数
+    Member =$.map(Member,function(value,index){
+      return(index+1+'.'+value.toUpperCase());
+    });
+    $.each(Member,function(index,value){
+      namePostion.append($('&lt;Li class="sport"&gt;'+value+'&lt;/Li&gt;'));
+    });
+
+    //使用了悬停事件
+    $('.sport').hover(function(){
+       //   alert('ok');
+          $(this).addClass('hover');
+    },function(){
+          $(this).removeClass('hover');
+       //   alert('byel');
+    });
+
+  })
+&lt;/script&gt;
+&lt;!--2 grep--&gt;
+&lt;style type="text/css"&gt;
+  #All
+  {
+    background-color:green;
+
+  }
+  #Part
+  {
+    background-color:gray;
+  }
+&lt;/style&gt;
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    var Member=['basket','foot','tennis','running','pingpong','net'];
+    //一定要注意在p和#All不要加入空格
+    // join通过&lt;br&gt;来划分数组中的元素
+    $('p#All').append(Member.join('&lt;br/&gt;'));
+    //grep() 分析数组的所有元素，把不想要的元素过滤掉。
+    Member = $.grep(Member,function(value){
+      return value.length &gt; 6;
+    });
+    $('p#Part').append(Member.join('&lt;br/&gt;'));
+  });
+
+
+&lt;/script&gt;
+
+&lt;!--3 join sort--&gt;
+
+&lt;style type="text/css"&gt;
+
+  .All
+  {
+    background-color:red;
+  }
+  .Part
+  {
+    background-color:gray;
+  }
+  .AllNumber
+  {
+    background-color:blue;
+  }
+  .PartNumber
+  {
+    background-color:lime;
+  }
+&lt;/style&gt;
+
+
+
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    var Member=['basket','foot','tennis','running','pingpong','net'];
+    //重复的一个练习
+    $('p.All').append(Member.join('&lt;Br&gt;'));
+    $('p.Part').append(Member.sort().join('&lt;/Br&gt;'));
+
+    var Number1 = [12,43,2,34,6,34];
+    $('p.AllNumber').append(Number1.join('&lt;Br/&gt;'));
+
+    // a b 两个值 进行比较  大的那个放在后排
+    Number1 =  Number1.sort(function(a,b){
+      return a-b;
+    });
+    $('p.partNumber').append(Number1.join('&lt;Br/&gt;'));
+
+  });
+
+&lt;/script&gt;
+
+&lt;!--4 splice--&gt;
+&lt;style type="text/css"&gt;
+
+  .Part1
+  {
+    background-color:lime;
+  }
+
+  .Remain
+  {
+    background-color:red;
+  }
+&lt;/style&gt;
+
+
+
+&lt;script type="text/javascript"&gt;
+
+  $(function(){
+    var Member=['basket','foot','tennis','running','pingpong','net'];
+    //第一个参数为索引开始   第二个参数为删除的个数     splice作用返回前两个成员到Filter数组
+    var Filter=Member.splice(0,2);
+    $('p.Part1').append(Filter.join('&lt;Br/&gt;'));
+    $('p.Remain').append(Member.join('&lt;Br/&gt;'));
+  })
+
+&lt;/script&gt;
+
+&lt;!--5  concat --&gt;
+&lt;style type="text/css"&gt;
+
+  .First
+  {
+    background-color:lime;
+  }
+  .Last
+  {
+    background-color:gray;
+  }
+  .Whole
+  {
+    background-color:red;
+  }
+&lt;/style&gt;
+
+
+
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    var first=['basket','foot','tennis'];
+    var last=['running','pingpong','net'];
+    $('p.First').append(first.join('&lt;Br/&gt;'));
+    $('p.Last').append(last.join('&lt;Br/&gt;'));
+    var whole=first.concat(last);
+    $('p.Whole').append(whole.join('&lt;Br/&gt;'));
+  });
+
+&lt;/script&gt;
+
+
+&lt;!--6  Json sort--&gt;
+&lt;style type="text/css"&gt;
+  .All1
+  {
+    background-color:green;
+  }
+
+
+&lt;/style&gt;
+
+
+
+&lt;script type="text/javascript"&gt;
+  $(function(){
+    var students=[{Name:'Qianqian',Role:'Administrator',Age:'45'},
+      {Name:'Lilei',Role:'Programmer',Age:'15'},
+      {Name:'Dongyuliang',Role:'Seller',Age:'25'},
+      {Name:'LiFeng',Role:'manager',Age:'25'},
+      {Name:'zhaoli',Role:'Architector',Age:'35'}
+    ];
+
+    //有点类似 Java中的treeset的作用  需要设置一个比较器
+    students=students.sort(function(studnetA,studentB){
+      if(studnetA.name&gt;studentB.name){
+        return 1;
+      }else if(studnetA.name &lt; studentB.name)
+      {
+        return -1;
+      }else
+      {
+        return 0;
+      }
+    });
+    $.each(students,function(index,value){
+      $('p.All1').append('&lt;Tr&gt;&lt;Td&gt;&gt;'+value.Name+'&lt;/Td&gt;&lt;Td&gt;'+value.Role+'&lt;/Td&gt;&lt;Td&gt;'+value.Age+'&lt;/Td&gt;&lt;/Tr&gt;');
+    });
+  });
+
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;p id="names"&gt;&lt;/P&gt;
+
+&lt;hr/&gt;
+&lt;H3&gt; Member Name&lt;/H3&gt;
+&lt;P id="All"&gt;&lt;/P&gt;
+&lt;H3&gt; Part Name&lt;/H3&gt;
+&lt;P id="Part"&gt;&lt;/P&gt;
+&lt;Hr/&gt;
+
+&lt;H3&gt;Not sort string array&lt;/H3&gt;
+&lt;P class="All"&gt;&lt;/P&gt;
+&lt;H3&gt; sort string array&lt;/H3&gt;
+&lt;P class="Part"&gt;&lt;/P&gt;
+&lt;H3&gt;Not sort number&lt;/H3&gt;
+&lt;P class="AllNumber"&gt;&lt;/P&gt;
+&lt;H3&gt; sort number&lt;/H3&gt;
+&lt;P class="PartNumber"&gt;&lt;/P&gt;
+
+&lt;Hr/&gt;
+&lt;H3&gt;get the  Filer array&lt;/H3&gt;
+&lt;P class="Part1"&gt;&lt;/P&gt;
+&lt;H3&gt;get the remain array&lt;/H3&gt;
+&lt;P class="Remain"&gt;&lt;/P&gt;
+
+&lt;Hr/&gt;
+&lt;H3&gt;Get the First part&lt;/H3&gt;
+&lt;P class="First"&gt;&lt;/P&gt;
+&lt;H3&gt;Get the Last part&lt;/H3&gt;
+&lt;P class="Last"&gt;&lt;/P&gt;
+&lt;H3&gt;Get the Whole part&lt;/H3&gt;
+&lt;P class="Whole"&gt;&lt;/P&gt;
+
+
+&lt;Hr&gt;
+&lt;H3&gt;Member Info&lt;/H3&gt;
+&lt;P class="All1"&gt;&lt;/P&gt;
+</code></pre>
+
+<p>  </Body></p>
+
+<p></Html>
+```</p>
+
+<p>case2: 事件触发</p>
+
+<p>bind()
+unbind()
+trigger()
+多类的设置 class=&ldquo;  &rdquo;</p>
+
+<p>```html
+<Html>
+  <Head></p>
+
+<pre><code>&lt;Title&gt;  test  the common jQuery event &lt;/Title&gt;
+&lt;script type="text/javascript" src="jquery-2.1.3.js"&gt;&lt;/script&gt;
+
+
+&lt;!--1  trigger   bind  unbind--&gt;
+&lt;style type="text/css"&gt;
+  .Red
+  {
+      color:red;
+  }
+  .Green
+  {
+    color:green;
+  }
+  .unbind
+  {
+    color:lime
+  }
+  .buttons
+  {
+    width:150px;
+    height:20px;
+    margin:5px;
+    border:2px solid;
+    float:left;
+    font-weight:bold;
+    background-color:gray;
+  }
+  .Down
+  {
+    color:green;
+  }
+  .Up
+  {
+    color:red;
+  }
+  .Over
+  {
+    color:lime;
+  }
+  .Mouses
+  {
+    width:150px;
+    height:20px;
+    margin:5px;
+    border:2px solid;
+    float:left;
+    font-weight:bold;
+    background-color:gray;
+  }
+
+&lt;/style&gt;
+&lt;script type="text/javascript"&gt;
+  //可不敢再犯这个错误
+  //$('.button').bind('click',function(){
+$(function(){
+   $('.buttons').bind('click',function(){
+    alert('You have clicked '+$(this).text()); //innerText()
+    // trigger without click !!!  automated;
+  //可不敢再犯这个错误
+    //$(.Green).trigger('click');
+   // $('.Green').trigger('click');
+
+   // unbindf test
+    $('.Unbind').bind('click',function(){
+      alert('You have clicked the'+$(this).text()+'&lt;Br/&gt;After that the button will unbind the click event!');
+      $('.Unbind').unbind('click');
+
+    })
+  });
+
+  //mouse event
+  $('.Mouses').bind('mousedown',function(){
+      alert('your mouse have been pressed down'+$(this).text());
+  });
+
+  $('.Mouses').bind('mouseup',function(){
+      alert('your mouse have been pressed up'+$(this).text());
+  });
+
+  $('.Mouses').bind('mouseover',function(){
+      alert('your mouse have been pressed over'+$(this).text());
+  });
+
+
+  //focus test
+  $('#btn').focus(function(){
+    alert('ol');
+    $('#btn').html('&lt;Font color="red"&gt;&lt;Strong&gt;Focus&lt;/Strong&gt;&lt;/Font&gt;');
+  });
+  $('#btn').blur(function(){
+    alert('fuck');
+    $('#btn').html('&lt;Font color="gray"&gt;&lt;Italic&gt;Focus&lt;/Italic&gt;&lt;/Font&gt;');
+  });
+
+
+});
+&lt;/script&gt;
+</code></pre>
+
+<p>  </Head></p>
+
+<p>  <Body></p>
+
+<pre><code>&lt;H3&gt;Test bind and trigger&lt;/H3&gt;
+&lt;!--Multiple classes !!!　Take Note--&gt;
+&lt;Span class="Red buttons"&gt;Red&lt;/Span&gt;
+&lt;Span class="Green buttons"&gt;Green&lt;/Span&gt;
+&lt;Span class="Unbind buttons"&gt;Unbind it&lt;/Span&gt;
+&lt;Br/&gt;
+&lt;hr/&gt;
+&lt;Br/&gt;
+&lt;H3&gt;Test bind and trigger&lt;/H3&gt;
+&lt;!--Multiple classes !!!　Take Note--&gt;
+&lt;Span class="Mouses Down"&gt;Mouse Down&lt;/Span&gt;
+&lt;Span class="Mouses Up"&gt;Mouse Up&lt;/Span&gt;
+&lt;Span class="Mouses Over"&gt;Mouse over&lt;/Span&gt;
+
+&lt;Br/&gt;
+&lt;hr/&gt;
+&lt;Br/&gt;
+&lt;H3&gt;Test focus and blur&lt;/H3&gt;
+&lt;!--     Input cannot  html  --&gt;
+&lt;Input type="text" name="mouse" id="btn" values="focus"/&gt;
+
+&lt;/Div&gt;
+</code></pre>
+
+<p>  </Body></p>
+
+<p></Html>
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

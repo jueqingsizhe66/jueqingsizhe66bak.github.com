@@ -1,0 +1,3488 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>2月4日Java班GTK - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="第一部分：笔记 1：封装两个不需要Id的类，OORGB,OOCairo OORGB用于设置颜色值，并封装几个常见的颜色OORGB.RED OORGB.BLUE OORGB.GREEN.. OOCairo则是一个绘图类，主要包括移动点，画线，画圆，画矩形等。当然先前的GTK.Cairo类的方法中， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2015/05/11/2yue-4ri-javaban-gtk">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">2月4日Java班GTK</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:41+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--more-->
+
+
+<p>第一部分：笔记</p>
+
+<p>1：封装两个不需要Id的类，OORGB,OOCairo
+  OORGB用于设置颜色值，并封装几个常见的颜色OORGB.RED OORGB.BLUE OORGB.GREEN..
+  OOCairo则是一个绘图类，主要包括移动点，画线，画圆，画矩形等。当然先前的GTK.Cairo类的方法中，都是包含环境句柄，所以OOCairo的封装需要考虑环境句柄，并在封装之后不需要再
+调入环境句柄(已封装）</p>
+
+<p>2：封装GtkWidget为OOWidget
+最为关键的一步是设置Id的工作。 每一个句柄都具有一个对象标识，而Gtk+默认是通过一个
+整数来表示对象标识，于是需要把这个值设置为私有的Id(估计想到这个得费点时间。。）于是
+就有了getId和setId。这一步的作用影响到下节的进一步封装，
+javadoc的注释： /** + enter键，会自动导入方法的参量和返回值以及类的创建者等
+javadoc的生成： 项目&mdash;&ndash;>生成javadoc&mdash;&ndash;>填入javadoc路径</p>
+
+<pre><code>                    jd2chm+httphelper 转化为chm文档
+</code></pre>
+
+<ol>
+<li>利用上述方法，让所有的控件都继承自OOWidget(现在想想有点不合理），封装了21个类
+  包括：OOBox, OOButton,OOCairo,OOCalendar,OODialog,OOEntry,OOFileChooser,OOGrid
+          OOLabel,OOMenu,OOProgressBar, OORGB,OOScrollBar,OOSpinBox,OOStatusIcon,
+          OOSwitch,OOTextIter,OOTextView,OOToolBar,OOTreeView,OOWidget
+  并进行了一个简单测试 TestOOCairo.java</li>
+</ol>
+
+
+<p>上面的内容构成了源码v1.0版</p>
+
+<p>进一步发现源码V1.0存在很多问题，没有照顾到继承关系图。</p>
+
+<p>后来继续学习了杨老师的视频，发现源码v1.0并未体现GTK+继承关系
+如图GTK继承结构关系图.png</p>
+
+<pre><code>由此可见，并不是所有的控件是直接继承OOWidget的，并考虑到以下bug情况
+</code></pre>
+
+<p>bug1:</p>
+
+<pre><code> Protected是指兄弟和儿子可以访问！！ 也就是不同包的不可以访问。
+</code></pre>
+
+<p>为什么setId()最好改为protected呢？
+因为我们经常是让一个包打成tar，然后别人引用这个jar包！ 也就是和这个jar包不一样
+也就是他无法执行这样的操作
+也就是 比如OOEntry oe = new OOEntry();
+Oe.setId(GTK.gtk_label_new())的换心操作。 不要让entry变成了label而你却是不知道。</p>
+
+<p>bug2：
+把OOWidget 标记为抽象类！ 这样防止用户
+*                                    <br/>
+  直接OOWidget ow = new OOWidget() ; ow.show()
+*                                       这完全是无意义的工作
+这就是抽象的好处！！ 让子类去做，父类不要去实例化了</p>
+
+<p>bug3:</p>
+
+<p>见图Container是只大老虎.png ,发现先前写的大部分控件的封装都是container的子类，于是新建了OOContainer类，并重新改写了OOBox，OOGrid,OOTextView,OOToolBar,OOTreeView ,（修改的只是把extends 改为了OOContainer，这个工作量不大，发现有效  其他构造函数不需要改，修改完毕）
+并发现我并未封装combobox,和radiobutton之类的，checkbox
+并最终还使得button在原先的两个构造函数的基础上增加了图片资源的加载，和加载图片的位置控制
+增加了8个工作量。</p>
+
+<p><a href="http://blog.csdn.net/uunubt/article/details/6089402">http://blog.csdn.net/uunubt/article/details/6089402</a>
+参考此文，琢磨出来RadioButton的用法：
+int cbMan = GTK.gtk_radio_button_new_with_label(0, &ldquo;男&rdquo;);</p>
+
+<pre><code>            int cbWoman = GTK.gtk_radio_button_new_with_label_from_widget(cbMan, "女");
+</code></pre>
+
+<p>OK经过了努力终于完成此项工作的封装
+（修改的只是把extends 改为了OOContainer，这个工作量不大，发现有效  其他构造函数不需要改，修改完毕）</p>
+
+<p>后来发现这种该法其实有不恰当的地方，应该是可以省略掉构造函数。但是这是仅仅如果构造函数和OOContainer是一样的情况（还是涉及到构造函数可以重写的问题）</p>
+
+<p>bug4:</p>
+
+<p>后来发现bug3并不完善，观察继承图发现很多的控件都是来自Gtkbin，见GtkBin是只小老虎.png.
+由于GtkBin是单控件容器，于是采用杨老师针对OOContainer的 add方法的Override重写（GtkBin也是OOContainer的一部分）
+Override方法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Override</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="n">OOWidget</span> <span class="n">ow</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="kt">int</span><span class="o">[]</span> <span class="n">children</span> <span class="o">=</span> <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_container_get_children</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+</span><span class='line'>                <span class="k">if</span><span class="o">(</span><span class="n">children</span><span class="o">.</span><span class="na">length</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="c1">//调用父类的add方法</span>
+</span><span class='line'>                        <span class="kd">super</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">ow</span><span class="o">);</span>
+</span><span class='line'>                        <span class="c1">//super.add  调用父类</span>
+</span><span class='line'>                        <span class="c1">//this.add   调用本类</span>
+</span><span class='line'>                        <span class="c1">//super() 调用父类构造方法(在构造函数中)</span>
+</span><span class='line'>                        <span class="c1">//this()  调用本类的构造方法(在构造函数中，记得我为什写上括号)</span>
+</span><span class='line'>                <span class="o">}</span><span class="k">else</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">&quot;容器中已经有了一个对象&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>bug5:
+并进一步修改了GTKButton, GTKImageButton   GGTKComboBox   GTKToolItem  GTKWindow
+学习了封装原则： 能省则省，尽量调用父类实现的代码，减少代码量，减少出错的语句
+最终把代码封装到了31个，见图2.0的所有类文件。</p>
+
+<p>下面是我代码的提交记录：</p>
+
+<pre><code>1：重新封装了程序 根据GTK的继承关系  所有的控件都来自GTKwidget  GTKBin是指只能添加一个空间的类
+GTKContainer是包含着GTKBin  GTKGrid GTKBox，GTKToolBar,OOTreeView,OOTextView
+2. 封装了GTKImage
+3. 封装了GTKCheckButton和radioButton，并琢磨了GTKRadioButton的用法
+4. 添加了GTKBin和GTKWindow的封装，至此基本上所有的东西，都已经面向对象化了
+5. 测试了OOPassword之类的用法，使得OOPassword继承自OOEntry
+6. 添加了OOFileChooser的封装
+7  修改OOButton 使其继承自OOBin,也就是只能添加单一空间
+8. 使得OOWidget变得抽象画，这样就不会出现 定义一个OOWidget对象的额情况，使得程序更具可靠性
+9. 使得OOWidget的setId变成protected，这样只有子类和兄弟类（同包）可以使用，不同包的不可以使用。
+10：增加了OOCombo(从OOBin继承得到)类充当 OOCombobox的父类
+11: 把ComboBoxText的 addLister 添加到OOCombo类中！！
+12: 增加了OOToggleButton类
+13：修改了CheckBox使其充当OOToggleButtonde
+14： 修改了OOScrollBar的继承项 从OOWidget到OOContainer
+</code></pre>
+
+<p>上面的内容构成了GTKEncapsulateV2.0源码</p>
+
+<p>第二部分 作业</p>
+
+<p>源码V1.0版本.rar
+源码V2.0版本.rar
+<img src="/images/java/gtk%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB%E5%9B%BE.png" alt="gtk继承关系图" />
+<img src="/images/java/Container%E6%98%AF%E5%8F%AA%E5%A4%A7%E8%80%81%E8%99%8E" alt="" />
+<img src="/images/java/Gtkbin%E6%98%AF%E5%8F%AA%E5%B0%8F%E8%80%81%E8%99%8E.png" alt="Gtkbin是只小老虎" />
+<img src="V2.0%E7%BB%A7%E6%89%BF%E5%9B%BE.png" alt="v2.0的所有类文件" /></p>
+
+<pre><code>Bug再修复1  menu的clicked事件改为activate(menu  item响应 activate事件），这个activate让我花费了至少两个小时，因为把所有的OOMenu的过程                  重新在书写了一遍，并拆成孤立的四个片段分别是： OOMenuBar.java（将包装添入包装条，菜单条）    OOSubMenu.java（把菜单包装）    OOSingleMenu.java （绘制菜单） OOMenuVegetable.java （绘制一盘菜）。具体的也在源代码第三个版本。
+</code></pre>
+
+<p>Bug修复2    文件过滤器的 抽象方法的返回值从void变为 String[]，这样可以返回字符串（比如打开文件夹的文件名）</p>
+
+<pre><code>  //public abstract void processResponse();
+    public abstract String[] processResponse();
+</code></pre>
+
+<p>Bug修复3    FileChooser的run方法 从void 变到int,  这样可以接受返回值，判断对应的执行行为
+Bug修复4    修改了OOTextView 使其从</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">addScrollBar</span><span class="o">(</span><span class="kt">int</span> <span class="n">width</span><span class="o">,</span> <span class="kt">int</span> <span class="n">height</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">OOScrollBar</span> <span class="n">osb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OOScrollBar</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">osb</span><span class="o">.</span><span class="na">setWidgetSize</span><span class="o">(</span><span class="n">width</span><span class="o">,</span> <span class="n">height</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">osb</span><span class="o">.</span><span class="na">addView</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+</span><span class='line'>        <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>变到</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">addScrollBar</span><span class="o">(</span><span class="n">OOGrid</span> <span class="n">og</span><span class="o">,</span><span class="kt">int</span> <span class="n">start</span><span class="o">,</span><span class="kt">int</span> <span class="n">width</span><span class="o">,</span> <span class="kt">int</span> <span class="n">height</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">OOScrollBar</span> <span class="n">osb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OOScrollBar</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">osb</span><span class="o">.</span><span class="na">setWidgetSize</span><span class="o">(</span><span class="n">width</span><span class="o">,</span> <span class="n">height</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">osb</span><span class="o">.</span><span class="na">addView</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+</span><span class='line'>                <span class="n">osb</span><span class="o">.</span><span class="na">show</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">og</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">osb</span><span class="o">.</span><span class="na">getId</span><span class="o">(),</span> <span class="n">start</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>让textview自动可以添加滚动条。</p>
+
+<p>bug5修复
+   使OOToolBar里面的addTool方法从void方法改变到返回值为ToolButton</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">addTool</span><span class="o">(</span><span class="n">String</span> <span class="n">toolName</span><span class="o">,</span><span class="n">String</span> <span class="n">toolPic</span><span class="o">,</span><span class="kt">int</span> <span class="n">position</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">tbApple</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ToolButton</span><span class="o">(</span><span class="n">toolName</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">tbApple</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">show</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">tbApple</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">setStock</span><span class="o">(</span><span class="n">toolPic</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_toolbar_insert</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getId</span><span class="o">(),</span> <span class="n">tbApple</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">getId</span><span class="o">(),</span> <span class="n">position</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">i</span><span class="o">++;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>到</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="n">ToolButton</span> <span class="nf">addTool</span><span class="o">(</span><span class="n">String</span> <span class="n">toolName</span><span class="o">,</span><span class="n">String</span> <span class="n">toolPic</span><span class="o">,</span><span class="kt">int</span> <span class="n">position</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="n">tbApple</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ToolButton</span><span class="o">(</span><span class="n">toolName</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">tbApple</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">show</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">tbApple</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">setStock</span><span class="o">(</span><span class="n">toolPic</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">GTK</span><span class="o">.</span><span class="na">gtk_toolbar_insert</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getId</span><span class="o">(),</span> <span class="n">tbApple</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">getId</span><span class="o">(),</span> <span class="n">position</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">i</span><span class="o">++;</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">tbApple</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样就可以添加事件监听。</p>
+
+<p>bug6修复    OOWindow的ExitAfterDestroy 的返回值的设置
+//也就是当收到 destroy信号的时候 不一定是关闭的（一般我们写的时候是关闭的）</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setExitAfterDestroy</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">value</span><span class="o">)</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>            <span class="k">this</span><span class="o">.</span><span class="na">exitAfterDestroy</span>  <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>到</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setExitAfterDestroy</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">value</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">{</span>
+</span><span class='line'>                <span class="k">this</span><span class="o">.</span><span class="na">exitAfterDestroy</span>  <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'><span class="err">``</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="err">针对</span><span class="n">OOMenu</span><span class="err">针对两种封装方法进行了测试：</span>
+</span><span class='line'><span class="mi">1</span><span class="err">：封装方法</span><span class="mi">1</span><span class="o">(</span><span class="err">体现在</span><span class="n">TestMenuFileChooserToolbar</span><span class="o">.</span><span class="na">java</span><span class="o">)</span>
+</span><span class='line'>     <span class="err">所有的方法</span> <span class="err">都浓缩到</span><span class="n">OOMenu</span><span class="err">中</span> <span class="err">，包括第一步创建</span> <span class="n">menubar</span>    <span class="err">第二步创建</span><span class="n">submenu</span>     <span class="err">第三步创建</span> <span class="n">menu</span>   <span class="err">第四步创建</span><span class="n">menuitem</span>
+</span><span class='line'><span class="mi">2</span><span class="err">：封装方法</span><span class="mi">2</span><span class="o">(</span><span class="err">体现在</span><span class="n">TestNewMenuFourStep</span><span class="o">)</span>
+</span><span class='line'>     <span class="err">把原先的</span><span class="n">OOMenu</span> <span class="err">分为四个类</span>   <span class="err">第一步</span> <span class="n">OOMenuBar</span><span class="err">类</span>      <span class="err">第二步</span> <span class="n">OOSubMenu</span><span class="err">类</span>     <span class="err">第三步</span>   <span class="n">OOSingleMenu</span><span class="err">类</span>    <span class="err">第四步</span>  <span class="n">OOMenuVegetable</span><span class="err">类</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">从上面看到也许第二种方法更加体现着面向对象的方法，这也是被逼的，一直测试为什么</span><span class="n">menuitem</span><span class="err">的</span><span class="n">clicked</span><span class="err">方法不通过，原来是因为</span><span class="n">menuitem</span><span class="err">响应的是</span><span class="n">activate</span><span class="err">信号。</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">同时也可以看到面向对象方法的清晰性</span>
+</span><span class='line'><span class="err">封装方法</span><span class="mi">1</span> <span class="err">的源代码</span> <span class="n">TestMenuFileChooseAndToolBar</span><span class="o">.</span><span class="na">java</span><span class="o">:</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+package GTKEncapsulate;</p>
+
+<p>import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;</p>
+
+<p>import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;</p>
+
+<p>/<em><em>
+*
+* @author    叶昭良
+* @time      2015年2月6日下午8:13:45
+* @version   GTKEncapsulateTestMenuFileChooserAndToolbar V1.0
+*                                                         并进一步采用封装的OOWindow编写程序，由于继承了OOBin，所以具有add 一个控件的功能
+*                                                         由于OOWindow在构造函数中添加了destroy的事件监听，所以不需要再重写，但是现在的
+*                                                         OOWindow的对象还是可以添加destroy监听，要是可以不能再添加destroy就好了！！！
+*                               <br/>
+*                                                         另外发现了一个不对的地方，所有的控件现在都是可以弹出消息对话框，question对话框。
+*
+* 这个测试出现在事件监听！还有bug，等到以后再次修改，估计是继承关系出现了问题
+</em>解决了这个问题，原来是因为menu的监听是通过activate而不是click
+</em>涉及到的文件      OOMenu.java （这是主要的类包含另外一种方法的OOMenuBar OOSubMenu OOSingleMenu)
+*              OOMenuVegetable.java （这是原先从OOMenu剥离出来的一个文件）
+<em>/
+public class TestMenuFileChooserAndToolbar
+{
+/</em>        public IGCallBack IGCQuit = new IGCallBack()</p>
+
+<pre><code>    {
+
+            @Override
+            public void execute(int instance, int eventData, Object object)
+            {
+                    // TODO Auto-generated method stub
+                    GTK.gtk_main_quit();
+            }
+    };*/
+    static OOTextView ootv =  null;
+    public static void main(String[] args)
+    {
+            //初始化还是需要的
+            GTK.gtk_init();
+            //创建一个OOWindow对象，其中已经包含了  
+            OOWindow window = new OOWindow();
+            window.setTitle("测试面向对象");
+            window.setExitAfterDestroy(true);
+            window.show();
+
+
+            //创建布局对象
+            OOGrid grid = new OOGrid();
+            grid.show();
+            //添加到window对象
+            window.add(grid);
+
+
+
+            //创建一个textview 界面
+            ootv = new OOTextView();
+            ootv.setType();
+            ootv.show();
+            ootv.addScrollBar(grid, 2, 500, 300);
+            //创建menubar对象
+            OOMenu omMenu = new OOMenu();
+            omMenu.show();
+
+            //创建垂直menubar（最终需要文件的下拉菜单 添加到menubar(水平的menubar)
+            omMenu.createVerticalMenu("File");
+            //创建单一的一盘菜
+            omMenu.createMenu();
+
+            //往菜盘中添菜,改变了return选项 使得可以返回Vegetable对象，从而进行事件监听
+            //由于已经在内部show了 所以不需要show
+            OOMenuVegetable vgNew = new OOMenuVegetable("新建");
+            OOMenuVegetable vgOpen = new OOMenuVegetable("打开");
+            OOMenuVegetable vgSave = new OOMenuVegetable("保存");
+            OOMenuVegetable vgQuit = new OOMenuVegetable("退出");
+            vgOpen.addActivateListener(new IGCallBack()
+            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            youOpenfile(ootv);
+
+                    }
+            });
+            vgSave.addActivateListener(new IGCallBack()
+            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            youSavefile();
+
+                    }
+            });
+            vgQuit.addActivateListener( new IGCallBack()
+            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO Auto-generated method stub
+                            GTK.gtk_main_quit();
+                    }
+            });
+            omMenu.addMenuVegetable(vgNew);
+            omMenu.addMenuVegetable(vgOpen);
+            omMenu.addMenuVegetable(vgSave);
+            omMenu.addMenuVegetable(vgQuit);
+
+            //已经show了，唯一需要的是添加进网格
+            omMenu.addVerticalMenuTOBar();
+
+            grid.add(omMenu.getId(), 0);
+
+            //上面的部分都是关于menu的现在做一个关于
+            OOToolBar otbApple = new OOToolBar();
+            //必须设置上 否则太小了
+            otbApple.setWidgetSize(300, 20);
+            OOToolBar.ToolButton tbApple = otbApple.addTool("新建", GTK.GTK_STOCK_NEW, 0);
+            OOToolBar.ToolButton tbBanana =otbApple.addTool("打开", GTK.GTK_STOCK_OPEN, 1);
+            OOToolBar.ToolButton tbOrange =otbApple.addTool("保存", GTK.GTK_STOCK_SAVE, 2);
+            tbBanana.addClickedListener(new IGCallBack()
+            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO Auto-generated method stub
+                            youOpenfile(ootv);
+                    }
+            });
+            tbOrange.addClickedListener(new IGCallBack()
+            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            youSavefile();
+                    }
+            });
+            otbApple.show();
+            grid.add(otbApple.getId(),1);
+
+
+
+            GTK.gtk_main();
+
+    }
+
+    public static void youOpenfile(OOTextView ootv)
+    {
+            OpenFile ofApple = new OpenFile();
+            ofApple.setMultipleSelect();
+            ofApple.createFilter();
+            ofApple.nameFilter("文本文件");
+            ofApple.editFilter("*.txt");
+            ofApple.editFilter("*.java");
+            //把filter的操作放入打开对话框中
+            ofApple.finishFilter();
+            String[] filenames = ofApple.processResponse();
+            showAllFiles(filenames,  ootv);
+    }
+    public static void youSavefile()
+    {
+            SaveFile ofBanana = new SaveFile("保存文件",GTK.GTK_FILE_CHOOSER_ACTION_SAVE,"保存");
+            //把filter的操作放入打开对话框中
+
+            ofBanana.processResponse();
+    }
+
+    public static void showAllFiles(String[] filenames,OOTextView otv)
+    {
+            for(int i = 0 ; i &lt; filenames.length; i++)
+            {
+                    showOneFile(filenames[i],otv);
+            }
+    }
+
+    public static void showOneFile(String filename, OOTextView otv)
+    {
+            try
+            (
+                    InputStream is = new FileInputStream(filename);
+                    InputStreamReader osr = new InputStreamReader(is);
+                    BufferedReader br = new BufferedReader(osr);
+            )
+            {
+
+                    String  temp= filename.substring(filename.lastIndexOf('\\')+1);
+                    System.out.println(temp);
+                    otv.insertTextAtEnd("******************\n当期文件为"+filename+"\n******************\n\n"+temp+" 文件内容如下：\n+---------------------------------------------------------------------------+\n");
+                    String content = null;
+                    while((content = br.readLine())!=null) // -1读取完毕
+                    {
+                            //InsertStringToTextViewFunction(textview,fileToFile.toString());
+                            otv.insertTextAtEnd(new String(content));
+
+                    }
+                    otv.insertTextAtEnd("\n+---------------------------------------------------------------------------+\n******************\n文件"+filename+"读取结束\n******************\n");
+            }
+            catch(IOException e)
+            {
+                    System.out.println("文件读入异常");
+            }
+
+    }
+</code></pre>
+
+<p>}</p>
+
+<p>class OpenFile extends OOFileChooser
+{</p>
+
+<pre><code>    @Override
+    public  String[] processResponse()
+    {
+            String[] filenames = null;
+            // TODO Auto-generated method stub
+            int ret = this.run();
+            if(ret == GTK.GTK_RESPONSE_OK) 
+            {
+                    filenames = GTK.gtk_file_chooser_get_filenames(this.getId());
+                    for(int i = 0 ; i&lt; filenames.length ; i++)
+                    {
+
+                            System.out.println("选中文件名"+i+": "+filenames[i]);
+                    }
+                    GTK.gtk_widget_destroy(this.getId()); //必须需要！！否则报错
+            }else
+            {
+                    GTK.gtk_widget_destroy(this.getId());
+            }
+            return filenames;
+    }                
+</code></pre>
+
+<p>}</p>
+
+<p>class SaveFile extends OOFileChooser
+{</p>
+
+<pre><code>    public SaveFile(String title, int action, String buttonText)
+    {
+            setId(GTK.gtk_file_chooser_dialog_new(title, 0, action, buttonText));
+    }
+    @Override
+    public String[] processResponse()
+    {
+            String[] filenames = null;
+            GTK.gtk_file_chooser_set_do_overwrite_confirmation(this.getId(), true);
+            // TODO Auto-generated method stub
+            System.out.println("已进入save");
+            //SaveOneFile(filename,textview);
+            int ret = GTK.gtk_dialog_run(this.getId());
+            if(ret == GTK.GTK_RESPONSE_CANCEL)
+            {
+                    GTK.gtk_widget_destroy(this.getId());
+            }else 
+            {
+                    String filename = GTK.gtk_file_chooser_get_filename(this.getId());
+                    filenames[0] = filename;
+                    System.out.println(filename);
+                    GTK.gtk_widget_destroy(this.getId());
+                    return  filenames;
+            }
+            return filenames;
+
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="err">封装方法</span><span class="mi">2</span> <span class="err">的源代码</span><span class="n">TestNewMenuFourStep</span><span class="o">.</span><span class="na">java</span><span class="o">:</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+package GTKEncapsulate;</p>
+
+<p>import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;</p>
+
+<p>import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月6日下午10:09:33
+* @version   GTKEncapsulateTestNewMenuFourStep V1.0
+*
+* 涉及到四个类       OOMenuBar.java
+*               OOSubMenu.java
+*               OOSingleMenu.java
+*               OOMenuVetetable.menu   依次创建四个类即可
+</em>/
+public class TestNewMenuFourStep
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    static OOTextView ootv =  null;
+    public static void main(String[] args)
+    {
+            // TODO Auto-generated method stub
+            //初始化还是需要的
+                            GTK.gtk_init();
+                            //创建一个OOWindow对象，其中已经包含了  
+                            OOWindow window = new OOWindow();
+                            window.setTitle("测试面向对象");
+                            window.setExitAfterDestroy(true);
+                            window.show();
+
+
+                            //创建布局对象
+                            OOGrid grid = new OOGrid();
+                            grid.show();
+                            //添加到window对象
+                            window.add(grid);
+
+                            //创建一个textview 界面
+                            ootv = new OOTextView();
+                            ootv.setType();
+                            ootv.show();
+                            ootv.addScrollBar(grid, 2, 500, 300);
+                            //创建一个大的menubar
+                            OOMenuBar ombApple = new OOMenuBar();
+                            //创建第二大的（可以有很多个）
+                            OOSubMenu osmApple = new OOSubMenu("File");
+
+                            //创建第三大的（可以有很多个）
+                            OOSingleMenu menuApple = new OOSingleMenu();
+
+                            //往菜盘中添菜,改变了return选项 使得可以返回Vegetable对象，从而进行事件监听
+                            //由于已经在内部show了 所以不需要show
+                            //创建第四大的（可以有很多个）
+                            OOMenuVegetable vgNew = new OOMenuVegetable("新建");
+                            OOMenuVegetable vgOpen = new OOMenuVegetable("打开");
+                            OOMenuVegetable vgSave = new OOMenuVegetable("保存");
+                            OOMenuVegetable vgQuit = new OOMenuVegetable("退出");
+                            vgOpen.addActivateListener(new IGCallBack()
+                            {
+
+                                    @Override
+                                    public void execute(int instance, int eventData, Object object)
+                                    {
+                                            youOpenfile(ootv);
+
+                                    }
+                            });
+                            vgSave.addActivateListener(new IGCallBack()
+                            {
+
+                                    @Override
+                                    public void execute(int instance, int eventData, Object object)
+                                    {
+                                            youSavefile();
+
+                                    }
+                            });
+                            vgQuit.addActivateListener(new IGCallBack()
+                            {
+
+                                    @Override
+                                    public void execute(int instance, int eventData, Object object)
+                                    {
+                                            // TODO Auto-generated method stub
+                                            GTK.gtk_main_quit();
+                                    }
+                            });
+                            //添加第四大到第三大
+                            menuApple.addVegetable(vgNew);
+                            menuApple.addVegetable(vgOpen);
+                            menuApple.addVegetable(vgSave);
+                            menuApple.addVegetable(vgQuit);
+
+                            //添加第三大到第二大  采用的是填充
+                            osmApple.fillSubMenu(menuApple);
+                            //添加第二大到第一大
+                            ombApple.addSubMenuToBar(osmApple);
+                            ombApple.show();
+
+                            grid.add(ombApple.getId(), 0);
+
+
+                            //上面的部分都是关于menu的现在做一个关于
+                            OOToolBar otbApple = new OOToolBar();
+                            //必须设置上 否则太小了
+                            otbApple.setWidgetSize(300, 20);
+                            OOToolBar.ToolButton tbApple = otbApple.addTool("新建", GTK.GTK_STOCK_NEW, 0);
+                            OOToolBar.ToolButton tbBanana =otbApple.addTool("打开", GTK.GTK_STOCK_OPEN, 1);
+                            OOToolBar.ToolButton tbOrange =otbApple.addTool("保存", GTK.GTK_STOCK_SAVE, 2);
+                            tbBanana.addClickedListener(new IGCallBack()
+                            {
+
+                                    @Override
+                                    public void execute(int instance, int eventData, Object object)
+                                    {
+                                            // TODO Auto-generated method stub
+                                            youOpenfile(ootv);
+                                    }
+                            });
+                            tbOrange.addClickedListener(new IGCallBack()
+                            {
+
+                                    @Override
+                                    public void execute(int instance, int eventData, Object object)
+                                    {
+                                            youSavefile();
+                                    }
+                            });
+                            otbApple.show();
+                            grid.add(otbApple.getId(),1);
+                            //启动循环
+                            GTK.gtk_main();
+    }
+
+    public static void youOpenfile(OOTextView ootv)
+    {
+            OpenFileNew ofApple = new OpenFileNew();
+            ofApple.setMultipleSelect();
+            ofApple.createFilter();
+            ofApple.nameFilter("文本文件");
+            ofApple.editFilter("*.txt");
+            ofApple.editFilter("*.java");
+            //把filter的操作放入打开对话框中
+            ofApple.finishFilter();
+            String[] filenames = ofApple.processResponse();
+            showAllFiles(filenames,  ootv);
+    }
+    public static void youSavefile()
+    {
+            SaveFileNew ofBanana = new SaveFileNew("保存文件",GTK.GTK_FILE_CHOOSER_ACTION_SAVE,"保存");
+            //把filter的操作放入打开对话框中
+
+            ofBanana.processResponse();
+    }
+
+    public static void showAllFiles(String[] filenames,OOTextView otv)
+    {
+            for(int i = 0 ; i &lt; filenames.length; i++)
+            {
+                    showOneFile(filenames[i],otv);
+            }
+    }
+
+    public static void showOneFile(String filename, OOTextView otv)
+    {
+            try
+            (
+                    InputStream is = new FileInputStream(filename);
+                    InputStreamReader osr = new InputStreamReader(is);
+                    BufferedReader br = new BufferedReader(osr);
+            )
+            {
+
+                    String  temp= filename.substring(filename.lastIndexOf('\\')+1);
+                    System.out.println(temp);
+                    otv.insertTextAtEnd("******************\n当期文件为"+filename+"\n******************\n\n"+temp+" 文件内容如下：\n+---------------------------------------------------------------------------+\n");
+                    String content = null;
+                    while((content = br.readLine())!=null) // -1读取完毕
+                    {
+                            //InsertStringToTextViewFunction(textview,fileToFile.toString());
+                            otv.insertTextAtEnd(new String(content));
+
+                    }
+                    otv.insertTextAtEnd("\n+---------------------------------------------------------------------------+\n******************\n文件"+filename+"读取结束\n******************\n");
+            }
+            catch(IOException e)
+            {
+                    System.out.println("文件读入异常");
+            }
+
+    }
+</code></pre>
+
+<p>}
+//取和OpenFile不一样的类名防止重复
+class OpenFileNew extends OOFileChooser
+{</p>
+
+<pre><code>    @Override
+    public  String[] processResponse()
+    {
+            String[] filenames = null;
+            // TODO Auto-generated method stub
+            int ret = this.run();
+            if(ret == GTK.GTK_RESPONSE_OK) 
+            {
+                    filenames = GTK.gtk_file_chooser_get_filenames(this.getId());
+                    for(int i = 0 ; i&lt; filenames.length ; i++)
+                    {
+
+                            System.out.println("选中文件名"+i+": "+filenames[i]);
+                    }
+                    GTK.gtk_widget_destroy(this.getId()); //必须需要！！否则报错
+            }else
+            {
+                    GTK.gtk_widget_destroy(this.getId());
+            }
+            return filenames;
+    }                
+</code></pre>
+
+<p>}</p>
+
+<p>class SaveFileNew extends OOFileChooser
+{</p>
+
+<pre><code>    public SaveFileNew(String title, int action, String buttonText)
+    {
+            setId(GTK.gtk_file_chooser_dialog_new(title, 0, action, buttonText));
+    }
+    @Override
+    public String[] processResponse()
+    {
+            String[] filenames = null;
+            GTK.gtk_file_chooser_set_do_overwrite_confirmation(this.getId(), true);
+            // TODO Auto-generated method stub
+            System.out.println("已进入save");
+            //SaveOneFile(filename,textview);
+            int ret = GTK.gtk_dialog_run(this.getId());
+            if(ret == GTK.GTK_RESPONSE_CANCEL)
+            {
+                    GTK.gtk_widget_destroy(this.getId());
+            }else 
+            {
+                    String filename = GTK.gtk_file_chooser_get_filename(this.getId());
+                    filenames[0] = filename;
+                    System.out.println(filename);
+                    GTK.gtk_widget_destroy(this.getId());
+                    return  filenames;
+            }
+            return filenames;
+
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>    <span class="err">基本上两种封装方法的思路一样，就书写来说，第二种方法，更加的清晰些。</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">运行界面一样：</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">![</span><span class="err">软件的运行界面</span><span class="o">](/</span><span class="n">images</span><span class="o">/</span><span class="n">java</span><span class="o">/</span><span class="n">filechooser1</span><span class="o">.</span><span class="na">png</span><span class="o">)</span>
+</span><span class='line'><span class="o">![</span><span class="err">利用工具栏打开一个文件</span><span class="o">](/</span><span class="n">images</span><span class="o">/</span><span class="n">java</span><span class="o">/</span><span class="n">filechooser2</span><span class="o">.</span><span class="na">png</span><span class="o">)</span>
+</span><span class='line'><span class="o">![</span><span class="err">利用菜单栏保存一个文档</span><span class="o">](/</span><span class="n">images</span><span class="o">/</span><span class="n">java</span><span class="o">/</span><span class="n">filechooser3</span><span class="o">.</span><span class="na">png</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="mi">2</span><span class="err">月</span><span class="mi">7</span><span class="err">号的笔记：</span>
+</span><span class='line'><span class="err">再次介绍主要的控件的封装过程</span>
+</span><span class='line'><span class="n">OOWindow</span><span class="err">的封装思路</span>
+</span><span class='line'><span class="err">这个控件是</span><span class="n">OOBin</span><span class="err">的子类，也就是该控件只能容纳一个控件，为此在封装之前必须封装</span><span class="n">OOBin</span><span class="err">。</span>
+</span><span class='line'><span class="n">OOWindow</span><span class="err">类的封装主要包含</span> <span class="mi">1</span><span class="err">：构造函数创建</span><span class="n">window</span><span class="err">并添加关闭的监听</span>  <span class="mi">2</span><span class="err">：设置</span><span class="n">window</span><span class="err">文本</span>  <span class="mi">3</span><span class="err">：设置</span><span class="n">window</span><span class="err">全屏</span> <span class="mi">4</span><span class="err">：设置</span><span class="n">winow</span><span class="err">可以调整大小</span> <span class="mi">5</span><span class="err">：设置</span><span class="n">window</span><span class="err">居中</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">有一点不明白的是：为毛非得有这个</span><span class="n">setExitAfterDestroy</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">value</span><span class="o">)</span><span class="err">判断在</span><span class="n">window</span><span class="err">的关闭程序的事件监听，直接关掉不是大吉？！</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">OOFileChooser</span><span class="err">为什么把它封装成抽象类？</span>
+</span><span class='line'><span class="n">OOFileChooser</span><span class="err">的处理</span><span class="n">GTK</span><span class="o">.</span><span class="na">gtk_dialog_run</span><span class="err">的返回值的函数被我封装成一个抽象函数，如下</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+/**</p>
+
+<pre><code>     *   一个抽象方法 ，要求继承者去实现它
+     */
+    public abstract String[] processResponse();
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="err">这样只要子类继承了</span><span class="n">OOFileChooser</span><span class="err">就让他去实现对应的</span><span class="n">processResponse</span><span class="err">方法，因为也许每次你打开文件的时候需要的处理都是有所不一样的并且为了能够让打开的时候保存多个文件名字，在保存的时候又不需要保存多个文件</span> <span class="err">，新建了一个抽象类的方法针对</span><span class="n">savafile</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">processResponse1</span><span class="o">();</span>  <span class="c1">//用于保存</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">processResponse</span><span class="o">();</span> <span class="c1">//用于打开</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">OOBin</span><span class="err">的封装思路</span>
+</span><span class='line'><span class="err">之前在介绍</span><span class="n">OOWindow</span><span class="err">中提及了</span><span class="n">OOBin</span><span class="err">的单容器功能，而</span><span class="n">OOBin</span><span class="err">是继承自</span><span class="n">OOContainer</span><span class="err">的，比如</span><span class="n">OOGrid</span><span class="o">,</span><span class="n">OOBox</span><span class="err">的都是继承自</span><span class="n">OOContainer</span><span class="err">的，但是他们都是可以容纳多个控件，为此必须重写</span><span class="n">OOBin</span><span class="err">的</span><span class="n">add</span><span class="err">方法。主要的作用是利用</span><span class="n">gtk_container_get_children</span><span class="err">判断是否当前的</span><span class="n">OOBin</span><span class="err">对象是否有多个控件，如果有了一个则</span> <span class="err">不能再添加，如果没有则可以添加</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+@Override</p>
+
+<pre><code>    public void add(OOWidget ow)
+    {
+            int[] children = GTK.gtk_container_get_children(this.getId());
+            if(children.length &lt;= 0 )
+            {
+                    //调用父类的add方法
+                    super.add(ow);
+                    //super.add  调用父类
+                    //this.add   调用本类
+                    //super() 调用父类构造方法(在构造函数中)
+                    //this()  调用本类的构造方法(在构造函数中，记得我为什写上括号)
+            }else
+            {
+                    throw new IllegalArgumentException("容器中已经有了一个对象");
+            }
+    }
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">OOWidget</span><span class="err">的封装思路</span>
+</span><span class='line'><span class="n">OOWidget</span><span class="err">是祖宗级的任务，必须是大大滴。试想所有的控件都是可以显示、隐藏、摧毁，于是可以把这些函数的封装都容纳在</span><span class="n">OOWidget</span><span class="err">中，这是一个比较实际而又有效的封装。</span> <span class="err">然而是否所有的控件都有</span><span class="n">click</span><span class="err">事件的监听？</span> <span class="err">这点我表示质疑，比如</span><span class="n">GtkMenuItem</span><span class="err">控件就没有，他只是响应</span><span class="n">activate</span><span class="err">事件，所以把</span><span class="n">click</span><span class="err">的事件监听放在</span><span class="n">OOWidget</span><span class="err">里面还是有点问题的。</span>
+</span><span class='line'><span class="err">另外地，把所有的基于</span><span class="n">OODialog</span><span class="o">(</span><span class="n">OODialog</span><span class="err">基于</span><span class="n">OOWindow</span><span class="o">)</span><span class="err">的消息对话框</span><span class="n">showInfo</span><span class="o">,</span><span class="err">问题对话框</span><span class="n">showYesNo</span><span class="o">,</span><span class="err">确认对话框</span><span class="n">showOkCancle</span><span class="err">放在</span><span class="n">OOWidget</span><span class="o">,</span><span class="err">从当前考虑也是可以的，但是封装的函数内部的实现还是面向过程，可不可以把</span><span class="n">MessageInfo</span><span class="err">类也可以提取出来，当然可以。</span>
+</span><span class='line'><span class="err">当然首先得把</span><span class="n">OODialog</span><span class="err">修改为继承自</span><span class="n">OOWindow</span><span class="err">！</span> <span class="err">因为</span><span class="n">OODialog</span><span class="err">也是单容器控件。然后再把</span><span class="n">OOCalendar</span><span class="err">，</span><span class="n">OOFileChooser</span><span class="err">也修改为继承自</span><span class="n">OODialog</span>
+</span><span class='line'><span class="err">并新建</span><span class="n">OOInputDialog</span><span class="err">（暂时未能实现，</span><span class="n">com</span><span class="o">.</span><span class="na">rupeng</span><span class="o">.</span><span class="na">gtk4j</span><span class="err">没有）</span><span class="o">,</span><span class="n">OOMessageDialog</span>  <span class="err">因为这些</span><span class="n">Dialog</span><span class="err">都有一个共同的特点需要</span><span class="n">GTK</span><span class="o">.</span><span class="na">gtk_dialog_run</span><span class="err">，可以把这个方法封装在</span><span class="n">OODialog</span><span class="err">中</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+/**</p>
+
+<pre><code>     *    在一切设置完毕后  必须要让他run起来，类似于线程的做法,并且一定要摧毁它 this.destroy..
+     */
+    public  int run()
+    {
+            int response =  GTK.gtk_dialog_run(this.getId());
+            return response;
+    }
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="err">这样所有的</span><span class="n">OOdialog</span><span class="err">子类都可以</span><span class="n">run</span><span class="err">起来，并且都是单容器控件了。也算是一个</span><span class="n">bug</span><span class="err">修复。</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">OOBox</span><span class="err">容器的修改：</span>
+</span><span class='line'><span class="kd">public</span> <span class="nf">OOBox</span><span class="o">(</span><span class="kt">int</span> <span class="n">orientation</span><span class="o">)</span><span class="err">的封装改为</span> <span class="k">this</span><span class="err">（</span><span class="n">orientation</span><span class="o">,</span><span class="mi">0</span><span class="o">)</span><span class="err">的实现，这样如果以后需要修改</span><span class="n">GTK</span><span class="o">.</span><span class="na">gtk_box_new</span><span class="o">..</span><span class="err">只需要修改一个地方即可，不至于留下</span><span class="n">bug</span><span class="o">,</span><span class="err">此方法可以思考</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+public OOBox(int orientation,int spacing)</p>
+
+<pre><code>    {
+            setId(GTK.gtk_box_new(orientation, spacing));
+    }
+    /**
+     * 
+     * @param orientation   方向的说明
+     */
+    public OOBox(int orientation)
+    {
+            this(orientation,0);  //调用本类的构造函数
+            //setId(GTK.gtk_box_new(orientation,0));
+    }
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="err">至此</span>  <span class="err">源码</span><span class="n">v4</span><span class="o">.</span><span class="mi">0</span><span class="err">已经增加到</span><span class="mi">37</span><span class="err">个类，并进行了</span><span class="mi">4</span><span class="err">个简单的测试。</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="mi">2</span><span class="err">月</span><span class="mi">8</span><span class="err">号笔记：</span>
+</span><span class='line'>  <span class="err">接口</span>
+</span><span class='line'><span class="err">接口其实就是一个头文件，提供方法的声明或者变量的声</span><span class="o">(</span><span class="err">）</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">接口文件仅仅是一个能力的声明，我能够做什么，具体实现还得自己去做。</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">一句话总结：接口定义做什么，实现接口能力的类定义怎么做</span>
+</span><span class='line'>    <span class="err">使用：</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+1：drawingCallback
+public interface OODrawCallback
+{</p>
+
+<pre><code>    public void drawCairo(OOCairo cairo);
+</code></pre>
+
+<p>//        public void speak();
+}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="err">使用接口：</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+//使用
+public void addDrawListener(final OODrawCallback ocbApple) //声明了我要调用一个接口，里头可以假设已经
+  //实现了OODrawCallback的接口，并进行调用。 等到OODrawingArea这个对象生成，并添加了</p>
+
+<p>  //draw监听器，传入接口对象时候，则需要具体去实现借口对象的方法（并且是所有方法）</p>
+
+<pre><code>    {
+            GTK.g_signal_connect(this.getId(), "draw", new IGCallBack()
+            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+</code></pre>
+
+<p>//通过现象来解释的话，在一个类中方法，调用了接口的未实现的类，那么当你
+//定义这个包含接口类方法的对象时候，需要实现这个接口的未实现类，因为
+//类似于Throws的方法，我就让你调用这个类的对象去实现它，你们谁调用
+//谁就给我去维护，我就提供一本秘籍，你自己去修炼！！！！当前的话eventData</p>
+
+<p>//小结：  在&#8221;draw&#8221;信号发出 执行了一个IGCallBack的接口，通过内部类实现，
+//          在execute实现IGCallback接口的execute方法，主要是定义了一个Cairo对象
+//          传进去了绘画环境，然后通过新建了一个OODrawCallback提供一个内容的接口
+//          并调用了drawCairo，而由于drawCairo是未定义的方法，且是一个接口的未实现
+//          方法，所以允许放在一个定义类中空着，
+// 但是必须在存在未实现方法的类接口的对象去实现它（注意是对象中）
+//
+// 猜想： 一个class的定义，不带有implemetns,那么其内部有一个变量  CanWithouImplement = true;
+//       如果一个calss定义，带有implements,那么其内的  CanWithouImplement = false、
+//      通过这个猜想来解释为什么我们下面在未实现drawCairo方法还是可以调用了drawCairo
+// 但是有一句话是正确的，这边肯定是声明了具有drawCairo的能力。（具体什么能力不知道）
+// 猜想： implements ocbApple是必须实现ocbApple的所有方法，而ocbApple.drawCairo仅仅需要实现一个方法。
+//     错误：因为在一开头就定义了final  OODrawCallback ocbApple,形参定义了接口声明，调用的时候需要传入
+//           接口对象（一般可以通过内部类实现)
+//     测试方法： 通过在OODrawCallback增加一个未实现方法，发现还是需要实现两种未实现方法
+//再次小结： 这边仅仅是一个形式上的定义！接口在形参变量中出现，则在调用具有该形参变量表的函数时候，必须
+//         去实现他们，当然在该方法的定义中可以直接使用该方法。相当于是在该形式方法中事先隐式调用了
+复制代码
+接口调用的实现：
+//创建绘图</p>
+
+<pre><code>             //1 面向对象的方法
+            OODrawingArea odaApple = new OODrawingArea();
+            odaApple.show();
+            //必须setSize否则看不到  这点一定要注意了
+            odaApple.setWidgetSize(300, 300);
+            gridApple.add(odaApple, 0);
+            // 第一种情况重画： 画面被挡住了，揭开画面时候
+            // 第二种情况重画： 打开画面饿时候
+            odaApple.addDrawListener(new OODrawCallback()
+            {
+
+                    @Override
+                    public void drawCairo(OOCairo cairo)
+                    {
+                            // TODO Auto-generated method stub
+                            cairo.setPenColor(OORGB.RED);
+                            cairo.drawRectangle(20, 20, 100, 100);
+                            cairo.fill();
+                            cairo.drawCircle(200, 200, 50);
+                            cairo.stroke();
+                    }
+            });
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="mi">2</span><span class="err">：</span><span class="n">treeview</span><span class="err">当中的双击事件</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java</p>
+
+<pre><code>    public void addDoubleClickedListener(final IGCallBack callback)
+    {
+            GTK.g_signal_connect(this.getId(), "button-press-event", new IGCallBack()
+            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO Auto-generated method stub
+                            if(GTK.gdk_event_get_type(eventData)==GTK.GDK_2BUTTON_PRESS)
+                            {
+                                    //调用时候 需要再次重写他。
+                                    callback.execute(instance, eventData, object);
+                            }
+                    }
+            }, null);
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">TestTreeView</span>
+</span><span class='line'><span class="err">定义了一个</span> <span class="n">TestOOTreeView</span> <span class="n">otv</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TestOOTreeView</span><span class="o">();</span> <span class="c1">//通过内部接口</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+  otv.addDoubleClickedListener(new IGCallBack()</p>
+
+<pre><code>            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            int[] selection = otv.getMultipleSelectRows();
+                            for(int i = 0; i &lt; selection.length; i++)
+                            {
+                                    System.out.println("selection's length== "+ selection.length+"当前行"+selection[i]);
+                                    //values[i]  = otv.getliststore().getValue(selection[i], 1);
+                                    OOMessageDialog.showInfo("选中的信息为"+otv.getliststore().getValue(selection[i], 1), "用户名");
+                                    System.out.println("selection["+i+"]"+selection[i]);
+                            }
+                    }
+            });
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="err">接口的多态，比如</span><span class="n">Speakable</span> <span class="n">sp</span> <span class="o">=</span> <span class="k">new</span> <span class="n">People</span><span class="o">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+/<em>*
+*
+</em>/
+package InterfacePractice;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月8日上午9:30:40
+* @version   InterfacePracticeTestSpeackable V1.0
+</em>/
+public class TestSpeackable implements Speakable
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    public static void main(String[] args)
+    {
+            // TODO Auto-generated method stub
+            new TestSpeackable().speak();
+            new TestSpeackable().look();
+            //利用多态来实现        
+            Speakable sp = new TestSpeackable();
+            sp.speak();
+
+            //利用匿名类的方式 是吸纳了Speakable接口，并立马返回
+            Speakable sp1 = new Speakable()
+            {
+
+                    @Override
+                    public void speak()
+                    {
+                            // TODO Auto-generated method stub
+                            System.out.println("这也可以");
+                    }
+
+                    @Override
+                    public void look()
+                    {
+                            // TODO Auto-generated method stub
+                            System.out.println("这也可以");
+                    }
+            };
+
+            sp1.speak();
+            sp1.look();
+
+    }
+
+    @Override
+    public  void speak()
+    {
+            // TODO Auto-generated method stub
+            System.out.println("yamadie");
+    }
+
+    @Override
+    public void look()
+    {
+            // TODO Auto-generated method stub
+            System.out.println("带你去看星星");
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="err">小技巧：</span>
+</span><span class='line'><span class="n">Ctr</span><span class="o">+</span><span class="n">H</span><span class="err">可以在</span><span class="n">workspace</span><span class="err">项目里面查找。。。</span>
+</span><span class='line'><span class="n">Ctrl</span><span class="o">+</span><span class="n">shift</span><span class="o">+</span><span class="n">T</span> <span class="err">显示</span><span class="n">workspace</span><span class="err">的类</span>
+</span><span class='line'><span class="n">Ctrl</span><span class="o">+</span><span class="n">T</span>  <span class="n">O</span><span class="err">则显示当前文件夹下的类</span><span class="o">(</span><span class="n">ctrl</span><span class="o">+</span><span class="n">O</span><span class="err">列举当前类的所有成员</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="err">枚举类</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+package GTKEncapsulate;</p>
+
+<p>import com.rupeng.gtk4j.GTK;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月8日下午4:07:49
+* @version   GTKEncapsulateOOResponseType V1.0  用途 简化对话框返回值的判断
+*                                   V2.0 parseResponseType 替换掉parseInt这样更加符合常规
+*                                        封装返回值的一个返回值，不至于说传递的值是非法（非法值有提醒）
+*                                        增加程序的稳定性
+</em>/
+public enum OOResponseType
+{</p>
+
+<pre><code>    //对话框几种可能的返回值类型
+    //GTK_RESPONSE_HELP    GTK_RESPONSE_DELETE_EVENT   GTK_RESPONSE_NONE
+    OK(GTK.GTK_RESPONSE_OK),  //最常用放在第一个
+    YES(GTK.GTK_RESPONSE_YES),
+    NO(GTK.GTK_RESPONSE_NO),
+    CANCEL(GTK.GTK_RESPONSE_CANCEL),
+    ACCEPT(GTK.GTK_RESPONSE_ACCEPT), //如果改为分号则报错
+    APPLY(GTK.GTK_RESPONSE_APPLY),
+    REJECT(GTK.GTK_RESPONSE_REJECT),
+    NONE(GTK.GTK_RESPONSE_NONE),        
+    HELP(GTK.GTK_RESPONSE_HELP),
+    DELETE_EVENT(GTK.GTK_RESPONSE_DELETE_EVENT);
+
+
+    private  int value = 0;
+    /**
+     * 
+     * @param value  构造函数的参数
+     */
+    private OOResponseType(int value)
+    {
+            this.value = value;
+    }
+    /**
+     * 
+     * @return  返回OOResponseType对象的int值
+     */
+    public int getValue()
+    {
+            return this.value;
+    }
+    /**
+     * 
+     * @param value   带解析的数字 在OOResponse枚举类中代表的枚举值
+     * @return        返回一个OOResponseType对象
+     */
+    public static OOResponseType parseResponseType(int value)
+    {
+            OOResponseType[] apple = OOResponseType.values();
+            for(int i = 0 ; i &lt; apple.length; i++)
+            {
+                    if(value == apple[i].getValue())
+                    {
+                            return  apple[i];
+                    }
+            }
+            throw new IllegalArgumentException("ResponseValue = "+value+"是个不合法的参数");
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">OODialog</span><span class="err">的封装修改</span>
+</span><span class='line'><span class="n">OODialog</span><span class="err">封装的思路：分成两个区域进行封装</span> <span class="n">actionarea</span>     <span class="n">contentarea</span>     <span class="n">Run</span><span class="err">函数（返回</span><span class="n">responseType</span><span class="err">枚举对象）</span>  <span class="n">response</span><span class="err">（解析</span><span class="n">responsetype</span><span class="err">类型，就是你传给一个</span><span class="n">responseType</span><span class="err">类型的参数给你在对话框上面响应一个函数）。</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">涉及到</span><span class="n">OOContainer</span>    <span class="err">定义了一个无参构造函数和一个有参构造函数；无参构造函数是为了防止子类报错，因为当父类定义了有参构造函数，</span>
+</span><span class='line'>                  <span class="err">无参构造函数默认会被屏蔽，所以增加一个</span><span class="kd">protected</span><span class="err">无参构造函数，可以防止类似于</span><span class="n">OOContainer</span><span class="err">的子类</span><span class="n">OOBin</span><span class="err">不会</span> <span class="err">报错。</span>
+</span><span class='line'>                   <span class="err">默认</span><span class="n">OOBin</span><span class="err">会调用的构造函数是</span>   <span class="kd">public</span> <span class="n">OOBin</span><span class="o">(){</span><span class="kd">super</span><span class="o">();}</span>  <span class="o">;</span><span class="c1">//而super默认即是指 OOContainer(){}如果没有</span>
+</span><span class='line'>                   <span class="err">则会报错。</span>
+</span><span class='line'>       <span class="n">OODialog</span>
+</span><span class='line'>       <span class="n">OOResponseType</span> <span class="o">--?</span><span class="err">涉及到枚举的知识</span><span class="o">-?</span><span class="err">枚举类的定义减少用户输错的可能性，增加程序的稳定性</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="err">还是得再次使用枚举类</span><span class="n">OOMESSAGEType</span> <span class="err">以及</span><span class="n">OOButtonsType</span><span class="err">来显示不同的对话框类型！</span>  <span class="err">类似于</span><span class="n">OOResponseType</span><span class="err">（当时并不知道考虑去封装这一步</span> <span class="err">还一直傻呵呵利用</span><span class="n">GTK_MESSAGE_ERROR</span><span class="err">之类的）</span><span class="o">,</span><span class="err">封装了一个信息类</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">再次复习了</span><span class="n">OOResponseTyep</span><span class="err">的</span><span class="n">parseResponseType</span><span class="err">的方法实现。</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">TreeView</span><span class="err">的封装思路</span>
+</span><span class='line'><span class="mi">1</span><span class="err">：</span><span class="n">MVC</span><span class="err">的</span><span class="n">V</span>  <span class="err">建立一个</span><span class="n">View</span>
+</span><span class='line'><span class="mi">2</span><span class="err">：</span><span class="n">MVC</span><span class="err">的</span><span class="n">M</span>  <span class="err">建立一个</span><span class="n">OOListStore</span>  <span class="err">和</span><span class="n">OOTreeIter</span><span class="o">(</span><span class="err">注意和</span><span class="n">OOTextIter</span><span class="err">的区别）</span>
+</span><span class='line'><span class="mi">3</span><span class="err">：</span><span class="n">MVC</span><span class="err">的</span><span class="n">C</span>  <span class="err">用于控制</span><span class="n">view</span><span class="err">和</span><span class="n">listmodel</span>
+</span><span class='line'><span class="err">详看练习</span><span class="n">TestOOTreeView</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">一种新的编程方式：玻璃出来业务逻辑从</span><span class="n">main</span><span class="err">函数中，减少界面的组合过程，</span><span class="n">main</span><span class="err">只是负责显示。</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+/<em>*
+*
+</em>/
+package GTKEncapsulate;</p>
+
+<p>import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月9日下午1:33:31
+* @version   GTKEncapsulateTestOOTreeView2Window V1.0
+</em>/
+public class TestOOTreeView2Window extends OOWindow
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    private static OOTreeView otv ;
+    public TestOOTreeView2Window() 
+    {
+
+            //设置布局
+            otv = new  OOTreeView();
+            otv.addField("ID", 0);
+            otv.addField("Name", 1);
+            otv.addField("Age", 2);
+
+            otv.createModel(3);
+            otv.setFieldValue("001", "yezhao", "21");
+            otv.setFieldValue("002", "huowa", "32");
+            otv.setFieldValue("003", "yefeng", "31");
+            OOScrollBar osb = new OOScrollBar();
+            osb.show();
+            osb.setWidgetSize(300, 300);
+            osb.addView(otv);
+            //otv.addScrollBar(grid, 0, 200, 200);
+
+            //显示
+            otv.fillModel();
+            otv.show();
+            otv.setRecordColumn(2);
+            otv.setResizeColumn(2);
+            otv.setColumnSort(2);
+            otv.setMultipleSelect();
+            System.out.println(otv.getliststore().getValue(1, 1));
+            System.out.println(otv.getliststore().getValue(2, 1));
+            System.out.println(otv.getliststore().getValue(2, 2));
+            otv.addDoubleClickedListener(new IGCallBack()
+            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            int[] selection = otv.getMultipleSelectRows();
+                            for(int i = 0; i &lt; selection.length; i++)
+                            {
+                                    //System.out.println("selection's length== "+ selection.length+"当前行"+selection[i]);
+                                    //values[i]  = otv.getliststore().getValue(selection[i], 1);
+                                    OOMessageDialog.showInfo("选中的信息为"+otv.getliststore().getValue(selection[i], 1), "用户名");
+                            //        System.out.println("selection["+i+"]"+selection[i]);
+                            }
+                    }
+            });
+            this.add(osb);
+    }
+    public static void main(String[] args)
+    {
+            // TODO Auto-generated method stub
+            GTK.gtk_init();
+            //TestOOTreeView2Window 的封装的责任是新建字段 添加数据 加入监听  main不负责这些事情，main只是显示
+            TestOOTreeView2Window ttv2w = new TestOOTreeView2Window();
+            ttv2w.setExitAfterDestroy(true);
+            ttv2w.show();
+            GTK.gtk_main();
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="mi">2</span><span class="err">月</span><span class="mi">8</span><span class="err">号练习：</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">1</span><span class="err">：学习了接口类，并利用接口类进一步学习了匿名类对接口类的实现，在多处体现，比如比如打开文件夹</span> <span class="err">的处理可以放在匿名接口类</span>
+</span><span class='line'>      <span class="err">比如封装的</span><span class="n">treeView</span><span class="err">的双击时间的匿名接口类的实现</span><span class="o">,</span><span class="err">比如画图板的</span><span class="n">draw</span><span class="err">事件的匿名接口类的实现</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">2</span><span class="err">：封装了</span><span class="n">OODrawingArea</span>  <span class="err">和</span> <span class="n">OODrawCallback</span><span class="err">（待实现</span><span class="n">drawCairo</span><span class="err">方法）接口，进一步理解了匿名接口类</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">3</span><span class="err">：学习了枚举类用于封装</span><span class="n">OOResponseTyep</span>   <span class="n">OOMessageType</span>  <span class="n">OOFileAction</span>   <span class="n">OOButtonsType</span><span class="err">四个枚举类，</span>
+</span><span class='line'>    <span class="err">这样可以减少用户输入参数的错误</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">4</span><span class="err">：封装了消息对话框</span>  <span class="n">OOMessageDialog</span>  <span class="err">，包含</span><span class="n">showInfo</span>  <span class="n">showError</span> <span class="err">等，兵删掉</span><span class="n">OOWidget</span><span class="err">中的</span><span class="n">showInfo</span><span class="err">等函数</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">5</span><span class="err">：继承</span><span class="n">OODialog</span><span class="err">实现了</span><span class="n">OOInputDialog</span><span class="err">，了解了</span><span class="n">ActionArea</span><span class="err">和</span><span class="n">contentArea</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">6</span><span class="o">:</span> <span class="err">修改了</span><span class="n">OOFileChooser</span><span class="err">的实现，利用</span><span class="n">OOFileAction</span><span class="err">枚举类在修改，并增加部分函数</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">7</span><span class="err">：修改了</span><span class="n">OOTreeView</span><span class="err">的实现，玻璃出</span><span class="n">OOListStore</span><span class="err">和</span><span class="n">OOlistIter</span><span class="err">这两个类，并进一步的在</span><span class="n">OOTreeView</span><span class="err">的内部中新建了</span>
+</span><span class='line'>   <span class="err">两个内部类</span><span class="n">OOColumn</span>  <span class="n">OOSelection</span><span class="err">，更加体现面向对象的过程。</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">8</span><span class="err">：修改了</span><span class="n">OOToolBar</span><span class="err">的实现，为了让外包可以访问工具栏的按钮，增加了一个共有的</span><span class="n">OOToolButton</span><span class="err">类</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">9</span><span class="err">：修改了</span><span class="n">OOContainer</span><span class="err">类的方法，利用对象直接添加。</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">10</span><span class="err">：增加了一个测试包</span><span class="n">TestGTKEncapsulate</span><span class="err">，用于测试。</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">源码</span><span class="n">V5</span><span class="o">.</span><span class="mi">0</span><span class="err">版本</span> <span class="err">类增加到</span><span class="mi">46</span><span class="err">个类，不包含内部类，并做了外包测试，修正了使用，已在</span><span class="n">TestGTKEncapsulate</span><span class="err">文件夹。</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">面向对象：让对象自己去做自己的内部逻辑，就好像我们自己去打扮我们自己的程序，</span><span class="n">main</span><span class="err">（杨老师）定义了一个对象，然后一个</span><span class="n">show</span><span class="err">而已。面向对象其实就是师傅领进门修行在个人。</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="mi">2</span><span class="o">-</span><span class="mi">9</span><span class="err">号笔记和练习</span>
+</span><span class='line'><span class="err">第一部分</span> <span class="err">笔记</span>
+</span><span class='line'><span class="mi">1</span><span class="err">计时器的使用</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java</p>
+
+<pre><code>            GTK.g_timeout_add(1000, new IGSourceFunc()
+            {
+
+                    @Override
+                    public boolean execute(Object userdata)
+                    {
+                            // TODO Auto-generated method stub
+                            getTime();
+                            return true;
+                    }
+            }, null);
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="err">说明：</span> <span class="mi">1000</span><span class="err">表示</span><span class="mi">1000</span><span class="n">ms</span><span class="err">也就是</span><span class="mi">1</span><span class="n">s</span>
+</span><span class='line'>          <span class="n">IGS</span><span class="o">...</span><span class="err">是一个回调函数，当</span><span class="k">return</span><span class="err">为</span><span class="kc">true</span><span class="err">时候继续监听，当</span><span class="k">return</span><span class="err">为</span><span class="kc">false</span><span class="err">则停止计时器的即使，所以如果一直为</span><span class="kc">true</span><span class="err">，则计时器一直再走。</span>
+</span><span class='line'><span class="mi">2</span><span class="err">：打开音乐</span>
+</span><span class='line'><span class="n">GTK</span><span class="o">.</span><span class="na">mci_play</span><span class="o">(</span><span class="n">filename</span><span class="o">)</span>  <span class="err">打开音乐</span>
+</span><span class='line'>      <span class="n">GTK</span><span class="o">.</span><span class="na">mci_close</span><span class="o">(</span><span class="n">deviceID</span><span class="o">)</span> <span class="err">关闭音乐</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">3</span><span class="err">：</span> <span class="n">OOToolButton</span> <span class="err">没有</span><span class="n">OOToolItem</span><span class="err">的</span> <span class="n">setToolTip</span><span class="err">的方法，但是在</span><span class="n">OOToolButton</span><span class="err">可以设置图片</span>
+</span><span class='line'><span class="err">并进行监听。</span><span class="n">OOToolButton</span><span class="err">暂时用的多。</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">4</span><span class="o">.</span> <span class="n">OODialog</span> <span class="n">response</span><span class="err">的作用</span>
+</span><span class='line'><span class="err">理解了</span><span class="n">OODialog</span><span class="err">的</span><span class="n">response</span><span class="err">的作用之后，重新修改了，</span><span class="n">OOInputDialog</span><span class="err">等继承自</span><span class="n">OODialog</span><span class="err">的空间。</span>
+</span><span class='line'>  <span class="n">response</span><span class="err">是使得添加进</span><span class="n">dialog</span><span class="err">的控件能够发出某种信号！！</span> <span class="err">当我们定义完之后，后期新建一个对象，并</span><span class="n">run</span><span class="err">之后，就会返回一个信号（可能来自原先的</span><span class="n">dialog</span><span class="err">的信号，也可能是按钮的信号，这边的按钮不再用</span><span class="n">clicked</span><span class="err">事件进行外部监听了，但是其实是封装在对应的</span><span class="n">dialog</span><span class="err">子类控件中，表面上是活的对话框的</span><span class="n">OOResponseTyep</span><span class="err">的信号，其实内部也是触发了</span><span class="n">clicked</span><span class="err">事件，只不过是在</span><span class="n">clicked</span><span class="err">事件中，调用</span><span class="n">response</span><span class="err">函数，发出对应的</span><span class="n">OOResponseTyep</span><span class="err">的信号）</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">5</span><span class="err">：</span><span class="n">LED</span><span class="err">时钟</span>
+</span><span class='line'><span class="n">a</span><span class="o">.</span> <span class="err">冒号和空图片的切换</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+colon1.setResourceImage(&ldquo;ledclock//&rdquo;+(secondGe%2==1?&ldquo;colon&rdquo;:&ldquo;empty&rdquo;)+&ldquo;.png&rdquo;);</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">b</span><span class="o">.</span><span class="na">LED</span><span class="err">的整点报时</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+String[] table = {&ldquo;零&rdquo;,&ldquo;壹&rdquo;,&ldquo;贰&rdquo;,&ldquo;叁&rdquo;,&ldquo;肆&rdquo;,&ldquo;伍&rdquo;,&ldquo;陆&rdquo;,&ldquo;柒&rdquo;,&ldquo;扒&rdquo;,&ldquo;玖&rdquo;};
+if( minute ==0 &amp;&amp; second == 0)</p>
+
+<pre><code>            {
+                    System.out.println("北京时间"+table[hourShi]+table[hourGe]+"整");
+                    OOMessageDialog.showInfo("北京时间"+table[hourShi]+table[hourGe]+"整", "整点消息");
+            }
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="mi">6</span><span class="err">：三重</span><span class="n">button</span><span class="err">：</span><span class="n">OOCalendarButton</span><span class="err">的封装</span>
+</span><span class='line'>  <span class="err">目的：简化开发的过程，提供一个按钮，并让用户选择日期，回馈到按钮的标签上</span>
+</span><span class='line'>  <span class="err">设计的三个类：</span>
+</span><span class='line'>     <span class="n">OOCalendar</span> <span class="o">(</span><span class="err">继承自</span><span class="n">OOContainer</span><span class="o">)</span>
+</span><span class='line'>     <span class="n">OOCalendarDialog</span><span class="o">(</span><span class="err">继承自</span><span class="n">OODialog</span><span class="o">)</span>
+</span><span class='line'>     <span class="n">OOCalendarButton</span><span class="o">(</span><span class="err">继承自</span><span class="n">OOButton</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">OOCalendarDialog</span><span class="err">的封装和</span><span class="n">OOInputDialog</span><span class="err">的封装基本上思路一样。在</span><span class="n">actionaArea</span><span class="err">添加两个按钮，在</span><span class="n">contentArea</span><span class="err">添加一个</span><span class="n">OOCalendar</span><span class="err">，进行对应的事件监听。</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">一个小</span><span class="nl">bug:</span><span class="o">(</span><span class="err">自己犯的一点小错误</span><span class="o">)</span>
+</span><span class='line'><span class="n">OOCalendarButton</span> <span class="err">的</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+SimpleDateFormat sdf = new SimpleDateFormat(&ldquo;yyyy年mm月dd日&rdquo;);</p>
+
+<p>改为
+SimpleDateFormat sdf = new SimpleDateFormat(&ldquo;yyyy年MM月dd日&rdquo;);</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="err">一个重点：</span>
+</span><span class='line'>    <span class="err">三种调用类私有变量</span><span class="n">date</span><span class="err">的方式</span>
+</span><span class='line'><span class="mi">1</span> <span class="err">可以用</span>  <span class="n">date</span> <span class="o">=</span> <span class="n">ocd</span><span class="o">.</span><span class="na">getDate</span><span class="o">();</span>    <span class="err">直接写上</span><span class="n">date</span><span class="o">,</span><span class="err">那么编译器会从内往外一层一层走，直到</span>
+</span><span class='line'><span class="err">找到</span><span class="n">date</span><span class="o">,</span><span class="err">所以可能会造成外层需要被赋值的</span><span class="n">date</span><span class="err">并未被赋值，而里层不需要赋值的</span><span class="n">date</span><span class="err">反而</span>
+</span><span class='line'><span class="err">赋值了</span>
+</span><span class='line'><span class="mi">2</span><span class="o">.</span>  <span class="k">this</span><span class="o">.</span><span class="na">date</span>  <span class="err">也可能会造成错误，比如在一个匿名类中，那么</span><span class="k">this</span><span class="o">.</span><span class="na">date</span><span class="err">的意思就是匿名类的</span><span class="n">date</span><span class="o">,</span><span class="err">如果匿名类没有定义</span><span class="n">date</span><span class="err">，则报错</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">3</span> <span class="n">OOCalendarButton</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">date</span> <span class="o">=</span> <span class="n">ocd</span><span class="o">.</span><span class="na">getDate</span><span class="o">();</span>  <span class="c1">//最好的一种方法 </span>
+</span><span class='line'><span class="c1">//OOCalendarButton的this对象，直接找到该类中的类变量。</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">第二部分</span>  <span class="err">练习</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">1</span><span class="err">：</span> <span class="err">计时器</span>
+</span><span class='line'><span class="n">case1</span>  <span class="n">progereeBar</span> <span class="err">的安装条</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+package GTKEncapsulate;</p>
+
+<p>import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;
+import com.rupeng.gtk4j.IGSourceFunc;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月9日下午3:13:29
+* @version   GTKEncapsulateTestOOProgressBar2Window V1.0
+</em>/
+public class TestOOProgressBar2Window extends OOWindow
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    private OOLabel  olApple = null;
+    private OOProgressBar opbApple = null;
+    private OOButton obApple = null;
+    public  TestOOProgressBar2Window()
+    {
+
+            OOBox obtemp = new OOBox();
+            obtemp.show();
+
+            olApple = new OOLabel("0");
+            olApple.show();
+            obtemp.add(olApple);
+            opbApple = new OOProgressBar();
+            opbApple.setText("请稍等");
+            opbApple.showText("请稍后");
+            opbApple.show();
+            obtemp.add(opbApple);
+
+            obApple = new OOButton("安装");
+            obApple.show();
+            obtemp.add(obApple);
+            obApple.addClickedListener(new IGCallBack()
+            {
+</code></pre>
+
+<p>@Override
+public void execute(int instance, int eventData, Object object)
+{</p>
+
+<pre><code>    // TODO Auto-generated method stub
+    GTK.g_timeout_add(1000, new IGSourceFunc()
+    {
+
+            @Override
+            public boolean execute(Object userdata)
+            {
+                    // TODO Auto-generated method stu
+                    String txt = olApple.getText();        
+
+                    int apple = Integer.parseInt(txt);
+
+                    apple++;
+                    olApple.setText(Integer.toString(apple));
+                    double banana = apple*0.1;
+                    if(banana== 1.0)
+                    {
+                            OOMessageDialog.showInfo("安装完成", "安装");
+                    }
+                    opbApple.setProgress(banana);
+                    return banana&lt;=1;
+            }
+    }, null);
+</code></pre>
+
+<p>}</p>
+
+<pre><code>            });
+
+            this.add(obtemp);
+
+
+    }
+    public static void main(String[] args)
+    {
+            // TODO Auto-generated method stub
+            GTK.gtk_init();
+            TestOOProgressBar2Window top2w = new TestOOProgressBar2Window();
+            top2w.show();
+            top2w.setExitAfterDestroy(true);
+            GTK.gtk_main();
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">case2</span> <span class="n">LED</span><span class="err">灯</span><span class="o">+</span><span class="err">整点报时（未加上声音改用弹出对话框）</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+package TestGTKEncapsulate;</p>
+
+<p>import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;</p>
+
+<p>import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGSourceFunc;</p>
+
+<p>import GTKEncapsulate.*;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月10日下午1:17:40
+* @version   TestGTKEncapsulateLEDClock V1.0
+</em>/
+public class LEDClock extends OOWindow
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    private OOImage oiHourShi;
+
+    private OOImage oiHourGe;
+    private OOImage oiMinuteShi;
+    private OOImage oiMinuteGe;
+    private OOImage oiSecondShi;
+    private OOImage oiSecondGe;
+    private int hourShi;
+    private int hourGe;
+    private int minuteShi;
+    private int minuteGe;
+    private int secondShi;
+    private int secondGe;
+    private OOBox obApple;
+    private OOImage colon1;
+    private OOImage colon2;
+    private OOLabel olDate;
+    public LEDClock()
+    {
+            obApple = new OOBox();
+            obApple.show();
+
+            olDate = new OOLabel("");
+            olDate.show();
+
+            obApple.addWidget(olDate);
+
+            oiHourShi = new OOImage();
+            oiHourGe = new OOImage();
+            colon1 = new OOImage();
+            oiMinuteShi = new OOImage();
+            oiMinuteGe = new OOImage();
+            colon2 = new OOImage();
+            oiSecondShi = new OOImage();
+            oiSecondGe = new OOImage();
+            obApple.addWidget(oiHourShi);
+            obApple.addWidget(oiHourGe);
+            obApple.addWidget(colon1);
+            obApple.addWidget(oiMinuteShi);
+            obApple.addWidget(oiMinuteGe);
+            obApple.addWidget(colon2);
+            obApple.addWidget(oiSecondShi);
+            obApple.addWidget(oiSecondGe);
+            getTime();
+
+            GTK.g_timeout_add(1000, new IGSourceFunc()
+            {
+
+                    @Override
+                    public boolean execute(Object userdata)
+                    {
+                            // TODO Auto-generated method stub
+                            getTime();
+                            return true;
+                    }
+            }, null);
+            this.setWidgetSize(200, 100);
+            this.add(obApple);
+    }
+
+    public void getTime()
+    {
+            String[] table = {"零","壹","贰","叁","肆","伍","陆","柒","扒","玖"};
+
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy年-MM月-dd日 ");
+            String labelText = sdf.format(date);
+            //System.out.println(labelText);
+            olDate.setText(labelText);
+            Calendar cl = Calendar.getInstance();
+            cl.setTime(date);
+            int hour = cl.get(Calendar.HOUR_OF_DAY);
+            int minute = cl.get(Calendar.MINUTE);
+            int second = cl.get(Calendar.SECOND);
+
+            hourShi = hour/10;
+            hourGe  = hour%10;
+            minuteShi = minute/10;
+            minuteGe = minute%10;
+            secondShi = second/10;
+            secondGe  = second%10;
+
+
+            oiHourShi.setResourceImage("ledclock//"+hourShi+".png");
+            oiHourGe.setResourceImage("ledclock//"+hourGe+".png");
+            colon1.setResourceImage("ledclock//"+(secondGe%2==1?"colon":"empty")+".png");
+            oiMinuteShi.setResourceImage("ledclock//"+minuteShi+".png");
+            oiMinuteGe.setResourceImage("ledclock//"+minuteGe+".png");
+            colon2.setResourceImage("ledclock//"+(secondGe%2==1?"colon":"empty")+".png");
+            oiSecondShi.setResourceImage("ledclock//"+secondShi+".png");
+            oiSecondGe.setResourceImage("ledclock//"+secondGe+".png");
+
+            if( minute ==0 &amp;&amp; second == 0)
+            {
+                    System.out.println("北京时间"+table[hourShi]+table[hourGe]+"整");
+                    OOMessageDialog.showInfo("北京时间"+table[hourShi]+table[hourGe]+"整", "整点消息");
+            }
+
+    }
+    public static void main(String[] args)
+    {
+            // TODO Auto-generated method stub
+            GTK.gtk_init();
+            LEDClock lc = new LEDClock();
+            lc.show();
+            lc.setExitAfterDestroy(true);
+            GTK.gtk_main();
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="mi">3</span><span class="err">小兵聊天工具：</span>
+</span><span class='line'><span class="err">事先封装了键盘上面的</span><span class="n">ASCII</span><span class="err">码</span>  <span class="err">为一个枚举类</span><span class="nl">OOKeycode:</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+package GTKEncapsulate;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月9日下午9:28:07
+* @version   GTKEncapsulateOOKeycode V1.0  封装大部分的GTK对于键盘识别的keycode
+</em>/
+public enum OOKeycode
+{</p>
+
+<pre><code>    //字母
+            A("键盘上的a",65),
+            B("键盘上的b",66),
+            C("键盘上的c",67),
+            D("键盘上的d",68),
+            E("键盘上的e",69),
+            F("键盘上的f",70),
+            G("键盘上的g",71),
+            H("键盘上的h",72),
+            I("键盘上的i",73),
+            J("键盘上的j",74),
+            K("键盘上的k",75),
+            L("键盘上的l",76),
+            M("键盘上的m",77),
+            N("键盘上的n",78),
+            O("键盘上的o",79),
+            P("键盘上的p",80),
+            Q("键盘上的q",81),
+            R("键盘上的r",82),
+            S("键盘上的s",83),
+            T("键盘上的t",84),
+            U("键盘上的u",85),
+            V("键盘上的v",86),
+            W("键盘上的w",87),
+            X("键盘上的x",88),
+            Y("键盘上的y",89),
+            Z("键盘上的z",90),
+    //数字
+        NUM_0("键盘上的0和)",48),
+        NUM_1("键盘上的1和!",49),
+        NUM_2("键盘上的2和@",50),
+        NUM_3("键盘上的3和#",51),
+        NUM_4("键盘上的4和[        DISCUZ_CODE_6        ]quot;,52),
+        NUM_5("键盘上的5和%",53),
+        NUM_6("键盘上的6和^",54),
+        NUM_7("键盘上的7和&amp;",55),
+        NUM_8("键盘上的8和*",56),
+        NUM_9("键盘上的9和(",57),
+    //比较重要的几个按键
+        SHIFT("键盘上的SHIFT键",16),
+        CTRL("键盘上的ctrl键",17),
+        ALT("键盘上的ALT键",18),
+        CAPS_LOCK("键盘上的大写键",20),
+        ESC("键盘上的ESC键",27),
+        TAB("键盘上的Tab键",9),
+        RIGTH_SHIFT("键盘上右边的SHIFT键",161),
+        RIGHT_CTRL("键盘上右边的ctrl键",163),
+        RIGHT_ALT("键盘上右边的ALT键",165),
+        WINDOWS("键盘上的WINDOWS键",91),
+        FN("键盘上的FN键",17),
+        BACKSPACE("键盘上的baskspace回退键",8),
+        SPACE("键盘上的空格键",32),
+    //方向键
+        LEFT("键盘上的左方向键",37),
+        UP("键盘上的上方向键",38),
+        RIGHT("键盘上的右方向键",39),
+        DOWN("键盘上的下方向键",40),
+
+    //小键盘数字 当前情况下必须是在小键盘开启的情况下，否则会匹配错误
+        SMALLBOARD_0("小键盘上的0和insert",96),
+        SMALLBOARD_1("小键盘上的1和end",97),
+        SMALLBOARD_2("小键盘上的2和向下方向键",98),
+        SMALLBOARD_3("小键盘上的3和pgdn",99),
+        SMALLBOARD_4("小键盘上的4和向左方向键",100),
+        SMALLBOARD_5("小键盘上的5",101),
+        SMALLBOARD_6("小键盘上的6和向右方向键",102),
+        SMALLBOARD_7("小键盘上的7和home",103),
+        SMALLBOARD_8("小键盘上的8和向上方向键",104),
+        SMALLBOARD_9("小键盘上的9和pgdn",105),
+    //小键盘上的+ - * /
+        SMALLBOARD_PLUS("小键盘上的加号",107),
+        SMALLBOARD_MINUS("小键盘上的减号",109),
+        SMALLBOARD_MULTIPLY("小键盘上的乘号",106),
+        SMALLBOARD_DIVIDE("小键盘上的除号",111),
+    //小键盘上的enter和点号（delete),enter和主键盘一样
+        SMALLBOARD_DELETE("小键盘上的点号",110),
+        ENTER("小键盘上的ENTER以及主键盘的ENTER",13),
+
+    //右手边的一些符号键
+        SINGLEQUOTE("键盘上的双引号和单引号",222),
+        SEMICOLON("键盘上的分号和冒号colon键",186),
+        COMMA("键盘上的逗号键和&lt;",188),
+        POINT("键盘盘上的句号和&gt;",190),
+        SLASH("键盘上的/正斜杠表示除法和问号",191),
+        BACKSLASH("键盘上的反斜杠\\和竖线",220),
+        LEFTSQUARE("键盘上的左中括号和左大括号",219),
+        RIGHTSQUARE("键盘上的右中括号和右大括号",221),
+
+        DASH("键盘上的破折号和减号",189),
+        EQUAL("键盘上的等号和加号",187),
+        REVERSEQUOTE("键盘上的反引号和约等号",192),
+
+      //一些不经常用的
+</code></pre>
+
+<p>//            PRINT(&ldquo;键盘上的PRINT&rdquo;,)</p>
+
+<pre><code>        PAUSE("键盘上的暂停键和break",19),
+        DELETE("键盘上的delete和insert键",46),
+        HOME("键盘上的HOME键",36),
+        PAGEUP("键盘上的PAGEUP",33),
+        PAGEDOWN("键盘上的PAGEDOWN",34),
+        END("键盘上的END",35),
+        NUMLOCK("键盘上的NUMLOCK",144),
+
+        //F1--F12
+        F1("键盘上的F1键",112),
+        F2("键盘上的F2键",113),
+        F3("键盘上的F3键",114),
+        F4("键盘上的F4键",115),
+
+        F5("键盘上的F5键",116),
+        F6("键盘上的F6键",117),
+        F7("键盘上的F7键",118),
+        F8("键盘上的F8键",119),
+        F9("键盘上的F9键",120),
+        F10("键盘上的F10键",121),
+        F11("键盘上的F11键",122),
+        F12("键盘上的F12键",123),
+        ;
+
+
+
+
+    //ctrl shift tab caps_lock  , . ; / ' [ ]的
+    private int keycode;
+    private String keyName;
+    private OOKeycode(String keyName,int keycode)
+    {
+            this.keyName = keyName;
+            this.keycode = keycode;
+    }
+
+    public int getKeycode()
+    {
+            return this.keycode;
+    }
+    public String getKeyName()
+    {
+            return this.keyName;
+    }
+
+    public static OOKeycode parseOOKeycode(int keycode)
+    {
+            OOKeycode[] apples = OOKeycode.values();
+            for(int i = 0 ; i &lt; apples.length; i++)
+            {
+                    if(keycode == apples[i].getKeycode())
+                    {
+                            return apples[i];
+                    }
+            }
+            throw new IllegalArgumentException(keycode+"是一个不合法的参数");
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="err">修改了</span><span class="n">OOEntry</span><span class="o">,</span> <span class="err">添加一个键盘敲击响应事件</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+public void addKeyPressListener(final IGCallBack callback)</p>
+
+<pre><code>    {
+            GTK.g_signal_connect(this.getId(), "key-press-event", new IGCallBack()
+            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO Auto-generated method stub
+                            callback.execute(instance, eventData, object);
+                    }
+            }, null);
+    }
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="err">小兵聊天主程序</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+package TestGTKEncapsulate;</p>
+
+<p>import javax.xml.crypto.dsig.keyinfo.KeyValue;</p>
+
+<p>import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;</p>
+
+<p>import GTKEncapsulate.OOContainer;
+import GTKEncapsulate.OODialog;
+import GTKEncapsulate.OOEntry;
+import GTKEncapsulate.OOFileChooser;
+import GTKEncapsulate.OOGrid;
+import GTKEncapsulate.OOImage;
+import GTKEncapsulate.OOKeycode;
+import GTKEncapsulate.OOMessageDialog;
+import GTKEncapsulate.OOMusic;
+import GTKEncapsulate.OOMusicMode;
+import GTKEncapsulate.OOScrollBar;
+import GTKEncapsulate.OOTextView;
+import GTKEncapsulate.OOWindow;
+//import GTKEncapsulate.OpenFile;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月9日下午8:20:47
+* @version   TestGTKEncapsulateTestXiaoBingWindow V1.0
+*                                                         V2.0  把所有的equalsIgnoreCase 改为contains 只需要字符串包含即可，
+</em>/
+public class TestXiaoBingWindow extends OOWindow
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    private  OOEntry oeApple ;
+    private OOTextView otvApple;
+    private OOImage oim;
+    private OOMusic om;
+    public TestXiaoBingWindow()
+    {
+            OOGrid grid = new OOGrid();
+            oeApple = new OOEntry();
+            oeApple.show();
+            //oeApple.setText("请在这边输入文本：");
+            otvApple = new OOTextView();
+            otvApple.show();
+            otvApple.setEditable(false);
+            OOScrollBar osbApple = new OOScrollBar();
+            osbApple.show();
+            osbApple.setWidgetSize(300, 300);
+            osbApple.add(otvApple);
+
+            grid.add(osbApple, 0);
+            grid.add(oeApple,1);
+            grid.show();
+            this.add(grid);
+</code></pre>
+
+<p>//                GTK.MCI_MODE_OPEN</p>
+
+<pre><code>            //设置监听
+            oeApple.addKeyPressListener(new IGCallBack()
+            {
+</code></pre>
+
+<p>@Override
+public void execute(int instance, int eventData, Object object)
+{</p>
+
+<pre><code>    // TODO Auto-generated method stub
+    int keycode = GTK.gdk_event_get_keycode(eventData);
+    if(keycode == OOKeycode.ENTER.getKeycode())
+    {
+
+            String text = oeApple.getText();
+            otvApple.insertTextAtEnd("你说:"+text+"\n");
+            oeApple.setText("");
+            //text.contains
+            if(text.contains("你好啊"))
+            {
+                    otvApple.insertTextAtEnd("小兵说:"+"好你妹！\n");
+            }else if(text.contains("脱衣舞"))
+            {
+                    otvApple.insertTextAtEnd("小兵说:"+"不跟你玩了\n");
+            }else if(text.contains("今年几岁"))
+            {
+                    otvApple.insertTextAtEnd("小兵说:"+"女孩子的年龄不能随便告诉别人\n");
+            }else if(text.contains("你是男的还是女的"))
+            {
+                    otvApple.insertTextAtEnd("Little Bing Said:"+"You guess\n");
+            }else if(text.contains("让我们去外面玩吧"))
+            {
+                    otvApple.insertTextAtEnd("Little Bing Said:"+"去哪里玩？\n");
+            }else if(text.contains("select"))
+            {
+                    OpenFile ofApple = new OpenFile();
+                    ofApple.setMultipleSelect();
+                    ofApple.createFilter();
+                    ofApple.nameFilter("音乐文件");
+                    ofApple.editFilter("*.MP3");
+                    ofApple.editFilter("*.wav");
+                    //把filter的操作放入打开对话框中
+                    ofApple.finishFilter();
+                    String[] filenames = ofApple.processResponse();
+                    //在src文件夹下
+                    om = new OOMusic(filenames[0]);
+                    om.playOnce();
+            }else if(text.contains("sing"))
+            {
+                    //在src文件夹下
+                    om = new OOMusic("breathless.mp3",false);
+                    om.playOnce();
+            }else if(text.contains("pause"))
+            {
+                    //在src文件夹下
+
+                    om.pause();
+            }else if(text.contains("resume"))
+            {
+                    //在src文件夹下
+
+                    om.pause();
+            }else if(text.contains("close"))
+            {
+                    //在src文件夹下
+
+                    om.close();
+            }else if(text.contains("show"))
+            {
+                    OODialog od = new OODialog();
+                    OOContainer oct = od.createContentArea();
+                    oim = new OOImage();
+                    oim.setResourceImage("hunsha.jpg");
+                    oim.setWidgetSize(200, 200);
+                    oim.show();
+                    oct.add(oim);
+                    od.run();
+                    od.destroy();
+            }
+            else if(text.contains("北京怎么样"))
+            {
+                    otvApple.insertTextAtEnd("Little Bing Said:"+"不怎么样，先这样，改天再聊\n");       
+            }else
+            {
+                    otvApple.insertTextAtEnd("小兵说：没听见，再说一遍\n");
+            }
+    }
+</code></pre>
+
+<p>//                                System.out.println(OOKeycode.parseOOKeycode(keycode).getKeyName());
+}
+});
+/*GTK.g_signal_connect(oeApple.getId(), &ldquo;key-press-event&rdquo;, new IGCallBack()</p>
+
+<pre><code>            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO Auto-generated method stub
+                            int keycode = GTK.gdk_event_get_keycode(eventData);
+</code></pre>
+
+<p>//                                System.out.println(keycode);</p>
+
+<pre><code>                            System.out.println(OOKeycode.parseOOKeycode(keycode).getKeyName());
+                            //int value = GTK.gdk_event_get_keyval(eventData);
+                            //String enterCharacterString= String.valueOf(keycode);
+                            //System.out.println(enterCharacterString);
+                            //char enterCharacter = enterCharacterString.charAt(0);
+                            //String text = oeApple.getText();
+                            //char lastchar = text.charAt(text.length()-1);
+                            //System.out.println(text+"text length="+text.length());
+</code></pre>
+
+<p>//                                System.out.println(&ldquo;当前输入的字符&rdquo;+enterCharacter+&ldquo;的ascii码为:&rdquo;+keycode+&ldquo;\n并且的他的10进制数为&rdquo;+value);
+//                                OOMessageDialog.showInfo(&ldquo;当前输入的字符&rdquo;+enterCharacter+&ldquo;的ascii码为:&rdquo;+keycode+&ldquo;\n并且的他的10进制数为&rdquo;+value, &ldquo;学习ASCII码&rdquo;);</p>
+
+<pre><code>                            //System.out.println("当前输入的字符"+enterCharacter+"的ascii码为:"+keycode);
+                            //OOMessageDialog.showInfo("当前输入的字符"+enterCharacter+"的ascii码为:"+keycode, "学习ASCII码");
+                    }
+            }, null);*/
+</code></pre>
+
+<p>}</p>
+
+<pre><code>    public static void main(String[] args)
+    {
+            // TODO Auto-generated method stub
+            GTK.gtk_init();
+            TestXiaoBingWindow txbw = new TestXiaoBingWindow();
+            txbw.setExitAfterDestroy(true);
+            txbw.show();
+            GTK.gtk_main();
+    }
+    class OpenFile extends OOFileChooser
+    {
+
+            @Override
+            public  String[] processResponse()
+            {
+                    String[] filenames = null;
+                    // TODO Auto-generated method stub
+                    int ret = this.run().getValue();
+                    if(ret == GTK.GTK_RESPONSE_OK) 
+                    {
+                            filenames = GTK.gtk_file_chooser_get_filenames(this.getId());
+                            for(int i = 0 ; i&lt; filenames.length ; i++)
+                            {
+
+                                    System.out.println("选中文件名"+i+": "+filenames[i]);
+                            }
+                            GTK.gtk_widget_destroy(this.getId()); //必须需要！！否则报错
+                    }else
+                    {
+                            GTK.gtk_widget_destroy(this.getId());
+                    }
+                    return filenames;
+            }
+
+            @Override
+            public void processResponse1()
+            {
+                    // TODO Auto-generated method stub
+
+            }                
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="mi">4</span> <span class="err">音乐的使用</span><span class="o">+</span><span class="err">定时器</span><span class="o">+</span><span class="err">图片空间</span><span class="o">+</span><span class="n">textview</span> <span class="o">===</span> <span class="err">女神表达神器之爱的誓言</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">在敲完誓言之后，开始播放音乐</span>
+</span><span class='line'><span class="err">未修复的</span><span class="nl">bug:</span> <span class="err">有时候读着读着文字就崩溃了，</span> <span class="err">另外加入背景音乐也不行。。。相当不稳定。</span>
+</span><span class='line'><span class="err">最大的</span><span class="nl">bug:</span>  <span class="n">memery</span>  <span class="n">error</span><span class="o">.......</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+package TestGTKEncapsulate;
+import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGSourceFunc;</p>
+
+<p>import GTKEncapsulate.*;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月10日上午1:17:57
+* @version   TestGTKEncapsulateTestGrilGift V1.0 女朋友表达神器
+</em>/
+public class TestGirlGift extends OOWindow
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    private OOImage oim ;
+    private OOTextView otv;
+    private OOMusic om ;
+    public TestGirlGift() 
+    {
+            OOBox ob =new OOBox(false);
+            ob.show();
+            oim = new OOImage();
+            oim.setResourceImage("yumufeng.jpg");
+            oim.show();
+            ob.addWidget(oim);
+            otv = new OOTextView();
+            otv.show();
+            otv.setType();
+            OOScrollBar osb = new OOScrollBar();
+            osb.show();
+            osb.setWidgetSize(200, 220);
+            osb.add(otv);
+            ob.addWidget(osb);
+            this.add(ob);
+
+            final StringBuilder love = new StringBuilder();
+            // +号之后都会出现bug
+            final String Lovewords = "欣然:\r\n谢谢你给我的所有关怀和理解，尤其是那些孤立无助的时刻你温暖的陪伴，它让我始终强大坚定!\r\n"
+                +"我要让你成为世界上最幸福的女人,不是因为这一生积累的名望,地位与财富,而仅仅因为我默默恒久的爱!\r\n"
+                +"今天,说出这些话语是那么艰难却又那么快乐,这都是我这么长时间以来埋在心底的话语!这一切只是因为下面我要唱给"
+                +"你听的这首歌的名字:我如此爱你!\r\n落款人：叶昭良 ";
+            love.append(Lovewords);
+    //这个过程是慢慢地，但是一直持续的在运行
+            GTK.g_timeout_add(100, new IGSourceFunc()
+            {
+
+                    @Override
+                    public boolean execute(Object userdata)
+                    {
+                            // TODO Auto-generated method stub
+                            int len = otv.getText().length();
+                            char ch = love.charAt(len);
+                            otv.insertTextAtEnd(Character.toString(ch));
+                            if(otv.getText().length() == love.length()-1)
+                            {
+                                    //om.close();
+                                    om = new OOMusic("我如此爱你.mp3",true);
+                                    om.playRepeat();
+                                    return true;
+                            }else if(otv.getText().length() == love.length())
+                            {
+                                    return false;
+                            }
+                            else
+                            { 
+
+                                    //System.out.println("2");
+                                    return true;
+                            }
+
+                    }
+            }, null);
+
+            //System.out.println("134");
+</code></pre>
+
+<p>/*                if(otv.getText().length() == Lovewords.length()-1)</p>
+
+<pre><code>            {
+                    System.out.println("12");
+                    OOMusic om = new OOMusic("我如此爱你.mp3",true);
+                    om.playRepeat();
+            }*/
+            //不能放在里面。。。
+            //暂时有问题  添加报错   只好让他在写字的时候专心写字，不放背景音乐
+</code></pre>
+
+<p>/*                om = new OOMusic(&ldquo;ISurrender.mp3&rdquo;,true);</p>
+
+<pre><code>            om.playOnce();*/
+    }
+    public static void main(String[] args)
+    {
+            // TODO Auto-generated method stub
+            GTK.gtk_init();
+            TestGirlGift tgg = new TestGirlGift();
+            tgg.setTitle("女神表达神器之爱的誓言");
+            tgg.show();
+            tgg.setExitAfterDestroy(true);
+            GTK.gtk_main();
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="mi">5</span><span class="n">OOCalendarButton</span><span class="err">的创建</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">具体的</span><span class="n">OOCalendarDialog</span>   <span class="n">OOCalendarButton</span><span class="err">的封装详见</span>   <span class="n">GTKEncapsulate</span><span class="err">源码</span><span class="mf">6.0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+package TestGTKEncapsulate;</p>
+
+<p>import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;</p>
+
+<p>import GTKEncapsulate.*;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月10日下午2:48:55
+* @version   TestGTKEncapsulateTestCalendar V1.0
+</em>/
+public class TestCalendar extends OOWindow
+{</p>
+
+<pre><code>    /**
+     * @param args
+     */
+    private OOCalendar ocl ;
+    private OOCalendarDialog ocld;
+    private OOBox obApple;
+    private OOButton btnclick;
+    private OOCalendarButton ocbApple;
+    public TestCalendar()
+    {
+            ocl = new OOCalendar();
+            ocl.show();
+
+            btnclick = new OOButton("点击");
+            btnclick.show();
+            btnclick.addClickedListener(new IGCallBack()
+            {
+
+                    @Override
+                    public void execute(int instance, int eventData, Object object)
+                    {
+                            // TODO Auto-generated method stub
+                            ocld = new OOCalendarDialog();
+                            ocld.show();
+                    }
+            });
+
+            ocbApple = new OOCalendarButton("选择日期");
+            ocbApple.show();
+
+
+            obApple = new OOBox();
+            obApple.addWidget(ocl);
+            obApple.addWidget(btnclick);
+            obApple.addWidget(ocbApple);
+            obApple.show();
+
+            System.out.println(ocl.getDay()+ocl.getMonth()+ocl.getYear());
+            this.add(obApple);
+    }
+    public static void main(String[] args)
+    {
+            // TODO Auto-generated method stub
+            GTK.gtk_init();
+            TestCalendar tc = new TestCalendar();
+            tc.show();
+            tc.setExitAfterDestroy(true);
+            GTK.gtk_main();
+    }
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="err">当前主要的</span><span class="n">OO</span><span class="err">库加上枚举类总的有</span><span class="mi">56</span><span class="err">个，</span><span class="n">V6</span><span class="o">.</span><span class="mi">0</span><span class="err">主要增加了</span>  <span class="n">OOImageButton</span> <span class="o">,</span> <span class="n">OOKeycode</span><span class="o">,</span><span class="n">OOMusic</span><span class="o">,</span> <span class="n">OOMusicMode</span> <span class="o">,</span><span class="n">OOMusicStatus</span><span class="o">,</span><span class="n">OOStockImage</span><span class="o">,</span> <span class="n">OOStockSize</span><span class="o">,</span><span class="n">OOCalendarDialog</span><span class="err">，</span><span class="n">OOCalendarButton</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">GTKEncapsulate</span><span class="err">源码</span><span class="n">V6</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="na">rar</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="err">测试了一个</span><span class="n">toolbar</span><span class="err">控件，修正了</span><span class="n">ToolButton</span><span class="err">的构造函数没有设置</span><span class="n">ID</span><span class="err">的重大的</span><span class="n">bug</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">修改的代码：</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+public class OOToolButton extends OOContainer
+{</p>
+
+<pre><code>    /**
+     * V2.0  新的构造方法
+     * @param icon_widget
+     * @param label
+     */
+    public OOToolButton(OOWidget icon_widget,String label)
+    {
+            //如果为0 则工具栏控件没有图片
+            int icon_widgetID = (icon_widget==null)?0:icon_widget.getId();
+            //GTK.gtk_tool_button_new(icon_widgetID, label) 已添加setId否则报错
+            setId(GTK.gtk_tool_button_new(icon_widgetID, label));
+    }
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="err">测试代码就是之前</span><span class="mi">2</span><span class="err">月</span><span class="mi">6</span><span class="err">号的</span><span class="n">TestMenuFileChooseAndToolBar</span><span class="o">.</span><span class="na">java</span>
+</span><span class='line'><span class="err">因为采用了新的封装的</span><span class="n">ToolButton</span><span class="err">类，所以重新测试，发现了在</span><span class="n">ToolButton</span><span class="err">类构造函数缺失</span><span class="n">setId</span><span class="o">()</span><span class="err">的问题，特此修正</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">OOFileChooser</span><span class="err">为抽象类，使用起来不是特别舒服，于是改变成为非抽象的，并提供一个接口，供用户使用。</span>
+</span><span class='line'><span class="err">具体</span><span class="n">OOFileChooser</span><span class="err">的修改如下：</span>
+</span><span class='line'><span class="err">县创建一个</span><span class="n">OOFileChooserInterface</span><span class="err">接口：</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+/<em>*
+*
+</em>/
+package GTKEncapsulate;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月13日下午2:13:25
+* @version   GTKEncapsulateOOFileChooserInterface V1.0
+</em>/
+public interface OOFileChooserInterface
+{</p>
+
+<pre><code>    public void doit();
+</code></pre>
+
+<p>}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="err">然后在</span><span class="n">OOFileChooser</span><span class="err">类中开放接口并加入默认的两个处理打开和保存的函数：</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java
+package GTKEncapsulate;</p>
+
+<p>import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;</p>
+
+<p>import com.rupeng.gtk4j.GTK;
+import com.rupeng.gtk4j.IGCallBack;</p>
+
+<p>/<em>*
+* @author    叶昭良
+* @time      2015年2月5日下午4:38:57
+* @version   GTKEncapsulateOOFileChooser V1.0 把类标记为abstract，
+*                                 这样的类无法被直接实例化（new），这就叫抽象类。
+*  V2.0   修改了run方法
+*  V3.0   抽象方法的返回值从void 该到了String[]
+*  v4.0   修改OOFileChooser继承类为来自OODailog
+*         并把public int run()方法提到OODialog中
+*  V5.0   利用OOFileAction枚举类 重新编写了OOFIleChooser
+*  V6.0   创建了setDoOverWrittenConfirmatio函数，并在封装构造函数中
+*         运用了一个判断技巧，增加了 getFileName()  setCurrentFilename
+*         createFileFolder
+*  V7.0   从抽象类转变到非抽象类
+*         增加了一个文件接口 OOFileChooserInterface 供用户使用
+*         增加了打开文件和保存文件的默认处理方式
+</em>/
+public  class OOFileChooser extends OODialog
+{</p>
+
+<pre><code>    private static Filter fi ;
+    //private static int response;  //对话框的响应
+    /**
+     * 
+     * @param title     有参构造函数的窗口标题
+     * @param action    有参构造函数的 行为，打开、保存。。
+     * @param buttonText  有参构造函数的 按钮的标签名字 
+     *  创建一个文件对话框，对话框一定要run一下。。。。。 并且一定要摧毁它
+     */
+</code></pre>
+
+<p>/*        public OOFileChooser(String title, int action, String buttonText)</p>
+
+<pre><code>    {
+            setId(GTK.gtk_file_chooser_dialog_new(title, 0, action, buttonText));
+    }*/
+    public OOFileChooser(String title, OOFileAction action, String buttonText)
+    {
+            setId(GTK.gtk_file_chooser_dialog_new(title, 0, action.getValue(), buttonText));
+            //一个封装技巧。
+            if(action ==OOFileAction.SAVE)
+            {
+                    setDoOverWrittenConfirmation(true);
+            }
+
+    }
+
+    /**
+     *   无参构造函数  默认为打开文件对话框说
+     */
+    public OOFileChooser()
+    {
+            this("打开文件", OOFileAction.OPEN, "打开");
+    }
+    /**
+     *   设置文件打开窗口的多选
+     */
+    public void setMultipleSelect() 
+    {
+            GTK.gtk_file_chooser_set_select_multiple(this.getId(), true);
+    }
+    /**
+     * 
+     * @param do_overwrite_confirmation  在save模式下，保存时需要判断是否覆盖
+     */
+    public void setDoOverWrittenConfirmation(boolean do_overwrite_confirmation)
+    {
+            GTK.gtk_file_chooser_set_do_overwrite_confirmation(this.getId(), do_overwrite_confirmation);
+    }
+    /**
+     * 
+     * @param text  设置当前选择的文件名为text
+     */
+    public void setCurrentFilename(String text)
+    {
+            GTK.gtk_file_chooser_set_current_name(this.getId(), text);
+    }
+
+    /**
+     * 
+     * @param create_folders  布尔值 用于判断是否创建。。。不清楚这边。
+     */
+    public void createFileFolder(boolean create_folders)
+    {
+            GTK.gtk_file_chooser_set_create_folders(this.getId(), create_folders);
+    }
+    /**
+     *   创建一个过滤器
+     */
+    public void createFilter()
+    {
+            fi = new Filter();
+    }
+    /**
+     * 
+     * @param text     设置过滤器的名字
+     */
+    public void nameFilter(String text)
+    {
+            fi.setFilterName(text);
+    }
+    /**
+     * 
+     * @param pattern   增加过滤器的后缀
+     */
+    public void editFilter(String pattern)
+    {
+            fi.addFilterPattern(pattern);
+    }
+
+    public void finishFilter()
+    {
+            GTK.gtk_file_chooser_add_filter(this.getId(), fi.getId());
+    }
+
+
+
+
+    public String[]  getFileNames()
+    {
+            return GTK.gtk_file_chooser_get_filenames(this.getId());
+    }
+
+    public String  getFileName()
+    {
+            return GTK.gtk_file_chooser_get_filename(this.getId());
+    }
+    /**
+     *   一个抽象方法 ，要求继承者去实现它
+     *   多了一个
+     *   
+     *   V 可不可以用接口来实现，估计也是一样的下过
+     */
+    /**
+     * 
+     * @param ofci  开放了一个OOFileChooserInterface接口，
+     *              用于处理打开文件和保存文件，需要进行的额外操作
+     */
+    public void processResponse(final OOFileChooserInterface ofci)
+    {
+            ofci.doit();
+    }
+    /**
+     *   默认处理打开的函数的方式，得到文件！！ 显示到textview和treeview交给用户去做
+     *   而processSave则交给OOFileChooser的processSave去做
+     *   新版本改用OOResponseTyep的类型进行判断
+     */
+    public String[] processOpen()
+    {
+            String[] filenames = null;
+            // TODO Auto-generated method stub
+            OOResponseType ret = this.run();
+            //int ret = this.run().getValue();
+            if(ret == OOResponseType.OK) 
+            {
+                    filenames = GTK.gtk_file_chooser_get_filenames(this.getId());
+                    for(int i = 0 ; i&lt; filenames.length ; i++)
+                    {
+
+                            System.out.println("选中文件名"+i+": "+filenames[i]);
+                    }
+                    //GTK.gtk_widget_destroy(this.getId()); //必须需要！！否则报错
+                    this.destroy();
+            }else
+            {
+                    //GTK.gtk_widget_destroy(this.getId());
+                    this.destroy();
+            }
+            return filenames;
+    }
+    /**
+     *   默认处理保存对话框的方式   基本上默认是大部分采用的方式，
+     *   保存文件的打开文件流有OOFileChooser去做
+     *   
+     *   暂时直接接受textview的文本信息，类似的可以使用OOTreeview
+     *   
+     *   新版本改用OOResponseTyep的类型进行判断
+     */
+    public void processSave(OOTextView ootv)
+    {
+            //GTK.gtk_file_chooser_set_do_overwrite_confirmation(this.getId(), true);
+            // TODO Auto-generated method stub
+            System.out.println("已进入save");
+            //SaveOneFile(filename,textview);
+            OOResponseType ret = this.run();
+            //int ret = GTK.gtk_dialog_run(this.getId());
+            if(ret == OOResponseType.CANCEL)
+            {
+                    this.destroy();
+                    //GTK.gtk_widget_destroy(this.getId());
+            }else 
+            {
+                    String filename =this.getFileName() ;
+                    //保存文件
+                    SaveOneFile(filename,ootv);
+                    System.out.println(filename);
+                    //GTK.gtk_widget_destroy(this.getId());
+                    this.destroy();
+
+            }
+    }
+
+
+    public static void SaveOneFile(String filename, OOTextView ootv)
+    {
+            try
+            (
+                    OutputStream os = new FileOutputStream(filename);
+                    OutputStreamWriter osw = new OutputStreamWriter(os);
+                    BufferedWriter bw = new BufferedWriter(osw);
+            )
+            {
+
+                    String  temp= filename.substring(filename.lastIndexOf('\\')+1);
+                    System.out.println(temp);
+
+                    /*int textBuffer =  GTK.gtk_text_view_get_buffer(textview);
+                    //这是一个空的iter，需要用textBuffer进行赋值
+                    int textIter = GTK.gtk_text_iter_new();  
+
+                    GTK.gtk_text_buffer_get_end_iter(textBuffer, textIter);
+                    // 或者textview的textBuffer的末尾！
+                    String tempText = GTK.gtk_text_buffer_get_text(textBuffer);*/
+
+                    //while(tempText != null) // -1读取完毕
+                    {
+                            //InsertStringToTextViewFunction(textview,fileToFile.toString());
+                            bw.write(ootv.getText());
+                            bw.newLine();
+                    //        GTK.gtk_text_iter_backward_char(textIter);
+                    //        tempText = GTK.gtk_text_buffer_get_text(textBuffer);
+                    }
+            }
+            catch(IOException e)
+            {
+                    System.out.println("文件读入异常");
+            }
+
+    }
+</code></pre>
+
+<p>/*        public abstract void processResponse1();  //用于保存</p>
+
+<pre><code>    public abstract String[] processResponse(); //用于打开
+</code></pre>
+
+<p>*/        /**</p>
+
+<pre><code>     * 
+     * @author    叶昭良
+     * @time      2015年2月5日下午5:07:17
+     * @version   GTKEncapsulateFilter V1.0
+     */
+    class Filter extends OOWidget
+    {
+            public Filter()
+            {
+                    setId(GTK.gtk_file_filter_new());
+            }
+            /**
+             * 
+             * @param text   设置过滤器的名字
+             */
+            public void setFilterName(String text)
+            {
+                    GTK.gtk_file_filter_set_name(this.getId(), text);
+            }
+            /**
+             * 
+             * @param pattern  设置过滤器的过滤类型
+             */
+            public void addFilterPattern(String pattern)
+            {
+                    GTK.gtk_file_filter_add_pattern(this.getId(), pattern);
+            }
+
+
+    }
+</code></pre>
+
+<p>}
+&#8220;`</p>
+
+<p>附上 最新版本的封装GTK的源代码： 感兴趣的鹏友，可以下载交流哈。
+最新的提交记录：1.修正了OOToolButton 缺少setId的一个重大bug
+2.原先的OOFileChooser为抽象类，看起来不爽，于是再给OOFileChooser配置了一个接口和两个默认的处理函数
+   一个用于打开一个用于关闭
+3.修改了项目文件相关的  TestXiaoBingWindow.java  TestNewMenuFourStep.java<br/>
+4.利用OOResponseTyep的判断方式修改代码
+基本测试通过，同时顺便复习了内部类的接口类的实现和在一个类中添加接口的方式。
+具体可以参看本贴第一次讲过的关于内部类实现接口的问题包含OODrawCallback和OOTreeView的双击事件的内部类的实现。</p>
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2015/05/11/2yue-4ri-javaban-gtk/'>http://jueqingsizhe66.github.io/blog/2015/05/11/2yue-4ri-javaban-gtk/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:41+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javabasic/'>JavaBasic</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/11/2yue-27ri-javazhou-mo-ban-shi-ti/" title="Previous Post: 2月27日Java周末班试题">&laquo; 2月27日Java周末班试题</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/11/3yue-21ri-javazhou-mo-ban-shi-ti-shou-ji/" title="Next Post: 3月21日Java周末班试题收集">3月21日Java周末班试题收集 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><div class="ds-thread" > </div>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"f708708"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+  <p><img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> <!--不是他的原因-->
+ <!--而是yellow的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (3)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (22)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (3)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (18)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/physics-and-maths/">Physics and Maths</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/jump-out-of-ontology/">Jump Out of Ontology</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/machine-learning-some-search-record/">Machine Learning Some Search Record</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/graphviz-notebook/">Graphviz Notebook</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="1" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+
+</section>
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2015/05/11/2yue-4ri-javaban-gtk/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2015/05/11/2yue-4ri-javaban-gtk/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

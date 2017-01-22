@@ -1,0 +1,2796 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>A Little Java Note - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="目录 1. 基础部分
+2. 通过构造函数，构造出Natural recursion
+3. 重新设计RemAV RemFishV RemIntV
+4. 下一步把PieD的字段放入到对应的参数当中
+5. 引入 this 关键字，指代访问者本身，同步修改对应的访问者类
+6. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2016/10/09/a-little-java-note">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">A Little Java Note</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-10-09T01:58:39+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2016</time>
+        
+
+         
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><div align="center">目录</div>
+
+
+<ul>
+<li><a href="#1">1. 基础部分</a></li>
+<li><a href="#2">2. 通过构造函数，构造出Natural recursion</a></li>
+<li><a href="#3">3. 重新设计RemAV RemFishV RemIntV</a></li>
+<li><a href="#4">4. 下一步把PieD的字段放入到对应的参数当中</a></li>
+<li><a href="#5">5. 引入 this 关键字，指代访问者本身，同步修改对应的访问者类</a></li>
+<li><a href="#6">6. 需要进一步提取出visitor部分的函数    </a></li>
+<li><a href="#7">7. 统一bTreeVisitorI itreevisitori ttreevisitori</a></li>
+<li><a href="#8">8. 重新设计RemAV RemFishV  RemIntV 为RemV(用Object替换）    </a></li>
+<li><a href="#9">9. 然后现在把Remv 和Subst重新放入PieD</a></li>
+<li><a href="#10">10. 紧接着 我们还想着把Remv  SubstV放入参数的位置</a></li>
+<li><a href="#11">11. 紧接着我们可以进行下一步抽象   </a></li>
+<li><a href="#12">12. 紧接着我们发现rem和subst代码类似 </a></li>
+<li><a href="#13">13. 然后再实现Set集合类型</a></li>
+<li><a href="#14">14. SetEvalV直接继承IntEvalV不合理?   </a></li>
+<li><a href="#15">15. IntEvalD 和SetEvalD很多相似之处   </a></li>
+<li><a href="#16">16. 根据extends使用Override增加函数的丰富性  </a></li>
+</ul>
+
+
+<p>视角没想到可以分成不同的classes，并在此基础上进行extends和implement，最终new通过constructors创造不同的value。两级在于基础元件和功能元件两部分。两级也可以分为extends和implements。集于一个class。</p>
+
+<!--more-->
+
+
+<p>学完<a href="http://www.ccs.neu.edu/home/matthias/BALJ/">《a little java》</a>的心得,</p>
+
+<ol>
+<li>构造函数：new通过构造函数，产生了datatype的值；构造函数由此进行了natural recursion， 并通过一个基类退出循环（详见PieD).new create values.</li>
+<li>This,一般指向当前对象，但是在函数式编程中，this可能指代的是当前对象之后的所有剩余对象
+&ldquo;this&#8221;指代的是自指对象 也就是函数某某的实例化对象，并且是一直不变的。Just self-referential，because this is a RemV, and it is exactly what we need to complete the job. 所以this指代函数莫某的对象</li>
+<li>Top某某函数询问某种来自函数某某的forTop功能 ，并传递构造函数的fields值(properties）以及该某某函数comsumes的objects（arguments)</li>
+<li>  升级版本 the method accepts a visitor(该visitor接口包含了forTop forBot抽象方法，该接口统一了不同的函数某某，所以所有函数某某统称为accept函数某某）and ask for its services， so we call it accept， 而该接口的通常实例化对象也被叫做ask， ask for services.</li>
+<li>Object类型可以抽象int boolean 其他类型</li>
+<li>函数的抽象大体表现为参数数据类型，返回值数据类型和函数body的具体实现。
+
+<ol type="a">
+<li>参数数据类型</li>
+<li>返回值数据类型</li>
+<li>body具体实现</li>
+</ol>
+</li>
+<li>简化（简洁）、拓展性、方便</li>
+<li>当我们的参数值从method变到fields，我们就没必要在反复调用对象的方法的时候 需要不断地comsume，而同时又保证了this对象，也就是不断地自指（期间不产生新的fields）所以也就是使得计算加快了。这也是this存在的原因（并且该this对象只用在访问者对象中）</li>
+<li>We know that a visitorI contains one method each for the Circle, Square, and Trans variants,. And each of these methods
+Consumes the fields of the respective kinds of objects(objects of types)
+某某对象的某某函数，（携带函数某某和字段） 询问函数某某的for对象某某功能，（携带对象某某）
+某某对象的accept携带ask并内部由 ask 的for对象某某携带对象某某组成，而for对象某某携带对象某某并内部由对象某某的accept携带当前ask对象构成。
+某某对象的accept携带ask并内部由 ask 的for对象某某组成，而for对象某某携带对象某某并内部由对象某某的accept组成。</li>
+</ol>
+
+
+<p>在对象内部，某某对象的accept携带ask并内部由 ask 的for对象某某携带对象某某组成，而在visitor内部，for对象某某携带对象某某并内部由对象某某（也就是consumes the fields of the respective kinds of objects 占据对象类型的字段属性）的accept携带当前ask对象构成。
+We don&rsquo;t specify fields in interfaces. And in 7 W hatever.
+any case, we don&rsquo;t want anybody else to
+see p.
+This and that在对象间传递，而consume在函数间传递（Hangs over back and forth(fields 在对象间传递，而consume在函数间传递)
+10. 该书包含着TLS TSS 和prolog编程的思想(因为你要理解new Top new Bot等需要有fact and rule的意识)（仔细去品尝 go to absorb) 还有就是skeleton and techniques技术
+11. Extends interface,this extension produces an interface that contains all the obligations(i.e. names of methods and what they consume and produce) of shapeVisitorI and the additional one named forUnion(所以换个角度说，one class can implement many interfaces.
+12. 重载override 相同的名字带着不同的输入类型
+13. 点号可以读作 from   点号之前叫做from who  点号之后叫做service
+14. 解释的重点是什么？？？ 要点是什么</p>
+
+<p><img src="/images/alittlejava/duichen.png" alt="duichen" /></p>
+
+<p>什么是思考力的三要素，讲这个问题之前我们先来了解一下什么是思考思维，首先思考是思维的一种探索活动，而在思维过程中产生的一种具有积极性和创造性的作用力这种就是思考力。据物理学理解，思考力具有三个基本要素：分别为大小、方向、作用点。思考力同样也离不开三个基本要素：分别为大小、方向、作用点。</p>
+
+<ol>
+<li>大小 ——思考力首先取决于思考者掌握的关于思考对象的知识和信息量（大小），如果没有相关的知识和信息，就不可能产生相关的思考活动。一般情况下，知识量和信息量越大，思考就越加具体、全面和完整，从而决定了思考的维度。</li>
+<li>方向 ——我们这里所说的思考有别于妄想和幻想，而是一种有目的性和有计划性的思维活动，因此，这种思考需要有一定的价值导向，也就是思路——体现为目的性、方向性和一致性。漫无目的地思考难以发挥强有力的思考力，常常会把思考引进死胡同，导致思路夭折和无果而终。目的性、方向性、一致性和价值导向，决定着思考的角度和向度。</li>
+<li>作用点 ——必须把思考集中在特定的对象上，并把握其中的关键点，这样的思考就会势如破竹。如果找不准思考的着力点，就会精力分散、思维紊乱、胡思乱想，出现东一榔头西一棒的现象。思考就会停留在事物的表面上浮光掠影，无法深刻认识事物的本质。思考在作用点上的集中性程度，决定着思考的强度和力度(广度和深度）。</li>
+</ol>
+
+
+<h3 id="1">基础部分</h3>
+
+
+<p>理解分层。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">KebabD</span><span class="o">(</span><span class="n">chapter2</span><span class="o">)</span> <span class="err">烤肉</span>
+</span><span class='line'>    <span class="n">isVeggie</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">whatHolder</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Holder</span> <span class="err">烤肉摆放工具</span>
+</span><span class='line'>            <span class="n">Object</span><span class="o">;</span>
+</span><span class='line'>            <span class="n">Holder</span><span class="o">(</span><span class="n">Object</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">isVeggie</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">whatHolder</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Shallot</span>  <span class="err">葱</span>
+</span><span class='line'>            <span class="n">KebabD</span><span class="o">;</span>
+</span><span class='line'>            <span class="n">Shallot</span><span class="o">(</span><span class="n">KebabD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">isVeggie</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">whatHolder</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">Shrimp</span> <span class="err">虾</span>
+</span><span class='line'>            <span class="n">KebabD</span><span class="o">;</span>
+</span><span class='line'>            <span class="n">Shrimp</span> <span class="o">(</span><span class="n">KebabD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">isVeggie</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">whatHolder</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">Radish</span> <span class="err">萝卜</span>
+</span><span class='line'>            <span class="n">KebabD</span><span class="o">;</span>
+</span><span class='line'>            <span class="n">Radish</span> <span class="o">(</span><span class="n">KebabD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">isVeggie</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">whatHolder</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">Pepper</span> <span class="err">胡椒粉</span>
+</span><span class='line'>            <span class="n">KebabD</span><span class="o">;</span>
+</span><span class='line'>            <span class="n">Pepper</span> <span class="o">(</span><span class="n">KebabD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">isVeggie</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">whatHolder</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">Zucchini</span> <span class="err">西葫芦</span>
+</span><span class='line'>            <span class="n">KebabD</span><span class="o">;</span>
+</span><span class='line'>            <span class="n">Zucchini</span> <span class="o">(</span><span class="n">KebabD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">isVeggie</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">whatHolder</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">RodD</span><span class="o">(</span><span class="n">chapter2</span><span class="o">)</span> <span class="err">杆</span>  <span class="err">将烤肉串起来工具</span><span class="o">(</span><span class="err">烤肉摆放方式</span><span class="mi">1</span><span class="err">）</span>
+</span><span class='line'>    <span class="n">Dagger</span> <span class="err">匕首</span>
+</span><span class='line'>    <span class="n">Sabre</span> <span class="err">军刀</span>
+</span><span class='line'>    <span class="n">Sword</span> <span class="err">剑</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">PlateD</span><span class="o">(</span><span class="n">chapter2</span><span class="o">)</span> <span class="err">盘子</span>  <span class="err">（烤肉摆放方式</span><span class="mi">2</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">Gold</span> <span class="err">金盘子</span>
+</span><span class='line'>    <span class="n">Silver</span>
+</span><span class='line'>    <span class="n">Brass</span> <span class="err">黄铜盘子</span>
+</span><span class='line'>    <span class="n">Copper</span> <span class="err">镀铜盘子</span>
+</span><span class='line'>    <span class="n">Wood</span>   <span class="err">木盘子</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">PointD</span><span class="o">(</span><span class="n">chapter1</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span> <span class="err">点</span>
+</span><span class='line'>    <span class="n">distanceTo0</span><span class="o">(</span><span class="kt">int</span><span class="o">,</span><span class="kt">int</span><span class="o">);</span> <span class="c1">//可以把它们移入到构造函数中</span>
+</span><span class='line'>    <span class="n">closerTo0</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">CartesianPt</span> <span class="err">笛卡尔坐标</span>
+</span><span class='line'>            <span class="n">Int</span>
+</span><span class='line'>            <span class="n">Int</span>
+</span><span class='line'>            <span class="nf">CartesianPt</span><span class="o">(</span><span class="kt">int</span><span class="o">,</span><span class="kt">int</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">distanceTo0</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">Closeto0</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">ManhattenPt</span> <span class="err">曼哈顿坐标</span>
+</span><span class='line'>            <span class="n">Int</span>
+</span><span class='line'>            <span class="n">Int</span>
+</span><span class='line'>            <span class="nf">ManhattenPt</span><span class="o">(</span><span class="kt">int</span><span class="o">,</span><span class="kt">int</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">distanceTo0</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">Closeto0</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="err">圆柱坐标系</span>
+</span><span class='line'>        <span class="err">球坐标系</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">PieD</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">PizzaD</span><span class="err">（</span><span class="n">chapter3</span><span class="o">,</span><span class="mi">4</span><span class="err">）</span>
+</span><span class='line'>    <span class="n">remA</span> <span class="err">去除比萨饼的凤尾鱼订料（防止过咸）</span>
+</span><span class='line'>    <span class="n">topAwC</span><span class="o">()</span> <span class="err">在凤尾鱼顶料加上奶酪顶料（盖住咸味）</span>
+</span><span class='line'>    <span class="n">subAbC</span><span class="o">()</span> <span class="err">将所有的凤尾鱼顶料换成奶酪顶料</span>
+</span><span class='line'>        <span class="n">Crust</span> <span class="err">面包皮</span>
+</span><span class='line'>            <span class="n">remA</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">topAwC</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">subAbC</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Cheese</span>  <span class="err">奶酪</span>
+</span><span class='line'>            <span class="n">pizzaD</span>
+</span><span class='line'>            <span class="nf">Cheese</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">remA</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">topAwC</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">subAbC</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">Olive</span>   <span class="err">橄榄</span>
+</span><span class='line'>            <span class="n">pizzaD</span>
+</span><span class='line'>            <span class="nf">Olive</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">remA</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">topAwC</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">subAbC</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">Anchovy</span> <span class="err">凤尾鱼</span>
+</span><span class='line'>            <span class="n">pizzaD</span>
+</span><span class='line'>            <span class="nf">Anchovy</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">remA</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">topAwC</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">subAbC</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">Sausage</span> <span class="err">香肠</span>
+</span><span class='line'>            <span class="n">pizzaD</span>
+</span><span class='line'>            <span class="nf">Sausage</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">remA</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">topAwC</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">subAbC</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Spinach</span> <span class="err">菠菜</span>
+</span><span class='line'>            <span class="n">pizzaD</span>
+</span><span class='line'>            <span class="nf">Spinach</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">remA</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">topAwC</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">subAbC</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">Shape</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">Shish</span><span class="o">(</span><span class="n">chapter2</span><span class="err">，</span><span class="mi">4</span><span class="o">)</span> <span class="err">羊肉串</span>
+</span><span class='line'>    <span class="n">onlyOnions</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">isVegetarian</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Skew</span> <span class="err">架子</span> <span class="err">烤肉叉子</span>
+</span><span class='line'>        <span class="n">Onion</span> <span class="err">洋葱</span>
+</span><span class='line'>        <span class="n">Lamb</span>  <span class="err">羔羊肉</span>
+</span><span class='line'>        <span class="n">Tomato</span> <span class="err">西红柿</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">Tree</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nf">SeasoningD</span> <span class="o">(</span><span class="n">chapter1</span><span class="o">)</span> <span class="err">调味品</span>
+</span><span class='line'>    <span class="n">Sage</span><span class="o">(</span><span class="err">鼠尾草</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">Pepper</span>
+</span><span class='line'>    <span class="n">Salt</span>
+</span><span class='line'>    <span class="nf">Thyme</span><span class="o">(</span><span class="err">百里香</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NumD</span> <span class="o">(</span><span class="n">chapter1</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">Zero</span>
+</span><span class='line'>    <span class="n">OneMoreThan</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">LayerD</span>
+</span><span class='line'>    <span class="n">Base</span>
+</span><span class='line'>    <span class="n">Slice</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">FruitD</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>第二条建议</strong></p>
+
+<pre><code>When writing a function over a datatype,
+place a method in each of the variants that make up the datatype.
+If a field of a variant belongs to the same datatype,
+the method may call the corresponding method of the field in
+computing the function.（疑问子类 每继承一次父类 都得重写三个父类的抽象函数 有点费事。。 ----那么访问者模式到底是如何解决的？）
+</code></pre>
+
+<p><strong>第八条建议</strong></p>
+
+<pre><code>When extending a class, use overriding
+to enrich its functionality.
+</code></pre>
+
+<p>根据以上建议， LtdSubstV 可以直接在 SubstV 类上进行继承和扩展。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Shish</span><span class="o">(</span><span class="n">chapter2</span><span class="err">，</span><span class="mi">4</span><span class="o">)</span> <span class="err">羊肉串</span>
+</span><span class='line'>   <span class="n">OnlyOnionsV</span>
+</span><span class='line'>   <span class="n">IsVegetarianV</span>
+</span><span class='line'>   <span class="nf">onlyOnions</span><span class="o">();</span>
+</span><span class='line'>   <span class="n">isVegetarian</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Skew</span> <span class="err">架子</span> <span class="err">烤肉叉子</span>
+</span><span class='line'>            <span class="n">onlyOnions</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">isVegetarian</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Onion</span> <span class="err">洋葱</span>
+</span><span class='line'>            <span class="n">ShishD</span>
+</span><span class='line'>            <span class="nf">Onion</span><span class="o">(</span><span class="n">ShishD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">onlyOnions</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">isVegetarian</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Lamb</span>  <span class="err">羔羊肉</span>
+</span><span class='line'>            <span class="n">ShishD</span>
+</span><span class='line'>            <span class="nf">Lamb</span><span class="o">(</span><span class="n">ShishD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">onlyOnions</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">isVegetarian</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">Tomato</span> <span class="err">西红柿</span>
+</span><span class='line'>            <span class="n">ShishD</span>
+</span><span class='line'>            <span class="nf">Tomato</span><span class="o">(</span><span class="n">ShishD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">onlyOnions</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">isVegetarian</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">OnlyOnionsV</span>
+</span><span class='line'>    <span class="nf">forSkew</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">forOnion</span><span class="o">(</span><span class="n">ShishD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forLamb</span><span class="o">(</span><span class="n">ShishD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forTomato</span><span class="o">(</span><span class="n">ShishD</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">isVegetatianV</span>
+</span><span class='line'>    <span class="nf">forSkew</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">forOnion</span><span class="o">(</span><span class="n">ShishD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forLamb</span><span class="o">(</span><span class="n">ShishD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forTomato</span><span class="o">(</span><span class="n">ShishD</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">ShishD</span>
+</span><span class='line'>   <span class="n">OnlyOionsV</span> <span class="n">ooFn</span>
+</span><span class='line'>   <span class="n">IsVegeterian</span> <span class="n">ivFn</span>
+</span><span class='line'>   <span class="nf">onlyOnions</span><span class="o">()</span><span class="n">a</span><span class="o">;</span>
+</span><span class='line'>   <span class="n">isVegetarian</span><span class="o">()</span><span class="n">a</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">Skew</span>
+</span><span class='line'>            <span class="nf">onlyOnions</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">isVegetarian</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Onion</span>
+</span><span class='line'>            <span class="nf">onlyOnions</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">isVegetarian</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Lamb</span>
+</span><span class='line'>            <span class="nf">onlyOnions</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">isVegetarian</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Tomato</span>
+</span><span class='line'>            <span class="nf">onlyOnions</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">isVegetarian</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h3 id="2">通过构造函数，构造出Natural recursion部分，形成递归，递归出口为skew</h3>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">RemAV</span>
+</span><span class='line'>    <span class="nf">forCurst</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">forCheese</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forOlive</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forAnchovy</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forSausage</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">TopAwCV</span>
+</span><span class='line'>    <span class="nf">forCurst</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">forCheese</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forOlive</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forAnchovy</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forSausage</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">SubAbCV</span>
+</span><span class='line'>    <span class="nf">forCurst</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">forCheese</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forOlive</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forAnchovy</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forSausage</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">PizzaD</span>
+</span><span class='line'>   <span class="n">RemAV</span> <span class="n">remFn</span>
+</span><span class='line'>   <span class="n">TopAwCV</span> <span class="n">topFn</span>
+</span><span class='line'>   <span class="n">SubAbCV</span>  <span class="n">subFn</span>
+</span><span class='line'>   <span class="nf">remA</span><span class="o">()</span><span class="n">a</span><span class="o">;</span>
+</span><span class='line'>   <span class="n">topAwC</span><span class="o">()</span><span class="n">a</span><span class="o">;</span>
+</span><span class='line'>   <span class="n">subAbC</span><span class="o">()</span><span class="n">a</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">Crust</span>
+</span><span class='line'>            <span class="nf">remA</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">topAwC</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">subAwC</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Cheese</span>
+</span><span class='line'>            <span class="n">PizzaD</span>
+</span><span class='line'>            <span class="nf">Cheese</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">remA</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">topAwC</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">subAwC</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Olive</span>
+</span><span class='line'>            <span class="n">PizzaD</span>
+</span><span class='line'>            <span class="nf">Olive</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">remA</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">topAwC</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">subAwC</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Anchovy</span>
+</span><span class='line'>            <span class="n">PizzaD</span>
+</span><span class='line'>            <span class="nf">Anchovy</span><span class="o">(</span><span class="n">PizzaD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">remA</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">topAwC</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">subAwC</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Sausage</span>
+</span><span class='line'>            <span class="n">PizzaD</span>
+</span><span class='line'>            <span class="nf">Sausage</span><span class="o">(</span><span class="n">PizzaD</span>
+</span><span class='line'>            <span class="n">remA</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">topAwC</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">subAwC</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">PieD</span>
+</span><span class='line'>    <span class="n">RemAV</span> <span class="n">raFn</span>
+</span><span class='line'>    <span class="n">RemFish</span> <span class="n">rfFn</span>
+</span><span class='line'>    <span class="nf">remA</span><span class="o">()</span><span class="n">a</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">remFish</span><span class="o">(</span><span class="n">FishD</span><span class="o">)</span><span class="n">a</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">Bot</span>
+</span><span class='line'>            <span class="nf">remA</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">remFish</span><span class="o">(</span><span class="n">FishD</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">Top</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="n">PieD</span>
+</span><span class='line'>            <span class="nf">Top</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">PieD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">remA</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">remFish</span><span class="o">(</span><span class="n">FishD</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">FishD</span>
+</span><span class='line'>    <span class="n">Salmon</span> <span class="err">鲑鱼</span>
+</span><span class='line'>    <span class="n">Equals</span><span class="o">(</span><span class="n">Object</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">Anchovy</span> <span class="err">凤尾鱼</span>
+</span><span class='line'>    <span class="n">Equals</span><span class="o">(</span><span class="n">Object</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">Tuna</span>  <span class="err">金枪鱼</span>
+</span><span class='line'>    <span class="n">Equals</span><span class="o">(</span><span class="n">Object</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">RemAV</span>
+</span><span class='line'>    <span class="n">forBot</span>
+</span><span class='line'>    <span class="nf">fotTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">PieD</span><span class="o">)</span>
+</span><span class='line'><span class="n">RemFishV</span>
+</span><span class='line'>    <span class="nf">forBot</span><span class="o">(</span><span class="n">FishD</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">PieD</span><span class="o">,</span>  <span class="n">FishD</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">RemIntV</span>
+</span><span class='line'>    <span class="nf">forBot</span><span class="o">(</span><span class="kt">int</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">pieD</span><span class="o">,</span> <span class="n">Integer</span><span class="o">)</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3 id="3">重新设计RemAV RemFishV  RemIntV 为RemV(用Object替换）</h3>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">RemV</span>
+</span><span class='line'>    <span class="nf">forBot</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">pieD</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h3 id="4">下一步把PieD的字段放入到对应的参数当中</h3>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">PieD</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">abstract</span> <span class="n">PieD</span> <span class="nf">rem</span><span class="o">(</span><span class="n">RemV</span> <span class="n">remFn</span><span class="o">,</span> <span class="n">Object</span> <span class="n">o</span><span class="o">);</span>
+</span><span class='line'>    <span class="kd">abstract</span> <span class="n">PieD</span> <span class="nf">subst</span><span class="o">(</span><span class="n">SubstV</span> <span class="n">substFn</span><span class="o">,</span> <span class="n">Object</span> <span class="n">n</span><span class="o">,</span> <span class="n">Object</span> <span class="n">o</span><span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">PieD</span>
+</span><span class='line'>    <span class="nf">Rem</span><span class="o">()</span><span class="n">a</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">Subst</span><span class="o">()</span><span class="n">a</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">Top</span>
+</span><span class='line'>            <span class="nf">Top</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Rem</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">Subst</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Bot</span>
+</span><span class='line'>            <span class="nf">Bot</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Rem</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">Subst</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3 id="5">引入 this 关键字，指代访问者本身，同步修改对应的访问者类。</h3>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">PieD</span>
+</span><span class='line'>    <span class="nf">Rem</span><span class="o">(</span><span class="n">Remv</span><span class="o">)</span><span class="n">a</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">Subst</span><span class="o">(</span><span class="n">Subst</span><span class="o">)</span><span class="n">a</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">Top</span>
+</span><span class='line'>            <span class="n">Top</span>
+</span><span class='line'>            <span class="n">Rem</span>
+</span><span class='line'>            <span class="n">Subst</span>
+</span><span class='line'>        <span class="n">Bot</span>
+</span><span class='line'>            <span class="n">Bot</span>
+</span><span class='line'>            <span class="n">Rem</span>
+</span><span class='line'>            <span class="n">Subst</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3 id="6">需要进一步提取出visitor部分的函数</h3>
+
+
+<p>这样就可以把所有</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">PieVisitorI</span>
+</span><span class='line'>    <span class="nf">forBot</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">forTop</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Remv</span>
+</span><span class='line'>            <span class="nf">forBot</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">forTop</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">SubstV</span>
+</span><span class='line'>            <span class="nf">forBot</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">forTop</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">pieD</span>
+</span><span class='line'>    <span class="nf">Accept</span><span class="o">(</span><span class="n">PieVisitorI</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Bot</span>
+</span><span class='line'>            <span class="nf">Accept</span><span class="o">(</span><span class="n">pieVisitorI</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">Top</span>
+</span><span class='line'>            <span class="nf">Accept</span><span class="o">(</span><span class="n">pieVisitorI</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">FruitD</span>
+</span><span class='line'>    <span class="n">Peach</span>
+</span><span class='line'>    <span class="n">Apple</span>
+</span><span class='line'>    <span class="n">Pear</span>
+</span><span class='line'>    <span class="n">Lemon</span>
+</span><span class='line'>    <span class="n">Fig</span> <span class="err">无花果</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">TreeD</span>
+</span><span class='line'>    <span class="nf">Accept</span><span class="o">(</span><span class="n">bTreeVisitorI</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">Accept</span><span class="o">(</span><span class="n">iTreeVisitorI</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">Accept</span><span class="o">(</span><span class="n">tTreeVisitorI</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Bub</span> <span class="err">芽</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">bTreeVisitorI</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">iTreeVisitorI</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">tTreeVisitorI</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Flat</span> <span class="err">平顶</span>
+</span><span class='line'>            <span class="n">FruitD</span>
+</span><span class='line'>            <span class="n">TreeD</span>
+</span><span class='line'>            <span class="nf">Flat</span><span class="o">(</span><span class="n">FruitD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">bTreeVisitorI</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">iTreeVisitorI</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">tTreeVisitorI</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Split</span> <span class="err">分枝</span>
+</span><span class='line'>            <span class="n">TreeD</span>
+</span><span class='line'>            <span class="n">TreeD</span>
+</span><span class='line'>            <span class="nf">Split</span><span class="o">(</span><span class="n">TreeD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">bTreeVisitorI</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">iTreeVisitorI</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">tTreeVisitorI</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">bTreeVisitorI</span>
+</span><span class='line'>    <span class="nf">forBud</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">forFlat</span><span class="o">(</span><span class="n">FruitD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forSplit</span><span class="o">(</span><span class="n">TreeD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">bIsFlatV</span> <span class="kd">implements</span> <span class="n">bTreeVisitorI</span>
+</span><span class='line'>            <span class="nf">forBud</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">forFlat</span><span class="o">(</span><span class="n">FruitD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">forSplit</span><span class="o">(</span><span class="n">TreeD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">bIsSplitV</span> <span class="kd">implements</span> <span class="n">bTreeVisitorI</span>
+</span><span class='line'>            <span class="nf">forBud</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">forFlat</span><span class="o">(</span><span class="n">FruitD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">forSplit</span><span class="o">(</span><span class="n">TreeD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">bHasFruitV</span> <span class="kd">implements</span> <span class="n">bTreeVisitorI</span>
+</span><span class='line'>            <span class="nf">forBud</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">forFlat</span><span class="o">(</span><span class="n">FruitD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">forSplit</span><span class="o">(</span><span class="n">TreeD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">iTreeVisitorI</span>
+</span><span class='line'>    <span class="nf">forBud</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">forFlat</span><span class="o">(</span><span class="n">FruitD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forSplit</span><span class="o">(</span><span class="n">TreeD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">iHeightV</span> <span class="kd">implements</span> <span class="n">iTreeVisitorI</span>
+</span><span class='line'>            <span class="nf">forBud</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">forFlat</span><span class="o">(</span><span class="n">FruitD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">forSplit</span><span class="o">(</span><span class="n">TreeD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">iOccursV</span> <span class="kd">implements</span> <span class="n">iTreeVisitorI</span>
+</span><span class='line'>            <span class="n">FruitD</span>
+</span><span class='line'>            <span class="nf">iOccursV</span><span class="o">(</span><span class="n">FruitD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forBud</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">forFlat</span><span class="o">(</span><span class="n">FruitD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">forSplit</span><span class="o">(</span><span class="n">TreeD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">tTreeVisitorI</span>
+</span><span class='line'>    <span class="nf">forBud</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">forFlat</span><span class="o">(</span><span class="n">FruitD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forSplit</span><span class="o">(</span><span class="n">TreeD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">tSubstV</span> <span class="kd">implements</span> <span class="n">tTreeVisitorI</span>
+</span><span class='line'>            <span class="n">FruitD</span>
+</span><span class='line'>            <span class="n">FruitD</span>
+</span><span class='line'>            <span class="nf">tSubstV</span><span class="o">(</span><span class="n">FruitD</span><span class="o">,</span> <span class="n">FruitD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forBud</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">forFlat</span><span class="o">(</span><span class="n">FruitD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">forSplit</span><span class="o">(</span><span class="n">TreeD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>         <span class="n">iOccursV</span> <span class="kd">implements</span> <span class="n">tTreeVisitorI</span>
+</span><span class='line'>            <span class="nf">forBud</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">forFlat</span><span class="o">(</span><span class="n">FruitD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">forSplit</span><span class="o">(</span><span class="n">TreeD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h3 id="7">为了统一bTreeVisitorI 和 iTreeVisitorI   tTreeVisitorI</h3>
+
+
+<p>（三个的不同就在于返回值分别为 boolean   int   treeD)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">TreeVisitorI</span>
+</span><span class='line'>    <span class="nf">forBud</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">forFlat</span><span class="o">(</span><span class="n">FruitD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forSplit</span><span class="o">(</span><span class="n">TreeD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">);</span>
+</span><span class='line'>         <span class="n">IsFlatV</span> <span class="kd">implements</span> <span class="n">TreeVisitorI</span>
+</span><span class='line'>            <span class="nf">forBud</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">forFlat</span><span class="o">(</span><span class="n">FruitD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forSplit</span><span class="o">(</span><span class="n">TreeD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">OccursV</span> <span class="kd">implements</span> <span class="n">TreeVisitorI</span>
+</span><span class='line'>            <span class="n">FruitD</span>
+</span><span class='line'>            <span class="nf">OccursV</span><span class="o">(</span><span class="n">FruitD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forBud</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">forFlat</span><span class="o">(</span><span class="n">FruitD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forSplit</span><span class="o">(</span><span class="n">TreeD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">class</span> <span class="nc">OccursV</span> <span class="kd">implements</span> <span class="n">TreeVisitorI</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">FruitD</span> <span class="n">a</span><span class="o">;</span>
+</span><span class='line'>            <span class="n">OccursV</span><span class="o">(</span><span class="n">FruitD</span> <span class="n">_a</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">a</span> <span class="o">=</span> <span class="n">_a</span><span class="o">;</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="n">Object</span> <span class="nf">forBud</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="k">new</span> <span class="nf">Integer</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="n">Object</span> <span class="nf">forFlat</span><span class="o">(</span><span class="n">FruitD</span> <span class="n">f</span><span class="o">,</span> <span class="n">TreeD</span> <span class="n">t</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="o">(</span><span class="n">f</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">a</span><span class="o">))</span>
+</span><span class='line'>                    <span class="k">return</span> <span class="k">new</span> <span class="nf">Integer</span><span class="o">(((</span><span class="n">Integer</span><span class="o">)(</span><span class="n">t</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="k">this</span><span class="o">))).</span><span class="na">intValue</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>                <span class="k">else</span>
+</span><span class='line'>                    <span class="k">return</span> <span class="n">t</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="kt">int</span> <span class="nf">forSplit</span><span class="o">(</span><span class="n">TreeD</span> <span class="n">l</span><span class="o">,</span> <span class="n">TreeD</span> <span class="n">r</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="k">new</span> <span class="nf">Integer</span><span class="o">(((</span><span class="n">Integer</span><span class="o">)(</span><span class="n">l</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="k">this</span><span class="o">))).</span><span class="na">intValue</span><span class="o">()</span>
+</span><span class='line'>                                   <span class="o">+</span>
+</span><span class='line'>                                   <span class="o">((</span><span class="n">Integer</span><span class="o">)(</span><span class="n">r</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="k">this</span><span class="o">))).</span><span class="na">intValue</span><span class="o">());</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">TreeD</span>
+</span><span class='line'>    <span class="nf">Accept</span><span class="o">(</span><span class="n">TreeVisitorI</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Bub</span> <span class="err">芽</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">TreeVisitorI</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Flat</span> <span class="err">平顶</span>
+</span><span class='line'>            <span class="n">FruitD</span>
+</span><span class='line'>            <span class="n">TreeD</span>
+</span><span class='line'>            <span class="nf">Flat</span><span class="o">(</span><span class="n">FruitD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">TreeVisitorI</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Split</span> <span class="err">分枝</span>
+</span><span class='line'>            <span class="n">TreeD</span>
+</span><span class='line'>            <span class="n">TreeD</span>
+</span><span class='line'>            <span class="nf">Split</span><span class="o">(</span><span class="n">TreeD</span><span class="o">,</span> <span class="n">TreeD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">tTreeVisitorI</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">PieD</span>
+</span><span class='line'>    <span class="n">RemAV</span> <span class="n">raFn</span>
+</span><span class='line'>    <span class="n">RemFish</span> <span class="n">rfFn</span>
+</span><span class='line'>    <span class="nf">remA</span><span class="o">()</span><span class="n">a</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">remFish</span><span class="o">(</span><span class="n">FishD</span><span class="o">)</span><span class="n">a</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">Bot</span>
+</span><span class='line'>            <span class="nf">remA</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">remFish</span><span class="o">(</span><span class="n">FishD</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">Top</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="n">PieD</span>
+</span><span class='line'>            <span class="nf">Top</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">PieD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">remA</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">remFish</span><span class="o">(</span><span class="n">FishD</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">FishD</span>
+</span><span class='line'>    <span class="n">Salmon</span> <span class="err">鲑鱼</span>
+</span><span class='line'>    <span class="n">Equals</span><span class="o">(</span><span class="n">Object</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">Anchovy</span> <span class="err">凤尾鱼</span>
+</span><span class='line'>    <span class="n">Equals</span><span class="o">(</span><span class="n">Object</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">Tuna</span>  <span class="err">金枪鱼</span>
+</span><span class='line'>    <span class="n">Equals</span><span class="o">(</span><span class="n">Object</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">RemAV</span>
+</span><span class='line'>    <span class="n">forBot</span>
+</span><span class='line'>    <span class="nf">fotTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">PieD</span><span class="o">)</span>
+</span><span class='line'><span class="n">RemFishV</span>
+</span><span class='line'>    <span class="nf">forBot</span><span class="o">(</span><span class="n">FishD</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">PieD</span><span class="o">,</span>  <span class="n">FishD</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">RemIntV</span>
+</span><span class='line'>    <span class="nf">forBot</span><span class="o">(</span><span class="kt">int</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">pieD</span><span class="o">,</span> <span class="n">Integer</span><span class="o">)</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h3 id="8">重新设计RemAV RemFishV  RemIntV 为RemV(用Object替换）</h3>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">RemV</span>
+</span><span class='line'>    <span class="nf">forBot</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">pieD</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'><span class="n">PieD</span>
+</span><span class='line'>    <span class="n">RemV</span>
+</span><span class='line'>    <span class="nf">Rem</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Bot</span>
+</span><span class='line'>            <span class="nf">Rem</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Top</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="n">PieD</span>
+</span><span class='line'>            <span class="nf">Top</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">PieD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Rem</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">SubstFishV</span>
+</span><span class='line'>    <span class="nf">forBot</span><span class="o">(</span><span class="n">FishD</span><span class="o">,</span> <span class="n">FishD</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span> <span class="o">,</span> <span class="n">PieD</span><span class="o">,</span> <span class="n">FishD</span><span class="o">,</span> <span class="n">FishO</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">SubstIntV</span>
+</span><span class='line'>    <span class="nf">forBot</span><span class="o">(</span><span class="n">Int</span><span class="o">,</span> <span class="n">Int</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span> <span class="o">,</span> <span class="n">PieD</span><span class="o">,</span> <span class="n">Int</span><span class="o">,</span> <span class="n">Int</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">SubstV</span>
+</span><span class='line'>    <span class="nf">forBot</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span> <span class="o">,</span> <span class="n">PieD</span><span class="o">,</span> <span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3 id="9">然后现在把Remv 和Subst重新放入PieD</h3>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">PieD</span>
+</span><span class='line'>    <span class="n">Remv</span>
+</span><span class='line'>    <span class="n">SubstV</span>
+</span><span class='line'>    <span class="nf">Rem</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">Subst</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Bot</span>
+</span><span class='line'>            <span class="nf">Rem</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Subst</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Top</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="n">PieD</span>
+</span><span class='line'>            <span class="nf">Top</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span><span class="n">PieD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Rem</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Subst</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h3 id="9">紧接着 我们还想着把Remv  SubstV放入参数的位置</h3>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">PieD</span>
+</span><span class='line'>    <span class="nf">Rem</span><span class="o">(</span><span class="n">Remv</span><span class="o">,</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">Subst</span><span class="o">(</span><span class="n">SubstV</span><span class="o">,</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Bot</span>
+</span><span class='line'>            <span class="nf">Rem</span><span class="o">(</span><span class="n">Renv</span><span class="o">,</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Subst</span><span class="o">(</span><span class="n">Substv</span><span class="o">,</span><span class="n">Object</span><span class="o">,</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Top</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="n">PieD</span>
+</span><span class='line'>            <span class="nf">Top</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span><span class="n">PieD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Rem</span><span class="o">(</span><span class="n">RemV</span><span class="o">,</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Subst</span><span class="o">(</span><span class="n">Substv</span><span class="o">,</span><span class="n">Object</span><span class="o">,</span><span class="n">Object</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h3 id="10">紧接着我们进一步比较RemV SubstV的实现(我们就得重新修改rem和subst了)</h3>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">RemV</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">Object</span> <span class="n">o</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">RemV</span><span class="o">(</span><span class="n">Object</span> <span class="n">_o</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">o</span> <span class="o">=</span> <span class="n">_o</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="n">PieD</span> <span class="nf">forBot</span><span class="o">(</span><span class="n">Object</span> <span class="n">o</span><span class="o">){</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">new</span> <span class="nf">Bot</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="n">PieD</span> <span class="nf">forTop</span><span class="o">(</span><span class="n">Object</span> <span class="n">t</span><span class="o">,</span> <span class="n">PieD</span> <span class="n">r</span><span class="o">){</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">t</span><span class="o">))</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="na">rem</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>            <span class="k">return</span> <span class="k">new</span> <span class="nf">Top</span><span class="o">(</span><span class="n">t</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">rem</span><span class="o">(</span><span class="k">this</span><span class="o">));</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="kd">class</span> <span class="nc">RemV</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">PieD</span> <span class="nf">forBot</span><span class="o">(</span><span class="n">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">new</span> <span class="nf">Bot</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="n">PieD</span> <span class="nf">forTop</span><span class="o">(</span><span class="n">Object</span> <span class="n">t</span><span class="o">,</span> <span class="n">PieD</span> <span class="n">r</span><span class="o">,</span> <span class="n">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">t</span><span class="o">))</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="na">rem</span><span class="o">(</span><span class="n">o</span><span class="o">);</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>            <span class="k">return</span> <span class="k">new</span> <span class="nf">Top</span><span class="o">(</span><span class="n">t</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">rem</span><span class="o">(</span><span class="n">o</span><span class="o">));</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">class</span> <span class="nc">SubstV</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">PieD</span> <span class="nf">forBot</span><span class="o">(</span><span class="n">Object</span> <span class="n">n</span><span class="o">,</span> <span class="n">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">new</span> <span class="nf">Bot</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="n">PieD</span> <span class="nf">forTop</span> <span class="o">(</span><span class="n">Object</span> <span class="n">t</span><span class="o">,</span> <span class="n">PieD</span> <span class="n">r</span><span class="o">,</span> <span class="n">Object</span> <span class="n">n</span><span class="o">,</span> <span class="n">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">t</span><span class="o">))</span>
+</span><span class='line'>            <span class="k">return</span> <span class="k">new</span> <span class="nf">Top</span><span class="o">(</span><span class="n">n</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">subst</span><span class="o">(</span><span class="n">n</span><span class="o">,</span> <span class="n">o</span><span class="o">));</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>            <span class="k">return</span> <span class="k">new</span> <span class="nf">Top</span><span class="o">(</span><span class="n">t</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">subst</span><span class="o">(</span><span class="n">n</span><span class="o">,</span> <span class="mi">0</span><span class="o">));</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="kd">class</span> <span class="nc">SubstV</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">Object</span> <span class="n">n</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">Object</span> <span class="n">o</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">SubstV</span><span class="o">(</span><span class="n">Object</span> <span class="n">_n</span><span class="o">,</span> <span class="n">Object</span> <span class="n">_o</span><span class="o">){</span>
+</span><span class='line'>        <span class="n">n</span> <span class="o">=</span> <span class="n">_n</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">o</span> <span class="o">=</span> <span class="n">_o</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="n">PieD</span> <span class="nf">forBot</span><span class="o">(</span><span class="n">Object</span> <span class="n">n</span><span class="o">,</span> <span class="n">Object</span> <span class="n">o</span><span class="o">){</span>
+</span><span class='line'>            <span class="k">return</span> <span class="k">new</span> <span class="nf">Bot</span><span class="o">();</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="n">PieD</span> <span class="nf">forTop</span><span class="o">(</span><span class="n">Object</span> <span class="n">t</span><span class="o">,</span> <span class="n">PieD</span> <span class="n">r</span><span class="o">){</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">t</span><span class="o">))</span>
+</span><span class='line'>            <span class="k">return</span> <span class="k">new</span> <span class="nf">Top</span><span class="o">(</span><span class="n">n</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">subst</span><span class="o">(</span><span class="k">this</span><span class="o">));</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>            <span class="k">return</span> <span class="k">new</span> <span class="nf">Top</span><span class="o">(</span><span class="n">t</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">subst</span><span class="o">(</span><span class="k">this</span><span class="o">));</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3 id="11">紧接着我们可以进行下一步抽象</h3>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">PieD</span>
+</span><span class='line'>    <span class="nf">Rem</span><span class="o">(</span><span class="n">RemV</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">Subst</span><span class="o">(</span><span class="n">SubstV</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Top</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="n">PieD</span>
+</span><span class='line'>            <span class="nf">Top</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">PieD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Rem</span><span class="o">(</span><span class="n">RemV</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Subst</span><span class="o">(</span><span class="n">SubstV</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Bot</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="n">PieD</span>
+</span><span class='line'>            <span class="nf">Bot</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">PieD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Rem</span><span class="o">(</span><span class="n">RemV</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Subst</span><span class="o">(</span><span class="n">SubstV</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3 id="12">紧接着我们发现rem和subst代码类似</h3>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">PieVisitorI</span>
+</span><span class='line'>    <span class="n">forBot</span>
+</span><span class='line'>    <span class="n">forTop</span>
+</span><span class='line'>        <span class="n">RemV</span> <span class="n">implement</span> <span class="n">PieVisitorI</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="nf">RemV</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forBot</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span><span class="n">PieD</span><span class="err">）</span>
+</span><span class='line'>        <span class="n">SubstV</span> <span class="n">implement</span> <span class="n">PieVisitorI</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="nf">SubstV</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forBot</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span><span class="n">PieD</span><span class="err">）</span>
+</span><span class='line'>        <span class="n">LtdSubstV</span> <span class="n">implement</span> <span class="n">PieVisitorI</span>
+</span><span class='line'>            <span class="kt">int</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="nf">LtdSubstV</span><span class="o">(</span><span class="kt">int</span><span class="o">,</span> <span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forBot</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span><span class="n">PieD</span><span class="err">）</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">PieD</span>
+</span><span class='line'>    <span class="nf">Accept</span><span class="o">(</span><span class="n">PieVisitorI</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Bob</span>
+</span><span class='line'>            <span class="nf">Accept</span><span class="o">(</span><span class="n">pieVisitorI</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Top</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="n">PieD</span>
+</span><span class='line'>            <span class="nf">Top</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span><span class="n">PieD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">PieVisitorI</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">ExprVisitorI</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ExprVisitorI</span>
+</span><span class='line'>    <span class="nf">forPlus</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forDiff</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forProd</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forConst</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">IntEvalV</span> <span class="kd">implements</span>  <span class="n">ExprVisitorI</span>
+</span><span class='line'>            <span class="nf">forPlus</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">forDiff</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">forProd</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">forConst</span><span class="o">(</span><span class="n">Object</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">Plus</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Diff</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Prod</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">ExprD</span>
+</span><span class='line'>    <span class="nf">Accept</span><span class="o">(</span><span class="n">ExprVisitorI</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">Plus</span>
+</span><span class='line'>            <span class="n">ExprD</span>
+</span><span class='line'>            <span class="n">ExprD</span>
+</span><span class='line'>            <span class="nf">Plus</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">ExprVisitorI</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">Diff</span>
+</span><span class='line'>            <span class="n">ExprD</span>
+</span><span class='line'>            <span class="n">ExprD</span>
+</span><span class='line'>            <span class="nf">Diff</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">ExprVisitorI</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">Prod</span>
+</span><span class='line'>            <span class="n">ExprD</span>
+</span><span class='line'>            <span class="n">ExprD</span>
+</span><span class='line'>            <span class="nf">Prod</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">ExprVisitorI</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">ConstD</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="nf">ConstD</span><span class="o">(</span><span class="n">Object</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">ExprVisitorI</span><span class="o">);</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3 id="13">然后再实现Set集合的类型</h3>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">SetD</span>
+</span><span class='line'>    <span class="nf">Add</span><span class="o">(</span><span class="n">integer</span> <span class="n">i</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">Mem</span><span class="o">(</span><span class="n">integer</span> <span class="n">i</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">Plus</span><span class="o">(</span><span class="n">SetD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">Diff</span><span class="o">(</span><span class="n">SetD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">Prod</span><span class="o">(</span><span class="n">SetD</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">Empty</span>
+</span><span class='line'>            <span class="nf">Mem</span><span class="o">(</span><span class="n">integer</span> <span class="n">i</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">Plus</span><span class="o">(</span><span class="n">SetD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">Diff</span><span class="o">(</span><span class="n">SetD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">Prod</span><span class="o">(</span><span class="n">SetD</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">Add</span>
+</span><span class='line'>            <span class="n">Integer</span><span class="o">;</span>
+</span><span class='line'>            <span class="n">SetD</span><span class="o">;</span>
+</span><span class='line'>            <span class="n">Add</span><span class="o">(</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Integer</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Mem</span><span class="o">(</span><span class="n">integer</span> <span class="n">i</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">Plus</span><span class="o">(</span><span class="n">SetD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">Diff</span><span class="o">(</span><span class="n">SetD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">Prod</span><span class="o">(</span><span class="n">SetD</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ExprVisitorI</span>
+</span><span class='line'>    <span class="nf">forPlus</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forDiff</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forProd</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forConst</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">IntEvalV</span> <span class="kd">implements</span>  <span class="n">ExprVisitorI</span>
+</span><span class='line'>            <span class="nf">forPlus</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">forDiff</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">forProd</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">forConst</span><span class="o">(</span><span class="n">Object</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">Plus</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Diff</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Prod</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>                <span class="n">SetEvalV</span> <span class="kd">implements</span> <span class="n">IntEvalV</span>
+</span><span class='line'>                    <span class="nf">Plus</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>                    <span class="n">Diff</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>                    <span class="n">Prod</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3 id="14">SetEvalV 直接集成IntEvalV不合理？</h3>
+
+
+<p>从SetEvalV 和IntEvalV抽取出一个基类</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">EvalD</span> <span class="kd">implements</span> <span class="n">ExprVisitorI</span>
+</span><span class='line'>    <span class="nf">forPlus</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forDiff</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forProd</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">forConst</span><span class="o">(</span><span class="n">ExprD</span><span class="o">,</span> <span class="n">ExprD</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">Plus</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">Diff</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">Prod</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">IntEvalD</span>
+</span><span class='line'>            <span class="nf">Plus</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span>     <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Diff</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Prod</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">SetEvalD</span>
+</span><span class='line'>            <span class="nf">Plus</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Diff</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Prod</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h3 id="15">IntEvalD 和SetEvalD很多相似之处</h3>
+
+
+<p>于是我们进一步提取</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">SubstD</span> <span class="kd">implements</span> <span class="n">pieVisitorI</span>
+</span><span class='line'>    <span class="n">Object</span>
+</span><span class='line'>    <span class="n">Object</span>
+</span><span class='line'>    <span class="nf">SubstD</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">forBot</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span><span class="n">PieD</span><span class="o">)</span>
+</span><span class='line'><span class="n">SubstV</span>
+</span><span class='line'>    <span class="nf">SubstV</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'><span class="n">LtdSubstV</span>
+</span><span class='line'>    <span class="kt">int</span>
+</span><span class='line'>    <span class="nf">LtdSubstV</span><span class="o">(</span><span class="kt">int</span><span class="o">,</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3 id="16">根据extends使用override增加函数的丰富性</h3>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">SubstV</span> <span class="kd">implements</span> <span class="n">PieVisitorI</span>
+</span><span class='line'>    <span class="n">Object</span>
+</span><span class='line'>    <span class="n">Object</span>
+</span><span class='line'>    <span class="nf">SubstV</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">forBot</span><span class="o">()</span>
+</span><span class='line'>    <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">PieD</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">LtdSubstV</span>
+</span><span class='line'>    <span class="n">Int</span>
+</span><span class='line'>    <span class="n">Object</span>
+</span><span class='line'>    <span class="n">Object</span>
+</span><span class='line'>    <span class="nf">LtdSubstV</span><span class="o">(</span><span class="kt">int</span><span class="o">,</span> <span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">PieD</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>原来，抽象类可以有构造方法.抽象类只要有一个abstract函数就可以叫做抽象类
+抽象类可以有构造方法，构造方法不可继承，但是可以供子类用super（）或者super（参数，参数。。。。）调用。
+构造函数是对象的基本，没有构造函数就没有对象。
+若果在父类中（这里就是你的抽象类）中显示的写了又参数的构造函数，在子类继承是就必须写一个构造函数来调用父类的构造函数。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">PointD</span>
+</span><span class='line'><span class="nf">PointD</span><span class="o">(</span><span class="n">chapter1</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span> <span class="err">点</span>
+</span><span class='line'>    <span class="n">distanceTo0</span><span class="o">(</span><span class="kt">int</span><span class="o">,</span><span class="kt">int</span><span class="o">);</span> <span class="c1">//可以把它们移入到构造函数中</span>
+</span><span class='line'>    <span class="n">closerTo0</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">PointD</span> <span class="nf">minus</span><span class="o">(</span><span class="n">PointD</span><span class="o">)</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="nf">moveBy</span><span class="o">(</span><span class="kt">int</span> <span class="o">,</span><span class="kt">int</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">CartesianPt</span> <span class="err">笛卡尔坐标</span>
+</span><span class='line'>            <span class="n">Int</span>
+</span><span class='line'>            <span class="n">Int</span>
+</span><span class='line'>            <span class="nf">CartesianPt</span><span class="o">(</span><span class="kt">int</span><span class="o">,</span><span class="kt">int</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">distanceTo0</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">Closeto0</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">ManhattenPt</span> <span class="err">曼哈顿坐标</span>
+</span><span class='line'>            <span class="n">Int</span>
+</span><span class='line'>            <span class="n">Int</span>
+</span><span class='line'>            <span class="nf">ManhattenPt</span><span class="o">(</span><span class="kt">int</span><span class="o">,</span><span class="kt">int</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">distanceTo0</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">Closeto0</span><span class="o">();</span>
+</span><span class='line'>        <span class="err">圆柱坐标系</span>
+</span><span class='line'>        <span class="err">球坐标系</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">ShadowedCartesia</span>
+</span><span class='line'>    <span class="n">Int</span>
+</span><span class='line'>    <span class="n">Int</span>
+</span><span class='line'>    <span class="nf">ShadowedCartesia</span><span class="o">(</span><span class="kt">int</span><span class="o">,</span> <span class="kt">int</span><span class="o">,</span> <span class="kt">int</span><span class="o">,</span> <span class="kt">int</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">distanceTo0</span><span class="o">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">shapeVisitorI</span>
+</span><span class='line'>    <span class="nf">forCircle</span><span class="o">(</span><span class="kt">int</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">forSquare</span><span class="o">(</span><span class="kt">int</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">forTrans</span><span class="o">(</span><span class="n">pointD</span><span class="o">,</span> <span class="n">ShapeD</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">UnionVisitorI</span>
+</span><span class='line'>    <span class="nf">forUnion</span><span class="o">(</span><span class="n">ShapeD</span><span class="o">,</span> <span class="n">ShapeD</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">HasPtV</span> <span class="kd">implements</span> <span class="n">ShapeVisitorI</span>
+</span><span class='line'>            <span class="n">PointD</span>
+</span><span class='line'>            <span class="nf">HasPt</span><span class="o">(</span><span class="n">PointD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forCircle</span><span class="o">(</span><span class="kt">int</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forSquare</span><span class="o">(</span><span class="kt">int</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forTrans</span><span class="o">(</span><span class="n">PointD</span><span class="o">,</span> <span class="n">ShapeD</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">UnionHasPtV</span> <span class="kd">implements</span> <span class="n">ShapeVisitorI</span>
+</span><span class='line'>            <span class="nf">UnionHasPtV</span><span class="o">(</span><span class="n">PointD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forUnion</span><span class="o">(</span><span class="n">ShapeD</span><span class="o">,</span> <span class="n">ShapeD</span><span class="o">)</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="k">new</span> <span class="n">HasPtV</span><span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="na">minus</span><span class="o">(</span><span class="n">q</span><span class="o">)));</span>
+</span><span class='line'>        <span class="n">HasPtV</span> <span class="kd">implements</span> <span class="n">ShapeVisitorI</span>
+</span><span class='line'>            <span class="n">PointD</span>
+</span><span class='line'>            <span class="nf">HasPt</span><span class="o">(</span><span class="n">PointD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">ShapeVisitorI</span> <span class="nf">newHasPt</span><span class="o">(</span><span class="n">PointD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forCircle</span><span class="o">(</span><span class="kt">int</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forSquare</span><span class="o">(</span><span class="kt">int</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forTrans</span><span class="o">(</span><span class="n">PointD</span><span class="o">,</span> <span class="n">ShapeD</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">UnionHasPtV</span> <span class="kd">implements</span> <span class="n">unionVisitorI</span>
+</span><span class='line'>            <span class="nf">UnionHasPtV</span><span class="o">(</span><span class="n">PointD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">ShapeVisitorI</span> <span class="nf">newHasPt</span><span class="o">(</span><span class="n">PointD</span><span class="o">)</span><span class="n">_o</span>
+</span><span class='line'>            <span class="n">forUnion</span><span class="o">(</span><span class="n">ShapeD</span><span class="o">,</span> <span class="n">ShapeD</span><span class="o">)</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">newHasPtV</span><span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="na">minus</span><span class="o">(</span><span class="n">q</span><span class="o">)));</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">ShapeD</span>
+</span><span class='line'>    <span class="nf">Accept</span><span class="o">(</span><span class="n">ShapeVisitorI</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Circle</span>
+</span><span class='line'>            <span class="n">Int</span>
+</span><span class='line'>            <span class="nf">Circle</span><span class="o">(</span><span class="kt">int</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">ShapeVisitorI</span><span class="o">)</span><span class="n">_o</span>
+</span><span class='line'>        <span class="n">Square</span>
+</span><span class='line'>            <span class="n">Int</span>
+</span><span class='line'>            <span class="nf">Square</span><span class="o">(</span><span class="kt">int</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">ShapeVisitorI</span><span class="o">)</span><span class="n">_o</span>
+</span><span class='line'>        <span class="n">Trans</span>
+</span><span class='line'>            <span class="n">PointD</span>
+</span><span class='line'>            <span class="n">ShapeD</span>
+</span><span class='line'>            <span class="nf">Trans</span><span class="o">(</span><span class="kt">int</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">ShapeVisitorI</span><span class="o">)</span><span class="n">_o</span>
+</span><span class='line'>        <span class="n">Union</span>
+</span><span class='line'>            <span class="n">ShapeD</span>
+</span><span class='line'>            <span class="n">ShapeD</span>
+</span><span class='line'>            <span class="nf">Union</span><span class="o">(</span><span class="n">ShapeD</span><span class="o">,</span> <span class="n">ShapeD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Accetp</span><span class="o">(</span><span class="n">ShapeVisitorI</span><span class="o">)</span><span class="n">_o</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3 id="16">newHasPt和HasPtV are eta reduction</h3>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">PieManI</span>
+</span><span class='line'>    <span class="n">Int</span> <span class="nf">addTop</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">Int</span> <span class="nf">remTop</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">Int</span> <span class="nf">substTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">Int</span> <span class="nf">occTop</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">PieManM</span> <span class="kd">implements</span> <span class="n">PieManI</span>
+</span><span class='line'>    <span class="n">PieD</span>
+</span><span class='line'>    <span class="nf">addTop</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span> <span class="n">_o</span>
+</span><span class='line'>    <span class="n">remTop</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span><span class="n">_o</span>
+</span><span class='line'>    <span class="n">substTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span><span class="n">Object</span><span class="o">)</span><span class="n">_o</span>
+</span><span class='line'>    <span class="n">occTop</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">PieVisitorI</span>
+</span><span class='line'>    <span class="nf">forBot</span><span class="o">();</span>
+</span><span class='line'>    <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">OccursV</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="nf">OccursV</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forBot</span><span class="o">()</span><span class="n">_o</span>
+</span><span class='line'>            <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span><span class="n">PieD</span><span class="o">)</span><span class="n">_o</span>
+</span><span class='line'>        <span class="n">SubstV</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="nf">SubstV</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forBot</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span><span class="n">PieD</span><span class="o">)</span><span class="n">_o</span>
+</span><span class='line'>        <span class="n">RemV</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="nf">RemV</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forBot</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forTop</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span><span class="n">PieD</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">PieD</span>
+</span><span class='line'>    <span class="nf">Accept</span><span class="o">(</span><span class="n">PieVisitorI</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Bot</span>
+</span><span class='line'>            <span class="nf">Accept</span><span class="o">(</span><span class="n">PieVisitorI</span><span class="o">)</span><span class="n">_o</span>
+</span><span class='line'>        <span class="n">Top</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="n">PieD</span>
+</span><span class='line'>            <span class="nf">Top</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">PieD</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">PieVisitorI</span><span class="o">)</span><span class="n">_o</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">PieVisitorI</span>
+</span><span class='line'>    <span class="nf">forBot</span><span class="o">(</span><span class="n">Bot</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">foTop</span><span class="o">(</span><span class="n">Top</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">OccursV</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="nf">OccursV</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forBot</span><span class="o">(</span><span class="n">Bot</span> <span class="n">that</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forTop</span><span class="o">(</span><span class="n">Top</span> <span class="n">that</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">SubstV</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="nf">SubstV</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forBot</span><span class="o">(</span><span class="n">Bot</span> <span class="n">that</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forTop</span><span class="o">(</span><span class="n">Top</span> <span class="n">That</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">RemV</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="nf">RemV</span><span class="o">(</span><span class="n">Object</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">forBot</span><span class="o">(</span><span class="n">Bot</span> <span class="n">that</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">fotTop</span><span class="o">(</span><span class="n">Top</span> <span class="n">that</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">PieD</span>
+</span><span class='line'>    <span class="nf">Accept</span><span class="o">(</span><span class="n">PieVisitorI</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">Bot</span>
+</span><span class='line'>            <span class="nf">Accept</span><span class="o">(</span><span class="n">PieVisitorI</span><span class="o">)</span><span class="n">_o</span>
+</span><span class='line'>        <span class="n">Top</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="n">Object</span>
+</span><span class='line'>            <span class="nf">Top</span><span class="o">(</span><span class="n">Object</span><span class="o">,</span> <span class="n">Objct</span><span class="o">)</span>
+</span><span class='line'>            <span class="n">Accept</span><span class="o">(</span><span class="n">PieVisitor</span><span class="o">)</span><span class="n">_o</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p><strong>每天你只能不断去思考 事情的要点和第一步和第二步 才能取得进步.</strong></p>
+
+<p>What’s the point of the visitor pattern? What’s the point of the software design?</p>
+
+<ul>
+<li>亮点</li>
+<li>突破点，并按照一定的方向。。</li>
+<li>关键点</li>
+</ul>
+
+
+<p><img src="/images/alittlejava/closure.png" alt="closure" /></p>
+
+<p><strong>Closure(Closure(this))</strong></p>
+
+<p>具体java源代码参考<a href="https://github.com/jueqingsizhe66/ALittleJava">the little java</a></p>
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2016/10/09/a-little-java-note/'>http://jueqingsizhe66.github.io/blog/2016/10/09/a-little-java-note/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-10-09T01:58:39+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javabasic/'>JavaBasic</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/09/29/physics-and-maths/" title="Previous Post: Physics and Maths">&laquo; Physics and Maths</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><div class="ds-thread" > </div>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"f708708"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+  <p><img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> <!--不是他的原因-->
+ <!--而是yellow的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (3)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (22)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (3)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (18)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/29/physics-and-maths/">Physics and Maths</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/jump-out-of-ontology/">Jump Out of Ontology</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/machine-learning-some-search-record/">Machine Learning Some Search Record</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/28/graphviz-notebook/">Graphviz Notebook</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="1" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+
+</section>
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2016/10/09/a-little-java-note/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2016/10/09/a-little-java-note/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>
