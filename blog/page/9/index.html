@@ -74,6 +74,92 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/05/11/ya-suo-wen-jian-ioliu-de-shi-yong-he-jian-dan-feng-zhuang-%280213%29/">压缩文件IO流的使用和简单封装（0213）</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:47+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="/blog/2015/05/11/ya-suo-wen-jian-ioliu-de-shi-yong-he-jian-dan-feng-zhuang-%280213%29/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"></div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/05/11/ya-suo-wen-jian-ioliu-de-shi-yong-he-jian-dan-feng-zhuang-%280213%29/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/11/wang-luo-bian-cheng-8-12jie-bi-ji-dai-ma-march18th/">网络编程8-12节笔记代码March18th</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-11T14:58:46+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="/blog/2015/05/11/wang-luo-bian-cheng-8-12jie-bi-ji-dai-ma-march18th/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"></div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/05/11/wang-luo-bian-cheng-8-12jie-bi-ji-dai-ma-march18th/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/05/11/ting-you-yi-si-de-%5B%3F%5D-ge-bug%2Creturnjie-jue-wen-ti/">挺有意思的一个bug，return解决问题</a></h1>
     
     
@@ -631,1120 +717,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/11/javascript1-6jie-bi-ji-dai-ma-march26th/">JavaScript1-6节笔记代码March26th</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-11T14:58:43+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
-        
-
-         
-          | <a href="/blog/2015/05/11/javascript1-6jie-bi-ji-dai-ma-march26th/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>js 常见 Events
-属性        当以下情况发生时，出现此事件      <br/>
-onabort        图像加载被中断        元素失去焦点      <br/>
-onchange        用户改变域的内容
-onclick        鼠标点击某个对象
-ondblclick        鼠标双击某个对象      <br/>
-onerror        当加载文档或图像时发生某个错误      <br/>
-onfocus        元素获得焦点      <br/>
-onkeydown        某个键盘的键被按下      <br/>
-onkeypress        某个键盘的键被按下或按住      <br/>
-onkeyup        某个键盘的键被松开      <br/>
-onload        某个页面或图像被完成加载      <br/>
-onmousedown        某个鼠标按键被按下      <br/>
-onmousemove        鼠标被移动      <br/>
-onmouseout        鼠标从某元素移开      <br/>
-onmouseover        鼠标被移到某元素之上      <br/>
-onmouseup        某个鼠标按键被松开      <br/>
-onreset        重置按钮被点击      <br/>
-onresize        窗口或框架被调整尺寸      <br/>
-onselect        文本被选定      <br/>
-onsubmit        提交按钮被点击      <br/>
-onunload        用户退出页面 <br/>
-一、复习DOM</p>
-
-<pre><code>    1.对于JS来说，在Web中，最重要的应用之一就是DOM。
-    2.Dom是针对HTML和XML操作的一个API。
-    3.Dom将一个文档表示为一颗家族树（父，兄，子 节点）
-    4.几个常用的API。
-            getElementById 只能用document来使用，通过id查找一个节点。
-            getElementsByTagName  返回的是一个数组，通过指定的标签名去寻找，不必作用于整个文档。
-            hasChildNodes 调用的节点是否含有子节点。
-    5.Dom中的节点有文本节点（Text），属性节点（Attribute），元素节点（Element）。
-    6.以上3类节点中，都有如下属性：
-            nodeName：只读，标识的是给定节点的名字，该节点为只读属性。对于文本节点返回的是 #text 的字符串。
-            noteType：只读，返回值为int，标识节点的类型。元素节点 1，属性节点 2，文本节点 3。（从小到大的记忆顺序）
-            nodeValue: 可读，可写。返回当前节点的值，属性节点返回属性的值，文本节点返回文本的值，元素节点啥都没有。
-    7.Dom中常用方法：
-            replaceChild()：返回值是一个指向新的或者旧的节点。（？）作用是吧一个父元素中的子节点替换为另外一个子节点。
-                    ex:        var reference = element.replaceChild(newChild,oldChild);
-            getAttribute(): 返回的是指定元素的给凌属性的值。
-                    ex:        var attributeValue = element.getAttribute(attributeName);
-            setAttribute(key,value)：为指定的元素添加某个属性，如果此属性已经存在就刷新，如果不存在就添加。
-                    ex:      var para = document.createElement(“p”);           para.setAttribute(“id”,”fineprint”);
-            createElement(eleName):通过指定的标签名字来创建一个元素节点。这个新创建的节点没实际添加到某个节点上。
-                    ex:        var oP = document.createElement("p");
-            createTextNode()：创建一个包含指定文本的文本节点。返回值为一个指向新建文本节点的指针。
-                    ex: var oText=document.createTextNode("HEllo world");
-            appendChild()：为指定的元素添加一个节点到最后一个节点后。
-            insertBefore()：在指定的节点前面添加。
-                    ex:        var reference = element.insertBefore(newNode,targetNode);
-                    注：Dom没有提供insertAfter()方法：就是在插入节点的下一个节点之前添加，就是在指定节点的前面添加。
-            removeChild()：在指定节点中的子节点删除一个节点。
-                    注：一定要是父节点去调用然后括号里面是自己点。
-                    ex： var message = document.getElementById(“fineprint”);
-                                    var container = message.parentNode;
-                                    container.removeChild(message);
-    8.Dom中常用属性
-            ChildNodes：返回的是指定父节点的所有子节点。
-                    注：文本节点和属性节点，肯定不含有子节点了，如果调用这个属性，会返回空数组。
-            firstChild:返回的是指定元素的第一个子节点。
-                    ex:node.ChileNodes[0]和firstChild 是相同的。
-            lastChild:和first想法，最后一个。
-            nextSibling：指定节点的下一个子节点。
-            previousSibling:指定节点的上一个子节点。
-            parentNode：返回的是指定节点的父节点。
-</code></pre>
-
-<p>二、JavaScript练习总结</p>
-
-<pre><code>    1.window.onload=function(){...}表示的是在页面加载完成后便开始运行。
-    2.node.insertBefor(new node,null)。这样调用就可以在指定的前面添加了!
-    3.如果网页乱码，可以在&lt;head&gt;&lt;/head&gt;之间加上：  &lt;meta http-equiv="content-type" content="text/html; charset=utf-8"/&gt;
-    4.特别说明：insertBefor这个方法。3个参数：  paraentNode.insertBefor(newNode,childNodeInParaNode);
-            就是说哪个Node来调用insertBefore方法就是在那个Node的子节点中插入，其中第一个参数是要插入的节点，第二个参数是自己点中要在哪个指定的子元素前面。
-            注：第二个节点可是是null，就表示在最后添加，同AppendChild。特别注意了。
-    5.getElementByTagName("标签")，这个里面输入的是HTML的标签。
-    6.对于元素节点的nodeName，其返回值永远是大小的标签。
-    7.忘记nodeValue吧，使用value就够了，前面的需要区分下。
-    8.value这个属性可读可写。
-    9.对于使用firstChild和lastChild不是我们所见的第一个。这个特别注意了。
-    10.通常来说firstNode和lastNode获取的是文本节点。
-    11.对于文本节点，如果要设置他的值，需要使用nodeValue而不是value。比如说firstChild和lastChild获取的都是属于文本节点。
-    12.为某一个节点添加 可以使用innderHtml也可以使用 创建一个TextNode然后添加到某个节点上去。
-    13.对于replaceChild，parentNode.replaceChild(newChild，childInParane).这个方法的作用是父节点调用替换某个子节点，第一个节点一般都是新的节点，第二个节点
-    14.几个不加括号的地方:
-            window.onload=function myFunc(){...}
-    15.在JS中，方法带了括号表示运行。
-    16.
-</code></pre>
-
-<p>三、问题</p>
-
-<pre><code>    2.innerHtml和innerText的区别？
-    3.window.onload=function(){} 在一个页面只能写一次。
-    4.关于parenNode和parentElement区别？
-</code></pre>
-
-<p>2.innerHtml和innerText的区别？
-从字面意义来讲 innerHtml操作标签内的html代码 , 而innerText操作标签内的文本 , 当标签内只有文本时这两个方法是一样的 , 区别就在标签内还要子标签时,写代码测试就知道了</p>
-
-<p>3.window.onload=function(){} 在一个页面只能写一次。
-这个是&#8221;重量级&#8221;的加载完成事件 , 只能注册一次,jQuery的ready()就很方便</p>
-
-<p>4.关于parenNode和parentElement区别？
-parentNode 是Node类的属性 , 而parentElement是Element类的属性 , 很多情况下可以通用,只是属于两个不同的体系,使用时尝试着看看效果就好</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-<span class='line-number'>123</span>
-<span class='line-number'>124</span>
-<span class='line-number'>125</span>
-<span class='line-number'>126</span>
-<span class='line-number'>127</span>
-<span class='line-number'>128</span>
-<span class='line-number'>129</span>
-<span class='line-number'>130</span>
-<span class='line-number'>131</span>
-<span class='line-number'>132</span>
-<span class='line-number'>133</span>
-<span class='line-number'>134</span>
-<span class='line-number'>135</span>
-<span class='line-number'>136</span>
-<span class='line-number'>137</span>
-<span class='line-number'>138</span>
-<span class='line-number'>139</span>
-<span class='line-number'>140</span>
-<span class='line-number'>141</span>
-<span class='line-number'>142</span>
-<span class='line-number'>143</span>
-<span class='line-number'>144</span>
-<span class='line-number'>145</span>
-<span class='line-number'>146</span>
-<span class='line-number'>147</span>
-<span class='line-number'>148</span>
-<span class='line-number'>149</span>
-<span class='line-number'>150</span>
-<span class='line-number'>151</span>
-<span class='line-number'>152</span>
-<span class='line-number'>153</span>
-<span class='line-number'>154</span>
-<span class='line-number'>155</span>
-<span class='line-number'>156</span>
-<span class='line-number'>157</span>
-<span class='line-number'>158</span>
-<span class='line-number'>159</span>
-<span class='line-number'>160</span>
-<span class='line-number'>161</span>
-<span class='line-number'>162</span>
-<span class='line-number'>163</span>
-<span class='line-number'>164</span>
-<span class='line-number'>165</span>
-<span class='line-number'>166</span>
-<span class='line-number'>167</span>
-<span class='line-number'>168</span>
-<span class='line-number'>169</span>
-<span class='line-number'>170</span>
-<span class='line-number'>171</span>
-<span class='line-number'>172</span>
-<span class='line-number'>173</span>
-<span class='line-number'>174</span>
-<span class='line-number'>175</span>
-<span class='line-number'>176</span>
-<span class='line-number'>177</span>
-<span class='line-number'>178</span>
-<span class='line-number'>179</span>
-<span class='line-number'>180</span>
-<span class='line-number'>181</span>
-<span class='line-number'>182</span>
-<span class='line-number'>183</span>
-<span class='line-number'>184</span>
-<span class='line-number'>185</span>
-<span class='line-number'>186</span>
-<span class='line-number'>187</span>
-<span class='line-number'>188</span>
-<span class='line-number'>189</span>
-<span class='line-number'>190</span>
-<span class='line-number'>191</span>
-<span class='line-number'>192</span>
-<span class='line-number'>193</span>
-<span class='line-number'>194</span>
-<span class='line-number'>195</span>
-<span class='line-number'>196</span>
-<span class='line-number'>197</span>
-<span class='line-number'>198</span>
-<span class='line-number'>199</span>
-<span class='line-number'>200</span>
-<span class='line-number'>201</span>
-<span class='line-number'>202</span>
-<span class='line-number'>203</span>
-<span class='line-number'>204</span>
-<span class='line-number'>205</span>
-<span class='line-number'>206</span>
-<span class='line-number'>207</span>
-<span class='line-number'>208</span>
-<span class='line-number'>209</span>
-<span class='line-number'>210</span>
-<span class='line-number'>211</span>
-<span class='line-number'>212</span>
-<span class='line-number'>213</span>
-<span class='line-number'>214</span>
-<span class='line-number'>215</span>
-<span class='line-number'>216</span>
-<span class='line-number'>217</span>
-<span class='line-number'>218</span>
-<span class='line-number'>219</span>
-<span class='line-number'>220</span>
-<span class='line-number'>221</span>
-<span class='line-number'>222</span>
-<span class='line-number'>223</span>
-<span class='line-number'>224</span>
-<span class='line-number'>225</span>
-<span class='line-number'>226</span>
-<span class='line-number'>227</span>
-<span class='line-number'>228</span>
-<span class='line-number'>229</span>
-<span class='line-number'>230</span>
-<span class='line-number'>231</span>
-<span class='line-number'>232</span>
-<span class='line-number'>233</span>
-<span class='line-number'>234</span>
-<span class='line-number'>235</span>
-<span class='line-number'>236</span>
-<span class='line-number'>237</span>
-<span class='line-number'>238</span>
-<span class='line-number'>239</span>
-<span class='line-number'>240</span>
-<span class='line-number'>241</span>
-<span class='line-number'>242</span>
-<span class='line-number'>243</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;Html&gt;</span>
-</span><span class='line'><span class="nt">&lt;Head&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&lt;!--script 一定要小写--&gt;</span>
-</span><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'><span class="c1">//javascript内部注释使用//表示单行注释  /**/表示快注释</span>
-</span><span class='line'><span class="c1">//javascript大小写敏感</span>
-</span><span class='line'><span class="c1">//javascript可以用var表示所有数值类型，代替int,String,boolean等</span>
-</span><span class='line'><span class="c1">//按F5刷新，进行调试</span>
-</span><span class='line'><span class="c1">//变量和数组的定义</span>
-</span><span class='line'><span class="c1">//变量定义</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">name</span><span class="o">=</span><span class="s1">&#39;字符串&#39;</span><span class="p">;</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">age</span><span class="o">=</span><span class="mi">39</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//数组定义</span>
-</span><span class='line'><span class="c1">//一定要数组用  [] 进行定义，元素之间用逗号隔开   []吃过亏</span>
-</span><span class='line'><span class="c1">//map数组用{} 定义 键值对之间用逗号隔开</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">apples</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ap1&#39;</span><span class="p">,</span><span class="s1">&#39;ap2&#39;</span><span class="p">];</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">arr</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="s1">&#39;张三&#39;</span><span class="p">,</span><span class="s1">&#39;age&#39;</span><span class="o">:</span><span class="mi">45</span><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//打印alert</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">age</span><span class="p">);</span>
-</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">apples</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="nx">alert</span><span class="p">(</span><span class="nx">apples</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">arr</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="nx">alert</span><span class="p">(</span><span class="nx">key</span><span class="o">+</span><span class="s1">&#39;===&#39;</span><span class="o">+</span><span class="nx">arr</span><span class="p">[</span><span class="nx">key</span><span class="p">]);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//数值类型的转换</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="s1">&#39;fsf&#39;</span><span class="p">;</span>
-</span><span class='line'><span class="k">if</span><span class="p">(</span><span class="nb">isNaN</span><span class="p">(</span><span class="nx">n</span><span class="p">))</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>    <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;不能使用&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span><span class="k">else</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>      <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;可以使用&#39;</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">num</span><span class="o">=</span><span class="s1">&#39;100&#39;</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">num</span><span class="p">);</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">n</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nb">parseFloat</span><span class="p">(</span><span class="s1">&#39;100.3&#39;</span><span class="p">));</span><span class="c1">//转小数</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nb">parseInt</span><span class="p">(</span><span class="s1">&#39;100&#39;</span><span class="p">))</span><span class="c1">//转整数</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//函数定义  及参数获取</span>
-</span><span class='line'><span class="c1">// 在浏览器的源码窗口中 ，加入 断点，进行断点调试,单步调试(F8 快捷键 在Opera中）</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">function</span> <span class="nx">sum</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">apple</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>  <span class="c1">//循环语句的使用</span>
-</span><span class='line'>  <span class="c1">//内置变量arguments的调用</span>
-</span><span class='line'>  <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">arguments</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>    <span class="nx">apple</span><span class="o">+=</span><span class="nx">arguments</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="c1">//不加入return 没有返回值 则sumofmoney=undefined</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nx">apple</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">sumOfMoney</span><span class="o">=</span><span class="nx">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;1+2+3+4+5+6+2==&#39;</span><span class="o">+</span><span class="nx">sumOfMoney</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//注意转义字符</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;D:\\Program Files \\ok\\fd&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;D:\\Program Files \\ok\\fd&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//匿名方法是需要着重学习的</span>
-</span><span class='line'><span class="c1">//1</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">ff</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;go home!&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="nx">ff</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//一个易错点</span>
-</span><span class='line'><span class="c1">//btn.onclick=function(){} onclick后面不能家少年宫()</span>
-</span><span class='line'><span class="c1">//2</span>
-</span><span class='line'><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">n1</span><span class="p">,</span><span class="nx">n2</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>   <span class="nx">alert</span><span class="p">(</span><span class="nx">n1</span><span class="o">+</span><span class="nx">n2</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="p">)(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-</span><span class='line'><span class="c1">//3</span>
-</span><span class='line'><span class="nx">onload</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;btn&#39;</span><span class="p">).</span><span class="nx">onClick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>    <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;You are clicking  the button&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//字符串的常用方法</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;I am from the God&#39;</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;I am from the God&#39;</span><span class="p">.</span><span class="nx">charAt</span><span class="p">(</span><span class="mi">3</span><span class="p">));</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;I am from the God&#39;</span><span class="p">.</span><span class="nx">charAt</span><span class="p">(</span><span class="mi">9</span><span class="p">));</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;I am from the God&#39;</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">));</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;I am from the God&#39;</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">));</span>
-</span><span class='line'><span class="kd">var</span>  <span class="nx">names</span> <span class="o">=</span> <span class="s1">&#39;I am from the God&#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
-</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">name</span> <span class="k">in</span> <span class="nx">names</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>    <span class="nx">alert</span><span class="p">(</span><span class="nx">name</span><span class="o">+</span><span class="s1">&#39;=&#39;</span><span class="o">+</span><span class="nx">names</span><span class="p">[</span><span class="nx">name</span><span class="p">]);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">names</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="nx">names</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//杨老师练习1</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;杨1&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">buttons</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByName</span><span class="p">(</span><span class="s1">&#39;button1&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>  <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">buttons</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>    <span class="c1">//alert(buttons[i]   onclick不能写成onClick  大小写敏感</span>
-</span><span class='line'>    <span class="nx">buttons</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">onclick</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="nx">alert</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="c1">//杨老师练习2</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;杨2&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="kd">function</span> <span class="nx">aa</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;aaa&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">return</span> <span class="kd">function</span><span class="p">(){</span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;bbb&#39;</span><span class="p">);};</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">aa</span><span class="p">);</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">aa</span><span class="p">());</span>
-</span><span class='line'><span class="c1">// alert(aa());打印是aaa,和function(){alert(&quot;bbb&quot;);}以为执行函数方法题内容,返回的是一个匿名函数,返回的是函数体字符串. </span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">aa</span><span class="p">()());</span>
-</span><span class='line'><span class="c1">//alert(aa()());打印的是aaa,bbb,undefined ,先执行aa()，函数体内容aaa，返回字符串function(){alert(&quot;bbb&quot;);}，再执行function(){alert(&quot;bbb&quot;);}()，</span>
-</span><span class='line'><span class="c1">//这时该方法名是：function(){alert(&quot;bbb&quot;);}，先打印bbb，在打印undefined，因为该方法名未定义， </span>
-</span><span class='line'><span class="c1">//杨老师练习3</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;杨3&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="c1">//每隔1s重复的执行  烦人，注释掉</span>
-</span><span class='line'><span class="c1">//setInterval(aa,1000);</span>
-</span><span class='line'><span class="c1">//setInterval(aa(),1000);</span>
-</span><span class='line'><span class="c1">//杨老师练习4</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;杨4&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="c1">//setInterval(alert(&#39;a&#39;),1000); //每隔1s显示a</span>
-</span><span class='line'><span class="c1">//setInterval(function(){alert(&quot;a&quot;);},1000);  //返回一个函数 因为未被执行，这个函数没有任何东西</span>
-</span><span class='line'><span class="c1">//杨老师练习5</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;杨5&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">s1</span><span class="o">=</span><span class="s2">&quot;aaa&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">s2</span><span class="o">=</span><span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s2">&quot;aaa&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">s1</span> <span class="k">instanceof</span> <span class="nb">Object</span><span class="p">);</span> <span class="c1">//false</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">s2</span> <span class="k">instanceof</span> <span class="nb">Object</span><span class="p">);</span><span class="c1">//true</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">s1</span> <span class="k">instanceof</span> <span class="nb">String</span><span class="p">);</span><span class="c1">//false</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">s2</span> <span class="k">instanceof</span> <span class="nb">String</span><span class="p">);</span><span class="c1">// true</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">s1</span><span class="p">));</span>  <span class="c1">//string</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">s2</span><span class="p">));</span> <span class="c1">//object</span>
-</span><span class='line'><span class="c1">//杨老师练习6</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;杨6&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">x</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">y</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">z</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="kd">function</span> <span class="nx">add</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="nx">n</span><span class="o">=</span><span class="nx">n</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nx">n</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="nx">y</span><span class="o">=</span><span class="nx">add</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
-</span><span class='line'><span class="c1">//js只会用最新的函数定义</span>
-</span><span class='line'><span class="kd">function</span> <span class="nx">add</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="nx">n</span><span class="o">=</span><span class="nx">n</span><span class="o">+</span><span class="mi">3</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nx">n</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">z</span><span class="o">=</span><span class="nx">add</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;y=&#39;</span><span class="o">+</span><span class="nx">y</span><span class="o">+</span><span class="s1">&#39;z=&#39;</span><span class="o">+</span><span class="nx">z</span><span class="p">);</span><span class="c1">//y-4  z=4  只用最新的</span>
-</span><span class='line'><span class="c1">//杨老师练习7</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;杨7&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">add1</span><span class="o">=</span><span class="kd">function</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>   <span class="nx">n</span> <span class="o">=</span> <span class="nx">n</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>   <span class="k">return</span> <span class="nx">n</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="nx">y</span><span class="o">=</span><span class="nx">add1</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
-</span><span class='line'><span class="nx">add1</span> <span class="o">=</span><span class="kd">function</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="nx">n</span><span class="o">=</span> <span class="nx">n</span> <span class="o">+</span><span class="mi">3</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nx">n</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="nx">z</span><span class="o">=</span> <span class="nx">add1</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;y=&#39;</span><span class="o">+</span><span class="nx">y</span><span class="o">+</span><span class="s1">&#39; z=&#39;</span><span class="o">+</span><span class="nx">z</span><span class="p">);</span>
-</span><span class='line'><span class="c1">//杨老师练习8</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;杨8&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">s1</span><span class="o">=</span><span class="s2">&quot;aaa&quot;</span><span class="p">;</span> <span class="c1">// --------------------&gt;是String类型 非对象</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">s2</span><span class="o">=</span> <span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="s1">&#39;aaa&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">s1</span> <span class="k">instanceof</span> <span class="nb">Object</span><span class="p">);</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">s2</span> <span class="k">instanceof</span> <span class="nb">Object</span><span class="p">);</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">s1</span> <span class="k">instanceof</span> <span class="nb">String</span><span class="p">);</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">s2</span> <span class="k">instanceof</span> <span class="nb">String</span><span class="p">);</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">s1</span><span class="p">));</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">s2</span><span class="p">));</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//杨老师练习9</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;杨9&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;易错点： btn.onclick=function(){}  onclick后面别跟()&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;/script&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;/Head&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;Body&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;Div&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">name=</span><span class="s">&quot;button1&quot;</span> <span class="na">value=</span><span class="s">&quot;按钮1&quot;</span><span class="nt">/&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">name=</span><span class="s">&quot;button1&quot;</span> <span class="na">value=</span><span class="s">&quot;按钮2&quot;</span><span class="nt">/&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">name=</span><span class="s">&quot;button1&quot;</span> <span class="na">value=</span><span class="s">&quot;按钮3&quot;</span><span class="nt">/&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">name=</span><span class="s">&quot;button1&quot;</span> <span class="na">value=</span><span class="s">&quot;按钮4&quot;</span><span class="nt">/&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">name=</span><span class="s">&quot;button1&quot;</span> <span class="na">value=</span><span class="s">&quot;按钮5&quot;</span><span class="nt">/&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;/Div&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;Div&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span> <span class="na">value=</span><span class="s">&quot;click&quot;</span> <span class="na">id=</span><span class="s">&quot;btn&quot;</span><span class="nt">/&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;/Div&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;Div&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;Br/&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;Br/&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;Br/&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;A</span> <span class="na">href=</span><span class="s">&quot;javascript:alert(new Date().toLocaleTimeString());&quot;</span><span class="nt">&gt;</span>显示时间<span class="nt">&lt;/A&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;/Br&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;A</span> <span class="na">href=</span><span class="s">&quot;javascript:void(0);&quot;</span><span class="nt">&gt;</span>显示时间<span class="nt">&lt;/A&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;/Br&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span> <span class="na">value=</span><span class="s">&quot;显示时间&quot;</span><span class="err">,</span><span class="na">onclick=</span><span class="s">&quot;alert(new Date().toLocaleTimeString());&quot;</span><span class="nt">/&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;Div&gt;</span>
-</span><span class='line'><span class="nt">&lt;/Body&gt;</span>
-</span><span class='line'><span class="nt">&lt;/Html&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>为什么jquery.js有那么多的<br/>
-name : function(){}, 的写法？ 他们是什么意思？</p>
-
-<p>JQuery.js中出现如下的书写方式：</p>
-
-<p>success：function(data){}
-类似于function success(data){}
-不过是面向对象的写法，把这个方法当成一个prototype对象</p>
-
-<p>引入JSON对象
-JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式，易于阅读和编写，同时也易于机器解析和生成。{a:&ldquo;a&rdquo;}这就是一
-个JSON数据。 JSON数据是用键值对的形式存储的。冒号（:）前面的是键，冒号后面的是值。JSON,的每一个值之间可以用分号（;）隔
-开。大的类可以用{}大括号包围他其中的值，集合可以用[]中括号，包围值
-&ldquo;名称/值&#8221;对的集合 不同语言中，它被理解为对象(object)，记录(record)，结构(struct)，字典(dictionary)，哈希表(hash table)，键列表(keyed list)等
-值的有序列表 多数语言中被理解为数组(array)</p>
-
-<p>使用：
-JSON以一种特定的字符串形式来表示 JavaScript 对象。如果将具有这样一种形式的字符串赋给任意一个 JavaScript 变量，那么该变</p>
-
-<p>量会变成一个对象引用.
-比如：
-您可以使用以下JSON形式来表示User对象：
-{&ldquo;UserID&rdquo;:11, &ldquo;Name&rdquo;:&ldquo;tht&rdquo;, &ldquo;Email&rdquo;:&ldquo;18039010◎qq.com&rdquo;};
-然后如果把这一字符串赋予一个JavaScript变量，那么就可以直接使用对象的任一属性了。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;Html&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;Head&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>        <span class="kd">var</span> <span class="nx">User</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;UserId&quot;</span><span class="o">:</span><span class="mi">11</span><span class="p">,</span><span class="s2">&quot;Name&quot;</span><span class="o">:</span><span class="s2">&quot;Ye Zhaoliang&quot;</span><span class="p">,</span><span class="s2">&quot;Email&quot;</span><span class="o">:</span><span class="s2">&quot;977962857@qq.com&quot;</span><span class="p">};</span>
-</span><span class='line'>        <span class="nx">alert</span><span class="p">(</span><span class="nx">User</span><span class="p">.</span><span class="nx">Name</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">//利用JSon对象方式  定义两个User对象</span>
-</span><span class='line'>        <span class="kd">var</span> <span class="nx">User1</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;UserId&quot;</span><span class="o">:</span><span class="mi">12</span><span class="p">,</span><span class="s2">&quot;Name&quot;</span><span class="o">:</span><span class="p">{</span><span class="s2">&quot;FirstName&quot;</span><span class="o">:</span><span class="s2">&quot;Ye&quot;</span><span class="p">,</span><span class="s2">&quot;LastName&quot;</span><span class="o">:</span><span class="s2">&quot;Zhaoliang&quot;</span><span class="p">},</span><span class="s2">&quot;Email&quot;</span><span class="o">:</span><span class="s2">&quot;977962857@qq.com&quot;</span><span class="p">};</span>
-</span><span class='line'>        <span class="kd">var</span> <span class="nx">User2</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;UserId&quot;</span><span class="o">:</span><span class="mi">13</span><span class="p">,</span><span class="s2">&quot;Name&quot;</span><span class="o">:</span><span class="p">{</span><span class="s2">&quot;FirstName&quot;</span><span class="o">:</span><span class="s2">&quot;Ye&quot;</span><span class="p">,</span><span class="s2">&quot;LastName&quot;</span><span class="o">:</span><span class="s2">&quot;Wangliang&quot;</span><span class="p">},</span><span class="s2">&quot;Email&quot;</span><span class="o">:</span><span class="s2">&quot;977962859@qq.com&quot;</span><span class="p">};</span>
-</span><span class='line'>        <span class="nx">alert</span><span class="p">(</span><span class="nx">User1</span><span class="p">.</span><span class="nx">Name</span><span class="p">.</span><span class="nx">LastName</span><span class="o">+</span><span class="s2">&quot; love you!&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">//用数组存储一个用户列表</span>
-</span><span class='line'>        <span class="kd">var</span> <span class="nx">Users</span><span class="o">=</span><span class="p">[</span><span class="nx">User1</span><span class="p">,</span><span class="nx">User2</span><span class="p">];</span>
-</span><span class='line'>        <span class="nx">alert</span><span class="p">(</span><span class="nx">Users</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
-</span><span class='line'>        <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">Users</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>          <span class="nx">alert</span><span class="p">(</span><span class="nx">Users</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">UserId</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="nx">Users</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">Name</span><span class="p">.</span><span class="nx">LastName</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="nt">&lt;/script&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;/Head&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;Body&gt;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nt">&lt;/Body&gt;</span>
-</span><span class='line'><span class="nt">&lt;/Html&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>由此引出面向对象的JavaScript编程。</p>
-
-<p>![./image/java/object.gif][JSON对象的格式描述，用逗号分隔开多个对象，一个对象用{}组合，每个对象的属性用:分隔，冒号前面表示属性 &hellip;]</p>
-
-<p>![./image/java/array.gif][用[]表达多个数组元素，元素之间不分类型，用逗号分隔元素]</p>
-
-<p>1: JS中单引号和双引号有什么区别？为什么在字符串中用单引号括起来，而不是双引号？</p>
-
-<pre><code>       一方面因为Html代码的属性值一般是使用双引号。
-       JSON的数据格式一般是使用双引号的。
-
-       再进行字符串拼接的一般原则是： 单引号的内部可包含双引号（如若包含则加转义字符），双引号的内部可包含单引号（如若包含则加转义字符）
-</code></pre>
-
-<p>所以字符串如果用单引号修饰就可以内部引用Html的属性。
-比如</p>
-
-<p><Div class="global-notify" id="global-message">
-var str=&lsquo;<Div class="global-notify" id="global-message">&rsquo;
-复制代码
-更多的是考虑到前端，会使用HTML的属性值，而Html的属性值都是用双引号包裹，所以如果再用单引号括起来不需要进行转义。
-另外可能就是大家习惯。</p>
-
-<p>2：Javascript也有事件编程</p>
-
-<p>button中的onclick=&ldquo;js代码&rdquo;</p>
-
-<p><input type=“button” onclick=“ js代码" />
-复制代码</p>
-
-<p>href超链接的特殊的调用事件的方法：</p>
-
-<p><a href=“javascript:js代码”>热点文字</a>
-复制代码</p>
-
-<pre><code>      只有超链接的href中的JavaScript中才需要加“javascript:”，因为它不是事件，而是把”javascript:”看成像“http:”、“ftp:”、“thunder://”、“ed2k://”、“mailto:”一样的网络协议，交             由js解析引擎处理。只有href中，这是一个特例。
-</code></pre>
-
-<p>3：数据类型
-基本数据类型：
-Boolean
-Number   &mdash;&mdash;>小数和整数</p>
-
-<pre><code>    ----parseInt('')
-    ----parseFloat('')
-</code></pre>
-
-<p>String
-Null  &mdash;&mdash;>
-Undefined &mdash;&ndash;>未定义(未初始化)</p>
-
-<pre><code>           var ul ;    ---&gt;ul is undefined
-                typeof(ul) ----&gt;undefined
-                typeof(null)----&gt;null
-
-  == 非严格等于
-  ===严格等于
-     null==undefined -----&gt;true
-     null===undefined-----&gt;false
-      为什么？
-      ===先判断类型是否一致，再判断值
-       null对象是有着特殊意义的值，此时变量的值是"已知状态"(这和mysql的null不太一样，mysql直接就是不知道，那肯定就是无法判断）
-</code></pre>
-
-<p>引用数据类型：
-Object &mdash;&mdash;>函数</p>
-
-<pre><code>      ----&gt; new Date()
-      ----&gt; 数组    var apple=['shanxi','yantai'];
-      ----&gt;null 
-</code></pre>
-
-<p>方法：
-instanceof &mdash;&mdash;&ndash;>属于某种类型？
-typeof(object) &mdash;&mdash;&mdash;&ndash;>是什么类型的？</p>
-
-<p>4：javascript中没有方法重载</p>
-
-<p>所以在运行时候会事先确定好函数，一般是最靠近调用函数的函数定义</p>
-
-<pre><code>    function f1()
-    {
-      alert('ell');
-    }
-    function f1(name)
-    {
-      alert(name);
-    }
-    // f1();  得到undefined  ，直接选择最新的当做 f1的函数
-    //这点和java很不一样
-    f1('fd'); //得到fd
-</code></pre>
-
-<p>复制代码</p>
-
-<p>5：String  Boolean  Number 等可以拓展其方法，使用类的静态属性prototype进行设置
-比如：
-String.prototype.IseMaile = function ()
-复制代码</p>
-
-<p>6：js文件引入javascript的好处是?      1:多文档共享  js</p>
-
-<pre><code>  2:减少网络流量
-</code></pre>
-
-<p>  使用方法 ： &lt;Link src=&ldquo;*.js&rdquo; type=&ldquo;text/javascript&rdquo;</p>
-
-<p>存在疑问：Dom  and Bom的区别？</p>
-
-<p>Broser object model (BOM)
-Document object model(Dom)
-Bom模型有window对象  ，而Dom没有。</p>
-
-<p>Bom对象结构：</p>
-
-<p>Window  &mdash;&ndash; document  &mdash;&mdash;&mdash;authors</p>
-
-<pre><code>                              ------forms
-                              ------images
-                             -------links
-                             -------location ...
-        ---- frames
-        ---- history
-        ---- location
-        ---- navigator
-        ---- screen
-</code></pre>
-
-<p>根节点是：window</p>
-
-<pre><code>  window对象是Bom模型的核心，包含6个对象，document,frames,history,location,navigator,screen对象
-</code></pre>
-
-<p>Dom对象结构：</p>
-
-<p>document  &mdash;&mdash;&mdash;authors</p>
-
-<pre><code>            ------forms
-            ------images
-            -------links
-            -------location...
-</code></pre>
-
-<p>根节点是:document</p>
-
-<p>联系：
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>document.write(&#39;test&#39;);
-</span><span class='line'>window.document.write(&#39;test&#39;);
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p>![./images/java/dom.png][某个dom的树状节点层次图（可以进行实例化]</p>
-
-<p>14.this事件
-事件中的this。除了可以使用event.srcElement</p>
-
-<p>在事件响应函数中，this表示发生事件的控件。</p>
-
-<p>只有在事件响应函数才能使用this获得发生事件</p>
-
-<p>的控件，在事件响应函数调用的函数中不能使用</p>
-
-<p>（这里的this表示window对象），如果要使用则</p>
-
-<p>要将this传递给函数或者使用event.srcElement</p>
-
-<p>。(*)this和event.srcElement的语义是不一样</p>
-
-<p>的，this就是表示当前监听事件的这个对象，</p>
-
-<p>event.srcElement是引发事件的对象：事件冒泡</p>
-
-<p>。</p>
-
-<p>14.动态创建元素
-Element(元素)
-document.write只能在页面加载过程中才能动态</p>
-
-<p>创建。
-可以调用document的createElement方法来创建</p>
-
-<p>具有指定标签的DOM对象，然后通过调用某个元素</p>
-
-<p>的appendChild();方法将新创建元素添加到相应</p>
-
-<p>的元素下。//父元素对象.removeChild(子元素</p>
-
-<p>对象);删除元素。
-createElement(‘element’);创建一个节点
-appendChild(node); 追加一个节点
-removeChild(node);移除一个节点
-replaceChild(new,old);替换一个节点
-insertBefore(new,参照);把节点加到前面（插</p>
-
-<p>到某个节点前面）
-方法：
-属性：
-firstChild
-lastChild</p>
-
-<p>15.getElementsByTagName() 方法可返回带有指</p>
-
-<p>定标签名的对象的集合。
-16.IE中body的事件范围
-IE中如果在body上添加onclick、onmousemove等</p>
-
-<p>事件响应，那么如果页面没有满，则 “body 中</p>
-
-<p>最后一个元素以下（横向不限制）” 的部分是无</p>
-
-<p>法响应事件的，必须使用代码在document上监听</p>
-
-<p>那些事件，比如document.onmousemove =</p>
-
-<p>MovePic
-document.body.onmousedown=function(){}
-document.onmousedown=function(){}
-注意加文档定义与不加文档定义的也不一样。
-如果为整个文档注册事件可以使用：</p>
-
-<p>document.onxxxx事件。
-17.onmouseover事件会在鼠标指针移动到指定的</p>
-
-<p>对象上时触发事件发生
-element.setAttribute()        把指定属性设置或更</p>
-
-<p>改为指定值。
-18. dvObj.style.width=&lsquo;300px&rsquo;;
-   dvObj.style.height=&lsquo;200px&rsquo;;
-   dvObj.style.border=&lsquo;1px solid red&rsquo;;
-加&#8217;&lsquo;的是因为给变量赋值必须是一个正确的类型</p>
-
-<p>。数字就是数字字符串就是字符串
-19.<p> 标签定义段落。
-border:1px solid green; 边框：1像素，实心</p>
-
-<p>，绿色
-20.form对象
-document.getElementById(‘btn1’).click()</p>
-
-<p>。搜索引擎的，智能提示，点击后相当于点击了</p>
-
-<p>“搜索”按钮。
-常用：click(),focus(),blur();//相当于通过</p>
-
-<p>程序来触发元素的单击、获得焦点以及失去焦点</p>
-
-<p>的事件。
-form对象是表单的Dom对象。
-方法：submit()提交表单，但是不会触发</p>
-
-<p>onsubmit事件。
-实现autopost，也就是焦点离开控件以后页面立</p>
-
-<p>即提交，而不是只有提交submit按钮以后才提交</p>
-
-<p>，当光标离开的时候触发onblur事件，在onblur</p>
-
-<p>中调用form的submit方法。
-在点击submit后form的onsubmit事件被触发，在</p>
-
-<p>onsubmit中可以进行数据校验，如果数据有问题</p>
-
-<p>，返回false即可取消提交</p>
-
-<p>21.不同浏览器的差异
-<form> 标签用于为用户输入创建 HTML 表单。</p>
-
-<p>表单能够包含 input 元素，比如文本字段、复选</p>
-
-<p>框、单选框、提交按钮等等。表单还可以包含</p>
-
-<p>menus、textarea、fieldset、legend 和</p>
-
-<p>label 元素。表单用于向服务器传输数据。
-onsubmit 事件会在表单中的确认按钮(Submit)被点击时发生。
-submit() 提交表单。 是form中的一个方法
-onsubmit 在提交表单之前调用。是一个事件</p>
-
-<p>1: js的for循环的var i = 0的再认识
-经过var定义的是一个全局变量
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>    //一个重要错误   var i =0 其实就是定义了一个全局变量i = 0
-</span><span class='line'>    //所有的js都可以调用
-</span><span class='line'>    for(var i=0;i<span class="nt">&lt;Users</span><span class="err">.</span><span class="na">length</span><span class="err">;</span><span class="na">i</span><span class="err">++)</span>
-</span><span class='line'>    <span class="err">{</span>
-</span><span class='line'>      <span class="na">alert</span><span class="err">(</span><span class="na">Users</span><span class="err">[</span><span class="na">i</span><span class="err">].</span><span class="na">UserId</span><span class="err">+&quot;</span> <span class="err">&quot;+</span><span class="na">Users</span><span class="err">[</span><span class="na">i</span><span class="err">].</span><span class="na">Name</span><span class="err">.</span><span class="na">LastName</span><span class="err">);</span>
-</span><span class='line'>    <span class="err">}</span>
-</span></code></pre></td></tr></table></div></figure>
-也就是for之后alert(i)的值是 Users.length</p>
-
-<p>所以可以在for之前直接定义 var i = 0;即可</p>
-
-<p>2：以二进制读取，10进制输出
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>    alert(parseInt(&#39;100&#39;,8));//以8进制
-</span><span class='line'>    alert(parseInt(&#39;100&#39;,2));// 以2进制读取，并10进制显示
-</span><span class='line'>    alert(parseInt(&#39;100&#39;,10));// 以10进制 默认方式
-</span><span class='line'>    alert(parseInt(&#39;100&#39;,16));// 以16进制
-</span></code></pre></td></tr></table></div></figure>
-3： onload在页面加载完后在加载的部分js
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>    //很重要  onload  只在页面加载完控件才执行，所以确保id有效！！
-</span><span class='line'>    //否则可能报错
-</span><span class='line'>    onload=function()
-</span><span class='line'>    {
-</span><span class='line'>      document.getElementById(&#39;btn&#39;).onclick=function()
-</span><span class='line'>      {
-</span><span class='line'>        alert(&#39;hello&#39;);
-</span><span class='line'>      };
-</span><span class='line'>    }
-</span></code></pre></td></tr></table></div></figure>
-4：Html的事件在学习</p>
-
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>  <span class="nt">&lt;Input</span> <span class="na">type=</span><span class="s">&quot;button&quot;</span> <span class="na">name=</span><span class="s">&quot;time&quot;</span> <span class="na">value=</span><span class="s">&quot;show current time&quot;</span> <span class="na">onclick=</span><span class="s">&quot;alert(new Date().toLocaleTimeString());&quot;</span><span class="nt">/&gt;</span>
-</span><span class='line'>  <span class="c">&lt;!&mdash;会跳转到最前面   #z只是一个页面最前面的一个锚&mdash;&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;A</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span> <span class="na">onclick=</span><span class="s">&quot;alert(new Date().toLocaleTimeString());&quot;</span><span class="nt">&gt;</span>百度<span class="nt">&lt;/A&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;br/&gt;&lt;br/&gt;</span>
-</span><span class='line'><span class="nt">&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;</span>
-</span><span class='line'><span class="nt">&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;</span>
-</span><span class='line'><span class="c">&lt;!&mdash;直接在当前位置打印出时间： javascript: 类似于<a href="http://">http://</a>  <a href="ftp://--&amp;gt;">ftp://--&amp;gt;</a></span>
-</span><span class='line'><span class="nt">&lt;A</span> <span class="na">href=</span><span class="s">&quot;javascript:alert(new Date().toLocaleTimeString());&quot;</span><span class="nt">&gt;</span>网易<span class="nt">&lt;/A&gt;</span>
-</span><span class='line'><span class="nt">&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;</span>
-</span><span class='line'><span class="nt">&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;</span>
-</span><span class='line'><span class="nt">&lt;A</span> <span class="na">href=</span><span class="s">&quot;javascript:void(0);&quot;</span> <span class="na">onclick=</span><span class="s">&quot;alert(new Date().toLocaleTimeString());&quot;</span><span class="nt">&gt;</span>新浪<span class="nt">&lt;/A&gt;</span>
-</span><span class='line'><span class="nt">&lt;A</span> <span class="na">href</span><span class="nt">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p><p class='post-footer'></p>
-
-<pre><code>                    原始地址:&lt;a href='http://jueqingsizhe66.github.io/blog/2015/05/11/javascript1-6jie-bi-ji-dai-ma-march26th/'&gt;http://jueqingsizhe66.github.io/blog/2015/05/11/javascript1-6jie-bi-ji-dai-ma-march26th/&lt;/a&gt;&lt;br/&gt;&amp;nbsp;written by &lt;a href='http://jueqingsizhe66.github.io'&gt;Ye Zhaoliang&lt;/a&gt;&amp;nbsp;posted at &lt;a href='http://jueqingsizhe66.github.io'&gt;http://jueqingsizhe66.github.io&lt;/a&gt;&lt;/p&gt;
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/11/javascript-7-11jie-bi-ji-dai-ma-march28th/">JavaScript 7-11节笔记代码March28th</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-11T14:58:43+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
-        
-
-         
-          | <a href="/blog/2015/05/11/javascript-7-11jie-bi-ji-dai-ma-march28th/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"></div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/05/11/javascript-7-11jie-bi-ji-dai-ma-march28th/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/10/">&larr; Older</a>
@@ -1961,6 +933,7 @@ onsubmit 在提交表单之前调用。是一个事件</p>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
 <li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
 <li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/perl/'>perl (1)</a></li>
 <li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
 <li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
@@ -1975,6 +948,14 @@ onsubmit 在提交表单之前调用。是一个事件</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/01/22/perl-summary/">Perl_Summary</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/01/22/how-to-learn-one-technique/">How_to_learn_one_technique</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
       </li>
     
@@ -1984,14 +965,6 @@ onsubmit 在提交表单之前调用。是一个事件</p>
     
       <li class="post">
         <a href="/blog/2016/09/28/jump-out-of-ontology/">Jump Out of Ontology</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/09/28/machine-learning-some-search-record/">Machine Learning Some Search Record</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/09/28/graphviz-notebook/">Graphviz Notebook</a>
       </li>
     
   </ul>

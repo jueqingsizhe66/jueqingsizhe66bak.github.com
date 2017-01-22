@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Perl | 网络书屋(Web Reading Room)]]></title>
+  <link href="http://jueqingsizhe66.github.io/blog/categories/perl/atom.xml" rel="self"/>
+  <link href="http://jueqingsizhe66.github.io/"/>
+  <updated>2017-01-22T19:20:06+08:00</updated>
+  <id>http://jueqingsizhe66.github.io/</id>
+  <author>
+    <name><![CDATA[Ye Zhaoliang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Perl_Summary]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2017/01/22/perl-summary/"/>
+    <updated>2017-01-22T19:18:50+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2017/01/22/perl-summary</id>
+    <content type="html"><![CDATA[<p>why need perl? If you need strong text regex processing ,use perl!</p>
+
+<!--more-->
+
+
+<p><a href="http://www.cnblogs.com/leezx/p/5607753.html">perl基础</a>
+<a href="http://www.cnblogs.com/leezx/p/5755237.html">perl语法速查</a>
+<a href="http://www.cnblogs.com/leezx/p/5617239.html">perl高级特性</a>
+<a href="http://www.cnblogs.com/leezx/p/5589602.html">some difference between &ndash;> and =></a></p>
+]]></content>
+  </entry>
+  
+</feed>
