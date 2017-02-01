@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Perl | 网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/blog/categories/perl/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-01-22T19:36:15+08:00</updated>
+  <updated>2017-02-01T17:48:30+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -20,6 +20,17 @@
     <id>http://jueqingsizhe66.github.io/blog/2017/01/22/perl-summary</id>
     <content type="html"><![CDATA[<p>why need perl? If you need strong text regex processing ,use perl!</p>
 
+<p>One paragraph I copied from <code>perldoc perlintro</code>:</p>
+
+<p>The language is intended to be <font color="red">practical</font> (easy to use, efficient,
+complete) rather than beautiful (tiny, elegant, minimal). Its major
+features are that it&rsquo;s easy to use, supports both procedural and
+object-oriented (OO) programming, has powerful built-in support for text
+processing, and has one of the world&rsquo;s most impressive collections of
+third-party modules.</p>
+
+<p>To me, perl means a report programmer with practical experience.</p>
+
 <!--more-->
 
 
@@ -28,6 +39,10 @@
 <li><a href="http://www.cnblogs.com/leezx/p/5755237.html">perl语法速查</a></li>
 <li><a href="http://www.cnblogs.com/leezx/p/5617239.html">perl高级特性</a></li>
 <li><a href="http://www.cnblogs.com/leezx/p/5589602.html">some difference between &ndash;> and =></a></li>
+<li><a href="http://storagebar.blog.51cto.com/211112/70680">How to Program Perl</a>
+You need to practice ,think, and share(your final target).</li>
+<li><a href="http://storagebar.blog.51cto.com/211112/70718">Teach yourself Programming in ten years</a>
+You need to talk to other programmer, they are all good people(Just think they are).</li>
 </ul>
 
 ]]></content>

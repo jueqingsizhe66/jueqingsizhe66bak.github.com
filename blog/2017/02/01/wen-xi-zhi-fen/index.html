@@ -5,13 +5,15 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Notes From Teach Yourself Scheme - 网络书屋(Web Reading Room)</title>
+  <title>文戏之分 - 网络书屋(Web Reading Room)</title>
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="The notes is published for rethinking what I am reading
-in the book called 《Teach Yourself Scheme in Fixnum Days》.
-It is a good book for introducing &hellip;">
+  <meta name="description" content="偶尔，在《人间正道是沧桑》这部电视剧听到， 文中有戏，戏中有文
+识文者读文，识戏者读戏（杨立仁)
+音中有调，调中有音
+识音者听音，识调者听调(瞿霞) 背景是解放战争时期，杨和瞿的一次9年之后的相见。不知情者可能听得是美妙的
+文字，优雅的声音，而背后却蕴含着另一场戏，老蒋总是那么爱玩。所有编程语言 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +22,7 @@ It is a good book for introducing &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2016/02/14/notes-from-teach-yourself-scheme">
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2017/02/01/wen-xi-zhi-fen">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
@@ -73,7 +75,7 @@ It is a good book for introducing &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Notes From Teach Yourself Scheme</h1>
+      <h1 class="entry-title">文戏之分</h1>
     
     
       <p class="meta">
@@ -89,7 +91,7 @@ It is a good book for introducing &hellip;">
   
 
 
-<time datetime="2016-02-14T11:56:24+08:00" pubdate data-updated="true">Feb 14<span>th</span>, 2016</time>
+<time datetime="2017-02-01T17:20:20+08:00" pubdate data-updated="true">Feb 1<span>st</span>, 2017</time>
         
 
          
@@ -100,69 +102,61 @@ It is a good book for introducing &hellip;">
   </header>
 
 
-<div class="entry-content"><p>The notes is published for rethinking what I am reading
-in the book called <a href="http://ds26gte.github.io/tyscheme/index.html">《Teach Yourself Scheme in Fixnum Days》</a>.
-It is a good book for introducing scheme(you&rsquo;d better have read
-the TLS)</p>
+<div class="entry-content"><p>偶尔，在《人间正道是沧桑》这部电视剧听到，</p>
+
+<pre><code>文中有戏，戏中有文
+识文者读文，识戏者读戏（杨立仁)
+音中有调，调中有音
+识音者听音，识调者听调(瞿霞)
+</code></pre>
+
+<p>背景是解放战争时期，杨和瞿的一次9年之后的相见。不知情者可能听得是美妙的
+文字，优雅的声音，而背后却蕴含着另一场戏，老蒋总是那么爱玩。所有编程语言
+我觉得也是如是。表面上看着是字母的排列组合，而背后却可能蕴含者优雅的艺术，
+和那么一出出精彩绝伦的好戏。</p>
 
 <!--more-->
 
 
-<h2>Forms</h2>
+<p>我觉得它影响了我，所以我记录了它。</p>
 
-<p>All expression can be inducted into Forms,such as define,begin,set! forms.
-Before, I only said the define,begin,set! expression without forms.</p>
+<p>在这部电视剧中，刻画的杨立青角色还给我另外一个特别深刻的印象</p>
 
-<h2>Data Types</h2>
+<pre><code>所有的科学，都不能差一点，差一点和差很多都不好，99度的开水没有开花，只有到100度才有
+科学要得是精确，而不是马虎
 
-<ol>
-<li>list</li>
-<li>vector</li>
-<li>procedure</li>
-<li>port (原来port也是数据类型的一种，这样就并入了文件的IO)
-当然也包括open-string-port相当于创建了fortran的<a href="http://v.fcode.cn/video-internal_file.html">内部文件</a>的作用。</li>
-</ol>
+另外就是，他在绘图的过程说的，我绘制地图的目的是为了说服我自己，而不是让你们看，
+我得先说服自己，仗才能好打。所以无论做什么都得先把背后的东西、背后的原理说服你自己
+形成自己的理念，这样才能知己知彼。
+</code></pre>
 
+<p>文戏和音调，让我意识到了面和里的关系。</p>
 
-<p>所有的形式(forms)在scheme其实都是一种对于数据的representation.要反复思考这个过程。</p>
+<p>而在昨天与我姨丈的交流中，又对家庭和人生有了新的认识。
+我拉着我的女朋友和我的朋友一起到小姨家做客，刚到家的时候，姨丈喝了不少（小憩中）。
+我们几个人聊着，后来他慢慢醒过来，跟我们聊天，聊家常等。
+我姨丈如是说：</p>
 
-<blockquote><p>Data abstraction divides a data type into two pieces: an interface
-and an implementation. The interface tells us what the data of the type
-represents,what the operations on the data are,and what properties these
-operations may be relied to have.The implementation provides a specific
-representation of the data and code for the operations that make use
-of that data representation.</p></blockquote>
+<pre><code>我们都是平常人，再伟大的人也是平凡人，再聪明的人也是平常人，也需要常回家看看，
+也需要时不时的和家里人打个电话。家里人都会因为你偶尔的电话，感到温暖。年长的人
+有谁不想者儿孙满堂，儿孙抱膝的，都希望，但不现实。长大了，都应该去闯闯，闯多大名堂，
+不要紧，要紧的是有上进心。别人现在比你优秀，你可以慢慢来，只要自己有一颗平常心，心态
+放好了，要想者对大家好，对同事好，对同学好，对家里好，对长辈好，对领导好，想着他们
+好，而不是过多的抱怨，过多的叹气，一定不能这样。
+平时多做点好事，多对他们好。
+上至父母、下至儿孙、家庭和乐，和则万事兴，多么朴素的道理。
+可以时而懒惰，但是绝不能没有上进心，有点进步是最好的，你们两个人一起进步，一起体恤
+对方，彼此宽容，彼此经营自己的夫妻生活和两个家庭。
+所以，平常心和好这个字都得做好。
+</code></pre>
 
-<h2>implicit and explicit</h2>
+<p>听了这习话也让我看到现实社会中的另一种心态，而且是不错的心态和理念，而不是说比钱多，比房多等，
+是一种希望子女好，希望朋友好的平常心心态。退一步则海阔天空。</p>
 
-<p>lambda 的内部自带(begin &hellip;)的作用，也就是可以连接多个expressions（forms）。
-而if没有，对应的when，unless conditions则是存在隐式的implicit begin的作用。
-并且when和unless其实就差在一个not表达式</p>
-
-<ul>
-<li>lambda implicit begin</li>
-<li>when   implicit begin</li>
-<li>unless implicit begin</li>
-<li>if     explicit begin</li>
-</ul>
-
-
-<h2>macro expansion</h2>
-
-<ol>
-<li>`(.. , &hellip;)    叫做comon 形式</li>
-<li>`(&hellip; ,@ &hellip;)  叫做comon slice形式</li>
-</ol>
-
-
-<h2>Jumps(CPS)</h2>
-
-<p>Continuation is the special contribution of the book.</p>
-
-<p><a href="http://tunes.org/wiki/scheme.html">很多其他的scheme解释器和编译器.</a> <a href="http://groups.csail.mit.edu/mac/projects/scheme/index.html">Mit_scheme</a></p>
+<p>参差多态才是幸福的本源，学会用包容心去感受你附近的心灵，照顾她们。</p>
 
 <p class='post-footer'>
-                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2016/02/14/notes-from-teach-yourself-scheme/'>http://jueqingsizhe66.github.io/blog/2016/02/14/notes-from-teach-yourself-scheme/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2017/02/01/wen-xi-zhi-fen/'>http://jueqingsizhe66.github.io/blog/2017/02/01/wen-xi-zhi-fen/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
 
 </div>
 
@@ -186,12 +180,12 @@ of that data representation.</p></blockquote>
   
 
 
-<time datetime="2016-02-14T11:56:24+08:00" pubdate data-updated="true">Feb 14<span>th</span>, 2016</time>
+<time datetime="2017-02-01T17:20:20+08:00" pubdate data-updated="true">Feb 1<span>st</span>, 2017</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/scheme/'>scheme</a>
+    <a class='category' href='/blog/categories/life/'>life</a>
   
 </span>
 
@@ -209,10 +203,8 @@ of that data representation.</p></blockquote>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2016/02/13/different-data-types-decide-the-different-operations/" title="Previous Post: Different data types decide the different operations">&laquo; Different data types decide the different operations</a>
+        <a class="basic-alignment left" href="/blog/2017/01/22/perl-summary/" title="Previous Post: Perl_Summary">&laquo; Perl_Summary</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2016/02/14/chicken-scheme/" title="Next Post: chicken-scheme">chicken-scheme &raquo;</a>
       
     </p>
   </footer>
@@ -603,7 +595,7 @@ var duoshuoQuery = {short_name:"f708708"};
 </section>
 <section>
 <h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
-<a href="http://jueqingsizhe66.github.io/blog/2016/02/14/notes-from-teach-yourself-scheme/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2016/02/14/notes-from-teach-yourself-scheme/" alt="post-qrcode"></a></section>
+<a href="http://jueqingsizhe66.github.io/blog/2017/02/01/wen-xi-zhi-fen/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2017/02/01/wen-xi-zhi-fen/" alt="post-qrcode"></a></section>
 
   
 </aside>
