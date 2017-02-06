@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | 网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-02-01T17:48:30+08:00</updated>
+  <updated>2017-02-06T12:00:14+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -645,7 +645,8 @@ printf &ldquo;%s\n&rdquo; &ldquo;${array[*]}&rdquo;</p>
 
 <h2>查看系统的各种template</h2>
 
-<p> 一定要记住的一个命令 \ntl,通过它可以知道各个template系统文件
+<p> <font color="green">当你新建一个*.sh文件</font>
+ 一定要记住的一个命令 \ntl,通过它可以知道各个template系统文件
  都在干什么，以及如何使用那些快捷命令，比如\ckc \css \cfu \cc \cs  \se \sf 等。</p>
 
 <h2>几个常见的Macro</h2>
@@ -661,6 +662,9 @@ printf &ldquo;%s\n&rdquo; &ldquo;${array[*]}&rdquo;</p>
 </ol>
 
 
+<p><font color="red">你可以在.vim/bundle/bash-support.vim/bash-support/templates/Template文件(
+这边使用的是相对路径，我是通过bundle进行管理vim插件).</font></p>
+
 <h2>css 的程序几个大的部分的注释</h2>
 
 <p>当你敲入\css会在vim的下端出现一个输入栏，有下面几个选项</p>
@@ -675,6 +679,9 @@ printf &ldquo;%s\n&rdquo; &ldquo;${array[*]}&rdquo;</p>
 <li>&lsquo;STATISTICS AND CLEAN-UP&rsquo; : &lsquo;STATISTICS AND CLEAN-UP&rsquo;,</li>
 </ol>
 
+
+<p><font color="red">具体可以查看你的bash-support.vim/bash-support/templates/comment.templates</font>
+在该文件的一开头就define了shell文件的注释头。</p>
 
 <p>  <em>技巧可以通过 G然后TAB就可以直接补全了。</em>
   之所以说他特别好是因为，根据<a href="http://www.apress.com/9781430219972/">《Pro Bash Programming》</a>, 提出的关于
