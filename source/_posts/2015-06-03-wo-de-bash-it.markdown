@@ -41,3 +41,7 @@ Bash-it是源自于[oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh),
 
 ### 注意
 Bash_it的配置脚本和openfoam的配置脚本冲突，暂时未找到原因。
+
+### 补充theme配置
+当你执行玩Bash-it的install脚本后，在~目录下会有~/.bashrc文件，修改其中的bash theme主题变量即可。
+我现在使用的是doubletime_multiline_pyonly感觉还不错 

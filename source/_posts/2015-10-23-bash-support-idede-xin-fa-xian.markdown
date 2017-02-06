@@ -19,6 +19,7 @@ categories: Linux
 
 ## 查看系统的各种template
  
+ <font color="green">当你新建一个\*.sh文件</font>
  一定要记住的一个命令 \ntl,通过它可以知道各个template系统文件
  都在干什么，以及如何使用那些快捷命令，比如\ckc \css \cfu \cc \cs  \se \sf 等。
 
@@ -32,6 +33,10 @@ categories: Linux
 6. |ORGANIZATION|
 7. |AUTHORREF|
 
+<font color="red">你可以在.vim/bundle/bash-support.vim/bash-support/templates/Template文件(
+这边使用的是相对路径，我是通过bundle进行管理vim插件).</font>
+
+
 ## css 的程序几个大的部分的注释
 
 当你敲入\css会在vim的下端出现一个输入栏，有下面几个选项
@@ -43,6 +48,9 @@ categories: Linux
 5.	'TRAPS'                   : 'TRAPS',
 6.	'MAIN SCRIPT'             : 'MAIN SCRIPT',
 7.	'STATISTICS AND CLEAN-UP' : 'STATISTICS AND CLEAN-UP',
+
+<font color="red">具体可以查看你的bash-support.vim/bash-support/templates/comment.templates</font>
+在该文件的一开头就define了shell文件的注释头。
   
   *技巧可以通过 G然后TAB就可以直接补全了。*
   之所以说他特别好是因为，根据[《Pro Bash Programming》][4], 提出的关于
