@@ -9,11 +9,11 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="偶尔，在《人间正道是沧桑》这部电视剧听到， 文中有戏，戏中有文
-识文者读文，识戏者读戏（杨立仁)
-音中有调，调中有音
-识音者听音，识调者听调(瞿霞) 背景是解放战争时期，杨和瞿的一次9年之后的相见。不知情者可能听得是美妙的
-文字，优雅的声音，而背后却蕴含着另一场戏，老蒋总是那么爱玩。所有编程语言 &hellip;">
+  <meta name="description" content="一张来自fcode的有趣的静态和动态链接的比喻图， 静态库是需要直接和exe文件打包在一起的，而动态库则是需要运行的时候才执行dll文件，
+dll文件也是一个exe文件，只不过只能由对应的exe文件执行，无法人工执行。 1. 静态链接
+2. 动态链接
+3. 两者比较
+4. fortran与c混编 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -72,6 +72,109 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/02/07/%5B%3F%5D-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen/">一份有趣的fortran动态静态链接文</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-02-07T20:03:04+08:00" pubdate data-updated="true">Feb 7<span>th</span>, 2017</time>
+        
+
+         
+          | <a href="/blog/2017/02/07/%5B%3F%5D-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>一张来自<a href="http://fcode.cn/">fcode</a>的有趣的静态和动态链接的比喻图，
+<img src="/images/fortrandebug/usb.png" alt="staticdy" /></p>
+
+<p>静态库是需要直接和exe文件打包在一起的，而动态库则是需要运行的时候才执行dll文件，
+dll文件也是一个exe文件，只不过只能由对应的exe文件执行，无法人工执行。</p>
+
+<ul>
+<li><a href="#static">1. 静态链接</a></li>
+<li><a href="#dynamic">2. 动态链接</a></li>
+<li><a href="#compare">3. 两者比较</a></li>
+<li><a href="#hun">4. fortran与c混编</a></li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/02/07/%5B%3F%5D-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/02/07/fastdiao-shi/">FAST调试</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-02-07T20:01:15+08:00" pubdate data-updated="true">Feb 7<span>th</span>, 2017</time>
+        
+
+         
+          | <a href="/blog/2017/02/07/fastdiao-shi/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://nwtc.nrel.gov/FAST8">NREL FAST</a>的调试一直存在问题，关键是不知道怎么设置选项，查阅了Visual Studio和一些基本知识整理了
+NREL项目的调试方法。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/02/07/fastdiao-shi/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -735,121 +838,6 @@ and compare with each other continually.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/07/19/matlabxiao-jie/">Matlab小结</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-07-19T18:41:57+08:00" pubdate data-updated="true">Jul 19<span>th</span>, 2016</time>
-        
-
-         
-          | <a href="/blog/2016/07/19/matlabxiao-jie/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近，有做一个图像处理的项目，总结出一些有用的maltlab小工具。</p>
-
-<ol>
-<li><a href="#1">Numsubplot</a></li>
-<li><a href="#2">windRose</a></li>
-<li><a href="#3">多项式拟合</a></li>
-<li><a href="#4">箭头</a></li>
-<li><a href="#5">误差带</a></li>
-<li><a href="#6">matlab编程配置</a></li>
-<li><a href="#7">cell and array</a></li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/07/19/matlabxiao-jie/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/07/19/prologxiao-jie/">Prolog小结</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-07-19T18:41:13+08:00" pubdate data-updated="true">Jul 19<span>th</span>, 2016</time>
-        
-
-         
-          | <a href="/blog/2016/07/19/prologxiao-jie/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>prolog编程工具: swi-prolog</p>
-
-<ol>
-<li><a href="#1"> 1. cut-fail</a></li>
-<li><a href="#2"> 2. prolog 相关链接</a></li>
-<li><a href="#3"> 3. prolog 调试</a></li>
-<li><a href="#4"> 4. 可以尝试进行的主题阅读方式</a></li>
-<li><a href="#5"> 5. prolog基础知识点</a></li>
-<li><a href="#6"> 6. if-then-else的写法</a></li>
-<li><a href="#7"> 7. DCS写法</a></li>
-<li><a href="#8"> 8. p99问题集</a></li>
-<li><a href="#9"> 9. 几本不错的逻辑书籍</a></li>
-<li><a href="#10">10. 我购买的几本书籍</a></li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/07/19/prologxiao-jie/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1060,7 +1048,7 @@ and compare with each other continually.</p>
 <section>
   <h1>分类目录</h1>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/fast/'>Fast (3)</a></li>
+    <li class='category'><a href='/blog/categories/fast/'>Fast (4)</a></li>
 <li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
 <li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
 <li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
@@ -1071,7 +1059,7 @@ and compare with each other continually.</p>
 <li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
 <li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
 <li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
-<li class='category'><a href='/blog/categories/fortran/'>fortran (3)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (4)</a></li>
 <li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
 <li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
 <li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
@@ -1098,6 +1086,14 @@ and compare with each other continually.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/02/07/%5B%3F%5D-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen/">一份有趣的fortran动态静态链接文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/07/fastdiao-shi/">FAST调试</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/02/01/wen-xi-zhi-fen/">文戏之分</a>
       </li>
     
@@ -1107,14 +1103,6 @@ and compare with each other continually.</p>
     
       <li class="post">
         <a href="/blog/2017/01/22/how-to-learn-one-technique/">How_to_learn_one_technique</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/09/29/physics-and-maths/">Physics and Maths</a>
       </li>
     
   </ul>

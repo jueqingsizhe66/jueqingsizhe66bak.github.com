@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Fast | 网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/blog/categories/fast/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-02-07T16:50:33+08:00</updated>
+  <updated>2017-02-07T20:04:58+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -12,6 +12,99 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[FAST调试]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2017/02/07/fastdiao-shi/"/>
+    <updated>2017-02-07T20:01:15+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2017/02/07/fastdiao-shi</id>
+    <content type="html"><![CDATA[<p><a href="https://nwtc.nrel.gov/FAST8">NREL FAST</a>的调试一直存在问题，关键是不知道怎么设置选项，查阅了Visual Studio和一些基本知识整理了
+NREL项目的调试方法。</p>
+
+<!--more-->
+
+
+<h2>fortran工作路径问题</h2>
+
+<p><font color="green"><strong>工作路径对于任何的可执行文件都很重要。</strong></font></p>
+
+<pre><code>当然事先可能得了解一下软件编译链接的过程（即编写源代码--调用编译器编译源代码--
+&gt;调用链接器连接相关代码块生成可执行文件--&gt;运行可执行文件）(IDE隐藏了上述过程)
+</code></pre>
+
+<ul>
+<li>如果不带任何路径，则被认为是当前路径(<font color="green"><strong>working directory</strong></font>)。</li>
+<li>如果带相对路径，则以当前路径为基准。</li>
+<li>通过命令行执行，当前路径一般在提示符上(或<font color="red">pwd</font>命令查看)</li>
+<li>直接<font color="red"><strong>双击</strong></font>,当前路径在exe所在的文件夹。</li>
+<li>通过<font color="red"><strong>IDE</strong></font>方式运行，当前路径一般在<font color="red"><strong>工程所在文件夹</strong></font></li>
+<li>一些IDE还允许设置当前路径(只对IDE方式运行有效)。</li>
+<li>右键exe名字也是可以指定运行路径的（这样就可以加载对应的配置文件)</li>
+</ul>
+
+
+<p>比如:<br/></p>
+
+<p><img src="/images/fortrandebug/idewd.png" alt="IDE working directory" /><br/></p>
+
+<h2>代码层级改变文件路径</h2>
+
+<p>在程序中可以通过一些手段，动态的更改当前路径。</p>
+
+<ul>
+<li>IVF: changeDirQQ</li>
+<li>gfortran: ChDir</li>
+</ul>
+
+
+<p>也可以通过一些手段，获得当前路径，</p>
+
+<ul>
+<li>IVF/gforran: GetCWD</li>
+</ul>
+
+
+<p>``` fortran</p>
+
+<p>program testDir</p>
+
+<pre><code>Implicit none
+CHARACTER(len=512) ::  working_path
+call GET_COMMAND_ARGUMENT(0 , working_path);
+write(*,'(a,/,a)') 'exe path: ', trim(working_path);
+call GETCWD(working_path)
+write(*,'(a,/,a)') 'Working Directory: ', trim(working_path);
+</code></pre>
+
+<p>end program testDir</p>
+
+<p>```</p>
+
+<p>输出:&lt;br>
+```
+exe path:</p>
+
+<p>D:\testCWD\Debug\test_cwd.exe</p>
+
+<p>working directory:
+D:\testCWD
+```</p>
+
+<h2>调试FAST</h2>
+
+<p><img src="/images/fortrandebug/fast.jpg" alt="fast" />
+最关键的是一个对应两个设置</p>
+
+<ul>
+<li>一个对应指的是第二步的Linker的output File的exe名字和第三步的General底下的TargetName对应上</li>
+<li>两个设置是指在Debuging对Command Arguments和Working Directory的设置。Command Argument指定文件名字
+Working Directory指定文件路径。</li>
+</ul>
+
+
+<p>设置完就可以开始调试了。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ubuntu15.10-32bit-安装FastV8.15]]></title>
@@ -439,7 +532,7 @@ FFLAGS  = -O2 -m$(BITS) -fbacktrace -ffree-line-length-none -x f95-cpp-input -fP
 
 <h1>NOTES: &mdash;&ndash;</h1>
 
-<h1>AUTHOR: Ye Zhaoliang (), <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x7a;&#x68;&#97;&#x6f;&#x74;&#x75;&#114;&#107;&#x6b;&#101;&#x79;&#x40;&#49;&#x36;&#51;&#x2e;&#x63;&#111;&#109;">&#122;&#x68;&#97;&#x6f;&#x74;&#117;&#114;&#x6b;&#107;&#101;&#x79;&#x40;&#x31;&#54;&#x33;&#46;&#x63;&#111;&#109;</a></h1>
+<h1>AUTHOR: Ye Zhaoliang (), <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#x7a;&#x68;&#97;&#x6f;&#116;&#x75;&#114;&#x6b;&#107;&#x65;&#121;&#64;&#49;&#54;&#x33;&#46;&#x63;&#111;&#x6d;">&#x7a;&#x68;&#97;&#x6f;&#x74;&#x75;&#x72;&#107;&#107;&#x65;&#121;&#64;&#49;&#x36;&#x33;&#46;&#x63;&#111;&#109;</a></h1>
 
 <h1>ORGANIZATION: YZL</h1>
 

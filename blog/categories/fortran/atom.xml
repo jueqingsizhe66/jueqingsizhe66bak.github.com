@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Fortran | 网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/blog/categories/fortran/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-02-07T16:50:33+08:00</updated>
+  <updated>2017-02-07T20:04:58+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -12,6 +12,534 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[一份有趣的fortran动态静态链接文]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2017/02/07/%5B%3F%5D-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen/"/>
+    <updated>2017-02-07T20:03:04+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2017/02/07/[?]-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen</id>
+    <content type="html"><![CDATA[<p>一张来自<a href="http://fcode.cn/">fcode</a>的有趣的静态和动态链接的比喻图，
+<img src="/images/fortrandebug/usb.png" alt="staticdy" /></p>
+
+<p>静态库是需要直接和exe文件打包在一起的，而动态库则是需要运行的时候才执行dll文件，
+dll文件也是一个exe文件，只不过只能由对应的exe文件执行，无法人工执行。</p>
+
+<ul>
+<li><a href="#static">1. 静态链接</a></li>
+<li><a href="#dynamic">2. 动态链接</a></li>
+<li><a href="#compare">3. 两者比较</a></li>
+<li><a href="#hun">4. fortran与c混编</a></li>
+</ul>
+
+
+<!--more-->
+
+
+
+
+<h2 id="static">静态链接</h2>
+
+
+<p>静态库lib,实际上是obj文件的集合，可认为是打包在一起的若干obj，</p>
+
+<p>因此他的编译过程为：</p>
+
+<ol>
+<li><font color="red">编译子程序(f90)源代码，得到若干obj文件</font></li>
+<li><font color="red">打包这些obj文件，成为<strong>lib静态库</strong></font></li>
+</ol>
+
+
+<p>他的使用比较简单：</p>
+
+<p><font color="red">编译主程序(或其他子程序),链接时，<strong>带上lib</strong>文件即可</font>。</p>
+
+<hr/>
+
+
+<p><font color="red"><strong>注意</strong></font><br/>
+在上面的f90源代码中可能包含了module片段。若干静态库中使用了module,那么编译还会产生mod内件。
+<font color="green">每一个module对应一个同名的mod文件。</font></p>
+
+<p>mod是什么？
+mod文件可认为是module的"概述",与c语言的"头文件"的做哟个相似，但与C语言需要自己书写头文件不同，
+fortran的mod文件由编译器<font color="red"><strong>自动生成</strong></font>。</p>
+
+<p>也就是说，当<code>use Module</code>时，编译器需<strong>能够</strong>找到对应的mod文件。因此有必要把静态库里产生的mod文件
+保存起来，以便使用静态库时加载(<font color="red"><strong>mod文件一定得在lib目录下,这点很容易被遗忘。</strong></font>。</p>
+
+<hr/>
+
+
+<p><font color="green">提前准备公用的源代码:</font></p>
+
+<p>sub.90:
+``` fortran
+Subroutine sub()
+  write(<em>,</em>) &lsquo;Xueqiu is a good man!&rsquo;
+End Subroutine sub</p>
+
+<p>```</p>
+
+<p>func.f90:</p>
+
+<p>```
+MODULE FUNCMOD
+  IMPLICIT NONE</p>
+
+<p>CONTAINS</p>
+
+<p>  INTEGER FUNCTION FUNC()</p>
+
+<pre><code>WRITE(*,*) 'THIS IS A FUNC!'
+FUNC = 1
+</code></pre>
+
+<p>  END FUNCTION FUNC
+END MODULE FUNCMOD</p>
+
+<p>```</p>
+
+<p>main.f90:</p>
+
+<p>```
+Program testLib
+  use funcmod
+  Implicit None
+  integer :: i
+  i = func()
+  call sub()
+End Program testLib</p>
+
+<p>```</p>
+
+<hr/>
+
+
+<hr/>
+
+
+<hr/>
+
+
+<h3> gfortran技术解决方案</h3>
+
+
+<ul>
+<li>第一步: 编译生成obj[和mod] 文件,</li>
+</ul>
+
+
+<p><code>
+gfortran -c sub.f90 func.90
+</code></p>
+
+<p>生成文件列表如下:
+<code>
+funcmod.mod
+func.o
+sub.o
+</code></p>
+
+<ul>
+<li>第二步: 然后再打包obj文件到lib文件</li>
+</ul>
+
+
+<p><code>
+ar rv my.lib func.o sub.o
+</code>
+然后你现在就可以删掉func.o sub.o了(<code>rm -rf func.o sub.o</code>),
+因为他们包含在my.lib中.</p>
+
+<ul>
+<li>第三步: 编译主文件，</li>
+</ul>
+
+
+<p><code>
+gfortran -c main.f90
+gfortran main.o my.lib -o main.exe
+</code>
+这样就会生成对应的main.exe了。</p>
+
+<hr/>
+
+
+<hr/>
+
+
+<hr/>
+
+
+
+
+<h3> vs2015+ivf2017的技术解决方案:</h3>
+
+
+<ul>
+<li>第一步:</li>
+</ul>
+
+
+<p>新建一个static library项目,并添加sub.f90,func.f90到source文件夹下。</p>
+
+<p><img src="/images/fortrandebug/static/1.png" alt="static" /></p>
+
+<ul>
+<li>第二步: 生成解决方案</li>
+</ul>
+
+
+<p><img src="/images/fortrandebug/static/2.png" alt="static2" />
+这样就在debug目录下得到*.lib文件</p>
+
+<p>注意：链接需要二个文件*.obj
+和*.mod文件，而myfirstLib.lib仅仅是把*.obj打包了一下，所以
+还得再ivf的<font color="red"><strong>Additional Include</strong></font>中添加mod文件路径</p>
+
+<ul>
+<li>第三步:</li>
+</ul>
+
+
+<p>新建一个testLib  console(/subsystem:console )的项目 用于测试myfirstlib</p>
+
+<p><img src="/images/fortrandebug/static/3.png" alt="test" />
+注意由于在一个解决方案中存在多个项目所以得把test(包含主程序)设置为<font color="red">启动项目</font>。
+<img src="/images/fortrandebug/static/4.png" alt="启动" /></p>
+
+<ul>
+<li>第四步:</li>
+</ul>
+
+
+<p>编译，生成解决方案。<font color="red"><strong>报错了</strong></font><br>。
+<img src="/images/fortrandebug/static/5.png" alt="error" />
+原因是没有找到*.o(func.o)包含的mod文件，解决方法是<font color="red">添加mod路径到additional include directories </font>
+<img src="/images/fortrandebug/static/6.png" alt="correct" /></p>
+
+<p>还有一个问题，我一般还需要<font color="red">生成的lib文件放在source目录下</font>，才可以编译成功，这点也需要小心。</p>
+
+<p><font color="red"><strong>总结</strong></font>
+设置lib路径的时候，在存在mod文件时候，一定得一同存在，否则未可能报符号丢失的错误。</p>
+
+<hr/>
+
+
+<hr/>
+
+
+<hr/>
+
+
+
+
+<h2 id="dynamic"> 动态链接</h2>
+
+
+<p>动态库DLL,实际上也是可执行文件，与exe本质上是一样的。只不过dll通常
+没有主程序而已（自己不能运行，只能由对应的主程序运行),他必须由exe在运行以后调用。</p>
+
+<p>DLL的好处?
+具有良好的可维护性，节约内存等特点。在windows(dll)，linux(so),mac等操作系统上，都
+大量使用了DLL动态库。</p>
+
+<p>动态链接库dll的编译过程是:</p>
+
+<ol>
+<li>编译子程序源代码，得到若干obj文件。</li>
+<li>链接这些obj文件，得到dll文件（有可能带lib文件，如果是静态加载则无lib，如果是动态加载则有lib）</li>
+<li>部分平台的编译器会得到导入库lib</li>
+</ol>
+
+
+<p>他的使用由两种方法(显示调用(动态),隐式调用(静态)):</p>
+
+<ol>
+<li>编译主程序(或其他子程序),链接时，带上导入库lib文件。</li>
+<li>动态的利用系统函数加载DLL,如windows下的LoadLibrary和GetProcAddress。</li>
+</ol>
+
+
+<hr/>
+
+
+<hr/>
+
+
+<p>提前准备好公用的fortran源代码：</p>
+
+<p><font color="red">sub.f90:</font>
+``` fortran
+Subroutine sub()
+  !DEC$ ATTRIBUTES DLLEXPORT,ALIAS:&ldquo;sub&rdquo;::sub
+  write(<em>,</em>) &lsquo;Xueqiu is a good man!&rsquo;
+End Subroutine sub</p>
+
+<p>```
+<strong>注意，!DEC$ ATTRIBUTES DLLEXPORT, ALIAS:&ldquo;sub&rdquo;::sub，是有用的exe间的符号对接。</strong></p>
+
+<p><font color="red">func.f90:</font></p>
+
+<p>``` fortran</p>
+
+<p>Module funcmod
+  Implicit none</p>
+
+<p>contains</p>
+
+<p>  Integer Function func()</p>
+
+<pre><code>!DEC$ ATTRIBUTES DLLEXPORT,ALIAS:"func"::func
+write(*,*) 'This is a func!'
+func = 1
+</code></pre>
+
+<p>  End Function func
+End Module funcmod</p>
+
+<p>```</p>
+
+<p><strong>注意，!DEC$ ATTRIBUTES DLLEXPORT, ALIAS:&ldquo;func&rdquo;::func，是有用的exe间的符号对接。</strong></p>
+
+<p><font color="red">main.f90:</font>></p>
+
+<p>``` fortran
+Program testDll
+  use funcmod
+  Implicit None
+  integer :: i
+  i = func()
+  call sub()
+End Program testDll</p>
+
+<p>```</p>
+
+<h3> gfortran的技术解决方案:</h3>
+
+
+<ul>
+<li>第一步: 生成so文件(linux下面)</li>
+</ul>
+
+
+<p><code>
+gfotran sub.f90 func.f90 -shared -fPIC -o libmy.so
+</code>
++ 第二步: 直接引用即可
+<code>
+gfortran main.f90 libmy.so -o main.exe
+</code></p>
+
+<ul>
+<li>第三步:直接运行main.exe
+有可能报错，在linux下可能需要 <code>export LD_LIBRARY_PATH=./</code>
+也就是把当前目录也当作查找so文件的一个地方。</li>
+</ul>
+
+
+<h3> vs2015+ivf2017的技术解决方案:</h3>
+
+
+<ul>
+<li>第一步：新建一个Dll project
+然后类似静态的方法，把func.f90,sub.f90当作一个项目，再新建一个testDll项目，并添加lib等，也要include进来目录
+比如，
+<img src="/images/fortrandebug/dll/main.png" alt="main" />再次基础上，在添加include路径（把mod文件添加进来）
+<img src="/images/fortrandebug/dll/include.png" alt="include" /></li>
+</ul>
+
+
+<p>在运行的时候有可能出现运行错误<img src="/images/fortrandebug/dll/error.png" alt="error" />,这时候需要在Working Directory添加
+运行dll路径，
+<img src="/images/fortrandebug/dll/dll.png" alt="dll" />,</p>
+
+<h2 id="compare"> 动态链接的静态加载和动态加载</h2>
+
+
+<p><font color="blue">总之，静态库lib和动态库dll，是很多第三方库的主要形式。因此他们是学习第三方
+函数库的基础知识，也是学习多种语言混编的基础。</font></p>
+
+<ul>
+<li><p>静态加载和动态加载的区别:</p></li>
+<li><p>静态加载:不依赖ifort的运行库（可以到没有安装ifort的机器 上运行dll文件）  dll文件比较大</p></li>
+<li>dll加载 :则会依赖ifort的运行库（dll比较小，但是如果没有ifort运行库 则会报dll错误（所以一般拷贝到别的机子的dll都是静态加载的
+可采用depends walker这个软件，查看内部的dll信息。</li>
+</ul>
+
+
+<p>而我们可以用一张十分perfect的比较图，看出动态链接库的两种加载方式的不同，以及动态和静态的区别(10元)
+<img src="/images/fortrandebug/dynamicstatic.png" alt="dynamicstatic" /></p>
+
+<p>注意动态函数(subroutine)比静态多了一行<code>!DEC$ ATTRIBUTE DLLEXPORT,ALIAS:...</code></p>
+
+<ul>
+<li>动态加载例子
+<img src="/images/fortrandebug/dll/load.png" alt="动态加载" /></li>
+</ul>
+
+
+<p>```  fortran
+Module LoadDLL
+  Implicit None
+  Interface</p>
+
+<pre><code>FUNCTION GetProcAddress( hModule, lpProcName)
+  !DEC$ ATTRIBUTES DEFAULT, STDCALL, DECORATE, ALIAS:'GetProcAddress' :: GetProcAddress
+  use ISO_C_Binding
+  type( C_FUNPTR ) :: GetProcAddress
+  integer hModule
+  character(C_CHAR) , dimension(*) :: lpProcName
+END FUNCTION GetProcAddress
+
+Integer Function F_func()
+End Function F_func
+
+Subroutine F_Sub()
+End Subroutine F_Sub
+</code></pre>
+
+<p>  End Interface</p>
+
+<p>End Module LoadDLL</p>
+
+<p>Program www_fcode_cn
+  use LoadDLL
+  use ISO_C_Binding
+  use Kernel32 , only : LoadLibrary
+  Implicit None
+  Procedure(F_func) , pointer :: func
+  Procedure(F_sub ) , pointer :: sub
+  type( C_FUNPTR ) :: c_pointer
+  integer :: hDLL , i
+  character(len=32) :: dllname , funcname
+  Do</p>
+
+<pre><code>write(*,*) '您要调用哪个DLL？'
+read(*,*) dllname
+hDLL = LoadLibrary( trim(dllname)//c_null_char )
+if ( hDLL &lt;= 0 ) then
+  write(*,*) '对不起，我好像无法找到 '//trim(dllname)//' 哦~~！^_^'
+else
+  exit
+end if
+</code></pre>
+
+<p>  End Do
+  Do</p>
+
+<pre><code>write(*,*) '您要调用哪个函数？'
+read(*,*) funcname
+if ( funcname=="quit" ) exit
+c_pointer = GetProcAddress( hDLL , trim(funcname)//c_null_char )
+if ( .not.C_ASSOCIATED(c_pointer) ) then
+  write(*,*) trim(dllname)//' 里面好像没有 '//trim(funcname)//' 函数哦~~！^_^'
+  cycle
+end if
+If ( funcname=="func" ) then
+  call C_F_ProcPointer( c_pointer , func )
+  i = func()
+Else if ( funcname=="sub" ) then
+  call C_F_ProcPointer( c_pointer , sub )
+  call sub()
+End If
+</code></pre>
+
+<p>  End Do<br/>
+End Program www_fcode_cn</p>
+
+<p>```</p>
+
+<h2 id="hun"> fortran与c混编</h2>
+
+
+<p>源于此:<a href="http://bbs.fcode.cn/thread-1117-1-1.html">http://bbs.fcode.cn/thread-1117-1-1.html</a></p>
+
+<p><img src="/images/fortrandebug/hunbian/main.png" alt="混编主界面" />
+混编时候注意两点:</p>
+
+<ol>
+<li>c 和 fortran 混编不需要 include</li>
+<li>c/c++ 里面没有 module</li>
+</ol>
+
+
+<p>另外注意vc项目也得添加引用目录
+<img src="/images/fortrandebug/hunbian/vcinclude.png" alt="引用目录" /></p>
+
+<p>你也可能运行错误
+<img src="/images/fortrandebug/hunbian/error.png" alt="errorV" />
+注意上面红色的部分。
+第一处：如果你强调必须 stdcall 协定，那么你需要在 fortran 中声明。（这个声明不是规范的，是IVF扩展的写法）
+第二处：你的 C++ 里的 lens 是通过 strlen 计算出来的，而不是指针。所以 fortran 中必须加 value 修饰符，表示它是传值，而不是传址。（这是导致cpp_main.exe 中的 0x5d7005a9 (vlhm.dll) 处最可能的异常: 0xC0000005: 读取位置 0x00000021 时发生访问冲突）的原因。</p>
+
+<p>最终正确结果如下:
+<img src="/images/fortrandebug/hunbian/final.png" alt="correctV" /></p>
+
+<p>源码信息如下:</p>
+
+<p>TestFortranCpp.cpp</p>
+
+<p>``` c++
+// TestFortranCpp.cpp : 定义控制台应用程序的入口点。
+//</p>
+
+<h1>include &ldquo;stdafx.h&rdquo;</h1>
+
+<h1>include &lt;stdio.h></h1>
+
+<h1>include &lt;string.h></h1>
+
+<p>extern &ldquo;C&rdquo; {void <em>stdcall   vlhm(char <em>, int); }
+//extern &ldquo;C&rdquo; {void vlhm(char </em>,int); }
+int </em>tmain(int argc, _TCHAR* argv[])
+{</p>
+
+<pre><code>char *inputfile = "E:\\phase6-power.opj";
+//char *inputfile;
+//char str[] = "C:\\Users\\www\\Desktop\\\\31005700.tem";
+//inputfile=&amp;str[0];
+vlhm(inputfile, strlen(inputfile));
+return 0;
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<p>fileNameCheck.f90:</p>
+
+<p>``` fortran
+subroutine vlhm(pfilename, lens) Bind(C,Name=&ldquo;vlhm&rdquo;)
+!DEC$ ATTRIBUTES STDCALL,DLLEXPORT::vlhm</p>
+
+<p>  use,  Intrinsic :: ISO_C_Binding
+!character(len=<em>)::filename            !c++主程序中传递进来的“Inputfile”变量
+!write(</em>,<em>)&ldquo;dll里的filename值是：&rdquo;
+!write(</em>,*)filename</p>
+
+<p>  type(C_PTR) , value :: pfilename !c++主程序中传递进来的“Inputfile”变量，是C语言的指针
+  integer, value::lens                                      !传入的字符串长度
+  character(len=lens), target :: filename_a
+  !character(len=lens) :: filename_a !pointer &amp; target
+  character(len=lens),pointer::filename                     !这是Fortran的字符串</p>
+
+<p>  call c_f_pointer( pfilename , filename )                   !把c语言的指针转换成fortran字符串</p>
+
+<p>  filename_a = filename
+  write(<em>,</em>)filename
+  write(<em>,</em>)filename_a</p>
+
+<p>  write(<em>,</em>) &lsquo;fine ok&rsquo;</p>
+
+<p>end subroutine vlhm</p>
+
+<p>```</p>
+
+<p>进一步的细节资料可参考<a href="http://v.fcode.cn/video-library_dll.html">fcode视频官网</a>。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Fortran宫殿]]></title>

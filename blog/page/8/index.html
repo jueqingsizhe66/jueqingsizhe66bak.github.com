@@ -9,9 +9,7 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="main在Haskell充当类似c系列语言的exe文件的头函数
-main对应的类型是IO Something
-比如下列源码： ">
+  <meta name="description" content="老子道德经说道生一，一生二，二生三，三生万物，这句话符合构造定律Constructal Law. ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,6 +68,100 @@ main对应的类型是IO Something
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/17/jia-fa-zhi-hou-ye-xu-jian-fa/">加法之后也需减法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-17T22:46:35+08:00" pubdate data-updated="true">May 17<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="/blog/2015/05/17/jia-fa-zhi-hou-ye-xu-jian-fa/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>老子道德经说<a href="http://www.jdon.com/46727">道生一，一生二，二生三，三生万物</a>，这句话符合构造定律Constructal Law.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/05/17/jia-fa-zhi-hou-ye-xu-jian-fa/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/17/haskellde-%5B%3F%5D-ci-homework/">Haskell的一次Homework</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-17T22:09:09+08:00" pubdate data-updated="true">May 17<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="/blog/2015/05/17/haskellde-%5B%3F%5D-ci-homework/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>比较欣赏第三种解法的匠心独运。另外最后一处也引入了模式匹配的思想。
+其实模式匹配，又或者Awk的<a href="http://www.kuqin.com/shuoit/20140617/340631.html">Map-reduce</a>等都源自范畴论的<a href="http://www.jdon.com/idea/monad.html">Monad</a>.
+Monad其实是<a href="http://www.jdon.com/idea/monoid.html">Monoid</a>的一种endfunctor..
+Monoid更象是数学的<a href="http://baike.baidu.com/link?url=7iYP9qxtCIrLmJfyDk1nLYlcfBIB17bXjOQmymFupddY0ZN9uiNrXfY8R6yrbFr1Kl9JBmSwyzkQ6EGcQEqlc_">复合函数</a>的求解策略。f和g组合是g.f，g和h组合是h.g , 也就是说，f函数的输出作为g函数的输入，而且f函数的输出类型必须和g函数的输入类型相同。
+我们将一个范畴有元素对象和态射箭头，态射箭头有组合和幺元两种，且满足结合律，这种范畴称为Monoid。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/05/17/haskellde-%5B%3F%5D-ci-homework/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -735,102 +827,6 @@ if-else  这其实是一种控制语句，不能说Haskell放掉了控制语句�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/12/zhao-chu-han-shu-de-bu-dong-dian-navier-stokesfang-cheng/">找出函数的不动点&#8211;Navier-Stokes方程</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-12T03:13:50+08:00" pubdate data-updated="true">May 12<span>th</span>, 2015</time>
-        
-
-         
-          | <a href="/blog/2015/05/12/zhao-chu-han-shu-de-bu-dong-dian-navier-stokesfang-cheng/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Beautiful code!</h2>
-
-<p>数x为函数的f的不动点（f可以代表N-S方程），如果满足f(x)=x,则称x
-为函数f的不动点。
-性质 f(x),f(f(x)),f(f(f(x)))&hellip;., change the x&rsquo;s value if f(x)=x,then
-you found!</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/05/12/zhao-chu-han-shu-de-bu-dong-dian-navier-stokesfang-cheng/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/12/zhe-ban-chao-zhao-you-tiao-jian/">折半查找有条件</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-12T02:46:03+08:00" pubdate data-updated="true">May 12<span>th</span>, 2015</time>
-        
-
-         
-          | <a href="/blog/2015/05/12/zhe-ban-chao-zhao-you-tiao-jian/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>You want to solve F(x)=0,
-if f(a)&lt;0&lt;f(b), so the value must be inside the [a,b].</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/05/12/zhe-ban-chao-zhao-you-tiao-jian/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/9/">&larr; Older</a>
@@ -1043,7 +1039,7 @@ if f(a)&lt;0&lt;f(b), so the value must be inside the [a,b].</p>
 <section>
   <h1>分类目录</h1>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/fast/'>Fast (3)</a></li>
+    <li class='category'><a href='/blog/categories/fast/'>Fast (4)</a></li>
 <li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
 <li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
 <li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
@@ -1054,7 +1050,7 @@ if f(a)&lt;0&lt;f(b), so the value must be inside the [a,b].</p>
 <li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
 <li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
 <li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
-<li class='category'><a href='/blog/categories/fortran/'>fortran (3)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (4)</a></li>
 <li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
 <li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
 <li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
@@ -1081,6 +1077,14 @@ if f(a)&lt;0&lt;f(b), so the value must be inside the [a,b].</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/02/07/%5B%3F%5D-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen/">一份有趣的fortran动态静态链接文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/07/fastdiao-shi/">FAST调试</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/02/01/wen-xi-zhi-fen/">文戏之分</a>
       </li>
     
@@ -1090,14 +1094,6 @@ if f(a)&lt;0&lt;f(b), so the value must be inside the [a,b].</p>
     
       <li class="post">
         <a href="/blog/2017/01/22/how-to-learn-one-technique/">How_to_learn_one_technique</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/10/09/a-little-java-note/">A Little Java Note</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/09/29/physics-and-maths/">Physics and Maths</a>
       </li>
     
   </ul>

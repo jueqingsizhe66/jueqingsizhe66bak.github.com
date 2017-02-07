@@ -1,0 +1,1257 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>一份有趣的fortran动态静态链接文 - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="一张来自fcode的有趣的静态和动态链接的比喻图， 静态库是需要直接和exe文件打包在一起的，而动态库则是需要运行的时候才执行dll文件，
+dll文件也是一个exe文件，只不过只能由对应的exe文件执行，无法人工执行。 1. 静态链接
+2. 动态链接
+3. 两者比较
+4. fortran与c混编 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2017/02/07/%5B%3F%5D-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">一份有趣的fortran动态静态链接文</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-02-07T20:03:04+08:00" pubdate data-updated="true">Feb 7<span>th</span>, 2017</time>
+        
+
+         
+          | <a href="#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>一张来自<a href="http://fcode.cn/">fcode</a>的有趣的静态和动态链接的比喻图，
+<img src="/images/fortrandebug/usb.png" alt="staticdy" /></p>
+
+<p>静态库是需要直接和exe文件打包在一起的，而动态库则是需要运行的时候才执行dll文件，
+dll文件也是一个exe文件，只不过只能由对应的exe文件执行，无法人工执行。</p>
+
+<ul>
+<li><a href="#static">1. 静态链接</a></li>
+<li><a href="#dynamic">2. 动态链接</a></li>
+<li><a href="#compare">3. 两者比较</a></li>
+<li><a href="#hun">4. fortran与c混编</a></li>
+</ul>
+
+
+<!--more-->
+
+
+
+
+<h2 id="static">静态链接</h2>
+
+
+<p>静态库lib,实际上是obj文件的集合，可认为是打包在一起的若干obj，</p>
+
+<p>因此他的编译过程为：</p>
+
+<ol>
+<li><font color="red">编译子程序(f90)源代码，得到若干obj文件</font></li>
+<li><font color="red">打包这些obj文件，成为<strong>lib静态库</strong></font></li>
+</ol>
+
+
+<p>他的使用比较简单：</p>
+
+<p><font color="red">编译主程序(或其他子程序),链接时，<strong>带上lib</strong>文件即可</font>。</p>
+
+<hr/>
+
+
+<p><font color="red"><strong>注意</strong></font><br/>
+在上面的f90源代码中可能包含了module片段。若干静态库中使用了module,那么编译还会产生mod内件。
+<font color="green">每一个module对应一个同名的mod文件。</font></p>
+
+<p>mod是什么？
+mod文件可认为是module的&#8221;概述&#8221;,与c语言的&#8221;头文件&#8221;的做哟个相似，但与C语言需要自己书写头文件不同，
+fortran的mod文件由编译器<font color="red"><strong>自动生成</strong></font>。</p>
+
+<p>也就是说，当<code>use Module</code>时，编译器需<strong>能够</strong>找到对应的mod文件。因此有必要把静态库里产生的mod文件
+保存起来，以便使用静态库时加载(<font color="red"><strong>mod文件一定得在lib目录下,这点很容易被遗忘。</strong></font>。</p>
+
+<hr/>
+
+
+<p><font color="green">提前准备公用的源代码:</font></p>
+
+<p>sub.90:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='fortran'><span class='line'><span class="k">Subroutine </span><span class="nv">sub</span><span class="p">()</span>
+</span><span class='line'>  <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Xueqiu is a good man!&#39;</span>
+</span><span class='line'><span class="k">End Subroutine </span><span class="nv">sub</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>func.f90:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='fortran'><span class='line'><span class="k">MODULE </span><span class="nv">FUNCMOD</span>
+</span><span class='line'>  <span class="k">IMPLICIT NONE</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">CONTAINS</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">  </span><span class="kt">INTEGER </span><span class="k">FUNCTION </span><span class="nv">FUNC</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;THIS IS A FUNC!&#39;</span>
+</span><span class='line'>    <span class="nv">FUNC</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">END FUNCTION </span><span class="nv">FUNC</span>
+</span><span class='line'><span class="k">END MODULE </span><span class="nv">FUNCMOD</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>main.f90:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='fortran'><span class='line'><span class="k">Program </span><span class="nv">testLib</span>
+</span><span class='line'>  <span class="k">use </span><span class="nv">funcmod</span>
+</span><span class='line'>  <span class="k">Implicit None</span>
+</span><span class='line'><span class="k">  </span><span class="kt">integer</span> <span class="kd">::</span> <span class="nv">i</span>
+</span><span class='line'>  <span class="nv">i</span> <span class="o">=</span> <span class="nv">func</span><span class="p">()</span>
+</span><span class='line'>  <span class="k">call </span><span class="nv">sub</span><span class="p">()</span>
+</span><span class='line'><span class="k">End Program </span><span class="nv">testLib</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<hr/>
+
+
+<hr/>
+
+
+<hr/>
+
+
+<h3> gfortran技术解决方案</h3>
+
+
+<ul>
+<li>第一步: 编译生成obj[和mod] 文件,</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='fortran'><span class='line'><span class="nv">gfortran</span> <span class="o">-</span><span class="nv">c</span> <span class="nv">sub</span><span class="err">.</span><span class="nv">f90</span> <span class="nv">func</span><span class="mf">.90</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>生成文件列表如下:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='fortran'><span class='line'><span class="nv">funcmod</span><span class="err">.</span><span class="nb">mod</span>
+</span><span class='line'><span class="nv">func</span><span class="err">.</span><span class="nv">o</span>
+</span><span class='line'><span class="nv">sub</span><span class="err">.</span><span class="nv">o</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>第二步: 然后再打包obj文件到lib文件</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='fortran'><span class='line'><span class="nv">ar</span> <span class="nv">rv</span> <span class="nv">my</span><span class="err">.</span><span class="nv">lib</span> <span class="nv">func</span><span class="err">.</span><span class="nv">o</span> <span class="nv">sub</span><span class="err">.</span><span class="nv">o</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后你现在就可以删掉func.o sub.o了(<code>rm -rf func.o sub.o</code>),
+因为他们包含在my.lib中.</p>
+
+<ul>
+<li>第三步: 编译主文件，</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='fortran'><span class='line'><span class="nv">gfortran</span> <span class="o">-</span><span class="nv">c</span> <span class="nv">main</span><span class="err">.</span><span class="nv">f90</span>
+</span><span class='line'><span class="nv">gfortran</span> <span class="nv">main</span><span class="err">.</span><span class="nv">o</span> <span class="nv">my</span><span class="err">.</span><span class="nv">lib</span> <span class="o">-</span><span class="nv">o</span> <span class="nv">main</span><span class="err">.</span><span class="nv">exe</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样就会生成对应的main.exe了。</p>
+
+<hr/>
+
+
+<hr/>
+
+
+<hr/>
+
+
+
+
+<h3> vs2015+ivf2017的技术解决方案:</h3>
+
+
+<ul>
+<li>第一步:</li>
+</ul>
+
+
+<p>新建一个static library项目,并添加sub.f90,func.f90到source文件夹下。</p>
+
+<p><img src="/images/fortrandebug/static/1.png" alt="static" /></p>
+
+<ul>
+<li>第二步: 生成解决方案</li>
+</ul>
+
+
+<p><img src="/images/fortrandebug/static/2.png" alt="static2" />
+这样就在debug目录下得到*.lib文件</p>
+
+<p>注意：链接需要二个文件*.obj
+和*.mod文件，而myfirstLib.lib仅仅是把*.obj打包了一下，所以
+还得再ivf的<font color="red"><strong>Additional Include</strong></font>中添加mod文件路径</p>
+
+<ul>
+<li>第三步:</li>
+</ul>
+
+
+<p>新建一个testLib  console(/subsystem:console )的项目 用于测试myfirstlib</p>
+
+<p><img src="/images/fortrandebug/static/3.png" alt="test" />
+注意由于在一个解决方案中存在多个项目所以得把test(包含主程序)设置为<font color="red">启动项目</font>。
+<img src="/images/fortrandebug/static/4.png" alt="启动" /></p>
+
+<ul>
+<li>第四步:</li>
+</ul>
+
+
+<p>编译，生成解决方案。<font color="red"><strong>报错了</strong></font><br>。
+<img src="/images/fortrandebug/static/5.png" alt="error" />
+原因是没有找到*.o(func.o)包含的mod文件，解决方法是<font color="red">添加mod路径到additional include directories </font>
+<img src="/images/fortrandebug/static/6.png" alt="correct" /></p>
+
+<p>还有一个问题，我一般还需要<font color="red">生成的lib文件放在source目录下</font>，才可以编译成功，这点也需要小心。</p>
+
+<p><font color="red"><strong>总结</strong></font>
+设置lib路径的时候，在存在mod文件时候，一定得一同存在，否则未可能报符号丢失的错误。</p>
+
+<hr/>
+
+
+<hr/>
+
+
+<hr/>
+
+
+
+
+<h2 id="dynamic"> 动态链接</h2>
+
+
+<p>动态库DLL,实际上也是可执行文件，与exe本质上是一样的。只不过dll通常
+没有主程序而已（自己不能运行，只能由对应的主程序运行),他必须由exe在运行以后调用。</p>
+
+<p>DLL的好处?
+具有良好的可维护性，节约内存等特点。在windows(dll)，linux(so),mac等操作系统上，都
+大量使用了DLL动态库。</p>
+
+<p>动态链接库dll的编译过程是:</p>
+
+<ol>
+<li>编译子程序源代码，得到若干obj文件。</li>
+<li>链接这些obj文件，得到dll文件（有可能带lib文件，如果是静态加载则无lib，如果是动态加载则有lib）</li>
+<li>部分平台的编译器会得到导入库lib</li>
+</ol>
+
+
+<p>他的使用由两种方法(显示调用(动态),隐式调用(静态)):</p>
+
+<ol>
+<li>编译主程序(或其他子程序),链接时，带上导入库lib文件。</li>
+<li>动态的利用系统函数加载DLL,如windows下的LoadLibrary和GetProcAddress。</li>
+</ol>
+
+
+<hr/>
+
+
+<hr/>
+
+
+<p>提前准备好公用的fortran源代码：</p>
+
+<p><font color="red">sub.f90:</font></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='fortran'><span class='line'><span class="k">Subroutine </span><span class="nv">sub</span><span class="p">()</span>
+</span><span class='line'>  <span class="c">!DEC$ ATTRIBUTES DLLEXPORT,ALIAS:&quot;sub&quot;::sub</span>
+</span><span class='line'>  <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Xueqiu is a good man!&#39;</span>
+</span><span class='line'><span class="k">End Subroutine </span><span class="nv">sub</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>注意，!DEC$ ATTRIBUTES DLLEXPORT, ALIAS:&ldquo;sub&rdquo;::sub，是有用的exe间的符号对接。</strong></p>
+
+<p><font color="red">func.f90:</font></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='fortran'><span class='line'><span class="k">Module </span><span class="nv">funcmod</span>
+</span><span class='line'>  <span class="k">Implicit none</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">contains</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">  </span><span class="kt">Integer </span><span class="k">Function </span><span class="nv">func</span><span class="p">()</span>
+</span><span class='line'>    <span class="c">!DEC$ ATTRIBUTES DLLEXPORT,ALIAS:&quot;func&quot;::func</span>
+</span><span class='line'>    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;This is a func!&#39;</span>
+</span><span class='line'>    <span class="nv">func</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">End Function </span><span class="nv">func</span>
+</span><span class='line'><span class="k">End Module </span><span class="nv">funcmod</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>注意，!DEC$ ATTRIBUTES DLLEXPORT, ALIAS:&ldquo;func&rdquo;::func，是有用的exe间的符号对接。</strong></p>
+
+<p><font color="red">main.f90:</font>></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='fortran'><span class='line'><span class="k">Program </span><span class="nv">testDll</span>
+</span><span class='line'>  <span class="k">use </span><span class="nv">funcmod</span>
+</span><span class='line'>  <span class="k">Implicit None</span>
+</span><span class='line'><span class="k">  </span><span class="kt">integer</span> <span class="kd">::</span> <span class="nv">i</span>
+</span><span class='line'>  <span class="nv">i</span> <span class="o">=</span> <span class="nv">func</span><span class="p">()</span>
+</span><span class='line'>  <span class="k">call </span><span class="nv">sub</span><span class="p">()</span>
+</span><span class='line'><span class="k">End Program </span><span class="nv">testDll</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h3> gfortran的技术解决方案:</h3>
+
+
+<ul>
+<li>第一步: 生成so文件(linux下面)</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='fortran'><span class='line'><span class="nv">gfotran</span> <span class="nv">sub</span><span class="err">.</span><span class="nv">f90</span> <span class="nv">func</span><span class="err">.</span><span class="nv">f90</span> <span class="o">-</span><span class="nv">shared</span> <span class="o">-</span><span class="nv">fPIC</span> <span class="o">-</span><span class="nv">o</span> <span class="nv">libmy</span><span class="err">.</span><span class="nv">so</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>第二步: 直接引用即可</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='fortran'><span class='line'><span class="nv">gfortran</span> <span class="nv">main</span><span class="err">.</span><span class="nv">f90</span> <span class="nv">libmy</span><span class="err">.</span><span class="nv">so</span> <span class="o">-</span><span class="nv">o</span> <span class="nv">main</span><span class="err">.</span><span class="nv">exe</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>第三步:直接运行main.exe
+有可能报错，在linux下可能需要 <code>export LD_LIBRARY_PATH=./</code>
+也就是把当前目录也当作查找so文件的一个地方。</li>
+</ul>
+
+
+<h3> vs2015+ivf2017的技术解决方案:</h3>
+
+
+<ul>
+<li>第一步：新建一个Dll project
+然后类似静态的方法，把func.f90,sub.f90当作一个项目，再新建一个testDll项目，并添加lib等，也要include进来目录
+比如，
+<img src="/images/fortrandebug/dll/main.png" alt="main" />再次基础上，在添加include路径（把mod文件添加进来）
+<img src="/images/fortrandebug/dll/include.png" alt="include" /></li>
+</ul>
+
+
+<p>在运行的时候有可能出现运行错误<img src="/images/fortrandebug/dll/error.png" alt="error" />,这时候需要在Working Directory添加
+运行dll路径，
+<img src="/images/fortrandebug/dll/dll.png" alt="dll" />,</p>
+
+<h2 id="compare"> 动态链接的静态加载和动态加载</h2>
+
+
+<p><font color="blue">总之，静态库lib和动态库dll，是很多第三方库的主要形式。因此他们是学习第三方
+函数库的基础知识，也是学习多种语言混编的基础。</font></p>
+
+<ul>
+<li><p>静态加载和动态加载的区别:</p></li>
+<li><p>静态加载:不依赖ifort的运行库（可以到没有安装ifort的机器 上运行dll文件）  dll文件比较大</p></li>
+<li>dll加载 :则会依赖ifort的运行库（dll比较小，但是如果没有ifort运行库 则会报dll错误（所以一般拷贝到别的机子的dll都是静态加载的
+可采用depends walker这个软件，查看内部的dll信息。</li>
+</ul>
+
+
+<p>而我们可以用一张十分perfect的比较图，看出动态链接库的两种加载方式的不同，以及动态和静态的区别(10元)
+<img src="/images/fortrandebug/dynamicstatic.png" alt="dynamicstatic" /></p>
+
+<p>注意动态函数(subroutine)比静态多了一行<code>!DEC$ ATTRIBUTE DLLEXPORT,ALIAS:...</code></p>
+
+<ul>
+<li>动态加载例子
+<img src="/images/fortrandebug/dll/load.png" alt="动态加载" /></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+</pre></td><td class='code'><pre><code class='fortran'><span class='line'><span class="k">Module </span><span class="nv">LoadDLL</span>
+</span><span class='line'>  <span class="k">Implicit None</span>
+</span><span class='line'><span class="k">  Interface</span>
+</span><span class='line'><span class="k">    FUNCTION </span><span class="nv">GetProcAddress</span><span class="p">(</span> <span class="nv">hModule</span><span class="p">,</span> <span class="nv">lpProcName</span><span class="p">)</span>
+</span><span class='line'>      <span class="c">!DEC$ ATTRIBUTES DEFAULT, STDCALL, DECORATE, ALIAS:&#39;GetProcAddress&#39; :: GetProcAddress</span>
+</span><span class='line'>      <span class="k">use </span><span class="nb">ISO_C_Binding</span>
+</span><span class='line'><span class="nb">      </span><span class="k">type</span><span class="p">(</span> <span class="kt">C_FUNPTR</span> <span class="p">)</span> <span class="kd">::</span> <span class="nv">GetProcAddress</span>
+</span><span class='line'>      <span class="kt">integer </span><span class="nv">hModule</span>
+</span><span class='line'>      <span class="kt">character</span><span class="p">(</span><span class="kt">C_CHAR</span><span class="p">)</span> <span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="kd">::</span> <span class="nv">lpProcName</span>
+</span><span class='line'>    <span class="k">END FUNCTION </span><span class="nv">GetProcAddress</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">Integer </span><span class="k">Function </span><span class="nv">F_func</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">End Function </span><span class="nv">F_func</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">Subroutine </span><span class="nv">F_Sub</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">End Subroutine </span><span class="nv">F_Sub</span>
+</span><span class='line'>  <span class="k">End Interface</span>
+</span><span class='line'><span class="k">  </span>
+</span><span class='line'><span class="k">End Module </span><span class="nv">LoadDLL</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Program </span><span class="nv">www_fcode_cn</span>
+</span><span class='line'>  <span class="k">use </span><span class="nv">LoadDLL</span>
+</span><span class='line'>  <span class="k">use </span><span class="nb">ISO_C_Binding</span>
+</span><span class='line'><span class="nb">  </span><span class="k">use </span><span class="nv">Kernel32</span> <span class="p">,</span> <span class="nv">only</span> <span class="p">:</span> <span class="nv">LoadLibrary</span>
+</span><span class='line'>  <span class="k">Implicit None</span>
+</span><span class='line'><span class="k">  </span><span class="nv">Procedure</span><span class="p">(</span><span class="nv">F_func</span><span class="p">)</span> <span class="p">,</span> <span class="k">pointer</span> <span class="kd">::</span> <span class="nv">func</span>
+</span><span class='line'>  <span class="nv">Procedure</span><span class="p">(</span><span class="nv">F_sub</span> <span class="p">)</span> <span class="p">,</span> <span class="k">pointer</span> <span class="kd">::</span> <span class="nv">sub</span>
+</span><span class='line'>  <span class="k">type</span><span class="p">(</span> <span class="kt">C_FUNPTR</span> <span class="p">)</span> <span class="kd">::</span> <span class="nv">c_pointer</span>
+</span><span class='line'>  <span class="kt">integer</span> <span class="kd">::</span> <span class="nv">hDLL</span> <span class="p">,</span> <span class="nv">i</span>
+</span><span class='line'>  <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span> <span class="kd">::</span> <span class="nv">dllname</span> <span class="p">,</span> <span class="nv">funcname</span>
+</span><span class='line'>  <span class="k">Do</span>
+</span><span class='line'><span class="k">    write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;您要调用哪个DLL？&#39;</span>
+</span><span class='line'>    <span class="k">read</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="nv">dllname</span>
+</span><span class='line'>    <span class="nv">hDLL</span> <span class="o">=</span> <span class="nv">LoadLibrary</span><span class="p">(</span> <span class="nb">trim</span><span class="p">(</span><span class="nv">dllname</span><span class="p">)</span><span class="o">//</span><span class="nb">c_null_char</span> <span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="nv">hDLL</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+</span><span class='line'><span class="k">      write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;对不起，我好像无法找到 &#39;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="nv">dllname</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39; 哦~~！^_^&#39;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'><span class="k">      exit</span>
+</span><span class='line'><span class="k">    end if</span>
+</span><span class='line'><span class="k">  End Do</span>
+</span><span class='line'><span class="k">  Do</span>
+</span><span class='line'><span class="k">    write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;您要调用哪个函数？&#39;</span>
+</span><span class='line'>    <span class="k">read</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="nv">funcname</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="nv">funcname</span><span class="o">==</span><span class="s2">&quot;quit&quot;</span> <span class="p">)</span> <span class="k">exit</span>
+</span><span class='line'><span class="k">    </span><span class="nv">c_pointer</span> <span class="o">=</span> <span class="nv">GetProcAddress</span><span class="p">(</span> <span class="nv">hDLL</span> <span class="p">,</span> <span class="nb">trim</span><span class="p">(</span><span class="nv">funcname</span><span class="p">)</span><span class="o">//</span><span class="nb">c_null_char</span> <span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="ow">.not.</span><span class="nb">C_ASSOCIATED</span><span class="p">(</span><span class="nv">c_pointer</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
+</span><span class='line'><span class="k">      write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="nb">trim</span><span class="p">(</span><span class="nv">dllname</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39; 里面好像没有 &#39;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="nv">funcname</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39; 函数哦~~！^_^&#39;</span>
+</span><span class='line'>      <span class="k">cycle</span>
+</span><span class='line'><span class="k">    end if</span>
+</span><span class='line'><span class="k">    If</span> <span class="p">(</span> <span class="nv">funcname</span><span class="o">==</span><span class="s2">&quot;func&quot;</span> <span class="p">)</span> <span class="k">then</span>
+</span><span class='line'><span class="k">      call </span><span class="nv">C_F_ProcPointer</span><span class="p">(</span> <span class="nv">c_pointer</span> <span class="p">,</span> <span class="nv">func</span> <span class="p">)</span>
+</span><span class='line'>      <span class="nv">i</span> <span class="o">=</span> <span class="nv">func</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">Else if</span> <span class="p">(</span> <span class="nv">funcname</span><span class="o">==</span><span class="s2">&quot;sub&quot;</span> <span class="p">)</span> <span class="k">then</span>
+</span><span class='line'><span class="k">      call </span><span class="nv">C_F_ProcPointer</span><span class="p">(</span> <span class="nv">c_pointer</span> <span class="p">,</span> <span class="nv">sub</span> <span class="p">)</span>
+</span><span class='line'>      <span class="k">call </span><span class="nv">sub</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">End If</span>
+</span><span class='line'><span class="k">  End Do  </span>
+</span><span class='line'><span class="k">End Program </span><span class="nv">www_fcode_cn</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h2 id="hun"> fortran与c混编</h2>
+
+
+<p>源于此:<a href="http://bbs.fcode.cn/thread-1117-1-1.html">http://bbs.fcode.cn/thread-1117-1-1.html</a></p>
+
+<p><img src="/images/fortrandebug/hunbian/main.png" alt="混编主界面" />
+混编时候注意两点:</p>
+
+<ol>
+<li>c 和 fortran 混编不需要 include</li>
+<li>c/c++ 里面没有 module</li>
+</ol>
+
+
+<p>另外注意vc项目也得添加引用目录
+<img src="/images/fortrandebug/hunbian/vcinclude.png" alt="引用目录" /></p>
+
+<p>你也可能运行错误
+<img src="/images/fortrandebug/hunbian/error.png" alt="errorV" />
+注意上面红色的部分。
+第一处：如果你强调必须 stdcall 协定，那么你需要在 fortran 中声明。（这个声明不是规范的，是IVF扩展的写法）
+第二处：你的 C++ 里的 lens 是通过 strlen 计算出来的，而不是指针。所以 fortran 中必须加 value 修饰符，表示它是传值，而不是传址。（这是导致cpp_main.exe 中的 0x5d7005a9 (vlhm.dll) 处最可能的异常: 0xC0000005: 读取位置 0x00000021 时发生访问冲突）的原因。</p>
+
+<p>最终正确结果如下:
+<img src="/images/fortrandebug/hunbian/final.png" alt="correctV" /></p>
+
+<p>源码信息如下:</p>
+
+<p>TestFortranCpp.cpp</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="c1">// TestFortranCpp.cpp : 定义控制台应用程序的入口点。</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#include &quot;stdafx.h&quot;</span>
+</span><span class='line'><span class="cp">#include &lt;stdio.h&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;string.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="p">{</span><span class="kt">void</span> <span class="n">_stdcall</span>   <span class="n">vlhm</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span> <span class="p">}</span>
+</span><span class='line'><span class="c1">//extern &quot;C&quot; {void vlhm(char *,int); }</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kt">char</span> <span class="o">*</span><span class="n">inputfile</span> <span class="o">=</span> <span class="s">&quot;E:</span><span class="se">\\</span><span class="s">phase6-power.opj&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">//char *inputfile;</span>
+</span><span class='line'>  <span class="c1">//char str[] = &quot;C:\\Users\\www\\Desktop\\\\31005700.tem&quot;;</span>
+</span><span class='line'>  <span class="c1">//inputfile=&amp;str[0];</span>
+</span><span class='line'>  <span class="n">vlhm</span><span class="p">(</span><span class="n">inputfile</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">inputfile</span><span class="p">));</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>fileNameCheck.f90:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='fortran'><span class='line'><span class="k">subroutine </span><span class="nv">vlhm</span><span class="p">(</span><span class="nv">pfilename</span><span class="p">,</span> <span class="nv">lens</span><span class="p">)</span> <span class="k">Bind</span><span class="p">(</span><span class="nv">C</span><span class="p">,</span><span class="nv">Name</span><span class="o">=</span><span class="s2">&quot;vlhm&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c">!DEC$ ATTRIBUTES STDCALL,DLLEXPORT::vlhm</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">use</span><span class="p">,</span>  <span class="k">Intrinsic</span> <span class="kd">::</span> <span class="nb">ISO_C_Binding</span>
+</span><span class='line'><span class="c">!character(len=*)::filename            !c++主程序中传递进来的“Inputfile”变量</span>
+</span><span class='line'><span class="c">!write(*,*)&quot;dll里的filename值是：&quot;</span>
+</span><span class='line'><span class="c">!write(*,*)filename</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">type</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">)</span> <span class="p">,</span> <span class="k">value</span> <span class="kd">::</span> <span class="nv">pfilename</span> <span class="c">!c++主程序中传递进来的“Inputfile”变量，是C语言的指针</span>
+</span><span class='line'>  <span class="kt">integer</span><span class="p">,</span> <span class="k">value</span><span class="kd">::</span><span class="nv">lens</span>                                      <span class="c">!传入的字符串长度</span>
+</span><span class='line'>  <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="nv">lens</span><span class="p">),</span> <span class="k">target</span> <span class="kd">::</span> <span class="nv">filename_a</span>
+</span><span class='line'>  <span class="c">!character(len=lens) :: filename_a !pointer &amp; target</span>
+</span><span class='line'>  <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="nv">lens</span><span class="p">),</span><span class="k">pointer</span><span class="kd">::</span><span class="nv">filename</span>                     <span class="c">!这是Fortran的字符串</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">call </span><span class="nb">c_f_pointer</span><span class="p">(</span> <span class="nv">pfilename</span> <span class="p">,</span> <span class="nv">filename</span> <span class="p">)</span>                   <span class="c">!把c语言的指针转换成fortran字符串</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nv">filename_a</span> <span class="o">=</span> <span class="nv">filename</span>
+</span><span class='line'>  <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nv">filename</span>
+</span><span class='line'>  <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nv">filename_a</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;fine ok&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end subroutine </span><span class="nv">vlhm</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>进一步的细节资料可参考<a href="http://v.fcode.cn/video-library_dll.html">fcode视频官网</a>。</p>
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2017/02/07/%5B%3F%5D-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen/'>http://jueqingsizhe66.github.io/blog/2017/02/07/%5B%3F%5D-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-02-07T20:03:04+08:00" pubdate data-updated="true">Feb 7<span>th</span>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/fortran/'>fortran</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/02/07/fastdiao-shi/" title="Previous Post: FAST调试">&laquo; FAST调试</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><div class="ds-thread" > </div>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"f708708"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+    <p>
+      <!-- <img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> -不是他的原因-->
+      <img class="alignleft" src="/images/lvxing/gulangyu.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> <!--不是他的原因-->
+ <!--而是yellow的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+</p>
+
+<p> Perl:</br>
+  <a href="http://bbs.pinggu.org/thread-4890642-1-1.html">Learning Perl(7th) 2016 入门 </a></br>
+  <a href="https://zhidao.baidu.com/share/2e40aed238e8a3f0fdb8d8148aa88565.html">The Immediate Perl(2th) 2006 中级 </a></br>
+  <a href="http://www.jb51.net/books/24569.html"> Mastering Perl 高级</a></br>
+  <a href="http://download.csdn.net/detail/blkf/4131770">Perl Programming (4th) (Larry Wall) </a></br>
+  <a href="http://www.tutorialspoint.com/perl/perl_oo_perl.htm ">Perl Object Orient Programming(perl oop) </a></br>
+  <a href="http://vdisk.weibo.com/s/zcetMufbD44U0">Perl Best Practice(Domian Conway) 2006 终极</a></br>
+  <a href="http://wwwacs.gantep.edu.tr/docs/perl-ebook/ch19.htm">Perl Object Orient Programming(by Kamran Husain) </a></br>
+  <a href="http://www.ibm.com/developerworks/cn/linux/sdk/perl/perl-1/index.html ">一篇写得不错的perl intro</a></br>
+  <a href="http://dbi.perl.org/docs/">Perl DBI </a></br> 
+  <a href="http://www.tutorialspoint.com/perl/perl_database.htm">Perl DataBase Management </a></br>
+  <a href="http://www.tutorialspoint.com/perl/perl_cgi.htm ">Perl CGI script </a></br>
+  <a href="http://www.tutorialspoint.com/perl/perl_modules.htm">Writing Perl Module</a></br>
+</p>
+
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (4)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (22)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (4)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (19)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/perl/'>perl (1)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/02/07/%5B%3F%5D-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen/">一份有趣的fortran动态静态链接文</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/07/fastdiao-shi/">FAST调试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/01/wen-xi-zhi-fen/">文戏之分</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/01/22/perl-summary/">Perl_Summary</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/01/22/how-to-learn-one-technique/">How_to_learn_one_technique</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="1" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+
+</section>
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2017/02/07/%5B%3F%5D-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2017/02/07/%5B%3F%5D-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>
