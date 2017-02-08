@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Perl | 网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/blog/categories/perl/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-02-08T09:06:06+08:00</updated>
+  <updated>2017-02-08T17:30:44+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -12,6 +12,398 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Perl读取mysql数据库]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2017/02/08/perldu-qu-mysqlshu-ju-ku/"/>
+    <updated>2017-02-08T17:25:49+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2017/02/08/perldu-qu-mysqlshu-ju-ku</id>
+    <content type="html"><![CDATA[<p>perl中常见的文件打开关闭有open和IO模块等，而有时候涉及大量的
+数据保存和打开的时候，就得借助数据库的使用，提供缓存的功能，并
+使得保存的数据占用量最少，访问更快捷。下面就perl的mysql数据库访问
+做一个简要的介绍。</p>
+
+<!--more-->
+
+
+
+
+<h2 id="perldbi">1. 数据库访问原理</h2>
+
+
+<ol>
+<li>加载对应数据库驱动</li>
+<li>获得相应的连接</li>
+<li>准备需要的查询数据 删除数据 更新数据</li>
+<li>执行sql语句</li>
+<li>获得相应的结果</li>
+</ol>
+
+
+<h2 id="perldbi">2. perl DBI mysql实现</h2>
+
+
+<p>What is DBI?</p>
+
+<pre><code>"The DBI is the standard database interface module for Perl. 
+It defines a set of methods, variables and conventions that provide a 
+consistent database interface independent of the actual database being used."
+-- Tim Bunce
+</code></pre>
+
+<ol>
+<li>安装perl dbi</li>
+<li>安装perl dbd:mysql驱动</li>
+<li>加载数据库驱动dsn</li>
+<li>从dsn获取相应的链接connect方法</li>
+<li>执行相应的sql语句</li>
+<li>注意，处理完毕最好做一个关闭操作(<font color="red"><strong>这是一个技术问题，也是德行问题和习惯问题，编程的很多技术都是需要打开和关闭两个过程配对呈现</strong></font>)</li>
+</ol>
+
+
+<p>具体可以参考
+<a href="http://dbi.perl.org/">perl dbi官网手册</a>
+<a href="http://log4think.com/perl_and_dbi/">Perl与数据库DBI快速入门</a>
+<a href="http://www.perl.com/pub/1999/10/DBI.html">A short guid of the dbi programming</a>
+<a href="http://www.cnblogs.com/homezzm/archive/2011/07/22/2113618.html">perl DBI 总结</a>
+<a href="http://blog.sina.com.cn/s/blog_54dd80920102v8f5.html">perl dbi链接mysql中文乱码</a>
+<a href="http://www.jb51.net/article/65791.htm">使用Perl DBI操作MySQL的一些建议</a>
+<a href="http://log4think.com/perl_fast_tutorial/">perl快速入门</a><font color="red"><strong> 给出了所有的技术语言都可以由main函数引出很多其他的, 把技术当成你的习惯</strong></font>
+<a href="http://vdisk.weibo.com/s/ah8r1yUxop3dO">一本perl参考书: Programming_the_Perl_DBI </a>
+该建议使用binmode解决乱码问题，
+<code>perl
+use utf8;
+binmode(STDOUT, ':encoding(utf8)');
+binmode(STDIN, ':encoding(utf8)');
+binmode(STDERR, ':encoding(utf8)');
+</code>
+<a href="http://blog.csdn.net/zzq900503/article/details/14454963">perl DBI使用详解</a></p>
+
+<p>也可以直接在命令行使用<code>perldoc dbi</code> 查看dbi文档信息</p>
+
+<h2 id="perltest"> 3. 技术解决方案</h2>
+
+
+<p>feiji.txt:</p>
+
+<p>```
+汽车在高速行驶时，根据空气动力学原理，在行驶过程中会遇到空气阻力，围绕汽车重心同时产生纵向、侧向和垂直上升的三个方向的空气动力量，其中纵向为空气阻力。
+为了有效地减少并克服汽车高速行驶时空气阻力的影响，人们设计使用了汽车尾翼，其作用就是使空气对汽车产生第四种作用力，即产生较大的对地面的附着力，它能抵消一部分升力，有效控制汽车上浮，使风阻系数相应减小，使汽车能紧贴在道路地面行驶，从而提高行驶的稳定性能。</p>
+
+<p>工作原理
+汽车尾翼作用
+汽车尾翼的作用，就是在汽车高速行驶时，使空气阻力形成一个向下的压力，尽量抵消升力，有效控制气流下压力，使风阻系数相应减小，增加汽车的高速行驶稳定性；由于尾翼能降低汽车的空气阻力，因此高速汽车加装尾翼对于节省燃油也有一定的帮助；同时也使汽车的外形更加美观，起到一定的装饰作用。
+汽车尾翼分类
+玻璃钢尾翼：这类尾翼造型多样，有鸭舌状的、机翼状的，也有直板式的．比较好做造型，不过玻璃钢材质比较脆，韧性和刚性都较差，价格比较便宜。
+铝合金尾翼：这类尾翼导流和散热效果不错，而且价格适中，不过重量要比其他材质的尾翼稍重些。
+碳纤维尾翼：碳纤维尾翼刚性和耐久性都非常好．不仅重量轻而且也是最美观的一种尾翼．现在广泛被F1赛车采用不过价格比较昂贵。<a href="http://www.cnblogs.com/homezzm/archive/2011/07/22/2113618.html">1</a></p>
+
+<p>```</p>
+
+<p>source code for perl:</p>
+
+<p>``` perl</p>
+
+<h1>!/usr/bin/env perl</h1>
+
+<h1>===============================================================================</h1>
+
+<p>#</p>
+
+<h1>FILE: testdbi.pl</h1>
+
+<p>#</p>
+
+<h1>USAGE: ./testdbi.pl</h1>
+
+<p>#</p>
+
+<h1>DESCRIPTION:</h1>
+
+<p>#</p>
+
+<h1>OPTIONS: &mdash;&ndash;</h1>
+
+<h1>REQUIREMENTS: &mdash;&ndash;</h1>
+
+<h1>BUGS: &mdash;&ndash;</h1>
+
+<h1>NOTES: &mdash;&ndash;</h1>
+
+<h1>Author:  Ye Zhaoliang</h1>
+
+<h1>ORGANIZATION:</h1>
+
+<h1>VERSION: 1.0</h1>
+
+<h1>CREATED: 2016/12/31 1:44:24</h1>
+
+<h1>REVISION: &mdash;&ndash;</h1>
+
+<h1>===============================================================================</h1>
+
+<p>use strict;
+use warnings;
+use utf8;</p>
+
+<p>use CGI::Carp &ldquo;fatalsToBrowser&rdquo;;
+use strict;
+use warnings;
+use DBI;
+use CGI qw (:standard escapeHTML escape);
+my ($driver_name, $db_name, $db_host, $db_sock, $db_port, $db_user, $db_pswd, $dsn);
+$driver_name = &lsquo;mysql&rsquo;;
+$db_name = &lsquo;mysql&rsquo;; # database name
+$db_host = &lsquo;localhost&rsquo;;
+$db_sock = &lsquo;/tmp/mysql.sock&rsquo;;
+$db_port = &lsquo;3306&rsquo;;
+$db_user = &lsquo;root&rsquo;;
+$db_pswd = &lsquo;root&rsquo;;</p>
+
+<h1>data source</h1>
+
+<p>$dsn = &ldquo;dbi:mysql:database=${db_name};hostname=${db_host};mysql_socket=${db_sock};port=${db_port}&rdquo;;</p>
+
+<h1>&hellip; set up connection to database (not shown) &hellip;</h1>
+
+<h1>connect mysql database</h1>
+
+<p>my $dbh = DBI &ndash;> connect ($dsn, $db_user, $db_pswd,
+{ RaiseError => 1, PrintError => 0 });</p>
+
+<h1>put out initial part of page</h1>
+
+<p>my $title = &ldquo;$db_name Database Browser&rdquo;;</p>
+
+<h1>html header and start_html h1</h1>
+
+<p>print header ();
+print start_html (-titlk => $title, -bgcolor => &ldquo;white&rdquo;);
+print h1 ($title);</p>
+
+<h1>parameters to look for in URL</h1>
+
+<p>my $tbl_name = param (&ldquo;tbl_name&rdquo;);
+my $sort_col = param (&ldquo;sort_col&rdquo;);</p>
+
+<h1>If $tbl_name has no value, display a clickable list of tables.</h1>
+
+<h1>Otherwise, display contents of the given table. $sort_col, if</h1>
+
+<h1>set, indicates which column to sort by.</h1>
+
+<p>!defined ($tbl_name) ? display_table_names ($dbh, $db_name) : display_table_contents ($dbh, $tbl_name, $sort_col);
+print end_html ();
+sub display_table_names
+{
+my ($dbh, $db_name) = @_;</p>
+
+<h2>html p paragraph</h2>
+
+<p>print p (&ldquo;Select a table by clicking on its name:&rdquo;);</p>
+
+<h1>retrieve reference to single-column array of table names</h1>
+
+<p>my $ary_ref = $dbh &ndash;> selectcol_arrayref (qq{ SHOW TABLES FROM $db_name });</p>
+
+<h1>Construct a bullet list using the ul() (unordered list) and</h1>
+
+<h1>li() (list item) functions. Each item is a hyperlink that</h1>
+
+<h1>re-invokes the script to display a particular table.</h1>
+
+<p>my @item;
+foreach my $tbl_name (@{$ary_ref})
+{
+my $url = sprintf (&ldquo;%s?tbl_name=%s&rdquo;, url (), escape ($tbl_name));
+my $link = a ({-href => $url}, escapeHTML ($tbl_name));
+push (@item, li ($link));
+}</p>
+
+<h2>list control</h2>
+
+<p>print ul (@item);
+}
+sub display_table_contents
+{
+my ($dbh, $tbl_name, $sort_col) = @_;
+my @rows;
+my @cells;</p>
+
+<h1>if sort column not specified, use first column</h1>
+
+<p>$sort_col = &ldquo;1&rdquo; if !defined ($sort_col);</p>
+
+<h1>present a link that returns user to table list page</h1>
+
+<h1>p control widget</h1>
+
+<p>print p (a ({-href => url ()}, &ldquo;Show Table List&rdquo;));
+print p (strong (&ldquo;Contents of $tbl_name table:&rdquo;));</p>
+
+<h2>select from database</h2>
+
+<p>my $sth = $dbh &ndash;> prepare (qq{
+SELECT * FROM $tbl_name ORDER BY $sort_col
+LIMIT 200
+});
+$sth &ndash;> execute ();</p>
+
+<h1>Use the names of the columns in the database table as the</h1>
+
+<h1>headings in an HTML table. Make each name a hyperlink that</h1>
+
+<h1>causes the script to be reinvoked to redisplay the table,</h1>
+
+<h1>sorted by the named column.</h1>
+
+<p>foreach my $col_name (@{$sth &ndash;> {NAME}})
+{
+my $url = sprintf (&ldquo;%s?tbl_name=%s;sort_col=%s&rdquo;,
+url (),
+escape ($tbl_name),
+escape ($col_name));
+my $link = a ({-href => $url}, escapeHTML ($col_name));
+push (@cells, th ($link));
+}
+push (@rows, Tr (@cells));</p>
+
+<h1>display table rows</h1>
+
+<p>while (my @ary = $sth &ndash;> fetchrow_array ())
+{
+@cells = ();
+foreach my $val (@ary)
+{</p>
+
+<h1>display value if non-empty, else display non-breaking space</h1>
+
+<p>if (defined ($val) &amp;&amp; $val ne &ldquo;&rdquo;)
+{
+$val = escapeHTML ($val);
+}
+else
+{
+$val = &ldquo; &rdquo;;
+}
+push (@cells, td ($val));
+}
+push (@rows, Tr (@cells));
+}</p>
+
+<h1>display table with a border</h1>
+
+<p>print table ({-border => &ldquo;1&rdquo;}, @rows);
+}</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Perl中文乱码问题]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2017/02/08/perlzhong-wen-luan-ma-wen-ti/"/>
+    <updated>2017-02-08T17:23:58+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2017/02/08/perlzhong-wen-luan-ma-wen-ti</id>
+    <content type="html"><![CDATA[<p>binmode可以很好的解决perl中问题，采用<a href="http://blog.chinaunix.net/uid-20735106-id-3438892.html">Encode1</a>,<a href="http://www.jb51.net/article/16041.htm">Encode</a>等方式不管用</p>
+
+<!--more-->
+
+
+<p>``` perl</p>
+
+<h1>!/usr/bin/env perl</h1>
+
+<h1>===============================================================================</h1>
+
+<p>#</p>
+
+<h1>FILE: perlFile.pl</h1>
+
+<p>#</p>
+
+<h1>USAGE: ./perlFile.pl</h1>
+
+<p>#</p>
+
+<h1>DESCRIPTION:</h1>
+
+<p>#</p>
+
+<h1>OPTIONS: &mdash;&ndash;</h1>
+
+<h1>REQUIREMENTS: &mdash;&ndash;</h1>
+
+<h1>BUGS: &mdash;&ndash;</h1>
+
+<h1>NOTES: &mdash;&ndash;</h1>
+
+<h1>AUTHOR: YOUR NAME (),</h1>
+
+<h1>ORGANIZATION:</h1>
+
+<h1>VERSION: 1.0</h1>
+
+<h1>CREATED: 2017/2/8 9:49:51</h1>
+
+<h1>REVISION: &mdash;&ndash;</h1>
+
+<h1>===============================================================================</h1>
+
+<p>use strict;
+use warnings;
+use utf8;</p>
+
+<p>binmode(STDIN,&ldquo;:encoding(gb2312)&rdquo;);
+binmode(STDOUT,&ldquo;:encoding(gb2312)&rdquo;);</p>
+
+<p>while ( &lt;> ) {</p>
+
+<pre><code>chomp;
+print $_,"\n";
+last if $_ =~ m/q/xm;
+</code></pre>
+
+<p>}</p>
+
+<p>open(FEIJI,&ldquo;E:\feiji.txt&rdquo;) or die &ldquo;can&rsquo;t open the file \n&rdquo;;
+my $car =&ldquo;尾翼&rdquo;;</p>
+
+<pre><code>• binmode(FEIJI,":encoding(gb2312)");
+</code></pre>
+
+<h1>binmode( STDIN,  &lsquo;:encoding(gbk2312)&rsquo; );</h1>
+
+<p> #binmode( FEIJI,  &lsquo;:encoding(utf8)&rsquo; );
+ #binmode( STDOUT, &lsquo;:encoding(gbk2312)&rsquo; ); <br/>
+ #binmode( STDERR, &lsquo;:encoding(gbk2312)&rsquo; );</p>
+
+<h1>while( my $line = <FEIJI>){</h1>
+
+<h1>my $re = Encode::decode(&lsquo;GB2312&rsquo;,&lsquo;汽车&rsquo;);</h1>
+
+<p> my $count=1;
+ while( <FEIJI>){</p>
+
+<pre><code> #print "$_ \n" ;
+#     print "$_ \n" if $_ =~ /.*$re.*/;
+</code></pre>
+
+<h1>Encode::<em>utf8_on($</em>);</h1>
+
+<pre><code>#    Encode::decode_utf8($_);
+#print "$_\n" ;#if $_ =~ m/$car/xm;
+#print "$count: $_\n" if $_ =~ m/$car/xm;
+#$count +=1;
+
+ s/汽车/风力机/g;
+print;
+}
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Perl_Summary]]></title>

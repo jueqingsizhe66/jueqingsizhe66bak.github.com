@@ -9,10 +9,8 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="大多数人不会觉得自己的判断是错误的,他们觉得自己能够赢下不确定性。
-我们很多人对自己的行为真的无法做到清楚的解释,生活中的很多问题都是
-概率性问题，真品还是赝品？需要还是不需要？等。不确定性总是我们生活中
-不可缺少的自演，而很多赌徒却是相信自己的运气，而赌场却相信科学。见好就收 &hellip;">
+  <meta name="description" content="Incompact3d是一个开源的基于fortran语言编写的DNS求解器，也是我研究生期间使用的开源源代码。
+Incompact3d整体框架的介绍可以参考软件的user-guide和文献High-order-compact schemes for incompressible flows: a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +69,146 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/22/incompact3dde-makefileji-dnssuan-fa/">Incompact3d的Makefile及DNS算法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-22T16:52:20+08:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2015</time>
+        
+
+         
+          | <a href="/blog/2015/06/22/incompact3dde-makefileji-dnssuan-fa/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://code.google.com/p/incompact3d">Incompact3d</a>是一个开源的基于fortran语言编写的DNS求解器，也是我研究生期间使用的开源源代码。
+Incompact3d整体框架的介绍可以参考软件的<a href="https://code.google.com/p/incompact3d/downloads/detail?name=user_guide_incompact3d_V1-1.pdf&amp;can=2&amp;q=">user-guide</a>和文献<a href="http://www.imperial.ac.uk/media/imperial-college/research-centres-and-groups/turbulence-mixing-and-flow-control-group/2009_LAIZET_JCP.pdf">High-order-compact schemes for incompressible flows: a simple and effcient method with the quasi-spectral accuary</a>,还可以搜索<a href="http://www.imperial.ac.uk/tmfc">sylvain Laziet</a> 相关的文章 ，只不过他并不是成熟的软件，很多的编译和后处理都可能出现问题，下面是我使用过程遇到的一些问题。
+当然主要过程是，通过makefile编译，然后运行incompact3d，最后处理计算结果。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/06/22/incompact3dde-makefileji-dnssuan-fa/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/22/incompact3dru-he-tong-guo-jie-guo-chu-li-chu-ji-xian/">Incompact3d如何通过结果处理出迹线</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-22T16:20:48+08:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2015</time>
+        
+
+         
+          | <a href="/blog/2015/06/22/incompact3dru-he-tong-guo-jie-guo-chu-li-chu-ji-xian/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Incompact3D获得的数据都是二进制的数据文件，为了获得内部的文件
+需要进一步通过编程获得，下面是一个获得pathline的源代码。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/06/22/incompact3dru-he-tong-guo-jie-guo-chu-li-chu-ji-xian/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/22/ji-lei-he-zhong-xie-dui-yu-cheng-xu-yuan-hen-zhong-yao/">积累和重写对于程序员很重要</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-22T15:35:19+08:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2015</time>
+        
+
+         
+          | <a href="/blog/2015/06/22/ji-lei-he-zhong-xie-dui-yu-cheng-xu-yuan-hen-zhong-yao/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>积累，你才能厚积而薄发。
+重写，你才能进一步认识你的积累.
+重写有时候会带来对于知识的进一步深入的理解.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/06/22/ji-lei-he-zhong-xie-dui-yu-cheng-xu-yuan-hen-zhong-yao/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -692,158 +830,6 @@ Haskell开发的<a href="http://darcs.net/Binaries">Darcs</a>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/09/du-qu-suo-you-wen-jian-jia-nei-de-suo-you-wen-jian-dao-%5B%3F%5D-ge-wen-jian/">读取所有文件夹内的所有文件到一个文件</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-09T17:40:11+08:00" pubdate data-updated="true">Jun 9<span>th</span>, 2015</time>
-        
-
-         
-          | <a href="/blog/2015/06/09/du-qu-suo-you-wen-jian-jia-nei-de-suo-you-wen-jian-dao-%5B%3F%5D-ge-wen-jian/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>问题：
-我想着每次都需要进入文件夹(cd)，然后再vim读取有点不方便。</p>
-
-<p>解决方法：
-何不用shell直接便利，然后生成一个单一文件即可。</p>
-
-<p>解决步骤：
-1：读取所有文件夹
-2：利用cat打开所有文件，并追加到summary.org
-3：为了美观增加了文件名头。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/06/09/du-qu-suo-you-wen-jian-jia-nei-de-suo-you-wen-jian-dao-%5B%3F%5D-ge-wen-jian/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/08/bian-cheng-de-shi-hou-%2Cni-dao-di-zai-xiang-shi-yao-%3F/">编程的时候，你到底在想什么？</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-08T00:00:05+08:00" pubdate data-updated="true">Jun 8<span>th</span>, 2015</time>
-        
-
-         
-          | <a href="/blog/2015/06/08/bian-cheng-de-shi-hou-%2Cni-dao-di-zai-xiang-shi-yao-%3F/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>我静下心来思考，linux bash给你带来的是从<strong>文件角度</strong>的编程。
-而比如c、fortran、java、python、haskell、scheme等更像是从<strong>思维的细节角度</strong>编程。
-然而我又在想，如果程序仅仅是他展现出来的那样，是什么一步一步执行，那就太没意思？
-所以我在思考程序给你带来的乐趣是什么？给你带来的成就感是什么？何为elegant code?
-<img src="/images/balei.jpg" alt="芭蕾舞女" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/06/08/bian-cheng-de-shi-hou-%2Cni-dao-di-zai-xiang-shi-yao-%3F/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/07/pandoczhi-zuo-huan-deng-pian-with-revealjs/">Pandoc制作幻灯片with Revealjs</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-07T17:34:49+08:00" pubdate data-updated="true">Jun 7<span>th</span>, 2015</time>
-        
-
-         
-          | <a href="/blog/2015/06/07/pandoczhi-zuo-huan-deng-pian-with-revealjs/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>第一次看到github.io居然可以放上幻灯片,有点觉得不可思议
-<a href="http://dongweiming.github.io/sed_and_awk/">sed_and_awk教程</a>。后来调研发现这是采用了
-+ <a href="http://foxswily.iteye.com/blog/1997397">轻量slideshow（by markdown、pandoc、revealjs）</a>
-+ <a href="http://www.soimort.org/posts/165/">Markdown+Pandoc→HTML幻灯片速成 </a>
-+ <a href="http://www.tuicool.com/articles/Bbiu22U">pandoc将markdown转换输出HTML slide </a></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/06/07/pandoczhi-zuo-huan-deng-pian-with-revealjs/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -1068,7 +1054,7 @@ Haskell开发的<a href="http://darcs.net/Binaries">Darcs</a>
 <li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
 <li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
 <li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
-<li class='category'><a href='/blog/categories/fortran/'>fortran (4)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (5)</a></li>
 <li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
 <li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
 <li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
@@ -1080,7 +1066,7 @@ Haskell开发的<a href="http://darcs.net/Binaries">Darcs</a>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
 <li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
 <li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
-<li class='category'><a href='/blog/categories/perl/'>perl (1)</a></li>
+<li class='category'><a href='/blog/categories/perl/'>perl (3)</a></li>
 <li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
 <li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
@@ -1095,23 +1081,23 @@ Haskell开发的<a href="http://darcs.net/Binaries">Darcs</a>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/02/08/fortrandu-qu-csvwen-jian/">Fortran读取csv文件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/08/perldu-qu-mysqlshu-ju-ku/">Perl读取mysql数据库</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/08/perlzhong-wen-luan-ma-wen-ti/">Perl中文乱码问题</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/02/07/%5B%3F%5D-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen/">一份有趣的fortran动态静态链接文</a>
       </li>
     
       <li class="post">
         <a href="/blog/2017/02/07/fastdiao-shi/">FAST调试</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/01/wen-xi-zhi-fen/">文戏之分</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/01/22/perl-summary/">Perl_Summary</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/01/22/how-to-learn-one-technique/">How_to_learn_one_technique</a>
       </li>
     
   </ul>
@@ -1186,6 +1172,7 @@ Haskell开发的<a href="http://darcs.net/Binaries">Darcs</a>
   <h1>盟友</h1>
   <ul>
     <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="http://www.sci-hub.cc">sci文章破解下载</a></li>
     <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
     <li>
       <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>

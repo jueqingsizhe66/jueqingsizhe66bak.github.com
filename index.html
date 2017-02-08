@@ -9,11 +9,7 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="一张来自fcode的有趣的静态和动态链接的比喻图， 静态库是需要直接和exe文件打包在一起的，而动态库则是需要运行的时候才执行dll文件，
-dll文件也是一个exe文件，只不过只能由对应的exe文件执行，无法人工执行。 1. 静态链接
-2. 动态链接
-3. 两者比较
-4. fortran与c混编 ">
+  <meta name="description" content="本文只是简单对一个文件读取模块DFile_mod的一个运用，并读取逗号分隔的csv文件。 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -72,6 +68,144 @@ dll文件也是一个exe文件，只不过只能由对应的exe文件执行，�
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/02/08/fortrandu-qu-csvwen-jian/">Fortran读取csv文件</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-02-08T17:29:29+08:00" pubdate data-updated="true">Feb 8<span>th</span>, 2017</time>
+        
+
+         
+          | <a href="/blog/2017/02/08/fortrandu-qu-csvwen-jian/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文只是简单对一个文件读取模块DFile_mod的一个运用，并读取逗号分隔的csv文件。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/02/08/fortrandu-qu-csvwen-jian/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/02/08/perldu-qu-mysqlshu-ju-ku/">Perl读取mysql数据库</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-02-08T17:25:49+08:00" pubdate data-updated="true">Feb 8<span>th</span>, 2017</time>
+        
+
+         
+          | <a href="/blog/2017/02/08/perldu-qu-mysqlshu-ju-ku/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>perl中常见的文件打开关闭有open和IO模块等，而有时候涉及大量的
+数据保存和打开的时候，就得借助数据库的使用，提供缓存的功能，并
+使得保存的数据占用量最少，访问更快捷。下面就perl的mysql数据库访问
+做一个简要的介绍。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/02/08/perldu-qu-mysqlshu-ju-ku/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/02/08/perlzhong-wen-luan-ma-wen-ti/">Perl中文乱码问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-02-08T17:23:58+08:00" pubdate data-updated="true">Feb 8<span>th</span>, 2017</time>
+        
+
+         
+          | <a href="/blog/2017/02/08/perlzhong-wen-luan-ma-wen-ti/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>binmode可以很好的解决perl中问题，采用<a href="http://blog.chinaunix.net/uid-20735106-id-3438892.html">Encode1</a>,<a href="http://www.jb51.net/article/16041.htm">Encode</a>等方式不管用</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/02/08/perlzhong-wen-luan-ma-wen-ti/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -699,145 +833,6 @@ and compare with each other continually.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/07/19/da-yin-de-shu-ji-prolog-plus-scheme-plus-kong-qi-dong-li-xue-fang-mian/">打印的书籍(prolog+scheme+空气动力学方面)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-07-19T20:52:17+08:00" pubdate data-updated="true">Jul 19<span>th</span>, 2016</time>
-        
-
-         
-          | <a href="/blog/2016/07/19/da-yin-de-shu-ji-prolog-plus-scheme-plus-kong-qi-dong-li-xue-fang-mian/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="https://en.wikipedia.org/wiki/Edsger_W._Dijkstra">Edsgar Dijkstar</a>写过不少程序语言和逻辑编程的好书，比如<a href="https://www.amazon.cn/A-Discipline-of-Programming-Dijkstra-E/dp/013215871X?ie=UTF8&amp;*Version*=1&amp;*entries*=0">A Discipline of programming</a>.</p>
-
-<p>尾随之后的是David Gries写的<a href="http://item.jd.com/1104449344.html">the science of programing. TSOP</a>.</p>
-
-<p><img src="/images/books/logic.jpg" alt="logic" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/07/19/da-yin-de-shu-ji-prolog-plus-scheme-plus-kong-qi-dong-li-xue-fang-mian/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/07/19/prologxiao-you-xi/">Prolog小游戏</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-07-19T19:35:37+08:00" pubdate data-updated="true">Jul 19<span>th</span>, 2016</time>
-        
-
-         
-          | <a href="/blog/2016/07/19/prologxiao-you-xi/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/prolog/games.png" alt="games" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/07/19/prologxiao-you-xi/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/07/19/javaxiao-jie/">Java小结</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-07-19T18:42:25+08:00" pubdate data-updated="true">Jul 19<span>th</span>, 2016</time>
-        
-
-         
-          | <a href="/blog/2016/07/19/javaxiao-jie/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>很长没有做java小结，把最近浏览的几个链接添上去。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/07/19/javaxiao-jie/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1060,7 +1055,7 @@ and compare with each other continually.</p>
 <li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
 <li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
 <li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
-<li class='category'><a href='/blog/categories/fortran/'>fortran (4)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (5)</a></li>
 <li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
 <li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
 <li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
@@ -1072,7 +1067,7 @@ and compare with each other continually.</p>
 <li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
 <li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
 <li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
-<li class='category'><a href='/blog/categories/perl/'>perl (1)</a></li>
+<li class='category'><a href='/blog/categories/perl/'>perl (3)</a></li>
 <li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
 <li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
@@ -1087,23 +1082,23 @@ and compare with each other continually.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/02/08/fortrandu-qu-csvwen-jian/">Fortran读取csv文件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/08/perldu-qu-mysqlshu-ju-ku/">Perl读取mysql数据库</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/08/perlzhong-wen-luan-ma-wen-ti/">Perl中文乱码问题</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/02/07/%5B%3F%5D-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen/">一份有趣的fortran动态静态链接文</a>
       </li>
     
       <li class="post">
         <a href="/blog/2017/02/07/fastdiao-shi/">FAST调试</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/01/wen-xi-zhi-fen/">文戏之分</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/01/22/perl-summary/">Perl_Summary</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/01/22/how-to-learn-one-technique/">How_to_learn_one_technique</a>
       </li>
     
   </ul>
@@ -1178,6 +1173,7 @@ and compare with each other continually.</p>
   <h1>盟友</h1>
   <ul>
     <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="http://www.sci-hub.cc">sci文章破解下载</a></li>
     <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
     <li>
       <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>

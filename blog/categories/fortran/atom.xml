@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Fortran | 网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/blog/categories/fortran/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-02-08T09:06:06+08:00</updated>
+  <updated>2017-02-08T17:30:44+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -12,6 +12,287 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Fortran读取csv文件]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2017/02/08/fortrandu-qu-csvwen-jian/"/>
+    <updated>2017-02-08T17:29:29+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2017/02/08/fortrandu-qu-csvwen-jian</id>
+    <content type="html"><![CDATA[<p>本文只是简单对一个文件读取模块DFile_mod的一个运用，并读取逗号分隔的csv文件。</p>
+
+<!--more-->
+
+
+<p><img src="/images/fortrandebug/csv/csv1.png" alt="csvread" /></p>
+
+<p>FileMod.f90:</p>
+
+<p>``` fortran
+Module DFile_Mod
+  Implicit None
+  !!<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>
+  !<em>  识别文件的空格和逗号作为分隔符
+  !!</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>
+contains</p>
+
+<p>subroutine binaryStreamType
+implicit none
+integer :: File_Unit
+integer :: File_UnitOutput
+   !!**************************************</p>
+
+<pre><code>!* DFile_Mod 变量定义  100%
+!!*************************************** 
+Character(len=512) :: cLine
+integer :: nRow, nCol
+character(len=20) :: name="yezhaoliang",addr="zhangzhou" 
+INTEGER :: I
+</code></pre>
+
+<p>type :: data_head
+integer(kind=2) :: column
+end type</p>
+
+<p>type(data_head) :: FileHead
+!real,allocatable :: g(:,:)
+real,allocatable :: firstColumn(:)
+real,allocatable :: secondColumn(:)
+real,allocatable :: thirdColumn(:)</p>
+
+<p> Open( NewUnit=File_Unit , File = &lsquo;./data/myfile.csv&rsquo; )
+ Open( NewUnit=File_UnitOutput , File = &lsquo;./data/myfile12.csv&rsquo; )</p>
+
+<p>  nRow = GetFileN( File_Unit )
+  write( * , * ) &lsquo;文件共&rsquo;,nRow,&lsquo;行！&rsquo;
+  read(File_Unit,<em>) FileHead
+  write(</em>,*) &rsquo;m=&lsquo;,FileHead%column</p>
+
+<p>  allocate(firstColumn(nRow-1))
+  allocate(secondColumn(nRow-1))
+  allocate(thirdColumn(nRow-1))</p>
+
+<p>  !! 流方式读取
+!  READ(File_Unit) g</p>
+
+<p>250 format(3f10.4)<br/>
+251 format(I4,I4,f10.4)<br/>
+252 format (f10.4,A,f10.4,A,f10.4)
+253 format (I4,A,I4,A,f10.4)
+Do i = 1,nRow-1</p>
+
+<pre><code>read(File_Unit,251) firstColumn(i),secondColumn(i),thirdColumn(i)
+</code></pre>
+
+<p> end Do
+  DO i = 1 ,nRow-1
+   !write(<em>,&lsquo;(f10.4,A,f10.4,A,f10.4)&rsquo;)  firstColumn(i),&lsquo;,&rsquo;,secondColumn(i),&lsquo;,&rsquo;,thirdColumn(i)
+   write(File_UnitOutput,253)  firstColumn(i)</em>2,&lsquo;,&mdash;&rsquo;,secondColumn(i)*2,&lsquo;,&mdash;&rsquo;,thirdColumn(i)
+  end do</p>
+
+<p>deallocate(firstColumn)
+deallocate(secondColumn)
+deallocate(thirdColumn)
+close(File_Unit)
+close(File_UnitOutput)</p>
+
+<p>  !Do i = 1, nRow
+  !  Do j = 1, FileHead%column
+  !
+  !  end do
+  !end do</p>
+
+<p>end subroutine binaryStreamType</p>
+
+<p>subroutine testType
+implicit none
+integer :: File_Unit
+integer :: File_UnitOutput
+   !!**************************************</p>
+
+<pre><code>!* DFile_Mod 变量定义  100%
+!!*************************************** 
+Character(len=512) :: cLine
+integer :: nRow, nCol
+character(len=20) :: name="yezhaoliang",addr="zhangzhou" 
+INTEGER :: I
+</code></pre>
+
+<p>type :: data_head
+integer(kind=2) :: column
+end type</p>
+
+<p>type(data_head) :: FileHead
+!real,allocatable :: g(:,:)
+real,allocatable :: firstColumn(:)
+real,allocatable :: secondColumn(:)
+real,allocatable :: thirdColumn(:)</p>
+
+<p> Open( NewUnit=File_Unit , File = &lsquo;./data/A001.csv&rsquo; )
+ Open( NewUnit=File_UnitOutput , File = &lsquo;./data/A0012.csv&rsquo; )</p>
+
+<p>  nRow = GetFileN( File_Unit )
+  write( * , * ) &lsquo;文件共&rsquo;,nRow,&lsquo;行！&rsquo;
+  read(File_Unit,<em>) FileHead
+  write(</em>,*) &rsquo;m=&lsquo;,FileHead%column</p>
+
+<p>  allocate(firstColumn(nRow-1))
+  allocate(secondColumn(nRow-1))
+  allocate(thirdColumn(nRow-1))</p>
+
+<p>  !! 流方式读取
+!  READ(File_Unit) g</p>
+
+<p>250 format(3f10.4)<br/>
+251 format(I4,I4,f10.4)<br/>
+252 format (f10.4,A,f10.4,A,f10.4)
+253 format (I4,A,I4,A,f10.4)
+Do i = 1,nRow-1</p>
+
+<pre><code>read(File_Unit,251) firstColumn(i),secondColumn(i),thirdColumn(i)
+</code></pre>
+
+<p> end Do
+  DO i = 1 ,nRow-1
+   !write(<em>,&lsquo;(f10.4,A,f10.4,A,f10.4)&rsquo;)  firstColumn(i),&lsquo;,&rsquo;,secondColumn(i),&lsquo;,&rsquo;,thirdColumn(i)
+   write(File_UnitOutput,253)  firstColumn(i)</em>2,&lsquo;,&mdash;&rsquo;,secondColumn(i)*2,&lsquo;,&mdash;&rsquo;,thirdColumn(i)
+  end do</p>
+
+<p>deallocate(firstColumn)
+deallocate(secondColumn)
+deallocate(thirdColumn)
+close(File_Unit)
+close(File_UnitOutput)</p>
+
+<p>  !Do i = 1, nRow
+  !  Do j = 1, FileHead%column
+  !
+  !  end do
+  !end do</p>
+
+<p>end subroutine testType</p>
+
+<p>  Integer Function GetDataN( cStr )</p>
+
+<pre><code>Character( Len = * ) , Intent( IN ) :: cStr
+Integer :: i
+Logical :: bIsSeparator , bIsQuote
+GetDataN = 0
+bIsSeparator = .TRUE.
+bIsQuote = .FALSE.
+Do i = 1 , Len_Trim( cStr )
+  Select Case( cStr(i:i) )
+  Case( '"' , "'" ) !// 如果遇到引号
+    If ( .Not.bIsQuote ) GetDataN = GetDataN + 1  !//如果不在引号中，则增加一个数据
+    bIsQuote = .Not.bIsQuote !// 引号结束或开始
+    bIsSeparator = .FALSE.
+  Case( " " , "," , char(9) ) !// 如果遇到分隔符
+    If ( .Not.bIsQuote ) then  !// 分隔符如果不在引号中
+      bIsSeparator = .TRUE.
+    End If
+  Case Default      
+    If ( bIsSeparator ) then
+      GetDataN = GetDataN + 1
+    End If
+    bIsSeparator = .FALSE.
+  End Select
+End Do
+</code></pre>
+
+<p>  End Function GetDataN</p>
+
+<p>  Function f_numbervars(vars) result(numvars)</p>
+
+<pre><code>character(len=*), intent(in) :: vars
+integer :: numvars
+character(len=len(vars)) :: tmpvars
+character(len=256) :: tmpvar
+tmpvars = trim(adjustl(vars))
+numvars = 0
+do while (len_trim(tmpvars) &gt; 0)
+  read(tmpvars, *) tmpvar
+  numvars = numvars + 1
+  tmpvars = tmpvars(index(tmpvars, trim(tmpvar))+len_trim(tmpvar):)
+end do
+</code></pre>
+
+<p>  End Function f_numbervars</p>
+
+<p>  Integer Function GetFileN( iFileUnit )
+  !// 此函数应在打开文件后立即调用。调用后读取位置返回文件起始位置</p>
+
+<pre><code>Implicit None
+Integer , Intent( IN ) :: iFileUnit
+character( Len = 1 ) :: cDummy
+integer :: ierr
+GetFileN = 0
+Rewind( iFileUnit )
+Do
+  Read( iFileUnit , * , ioStat = ierr ) cDummy
+  If( ierr /= 0 ) Exit
+  GetFileN = GetFileN + 1
+End Do
+Rewind( iFileUnit )
+</code></pre>
+
+<p>  End Function GetFileN</p>
+
+<p>End Module DFile_Mod</p>
+
+<p>```</p>
+
+<p>主函数main.f90:</p>
+
+<p>``` fortran
+program Main</p>
+
+<p>use DFile_Mod
+Implicit none</p>
+
+<p>   INTEGER :: I
+   !!**************************************</p>
+
+<pre><code>!* DFile_Mod 变量定义  100%
+!!*************************************** 
+!Character(len=512) :: cLine
+!integer :: nRow, nCol
+!character(len=20) :: name="yezhaoliang",addr="zhangzhou" 
+!**************************************
+!*  测试DFile_Mod   100%
+!*************************************** 
+</code></pre>
+
+<p> !Open( 53 , File = &lsquo;./data/in.txt&rsquo; )
+  !Open( 53 , File = &lsquo;./data/myfile.csv&rsquo; )
+  !
+  !nRow = GetFileN( 53 )
+  !write( * , * ) &lsquo;文件共&rsquo;,nRow,&lsquo;行！&rsquo;
+  !Do i = 1 , nRow
+  !  read( 53 , &lsquo;(a512)&rsquo; ) cLine
+  !  nCol = GetDataN( cLine )
+  !  !nCol = f_numbervars( cLine )
+  !  write( * , * ) i,&lsquo;行有&rsquo;,nCol,&lsquo;个数据&rsquo;
+  !End Do
+  call binaryStreamType</p>
+
+<p>  Close( 53 )
+  end program Main</p>
+
+<p>```</p>
+
+<p>配置文件in.txt:</p>
+
+<p>```
+1 2 3 , fsd
+4 5 6 7 : asd
+8 9 10 11 12
+13 f sadf ! gad
+14 15</p>
+
+<p>```</p>
+
+<p>载入visual studio基本上就能运行。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[一份有趣的fortran动态静态链接文]]></title>
