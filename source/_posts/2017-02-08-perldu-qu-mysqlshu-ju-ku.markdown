@@ -36,6 +36,7 @@ What is DBI?
 6. 注意，处理完毕最好做一个关闭操作(<font color="red">**这是一个技术问题，也是德行问题和习惯问题，编程的很多技术都是需要打开和关闭两个过程配对呈现**</font>)
 
 具体可以参考
+
 + [perl dbi官网手册][3]
 + [Perl与数据库DBI快速入门][7]
 + [A short guid of the dbi programming][6]
