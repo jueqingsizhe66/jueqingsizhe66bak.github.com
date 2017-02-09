@@ -4,7 +4,7 @@
   <title><![CDATA[Category: JavaBasic | 网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/blog/categories/javabasic/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-02-08T17:30:44+08:00</updated>
+  <updated>2017-02-10T00:16:55+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -12,6 +12,255 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Java开发nexus私服搭建]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2017/02/10/javakai-fa-nexussi-fu-da-jian/"/>
+    <updated>2017-02-10T00:04:33+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2017/02/10/javakai-fa-nexussi-fu-da-jian</id>
+    <content type="html"><![CDATA[<p>针对一台全新的电脑，安装java开发的maven私服，记录如下，并在IDEA中进行测试。</p>
+
+<p>涉及到javase安装，maven安装，nexus私服安装，nexus本地配置，nexus界面介绍</p>
+
+<!--more-->
+
+
+<ol>
+<li>安装JAVA jdk ,下载<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">javaSE安装包</a>,注意JDK和JRE不要放在同一文件夹下</li>
+<li>配置JAVA_HOME为JDk目录，并添加JDK的bin目录(%JAVA_HOME%\bin)到path中
+<img src="/images/java/nexus/java.png" alt="java" /></li>
+<li>下载<a href="http://maven.apache.org/">maven</a>,并解压缩，配置MAVEN_HOME为maven的根目录，并添加%MAVEN_HOME%\bin到path
+中
+<img src="/images/java/nexus/home.png" alt="home" />
+<img src="/images/java/nexus/bin.png" alt="bin" />
+<img src="/images/java/nexus/java.png" alt="mvn" /></li>
+</ol>
+
+
+<p>显示了<code>mvn -v</code>,也就表示装完了maven
+4. 下载<a href="https://www.sonatype.com/download-oss-sonatype">nexus2.14</a>,在windows下使用管理员身份打开cmd，并cd到nexus的bin目录，进行安装
+<code>
+nexus install
+nexus start
+</code>
+注意一定得配置bin\jsw\wrapper.conf的java bin信息，否则出错。
+<img src="/images/java/nexus/wrapper.png" alt="wrapper" /></p>
+
+<p>出现的错误为无法启动，
+<img src="/images/java/nexus/success.png" alt="success" /></p>
+
+<hr/>
+
+
+<p>做完前面的几步之后只是，把配置环境弄完了，还得进行私服镜像配置。
+首先打开nexus私服页面，使用<code>http://localhost:8089/nexus/#welcome</code></p>
+
+<p><img src="/images/java/nexus/nexus.png" alt="nexus" /></p>
+
+<p>默认的登陆密码是</p>
+
+<pre><code>账号：admin
+密码：admin123
+</code></pre>
+
+<p>登陆完的界面
+<img src="/images/java/nexus/repositories.png" alt="login" /></p>
+
+<p>配置中心仓库:</p>
+
+<p>中心仓库设置download remote indexes为真，为设置本地私服提供源。
+<img src="/images/java/nexus/central.png" alt="central" /></p>
+
+<p>配置了release和snapshot仓库
+<img src="/images/java/nexus/release.png" alt="release" />
+<img src="/images/java/nexus/snapshot.png" alt="snapshot" /></p>
+
+<p>然后配置了第三方插件
+<img src="/images/java/nexus/third.png" alt="third" /></p>
+
+<p><strong>进入最关键的public Repositories设置</strong></p>
+
+<p><img src="/images/java/nexus/public.png" alt="public" /></p>
+
+<p>有时候可以使用试用Scheduled Tasks观看库的index是否正常进行。
+<img src="/images/java/nexus/schedule.png" alt="scheduled" /></p>
+
+<hr/>
+
+
+
+
+<h2 id="imp">镜像私服配置</h2>
+
+
+<p>maven中的settings.xml登陆私服的账户密码设置
+<img src="/images/java/nexus/user.png" alt="user" /></p>
+
+<p>```
+  <servers></p>
+
+<pre><code>&lt;server&gt; 
+    &lt;id&gt;nexus-release&lt;/id&gt;
+    &lt;username&gt;admin&lt;/username&gt;
+    &lt;password&gt;admin123&lt;/password&gt;
+&lt;/server&gt; 
+
+
+&lt;server&gt; 
+    &lt;id&gt;nexus-snapshot&lt;/id&gt;
+    &lt;username&gt;admin&lt;/username&gt;
+    &lt;password&gt;admin123&lt;/password&gt;
+&lt;/server&gt; 
+
+
+&lt;server&gt; 
+    &lt;id&gt;nexus&lt;/id&gt;
+    &lt;username&gt;admin&lt;/username&gt;
+    &lt;password&gt;admin123&lt;/password&gt;
+&lt;/server&gt; 
+  &lt;!-- server
+ | Specifies the authentication information to use when connecting to a particular server, identified by
+ | a unique name within the system (referred to by the 'id' attribute below).
+ |
+ | NOTE: You should either specify username/password OR privateKey/passphrase, since these pairings are
+ |       used together.
+ |
+&lt;server&gt;
+  &lt;id&gt;deploymentRepo&lt;/id&gt;
+  &lt;username&gt;repouser&lt;/username&gt;
+  &lt;password&gt;repopwd&lt;/password&gt;
+&lt;/server&gt;
+--&gt;
+
+&lt;!-- Another sample, using keys to authenticate.
+&lt;server&gt;
+  &lt;id&gt;siteServer&lt;/id&gt;
+  &lt;privateKey&gt;/path/to/private/key&lt;/privateKey&gt;
+  &lt;passphrase&gt;optional; leave empty if not used.&lt;/passphrase&gt;
+&lt;/server&gt;
+--&gt;
+</code></pre>
+
+<p>  </servers></p>
+
+<p>```</p>
+
+<p><strong>镜像配置</strong></p>
+
+<p>注意url链接的端口设置
+```</p>
+
+<p><mirrors>
+<mirror></p>
+
+<pre><code>&lt;id&gt;nexus&lt;/id&gt;
+&lt;mirrorOf&gt;*&lt;/mirrorOf&gt;
+&lt;url&gt;http://localhost:8089/nexus/content/groups/public/&lt;/url&gt;
+</code></pre>
+
+<p></mirror>
+</mirrors>
+<profiles>
+<profile></p>
+
+<pre><code>&lt;id&gt;nexus&lt;/id&gt;
+</code></pre>
+
+<p><repositories></p>
+
+<pre><code>&lt;repository&gt;
+    &lt;id&gt;central&lt;/id&gt;
+    &lt;url&gt;http://central&lt;/url&gt;
+    &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;
+    &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;
+&lt;/repository&gt;
+</code></pre>
+
+<p></repositories>
+<pluginRepositories></p>
+
+<pre><code>&lt;pluginRepository&gt;
+    &lt;id&gt;central&lt;/id&gt;
+    &lt;url&gt;http://central&lt;/url&gt;
+    &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;
+    &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;
+&lt;/pluginRepository&gt;
+</code></pre>
+
+<p></pluginRepositories>
+</profile>
+</profiles>
+<activeProfiles></p>
+
+<pre><code>&lt;activeProfile&gt;nexus&lt;/activeProfile&gt;
+</code></pre>
+
+<p></activeProfiles></p>
+
+<p>```</p>
+
+<p>在maven中一般是需要设置下载控件jar包放在哪里,在没有私服的情况下，我一般
+可以在setting.xml中设置localRepository
+```
+   | Default: ${user.home}/.m2/repository
+  <localRepository>/path/to/local/repo</localRepository></p>
+
+<p>```</p>
+
+<p>当然IDEA在导入项目或者新建项目的时候都会提醒Environment Variable,设置一下setting和local repository
+(类似的思路需要在myeclipse配置)
+<img src="/images/java/nexus/setting.png" alt="impo" />
+而私服nexus的存放地点，在nexus界面的时候就已经设置好了，所以也得在每台电脑操作一遍(<font color="red">一定不能错</font>)。</p>
+
+<p>镜像的话，就不会执行maven的<code>mvn install</code>等命令还一直向外部仓库访问链接，结果是访问的链接
+都是本地的，可看下节测试。</p>
+
+<h2 id="ida">IDEA测试镜像私服</h2>
+
+
+<p>现在只能通过这个激活了，下载license server
+<img src="/images/java/nexus/license.png" alt="license" /></p>
+
+<p>测试结果如下:
+<code>mvn site</code></p>
+
+<p><img src="/images/java/nexus/idea.png" alt="idea" /></p>
+
+<p><code>
+INFO] artifact org.springframework:spring-beans: checking for updates from nexus
+[INFO] artifact org.springframework:spring-context: checking for updates from nexus
+[INFO] artifact org.springframework:spring-context-support: checking for updates from nexus
+[INFO] artifact org.springframework:spring-core: checking for updates from nexus
+[INFO] artifact org.springframework:spring-expression: checking for updates from nexus
+[INFO] artifact org.springframework:spring-instrument: checking for updates from nexus
+[INFO] artifact org.springframework:spring-instrument-tomcat: checking for updates from nexus
+[INFO] artifact org.springframework:spring-jdbc: checking for updates from nexus
+[INFO] artifact org.springframework:spring-jms: checking for updates from nexus
+[INFO] artifact org.springframework:spring-orm: checking for updates from nexus
+[INFO] artifact org.springframework:spring-oxm: checking for updates from nexus
+</code></p>
+
+<h2 id="result">结论</h2>
+
+
+<p>整个配置过程有效，测试通过，进一步可以参考<a href="http://vdisk.weibo.com/s/za2TN71LdL1tl">maven实战 许晓斌</a>,里面包含了maven的坐标空间概念等，详细介绍了
+maven系统的各个组成和集成测试环境的搭建。</p>
+
+<p>可以拓展阅读<a href="http://blog.csdn.net/c1481118216/article/category/6250182">java blog</a>
+三个有用工具包:</p>
+
+<ul>
+<li><a href="https://github.com/venusdrogon/feilong-platform">飞龙 javase javaee(国产)</a></li>
+<li><a href="http://feilong-core.mydoc.io/?t=149471">飞龙特别用心的手册</a></li>
+<li><a href="https://github.com/venusdrogon/feilong-core/wiki/install">可以玩玩feilong-platform平台的安装 以及mvn site产生好看的javadoc</a></li>
+<li><a href="https://github.com/looly/hutool">Hutool javase(国产)</a></li>
+<li><a href="http://www.hutool.cn/apidocs/">hutool API手册</a>  <a href="http://hutool.mydoc.io/">Hutool Wiki</a></li>
+<li><a href="http://ibeetl.com/guide/#beetl">闲大赋 beetl 好用的模板引擎(国产)</a></li>
+<li><a href="http://cn.vuejs.org/">vue.js火热的前端js框架(国产)</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[A Little Java Note]]></title>
@@ -3816,220 +4065,6 @@ LinkedHashSet可以当做HashSet来使用</p>
 <p>   Set&lt;Map.Entry&lt;K,V>>     entrySet() //获得所有键值对对象组成的Set集合</p>
 
 <p>int                                     size()  //获得map集合的大小(存了多少元素)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[挺有意思的一个bug，return解决问题]]></title>
-    <link href="http://jueqingsizhe66.github.io/blog/2015/05/11/ting-you-yi-si-de-%5B%3F%5D-ge-bug%2Creturnjie-jue-wen-ti/"/>
-    <updated>2015-05-11T14:58:46+08:00</updated>
-    <id>http://jueqingsizhe66.github.io/blog/2015/05/11/ting-you-yi-si-de-[?]-ge-bug,returnjie-jue-wen-ti</id>
-    <content type="html"><![CDATA[<!--more-->
-
-
-<p>相信大家都写过省市联动选择的case，可是我写了一个版本却是bug不断，调了一个多小时，暂时未解，经杨老师指点知道问题所在，另外我写了另外一个版本的实现。目的是：当市发生变化的时候，可以把信息贴到一个标签上。</p>
-
-<p>下面是一个暂时无bug的代码（其中红色是杨老师增加的调试语句）//如果去掉下面的return语句bug就出现了,bug是直接退出。
-<code>java
-if(apple &lt; 0)
-{
-System.out.println("nothing in the city");
-return;  //不能删掉
-}
-</code>
-分析一下问题所在：
-界面很简单： 1个省的控件   另一个市的控件， 当切换省的时候，对应的市也改变过来，同时选择一个城市会显示出省市的信息到标签上。为此，设置了两个时间  cmbProvince有一个事件 用于增加市的内容</p>
-
-<pre><code>                              cmbCity       这个事件用于显示省市信息的内容到标签上
-</code></pre>
-
-<p>然而就这个简单的程序当时却没有想到 GTK.gtk_combo_box_text_remove_all(cmbCity)的函数可能会促发GTK.g_signal_connect(cmbCity, &ldquo;changed&rdquo;, new IGCallBack()的执行，但是此时cmbCity没有任何的内容，还读取，null就来了，所以加入了一个return语句，来避免这种碰瓷的现象。
-return如果一去除 就又出现问题，因为cmbCity其实没有内容，但是还在促发获取内容的事件。 而return 会导致cmbCity处于待命状态，或者是hold状态（这边我解释得不科学，但是基本可以明白） 当全部删除了，直接返回，然后就可以了不让他去促发cmbCity的改变事件，同时回到cmbProvince的事件（这个会到的过程是我猜测，不知道是否有理？ 因为我想到可能类似于入栈出栈的过程和递归的过程），然后继续往下执行，添加控件。</p>
-
-<p>学习：
-1：第一次使用   窗口&mdash;>复位透视图 进行调试
-2：第一次使用   if(?== null) return  等语句进行debug
-总结：
-事件的调用过程一定得自习思考，可能发生的冲突过程。
-```java
-import com.rupeng.gtk4j.GTK;
-import com.rupeng.gtk4j.IGCallBack;
-/<em>*
-*
-</em>/</p>
-
-<p>/<em>*
-* @author 叶昭良
-* @version 省市联轴器 V1.0
-*
-</em>/
-public class ProvincedSelect
-{</p>
-
-<pre><code>    /**
-     * @param args
-     */
-    static int window;
-    static int gridHouse;
-    static int cmbProvince;
-    static int cmbCity;
-    static int labelShow;
-    public static void main(String[] args)
-    {
-            // TODO 自动生成的方法存根
-            //初始化
-            GTK.gtk_init();
-            //建立窗口
-            window = GTK.gtk_window_new(GTK.GTK_WINDOW_TOPLEVEL);
-            //显示窗口
-            GTK.gtk_widget_show(window);
-            // 安静关闭
-            GTK.g_signal_connect(window, "destroy", new IGCallBack()
-            {
-
-                    @Override
-                    public void execute(int instance, int eventData, Object object)
-                    {
-                            // TODO 自动生成的方法存根
-                            GTK.gtk_main_quit();
-                    }
-
-            }, null);
-            //布局设置
-            gridHouse = GTK.gtk_grid_new();                        
-            GTK.gtk_widget_show(gridHouse);        
-            //包含整租房
-            GTK.gtk_container_add(window, gridHouse);
-            //创建控件
-            //
-            labelShow = GTK.gtk_label_new("");
-            cmbProvince = GTK.gtk_combo_box_text_new();
-            cmbCity     = GTK.gtk_combo_box_text_new();
-
-
-            int start =  0;
-            //添加控件
-            GTK.gtk_grid_attach(gridHouse, cmbProvince, 0, start, 1, 1);
-            GTK.gtk_grid_attach(gridHouse, cmbCity, 0,start+1, 1, 1);
-            GTK.gtk_grid_attach(gridHouse, labelShow, 1,start+2, 1, 1);
-
-            //显示控件
-
-            GTK.gtk_widget_show(cmbProvince);
-            GTK.gtk_widget_show(cmbCity);
-            GTK.gtk_widget_show(labelShow);
-            createProvince(window);
-
-
-
-            //启动循环
-            GTK.gtk_main();
-
-    }
-
-    public static void createProvince(int window)
-    {
-
-
-            GTK.gtk_combo_box_text_append(cmbProvince, "fj", "福建");
-            GTK.gtk_combo_box_text_append(cmbProvince, "bj", "北京");
-            GTK.gtk_combo_box_text_append(cmbProvince, "sh", "上海");
-            GTK.gtk_combo_box_text_append(cmbProvince, "hn", "河南");
-            GTK.gtk_combo_box_text_append(cmbProvince, "hb", "河北");
-            GTK.gtk_combo_box_text_append(cmbProvince, "sd","山东");
-
-            GTK.gtk_combo_box_set_active_id(cmbProvince, "bj");
-</code></pre>
-
-<p>//添加事件</p>
-
-<pre><code>            GTK.g_signal_connect(cmbProvince, "changed", new IGCallBack() 
-            {
-
-                    @Override
-                    public void execute(int instance, int eventData, Object object)
-                    {
-                            // TODO 自动生成的方法存根
-
-                            String province  =  GTK.gtk_combo_box_get_active_id(cmbProvince);
-</code></pre>
-
-<p><font color="#ff0000">                                if(province==null)return;</font></p>
-
-<pre><code>                            System.out.println(province);
-                            GTK.gtk_combo_box_text_remove_all(cmbCity); //删除所有项
-                            //GTK.gtk_combo_box_text_remove_all(cmbCity); //删除所有项
-                            if(province.equals("fj"))
-                            {
-
-                                    GTK.gtk_combo_box_text_append(cmbCity, "zhz", "漳州");
-                                    GTK.gtk_combo_box_text_append(cmbCity, "xm", "厦门");
-                                    GTK.gtk_combo_box_text_append(cmbCity, "fz", "福州");
-                                    GTK.gtk_combo_box_text_append(cmbCity, "qz", "泉州");
-
-                            }else if(province.equals("bj"))
-                            {
-                                    GTK.gtk_combo_box_text_append(cmbCity, "cp", "昌平区");
-                                    GTK.gtk_combo_box_text_append(cmbCity, "hd", "海淀区");
-                                    GTK.gtk_combo_box_text_append(cmbCity, "tz", "通州区");
-                                    GTK.gtk_combo_box_text_append(cmbCity, "cy", "朝阳区");
-                            }else if(province.equals("hn"))
-                            {
-                           GTK.gtk_combo_box_text_append(cmbCity, "zz", "郑州");
-                           GTK.gtk_combo_box_text_append(cmbCity, "zmd", "驻马店");
-                           GTK.gtk_combo_box_text_append(cmbCity, "ny", "南阳");
-                            }else if(province.equals("hb"))
-                            {
-                           GTK.gtk_combo_box_text_append(cmbCity, "sjz", "石家庄");
-                           GTK.gtk_combo_box_text_append(cmbCity, "ts", "唐山");
-                           GTK.gtk_combo_box_text_append(cmbCity, "qhd", "秦皇岛");
-                            }else if(province.equals("sd"))
-                            {
-                               GTK.gtk_combo_box_text_append(cmbCity, "jn", "济南");
-                           GTK.gtk_combo_box_text_append(cmbCity, "qd", "青岛");
-                           GTK.gtk_combo_box_text_append(cmbCity, "yt", "烟台");
-                            }
-                    }        
-            }, null);
-
-            //原来remove之后 也是会促发cmbCity的 信号  而导致改变 ，根源在于这个
-            GTK.g_signal_connect(cmbCity, "changed", new IGCallBack()
-            {
-                    @Override
-                    public void execute(int instance, int eventData, Object object)
-                    {
-                            // TODO 自动生成的方法存根
-                             String tempProvince = GTK.gtk_combo_box_text_get_active_text(cmbProvince);
-</code></pre>
-
-<p><font color="#ff0000">                                int  apple  = GTK.gtk_combo_box_get_active(cmbCity);</p>
-
-<pre><code>                            if(apple &lt; 0)
-                            {
-                                    System.out.println("nothing in the city");
-                                    return;  //不能删掉
-                            }&lt;/font&gt;
-
-                            String tempCity = GTK.gtk_combo_box_text_get_active_text(cmbCity);
-</code></pre>
-
-<p><font color="#ff0000">                                if(tempProvince==null||tempCity==null)return;</font></p>
-
-<pre><code>                            //GTK.gtk_label_set_text(labelShow, "你准备去"+tempProvince+tempCity);
-                            GTK.gtk_label_set_text(labelShow,tempProvince+tempCity);
-                            System.out.println(tempProvince);
-                            System.out.println(tempCity);
-
-                    }
-            }, null);
-
-
-    }
-</code></pre>
-
-<p>}
-```
-我也是第一次 使用  窗口&mdash;&mdash;>复位透视图</p>
 ]]></content>
   </entry>
   

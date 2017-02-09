@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Perl | 网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/blog/categories/perl/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-02-08T17:30:44+08:00</updated>
+  <updated>2017-02-10T00:16:55+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -61,23 +61,27 @@ consistent database interface independent of the actual database being used."
 </ol>
 
 
-<p>具体可以参考
-<a href="http://dbi.perl.org/">perl dbi官网手册</a>
-<a href="http://log4think.com/perl_and_dbi/">Perl与数据库DBI快速入门</a>
-<a href="http://www.perl.com/pub/1999/10/DBI.html">A short guid of the dbi programming</a>
-<a href="http://www.cnblogs.com/homezzm/archive/2011/07/22/2113618.html">perl DBI 总结</a>
-<a href="http://blog.sina.com.cn/s/blog_54dd80920102v8f5.html">perl dbi链接mysql中文乱码</a>
-<a href="http://www.jb51.net/article/65791.htm">使用Perl DBI操作MySQL的一些建议</a>
-<a href="http://log4think.com/perl_fast_tutorial/">perl快速入门</a><font color="red"><strong> 给出了所有的技术语言都可以由main函数引出很多其他的, 把技术当成你的习惯</strong></font>
-<a href="http://vdisk.weibo.com/s/ah8r1yUxop3dO">一本perl参考书: Programming_the_Perl_DBI </a>
+<p>具体可以参考</p>
+
+<ul>
+<li><a href="http://dbi.perl.org/">perl dbi官网手册</a></li>
+<li><a href="http://log4think.com/perl_and_dbi/">Perl与数据库DBI快速入门</a></li>
+<li><a href="http://www.perl.com/pub/1999/10/DBI.html">A short guid of the dbi programming</a></li>
+<li><a href="http://www.cnblogs.com/homezzm/archive/2011/07/22/2113618.html">perl DBI 总结</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_54dd80920102v8f5.html">perl dbi链接mysql中文乱码</a></li>
+<li><a href="http://www.jb51.net/article/65791.htm">使用Perl DBI操作MySQL的一些建议</a></li>
+<li><a href="http://log4think.com/perl_fast_tutorial/">perl快速入门</a><font color="red"><strong> 给出了所有的技术语言都可以由main函数引出很多其他的, 把技术当成你的习惯</strong></font></li>
+<li><a href="http://vdisk.weibo.com/s/ah8r1yUxop3dO">一本perl参考书: Programming_the_Perl_DBI </a>
 该建议使用binmode解决乱码问题，
 <code>perl
 use utf8;
 binmode(STDOUT, ':encoding(utf8)');
 binmode(STDIN, ':encoding(utf8)');
 binmode(STDERR, ':encoding(utf8)');
-</code>
-<a href="http://blog.csdn.net/zzq900503/article/details/14454963">perl DBI使用详解</a></p>
+</code></li>
+<li><a href="http://blog.csdn.net/zzq900503/article/details/14454963">perl DBI使用详解</a></li>
+</ul>
+
 
 <p>也可以直接在命令行使用<code>perldoc dbi</code> 查看dbi文档信息</p>
 
@@ -309,6 +313,8 @@ push (@rows, Tr (@cells));
 
 <!--more-->
 
+
+<p>PerlFile.pl测试源码：</p>
 
 <p>``` perl</p>
 
