@@ -9,9 +9,9 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="
-find的使用
-更新了注释 ">
+  <meta name="description" content="shell的强大之处在于短小精悍，对于IO处理相当方便，当然也可以兼杂小型的数值计算（很少）。
+shell脚本在编写过程中也会产生很多bug。本文借鉴《Pro-Bash-Programming》一书所提倡的： comment 写上开头注释
+Initialization of variables &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,6 +70,64 @@ find的使用
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/09/shell-programming-with-fewer-bugs/">Shell_Programming_with_fewer_bugs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-09T14:37:30+08:00" pubdate data-updated="true">Aug 9<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="/blog/2015/08/09/shell-programming-with-fewer-bugs/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>shell的强大之处在于短小精悍，对于IO处理相当方便，当然也可以兼杂小型的数值计算（很少）。
+shell脚本在编写过程中也会产生很多bug。本文借鉴《Pro-Bash-Programming》一书所提倡的：</p>
+
+<ol>
+<li>comment  写上开头注释</li>
+<li>Initialization of variables 变量初始化</li>
+<li>Function definitions  函数定义</li>
+<li>Runtime configuration 解析选项，读取配置文件等</li>
+<li>Sanity Check  经过Runtime配置之后，可能修改某些值，比如shift操作，所以需要判断变量的合理性</li>
+<li>Process information   最后才是计算、IO等</li>
+</ol>
+
+
+<p>通过这中编写框架，可以减少错误。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/09/shell-programming-with-fewer-bugs/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -769,60 +827,6 @@ Incompact3d整体框架的介绍可以参考软件的<a href="https://code.googl
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/10/ubuntuxi-tong-yun-yong/">Ubuntu系统运用</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-10T13:50:55+08:00" pubdate data-updated="true">Jun 10<span>th</span>, 2015</time>
-        
-
-         
-          | <a href="/blog/2015/06/10/ubuntuxi-tong-yun-yong/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>ubuntu系统，比如你用</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>tar -cvf <span class="se">\*</span>.tar.gz 某个文件夹
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>会发现可以多窗口地执行。其实这也说明了一点linux系统的多用户、多线程地开发系统、使用系统。</p>
-
-<p>shell-script是一个比较有用的工具，沟通着用户(user)和内核(kernel)之间,我的理解是shell就是一个解释器(从lisp的解释器的角度来说,相互学习从函数式过渡到命令式)</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/06/10/ubuntuxi-tong-yun-yong/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -983,7 +987,7 @@ Incompact3d整体框架的介绍可以参考软件的<a href="https://code.googl
 
 
   <p>English: </br>
-    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。 <br/>
     <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
     <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
  
@@ -1074,6 +1078,10 @@ Incompact3d整体框架的介绍可以参考软件的<a href="https://code.googl
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/02/13/mysqlluan-ma-hui-gu/">Mysql乱码回顾</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/02/10/javakai-fa-nexussi-fu-da-jian/">Java开发nexus私服搭建</a>
       </li>
     
@@ -1087,10 +1095,6 @@ Incompact3d整体框架的介绍可以参考软件的<a href="https://code.googl
     
       <li class="post">
         <a href="/blog/2017/02/08/perlzhong-wen-luan-ma-wen-ti/">Perl中文乱码问题</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/07/%5B%3F%5D-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen/">一份有趣的fortran动态静态链接文</a>
       </li>
     
   </ul>
@@ -1222,6 +1226,15 @@ Incompact3d整体框架的介绍可以参考软件的<a href="https://code.googl
     <li>
       <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
     </li>
+  <li>
+      <a href=" https://palm.muk.uni-hannover.de/trac "> PALM(cfd solver for atmosphere and ocean)</a>
+    </li>
+<li>
+      <a href=" https://github.com/Unidata "> unidata netcdf-c </a>
+    </li>
+
+
+
 
 
   </ul>

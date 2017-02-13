@@ -5,24 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Let and Letrec Makes Programming Orient Object - 网络书屋(Web Reading Room)</title>
+  <title>Mysql乱码回顾 - 网络书屋(Web Reading Room)</title>
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="面向对象已经大行其道，而在scheme是如何实现，本文仅仅是刹那的思路，
-可以通过let来定义局部变量，而可以通过letrec定义method的过程来实现
-面向对象的数据抽象的能力。 let 不具备局部传递功能 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-(define x 10) ;;; &hellip;">
+  <meta name="description" content="mysql是一个中型的数据库操作系统平台,他的基本组成由存储引擎、各个命令模块、优化器、缓存器、解析器、用户模块、链接器(connector)等组成， 其中存储引擎现在一般选用innodb居多(具体可以查看各个存储引擎的区别) mysql操作级别： 数据库级别
+表级别
+字段级别 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -31,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2016/02/16/let-and-letrec-makes-programming-orient-object">
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2017/02/13/mysqlluan-ma-hui-gu">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
@@ -84,7 +73,7 @@
   
   <header>
     
-      <h1 class="entry-title">Let and Letrec Makes Programming Orient Object</h1>
+      <h1 class="entry-title">Mysql乱码回顾</h1>
     
     
       <p class="meta">
@@ -100,7 +89,7 @@
   
 
 
-<time datetime="2016-02-16T21:35:15+08:00" pubdate data-updated="true">Feb 16<span>th</span>, 2016</time>
+<time datetime="2017-02-13T08:50:12+08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2017</time>
         
 
          
@@ -111,80 +100,45 @@
   </header>
 
 
-<div class="entry-content"><p>面向对象已经大行其道，而在scheme是如何实现，本文仅仅是刹那的思路，
-可以通过let来定义局部变量，而可以通过letrec定义method的过程来实现
-面向对象的数据抽象的能力。</p>
+<div class="entry-content"><p>mysql是一个中型的数据库操作系统平台,他的<a href="http://www.linuxidc.com/Linux/2013-04/83581.htm">基本组成</a>由存储引擎、各个命令模块、优化器、缓存器、解析器、用户模块、链接器(connector)等组成，
+<img src="http://images.cnblogs.com/cnblogs_com/yjf512/105018221.png" alt="mysql architect" /></p>
+
+<p>其中存储引擎现在一般选用innodb居多(具体可以查看<a href="http://c.biancheng.net/cpp/html/1465.html">各个存储引擎的区别</a>)</p>
 
 <!--more-->
 
 
-<h2>let 不具备局部传递功能</h2>
+<p>mysql操作级别：</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<ol>
+<li>数据库级别</li>
+<li>表级别</li>
+<li>字段级别</li>
+</ol>
+
+
+<p>而这三个级别就影响这数据库的乱码级别。
+一般事先使用<code>show variables like '%char%'</code> 来查看mysql的所有字符信息，参考<a href="http://www.jb51.net/article/74769.htm">mysql乱码解决</a>,
+根据该文基本上可以解决问题，另外可以进一步查看各个字符集和mysql查询涉及到的<a href="http://www.jb51.net/article/31135.htm">各个字符集的关系(对应命令的求解)</a>,
+查阅了<a href="http://www.pc6.com/infoview/Article_63586.html">多个链接</a>,都显示<code>set names gbk</code>对最终的显示有影响，根据我的使用经验来讲，</p>
+
+<p><font color="red">当你使用<code>set names gbk</code>则可以显示正常，而<code>set names utf8</code>则出现乱码</font></p>
+
+<p>我在建立数据库的时候也使用了<code>create database rupeng chracter set utf8</code>等，但试过一遍只有最终加上<code>set names gbk</code>有效果。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="k">define </span> <span class="nv">x</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1">;;; x的值不会影响到局部变量的值</span>
-</span><span class='line'><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">x</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">y</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">z</span> <span class="mi">3</span><span class="p">))</span>
-</span><span class='line'>   <span class="p">(</span><span class="nb">list </span> <span class="nv">x</span> <span class="nv">y</span> <span class="nv">z</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">(</span><span class="k">define </span> <span class="nv">x</span> <span class="mi">10</span><span class="p">)</span> <span class="c1">;;;x的值会影响到局部变量的值</span>
-</span><span class='line'><span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">x</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">y</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">z</span> <span class="mi">3</span><span class="p">))</span>
-</span><span class='line'>   <span class="p">(</span><span class="nb">list </span> <span class="nv">x</span> <span class="nv">y</span> <span class="nv">z</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">;结果</span>
-</span><span class='line'>    <span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">(</span><span class="mi">1</span> <span class="mi">10</span> <span class="mi">3</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set character_set_database=utf8;
+</span><span class='line'>set character_set_server=utf8;
+</span><span class='line'>set character_set_client=gbk;
+</span><span class='line'>set character_set_connection=gbk;</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>第一次注意看let的实现</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="nf">define-syntax</span>
-</span><span class='line'>    <span class="p">(</span><span class="k">syntax-rules </span><span class="p">()</span>
-</span><span class='line'>        <span class="p">((</span><span class="k">let </span><span class="p">((</span><span class="nf">var</span> <span class="nv">expr</span><span class="p">)</span> <span class="o">...</span><span class="p">)</span> <span class="nv">body</span> <span class="o">...</span><span class="p">)</span> <span class="p">((</span><span class="k">lambda </span><span class="p">(</span><span class="nf">var</span> <span class="o">...</span><span class="p">)</span> <span class="nv">body</span> <span class="o">...</span><span class="p">)</span> <span class="nv">expr</span> <span class="o">...</span><span class="p">))))</span>
-</span></code></pre></td></tr></table></div></figure>
 
 
-<p>(let ((x 2) (y 3)) (+  x y)) 转变为
-((lambda (x y) (+ x y)) 2 3) 的形式.</p>
-
-<h2>let star 具备局部传递功能</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="k">let* </span><span class="p">((</span> <span class="nv">x</span>  <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">y</span>  <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">z</span> <span class="mi">3</span><span class="p">))</span>
-</span><span class='line'>  <span class="p">(</span><span class="nb">list </span><span class="nv">x</span>  <span class="nv">y</span> <span class="nv">z</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="c1">;结果</span>
-</span><span class='line'>    <span class="p">(</span><span class="mi">1</span> <span class="mi">1</span> <span class="mi">3</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>另外有一种叫做fluid-let的暂时没有在这边出现</p>
-
-<h2>letrec 具备自指的能力(递归)</h2>
-
-<p>如果想定义一个procedure局部变量？
-如果用let 或者let*都无法达到此目的，因为他们不能自指（也就是没有递归的能力）
-而如果是letrec则是拥有此功能</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -198,30 +152,26 @@
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="nf">letrec</span>
-</span><span class='line'>    <span class="p">((</span><span class="nf">my-even?</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span>
-</span><span class='line'>              <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">zero? </span><span class="nv">x</span><span class="p">)</span> <span class="no">#t</span>
-</span><span class='line'>                 <span class="p">(</span><span class="nf">my-odd?</span> <span class="p">(</span><span class="nb">- </span> <span class="nv">x</span> <span class="mi">1</span><span class="p">)))))</span>
-</span><span class='line'>     <span class="p">(</span><span class="nf">my-odd?</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">x</span><span class="p">)</span>
-</span><span class='line'>                <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">zero? </span><span class="nv">x</span><span class="p">)</span> <span class="no">#f</span>
-</span><span class='line'>                   <span class="p">(</span><span class="nf">my-even?</span> <span class="p">(</span><span class="nb">- </span><span class="nv">x</span> <span class="mi">1</span><span class="p">))))))</span>
-</span><span class='line'>  <span class="p">(</span><span class="nf">my-even?</span> <span class="mi">10</span><span class="p">)</span> <span class="c1">;</span>
-</span><span class='line'>  <span class="p">(</span><span class="nf">my-odd?</span> <span class="mi">10</span><span class="p">)</span> <span class="c1">;;只会打印出最后一个结果</span>
-</span><span class='line'>  <span class="p">)</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>系统变量：
+</span><span class='line'>client    为客户端使用的字符集。
+</span><span class='line'>connection    为连接数据库的字符集设置类型，如果程序没有指明连接数据库使用的字符集类型则按照服务器端默认的字符集设置。
+</span><span class='line'>database  为数据库服务器中某个库使用的字符集设定，如果建库时没有指明，将使用服务器安装时指定的字符集设置。
+</span><span class='line'>results   为数据库给客户端返回时使用的字符集设定，如果没有指明，使用服务器默认的字符集。
+</span><span class='line'>server    为服务器安装时指定的默认字符集设定。
+</span><span class='line'>system    为数据库系统使用的字符集设定。
 </span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="c1">;结果</span>
-</span><span class='line'>    <span class="no">#f</span>
+</span><span class='line'>– character_set_client：客户端来源数据使用的字符集
+</span><span class='line'>– character_set_connection：连接层字符集
+</span><span class='line'>– character_set_database：当前选中数据库的默认字符集
+</span><span class='line'>– character_set_results：查询结果字符集
+</span><span class='line'>– character_set_server：默认的内部操作字符集
+</span><span class='line'>– character_set_system：系统元数据(字段名等)字符集
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>Named Let 一种更加紧凑的letrec</h3>
+<p><a href="http://blog.csdn.net/sunqing0316/article/details/46680617">mysql字符集转换过程</a></p>
 
-<p>在上文，let是用来指定局部变量，而letrec是来指定procedure，
-现在我们可以用Named let来使letrec写起来更加紧凑些，但是
-不适合书写多个局部方法的情况，比如：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -229,88 +179,31 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="k">letrec </span><span class="p">((</span><span class="nf">countdown</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">i</span><span class="p">)</span>
-</span><span class='line'>                      <span class="p">(</span><span class="nf">if</span><span class="p">(</span><span class="nb">= </span><span class="nv">i</span> <span class="mi">0</span><span class="p">)</span> <span class="ss">&#39;ole</span>
-</span><span class='line'>                         <span class="p">(</span><span class="nf">begin</span>
-</span><span class='line'>                           <span class="p">(</span><span class="nb">display </span><span class="nv">i</span><span class="p">)</span>
-</span><span class='line'>                           <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-</span><span class='line'>                           <span class="p">(</span><span class="nf">countdown</span> <span class="p">(</span><span class="nb">- </span><span class="nv">i</span> <span class="mi">1</span><span class="p">)))))))</span>
-</span><span class='line'>  <span class="p">(</span><span class="nf">countdown</span> <span class="mi">10</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'><span class="err">结果</span><span class="nv">:</span>
-</span><span class='line'>    <span class="mi">10</span>
-</span><span class='line'>    <span class="mi">9</span>
-</span><span class='line'>    <span class="mi">8</span>
-</span><span class='line'>    <span class="mi">7</span>
-</span><span class='line'>    <span class="mi">6</span>
-</span><span class='line'>    <span class="mi">5</span>
-</span><span class='line'>    <span class="mi">4</span>
-</span><span class='line'>    <span class="mi">3</span>
-</span><span class='line'>    <span class="mi">2</span>
-</span><span class='line'>    <span class="mi">1</span>
-</span><span class='line'>    <span class="ss">&#39;ole</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>1. MySQL Server收到请求时将请求数据从character_set_client转换为character_set_connection；
+</span><span class='line'>2. 进行内部操作前将请求数据从character_set_connection转换为内部操作字符集，其确定方法如下：
+</span><span class='line'>• 使用每个数据字段的CHARACTER SET设定值；
+</span><span class='line'>• 若上述值不存在，则使用对应数据表的DEFAULT CHARACTER SET设定值(MySQL扩展，非SQL标准)；
+</span><span class='line'>• 若上述值不存在，则使用对应数据库的DEFAULT CHARACTER SET设定值；
+</span><span class='line'>• 若上述值不存在，则使用character_set_server设定值。
+</span><span class='line'>3. 将操作结果从内部操作字符集转换为character_set_results。</span></code></pre></td></tr></table></div></figure>
 
 
+<p>参考<a href="http://www.2cto.com/database/201410/341144.html">myeclipse-mysql</a>,有一个原则就是不要让你的character出现<code>latin1</code>编码即可</p>
 
+<p>我们操作所有数据库<a href="http://mysql.com/">mysql中型</a>,<a href="https://www.sqlite.org/">sqlite</a>,<a href="https://www.postgresql.org/">postgreSql流行</a>,<a href="http://www.ibm.com/analytics/us/en/technology/db2/">db2(IBM)企业级</a>,<a href="https://www.oracle.com/index.html">oracle大型运用企业级</a>,<a href="https://www.ibm.com/analytics/us/en/technology/informix/">informix(IBM)</a>,
+<a href="https://www.microsoft.com/zh-cn/sql-server/">sql server</a></p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="k">let </span><span class="nv">countdown</span> <span class="p">((</span><span class="nf">i</span> <span class="mi">10</span><span class="p">))</span>
-</span><span class='line'>  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">i</span> <span class="mi">0</span><span class="p">)</span> <span class="ss">&#39;ole</span>
-</span><span class='line'>     <span class="p">(</span><span class="nf">begin</span>
-</span><span class='line'>       <span class="p">(</span><span class="nb">display </span><span class="nv">i</span><span class="p">)</span>
-</span><span class='line'>       <span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
-</span><span class='line'>       <span class="p">(</span><span class="nf">countdown</span> <span class="p">(</span><span class="nb">- </span><span class="nv">i</span> <span class="mi">1</span><span class="p">)))))</span>
-</span><span class='line'>
-</span><span class='line'><span class="err">结果</span><span class="nv">:</span>
-</span><span class='line'>    <span class="mi">10</span>
-</span><span class='line'>    <span class="mi">9</span>
-</span><span class='line'>    <span class="mi">8</span>
-</span><span class='line'>    <span class="mi">7</span>
-</span><span class='line'>    <span class="mi">6</span>
-</span><span class='line'>    <span class="mi">5</span>
-</span><span class='line'>    <span class="mi">4</span>
-</span><span class='line'>    <span class="mi">3</span>
-</span><span class='line'>    <span class="mi">2</span>
-</span><span class='line'>    <span class="mi">1</span>
-</span><span class='line'>    <span class="ss">&#39;ole</span>
-</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li><a href="http://www.yiibai.com/mysql/mysql_quick_start.html">mysql快速入门学习</a></li>
+<li><a href="http://www.w3school.com.cn/sql/sql_intro.asp">W3C sql入门教程</a></li>
+<li><a href="http://blog.csdn.net/hgd613/article/details/50433135">左连接</a></li>
+<li><a href="http://database.51cto.com/art/200511/12708.htm">51cto数据库论坛</a></li>
+</ul>
 
-
-<h2>进一步实现留待以后</h2>
 
 <p class='post-footer'>
-                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2016/02/16/let-and-letrec-makes-programming-orient-object/'>http://jueqingsizhe66.github.io/blog/2016/02/16/let-and-letrec-makes-programming-orient-object/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2017/02/13/mysqlluan-ma-hui-gu/'>http://jueqingsizhe66.github.io/blog/2017/02/13/mysqlluan-ma-hui-gu/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
 
 </div>
 
@@ -334,14 +227,8 @@
   
 
 
-<time datetime="2016-02-16T21:35:15+08:00" pubdate data-updated="true">Feb 16<span>th</span>, 2016</time>
+<time datetime="2017-02-13T08:50:12+08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2017</time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/scheme/'>scheme</a>
-  
-</span>
 
 
     </p>
@@ -357,10 +244,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2016/02/16/engine-your-life/" title="Previous Post: Engine your life">&laquo; Engine your life</a>
+        <a class="basic-alignment left" href="/blog/2017/02/10/javakai-fa-nexussi-fu-da-jian/" title="Previous Post: java开发nexus私服搭建">&laquo; java开发nexus私服搭建</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2016/02/17/scheme-ioshi-xian-lai-zi-yu-cpshuo-zhe-haskellde-monodfan-chou-si-xiang/" title="Next Post: scheme IO实现来自于CPS或者haskell的monod范畴思想">scheme IO实现来自于CPS或者haskell的monod范畴思想 &raquo;</a>
       
     </p>
   </footer>
@@ -781,7 +666,7 @@ var duoshuoQuery = {short_name:"f708708"};
 </section>
 <section>
 <h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
-<a href="http://jueqingsizhe66.github.io/blog/2016/02/16/let-and-letrec-makes-programming-orient-object/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2016/02/16/let-and-letrec-makes-programming-orient-object/" alt="post-qrcode"></a></section>
+<a href="http://jueqingsizhe66.github.io/blog/2017/02/13/mysqlluan-ma-hui-gu/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2017/02/13/mysqlluan-ma-hui-gu/" alt="post-qrcode"></a></section>
 
   
 </aside>
