@@ -9,12 +9,8 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="在First Interpreter From EOPL中我们定义了一个最为基本的解释器，包含解释以下解释部分 const-exp
-diff-exp
-zero?-exp
-if-exp
-var-exp
-let-exp 这六种是比较基础的形式，在此基础上我们可以增加四则运算，加入list操作， &hellip;">
+  <meta name="description" content="Scheme解释器的好处是可以不断的拓展自己语言的能力， 通过The First-interpreter-from-eopl创建了一个较为简单let-language，实现了较为简单的减法运算和let局部变量赋值等功能。
+The Second Interpreter from &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +69,58 @@ let-exp 这六种是比较基础的形式，在此基础上我们可以增加四
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/02/27/the-third-interpreter-implementing-proc/">The Third Interpreter Implementing Proc</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-02-27T14:35:50+08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2016</time>
+        
+
+         
+          | <a href="/blog/2016/02/27/the-third-interpreter-implementing-proc/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Scheme解释器的好处是可以不断的拓展自己语言的能力，</p>
+
+<ol>
+<li>通过<a href="http://jueqingsizhe66.github.io/blog/2016/02/25/first-interpreter-from-eopl/">The First-interpreter-from-eopl</a>创建了一个较为简单let-language，实现了较为简单的减法运算和let局部变量赋值等功能。</li>
+<li><a href="http://jueqingsizhe66.github.io/blog/2016/02/27/the-second-interpreter-from-one/">The Second Interpreter from on</a>第一次扩展了基础的let-language，实现了四则运算，逻辑判断，列表操作,列表赋值等。</li>
+<li>这个版本的解释器进一步拓展了过程定义和过程调用的功能。</li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/02/27/the-third-interpreter-implementing-proc/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -748,63 +796,6 @@ of the language.目的就是如何更简洁地定义语法。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/02/15/data-representation-the-same-interface-with-different-implementation/">Data Representation-The Same Interface With Different Implementation</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-02-15T16:39:26+08:00" pubdate data-updated="true">Feb 15<span>th</span>, 2016</time>
-        
-
-         
-          | <a href="/blog/2016/02/15/data-representation-the-same-interface-with-different-implementation/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>我们设定一个接口，该接口实现包括三个constructor和1个observer</p>
-
-<ol>
-<li>zero</li>
-<li>successor</li>
-<li>predecessor</li>
-<li>zero?</li>
-</ol>
-
-
-<p>当然也可以拓展该接口包括scheme-val->my-val,my-val->scheme-val,plus等。
-下面看一下如何实现三个相同接口的实现，从而体味data abstraction(data
-representation or data boundary).</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/02/15/data-representation-the-same-interface-with-different-implementation/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -1022,9 +1013,9 @@ representation or data boundary).</p>
 <li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
 <li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
 <li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
-<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (23)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (24)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (21)</a></li>
 <li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
 <li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
 <li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
@@ -1056,6 +1047,10 @@ representation or data boundary).</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/05/18/can-you-see-them-from-here/">Can You See Them From Here?</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/02/13/mysqlluan-ma-hui-gu/">Mysql乱码回顾</a>
       </li>
     
@@ -1069,10 +1064,6 @@ representation or data boundary).</p>
     
       <li class="post">
         <a href="/blog/2017/02/08/perldu-qu-mysqlshu-ju-ku/">Perl读取mysql数据库</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/08/perlzhong-wen-luan-ma-wen-ti/">Perl中文乱码问题</a>
       </li>
     
   </ul>

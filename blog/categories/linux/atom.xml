@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | 网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-02-13T08:55:54+08:00</updated>
+  <updated>2017-05-18T21:06:23+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -12,6 +12,55 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Can You See Them From Here?]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2017/05/18/can-you-see-them-from-here/"/>
+    <updated>2017-05-18T20:44:59+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2017/05/18/can-you-see-them-from-here</id>
+    <content type="html"><![CDATA[<p>[[<strong>Here Song</strong>]]
+I am here to look forward,
+Nothing or many things?
+I am embarrassed.</p>
+
+<p>what should I do here?
+What is your plan? what is your target?
+Come on,Come on!
+Be confident, do and do it at the best,
+so you can see more from here</p>
+
+<p>Life is a road with many ups and downs.
+Looking at the stars in the sky, Doing at the desk in the grounds.</p>
+
+<!--more-->
+
+
+<h2>理解你的Here，才能到达There</h2>
+
+<p>Go there Base on Here !
+千里之行，始于足下;
+百层高楼，起于垒土;
+You are Here!</p>
+
+<ol>
+<li><a href="http://think-like-a-git.net/sections/rebase-from-the-ground-up/a-helpful-mnemonic-for-git-rebase-arguments.html">git rebase Here There</a></li>
+</ol>
+
+
+<p><img src="/images/linux/gitflow.png" alt="gitFlow" /></p>
+
+<p>The home faraway
+<img src="/images/linux/railway.jpg" alt="railway" /></p>
+
+<p>See the sumrise, here to go! Let&rsquo;s go!
+<img src="/images/linux/time.jpeg" alt="sumrise" /></p>
+
+<ol>
+<li>somethings added later</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Bash Special Annotation]]></title>
@@ -618,234 +667,6 @@ printf &ldquo;%s\n&rdquo; &ldquo;${array[*]}&rdquo;</p>
 <li>验证这件事情的结果；</li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Bash Support IDE的新发现]]></title>
-    <link href="http://jueqingsizhe66.github.io/blog/2015/10/23/bash-support-idede-xin-fa-xian/"/>
-    <updated>2015-10-23T00:28:00+08:00</updated>
-    <id>http://jueqingsizhe66.github.io/blog/2015/10/23/bash-support-idede-xin-fa-xian</id>
-    <content type="html"><![CDATA[<p><a href="http://www.vim.org/scripts/script.php?script_id=365">Bash Support</a>实现一个vim的bash IDE工具。好处式可以较快捷的
-输入命令和编程以及调试(bashdb)。</p>
-
-<!--more-->
-
-
-<h2>支持的几种后缀文件</h2>
-
-<ol>
-<li>c 的.c  c++ 的.cc  .cpp  cc</li>
-<li>perl 的.pl</li>
-<li>awk的.awk</li>
-<li>shell的.sh</li>
-<li>vim的.vim文件</li>
-</ol>
-
-
-<h2>查看系统的各种template</h2>
-
-<p> <font color="green">当你新建一个*.sh文件</font>
- 一定要记住的一个命令 \ntl,通过它可以知道各个template系统文件
- 都在干什么，以及如何使用那些快捷命令，比如\ckc \css \cfu \cc \cs  \se \sf 等。</p>
-
-<h2>几个常见的Macro</h2>
-
-<ol>
-<li>|FILENAME|</li>
-<li>|AUTHOR|</li>
-<li>|DATE|</li>
-<li>|TIME|</li>
-<li>|EMAIL|</li>
-<li>|ORGANIZATION|</li>
-<li>|AUTHORREF|</li>
-</ol>
-
-
-<p><font color="red">你可以在.vim/bundle/bash-support.vim/bash-support/templates/Template文件(
-这边使用的是相对路径，我是通过bundle进行管理vim插件).</font></p>
-
-<h2>css 的程序几个大的部分的注释</h2>
-
-<p>当你敲入\css会在vim的下端出现一个输入栏，有下面几个选项</p>
-
-<ol>
-<li>&lsquo;GLOBAL DECLARATIONS&rsquo;     : &lsquo;GLOBAL DECLARATIONS&rsquo;,</li>
-<li>&lsquo;COMMAND LINE PROCESSING&rsquo; : &lsquo;COMMAND LINE PROCESSING&rsquo;,</li>
-<li>&lsquo;SANITY CHECKS&rsquo;           : &lsquo;SANITY CHECKS&rsquo;,</li>
-<li>&lsquo;FUNCTION DEFINITIONS&rsquo;    : &lsquo;FUNCTION DEFINITIONS&rsquo;,</li>
-<li>&lsquo;TRAPS&rsquo;                   : &lsquo;TRAPS&rsquo;,</li>
-<li>&lsquo;MAIN SCRIPT&rsquo;             : &lsquo;MAIN SCRIPT&rsquo;,</li>
-<li>&lsquo;STATISTICS AND CLEAN-UP&rsquo; : &lsquo;STATISTICS AND CLEAN-UP&rsquo;,</li>
-</ol>
-
-
-<p><font color="red">具体可以查看你的bash-support.vim/bash-support/templates/comment.templates</font>
-在该文件的一开头就define了shell文件的注释头。</p>
-
-<p>  <em>技巧可以通过 G然后TAB就可以直接补全了。</em>
-  之所以说他特别好是因为，根据<a href="http://www.apress.com/9781430219972/">《Pro Bash Programming》</a>, 提出的关于
-  写更好的shell script的建议，如下所示：</p>
-
-<ol>
-<li>Comments  文件开头的注释，以及单行注释、函数注释、块注释</li>
-<li>Initialization of variables  变量声明</li>
-<li>Function definitions  函数定义</li>
-<li>Runtime configuration (parse options, read configuration file, and so on) 通过getopt解析脚本选项和运行所需的配置文件的导入</li>
-<li>Sanity check (are all values reasonable?)   一些判断、检查</li>
-<li>Command Run  程序运行</li>
-<li>Process information (calculate, slice and dice lines, I/O, and so on)</li>
-</ol>
-
-
-<p>``` sh</p>
-
-<h1>:    Title: wfe &ndash; List words ending with PATTERN</h1>
-
-<h1>: Synopsis: wfe [-c|-h|-v] REGEX</h1>
-
-<h1>:     Date: 2009-04-13</h1>
-
-<h1>:  Version: 1.0</h1>
-
-<h1>:   Author: Chris F.A. Johnson</h1>
-
-<h1>:  Options: -c &ndash; Include compound words</h1>
-
-<h1>:           -h &ndash; Print usage information</h1>
-
-<h1>:           -v &ndash; Print version number</h1>
-
-<p>set -x
-export PS4=&lsquo;+ $LINENO : &rsquo;</p>
-
-<h2>Script metadata</h2>
-
-<p>scriptname=${0##*/}
-description=&ldquo;List words ending with REGEX&rdquo;
-usage=&ldquo;$scriptname [-c|-h|-v] REGEX&rdquo;
-date_of_creation=2009-04-13
-version=1.0
-author=&ldquo;Chris F.A. Johnson&rdquo;</p>
-
-<h2>File locations</h2>
-
-<p>dict=$HOME/words
-wordfile=$dict/singlewords
-compoundfile=$dict/Compounds</p>
-
-<h2>Default is not to show compound words</h2>
-
-<p>compounds=</p>
-
-<h2>Reular expression supplied on the command line</h2>
-
-<p>pattern=$1</p>
-
-<h2>Function definitions</h2>
-
-<p>die() #@ DESCRIPTION: print error message and exit with supplied return code
-{     #@ USAGE: die STATUS [MESSAGE]
-  error=$1
-  shift
-  [ -n &ldquo;$<em>&rdquo; ] printf &ldquo;%s\n&rdquo; &ldquo;$</em>&rdquo; >&amp;2
-  exit &ldquo;$error&rdquo;
-}</p>
-
-<p>usage() #@ DESCRIPTION: print usage information
-{       #@ USAGE: usage</p>
-
-<pre><code>    #@ REQUIRES: variable defined: $scriptname
-</code></pre>
-
-<p>  printf &ldquo;%s &ndash; %s\n&rdquo; &ldquo;$scriptname&rdquo; &ldquo;$description&rdquo;
-  printf &ldquo;USAGE: %s\n&rdquo; &ldquo;$usage&rdquo;
-}</p>
-
-<p>version() #@ DESCRIPTION: print version information
-{          #@ USAGE: version</p>
-
-<pre><code>       #@ REQUIRES: variables defined: $scriptname, $author and $version
-</code></pre>
-
-<p>  printf &ldquo;%s version %s\n&rdquo; &ldquo;$scriptname&rdquo; &ldquo;$version&rdquo;
-  printf &ldquo;by %s, %d\n&rdquo; &ldquo;$author&rdquo; &ldquo;${date_of_creation%%&ndash;<em>}&rdquo;
-  #printf &ldquo;by %s, %d\n&rdquo; &ldquo;$author&rdquo; &ldquo;${date_of_creation%%&ndash;</em>&rdquo;   指的那边错误不是真正的错误！一般需要往上找
-}</p>
-
-<h2>parse command-line options, -c, -h, and -v</h2>
-
-<p>echo $(( $OPTIND ))
-while getopts chv var
-do
-   case $var in</p>
-
-<pre><code> c) compounds=$compoundfile ;;
- h) usage; exit ;;
- v) version; exit ;;
-</code></pre>
-
-<p>   esac
-done
-shift $(( $OPTIND &ndash; 1 ))  ## move out one parameter and then position to the right by one step</p>
-
-<pre><code>                      ## 右移操作
-</code></pre>
-
-<p>regex=$1
-echo $(( $regex ))</p>
-
-<h2>sanity check</h2>
-
-<p>if [ -z &ldquo;$pattern&rdquo; ]
-then</p>
-
-<pre><code>{
-    echo "Search term missing"
-    usage
-} &gt;&amp;2
-exit 1
-</code></pre>
-
-<p>fi</p>
-
-<h2>Search $wordfile and $compounds if it is defined</h2>
-
-<p>{
-   cat &ldquo;$wordfile&rdquo;
-   if [ -n &ldquo;$compounds&rdquo; ]  # not null  -n ~ -z   n :nonzero  z:zero
-   then</p>
-
-<pre><code>  cut -f1 "$compounds"
-</code></pre>
-
-<p>   fi</p>
-
-<h1>}| grep -i &ldquo;.$regex$&rdquo; |sort -fu   #errror</h1>
-
-<p>}| grep -i &ldquo;.$regex$&rdquo; |sort -fu</p>
-
-<h2>Case-insensitive sort; remove duplicates</h2>
-
-<p>```</p>
-
-<hr />
-
-<h2>ckc的几种注释关键字</h2>
-
-<p>当你敲入\ckc会在vim的下端出现一个输入栏，有下面几个选项</p>
-
-<ol>
-<li>&lsquo;bug&rsquo;         : &lsquo;:BUG:|DATE| |TIME|:|AUTHORREF|: <CURSOR>&rsquo;,</li>
-<li>&lsquo;todo&rsquo;        : &lsquo;:TODO:|DATE| |TIME|:|AUTHORREF|: <CURSOR>&rsquo;,</li>
-<li>&lsquo;tricky&rsquo;      : &lsquo;:TRICKY:|DATE| |TIME|:|AUTHORREF|: <CURSOR>&rsquo;,</li>
-<li>&lsquo;warning&rsquo;     : &lsquo;:WARNING:|DATE| |TIME|:|AUTHORREF|: <CURSOR>&rsquo;,</li>
-<li>&lsquo;workaround&rsquo;  : &lsquo;:WORKAROUND:|DATE| |TIME|:|AUTHORREF|: <CURSOR>&rsquo;,</li>
-<li>&lsquo;new keyword&rsquo; : &lsquo;:<CURSOR>:|DATE| |TIME|:|AUTHORREF|: {+COMMENT+}&rsquo;,</li>
-</ol>
-
-
-<p>进一步的帮助参考<a href="https://lug.fh-swf.de/vim/vim-bash/StyleGuideShell.en.pdf">Bash Style Guide</a></p>
 ]]></content>
   </entry>
   

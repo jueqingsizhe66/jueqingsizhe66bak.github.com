@@ -9,9 +9,10 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="Inception盗梦空间，虽然未看过，大概了解他的风格是从一个梦中跳到另一个梦中，
-这根函数式编程有点像，CPS变幻点，最终都会回到原来的那个点，然而我只是想用
-剧中的一张图，来说明深入一点你将会获得更多，生活也是如此,Maybe,finally we will go to the &hellip;">
+  <meta name="description" content="In haskell you can use () to embrace the function into an application 1
+2
+not odd 4 --&gt;error
+not (odd 4) --&gt;right you can also use $ (called a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,6 +71,68 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/20/thinking-about-the-dot-symbol-in-haskell/">Thinking About the Dot Symbol in Haskell</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-20T17:30:36+08:00" pubdate data-updated="true">May 20<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="/blog/2015/05/20/thinking-about-the-dot-symbol-in-haskell/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In haskell you can use () to embrace the function into an application</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">not</span> <span class="n">odd</span> <span class="mi">4</span>   <span class="o">--&gt;</span><span class="ne">error</span>
+</span><span class='line'><span class="nf">not</span> <span class="p">(</span><span class="n">odd</span> <span class="mi">4</span><span class="p">)</span> <span class="o">--&gt;</span><span class="n">right</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>you can also use $ (called a function application),it makes functions right
+associative.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">not</span> <span class="o">$</span> <span class="n">odd</span> <span class="mi">4</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>but more pretty and elegant method is use .</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/05/20/thinking-about-the-dot-symbol-in-haskell/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -774,61 +837,6 @@ if-else  这其实是一种控制语句，不能说Haskell放掉了控制语句�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/16/language-limits-the-world-of-you/">Language Limits the World of You</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-16T16:17:39+08:00" pubdate data-updated="true">May 16<span>th</span>, 2015</time>
-        
-
-         
-          | <a href="/blog/2015/05/16/language-limits-the-world-of-you/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ol>
-<li>语言可以削尖我们的思维。</li>
-<li>语言也会限制我们的世界。</li>
-<li>好的语言一定会影响你的思维方式,haskell,scheme,lisp</li>
-</ol>
-
-
-<blockquote><p>Language shapes the way we think, and determines what we can think about.
-   Benjamin Lee Whorf</p>
-
-<hr /></blockquote>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/05/16/language-limits-the-world-of-you/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/9/">&larr; Older</a>
@@ -1046,9 +1054,9 @@ if-else  这其实是一种控制语句，不能说Haskell放掉了控制语句�
 <li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
 <li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
 <li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
-<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (23)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (24)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (21)</a></li>
 <li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
 <li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
 <li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
@@ -1080,6 +1088,10 @@ if-else  这其实是一种控制语句，不能说Haskell放掉了控制语句�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/05/18/can-you-see-them-from-here/">Can You See Them From Here?</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/02/13/mysqlluan-ma-hui-gu/">Mysql乱码回顾</a>
       </li>
     
@@ -1093,10 +1105,6 @@ if-else  这其实是一种控制语句，不能说Haskell放掉了控制语句�
     
       <li class="post">
         <a href="/blog/2017/02/08/perldu-qu-mysqlshu-ju-ku/">Perl读取mysql数据库</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/08/perlzhong-wen-luan-ma-wen-ti/">Perl中文乱码问题</a>
       </li>
     
   </ul>

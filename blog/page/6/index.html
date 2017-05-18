@@ -9,8 +9,12 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="ubuntu系统，比如你用 1
-tar -cvf \*.tar.gz 某个文件夹 会发现可以多窗口地执行。其实这也说明了一点linux系统的多用户、多线程地开发系统、使用系统。 shell-script是一个比较有用的工具，沟通着用户(user)和内核(kernel)之间, &hellip;">
+  <meta name="description" content="当你阅读源代码你是否厌倦了cd来cd去，于是想把他们堆在一个文件内
+而堆起来又不好看，于是想要打扮一下 于是写了下面的小程序，估计对于阅读有帮助，主要用到 shell变量处理
+shell变量长度
+find显示相对全路经
+==两边不能有空格，然而在赋值的时候必须没有空格
+利用函数思想，封装小寒数 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,6 +73,67 @@ tar -cvf \*.tar.gz 某个文件夹 会发现可以多窗口地执行。其实这
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/10/yue-du-openfoamyuan-dai-ma-de-xiao-gong-ju/">阅读openfoam源代码的小工具</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-10T23:19:42+08:00" pubdate data-updated="true">Jun 10<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="/blog/2015/06/10/yue-du-openfoamyuan-dai-ma-de-xiao-gong-ju/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li>当你阅读源代码你是否厌倦了cd来cd去，于是想把他们堆在一个文件内</li>
+<li>而堆起来又不好看，于是想要打扮一下</li>
+</ul>
+
+
+<p>于是写了下面的小程序，估计对于阅读有帮助，主要用到</p>
+
+<ul>
+<li>shell变量处理</li>
+<li>shell变量长度</li>
+<li>find显示相对全路经</li>
+<li>==两边<strong>不能有</strong>空格，然而在赋值的时候必须没有空格</li>
+<li>利用函数思想，封装小寒数</li>
+<li>美观，把一个文件当作一个夹子进行显示</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/06/10/yue-du-openfoamyuan-dai-ma-de-xiao-gong-ju/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -763,54 +828,6 @@ You can first practice <a href="http://blog.chinaunix.net/uid-25932176-id-297381
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/29/haskellzai-nao-hai-li-de-zong-ji/">Haskell在脑海里的踪迹</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-29T14:59:44+08:00" pubdate data-updated="true">May 29<span>th</span>, 2015</time>
-        
-
-         
-          | <a href="/blog/2015/05/29/haskellzai-nao-hai-li-de-zong-ji/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>基于范畴理论，在每一个范畴里面都包含一个objects和fmap关系，利用functor映射到不同的category。
-可以继续思考的是一个fmap:(*&ndash;>*)
-一个fmap是可以充当形参的，因为他正如在一个<a href="https://www.haskell.org/onlinereport/list.html#sect17.3">List module</a>中
-一个一个的破折号和箭头构成的map关系被放进List这个category中。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/05/29/haskellzai-nao-hai-li-de-zong-ji/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/7/">&larr; Older</a>
@@ -1028,9 +1045,9 @@ You can first practice <a href="http://blog.chinaunix.net/uid-25932176-id-297381
 <li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
 <li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
 <li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
-<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (23)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (24)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>Linux (20)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (21)</a></li>
 <li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
 <li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
 <li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
@@ -1062,6 +1079,10 @@ You can first practice <a href="http://blog.chinaunix.net/uid-25932176-id-297381
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/05/18/can-you-see-them-from-here/">Can You See Them From Here?</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/02/13/mysqlluan-ma-hui-gu/">Mysql乱码回顾</a>
       </li>
     
@@ -1075,10 +1096,6 @@ You can first practice <a href="http://blog.chinaunix.net/uid-25932176-id-297381
     
       <li class="post">
         <a href="/blog/2017/02/08/perldu-qu-mysqlshu-ju-ku/">Perl读取mysql数据库</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/08/perlzhong-wen-luan-ma-wen-ti/">Perl中文乱码问题</a>
       </li>
     
   </ul>
