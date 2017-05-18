@@ -9,10 +9,8 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="In haskell you can use () to embrace the function into an application 1
-2
-not odd 4 --&gt;error
-not (odd 4) --&gt;right you can also use $ (called a &hellip;">
+  <meta name="description" content="
+The most important is:Hackage-haskell-Official Maintains a central repository of open source Hakell libraries called Hackage. ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +69,55 @@ not (odd 4) --&gt;right you can also use $ (called a &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/20/haskell-someimportantresource/">Haskell-someImportantResource</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-20T22:38:05+08:00" pubdate data-updated="true">May 20<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="/blog/2015/05/20/haskell-someimportantresource/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li>The most important is:<a href="hackage.haskell.org">Hackage-haskell-Official</a>
+  Maintains a central repository of open source Hakell libraries called Hackage.</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/05/20/haskell-someimportantresource/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -779,64 +826,6 @@ if-else  这其实是一种控制语句，不能说Haskell放掉了控制语句�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/16/haskell%5B%3F%5D-xing-jie-jue-wen-ti/">Haskell一行解决问题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-16T18:30:02+08:00" pubdate data-updated="true">May 16<span>th</span>, 2015</time>
-        
-
-         
-          | <a href="/blog/2015/05/16/haskell%5B%3F%5D-xing-jie-jue-wen-ti/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Haskell天生的适合解决数学的组合问题，以及无穷求解问题。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="p">[(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span><span class="o">|</span><span class="n">c</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="o">..</span><span class="mi">15</span><span class="p">],</span><span class="n">b</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="o">..</span><span class="mi">15</span><span class="p">],</span><span class="n">a</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="o">..</span><span class="mi">15</span><span class="p">],</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">+</span><span class="n">c</span><span class="o">==</span><span class="mi">30</span><span class="p">]</span>
-</span><span class='line'><span class="kt">[]</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="p">[(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span><span class="o">|</span><span class="n">c</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">],</span><span class="n">b</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="n">c</span><span class="p">],</span><span class="n">a</span><span class="ow">&lt;-</span><span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="n">b</span><span class="p">],</span><span class="n">a</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="n">b</span><span class="o">^</span><span class="mi">2</span><span class="o">==</span><span class="n">c</span><span class="o">^</span><span class="mi">2</span><span class="p">]</span>
-</span><span class='line'><span class="p">[(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">),(</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">)]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/05/16/haskell%5B%3F%5D-xing-jie-jue-wen-ti/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/9/">&larr; Older</a>
@@ -1056,7 +1045,7 @@ if-else  这其实是一种控制语句，不能说Haskell放掉了控制语句�
 <li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
 <li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (24)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>Linux (21)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (22)</a></li>
 <li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
 <li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
 <li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
@@ -1088,6 +1077,10 @@ if-else  这其实是一种控制语句，不能说Haskell放掉了控制语句�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/05/18/see-from-noteexpress/">See From NoteExpress</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/05/18/can-you-see-them-from-here/">Can You See Them From Here?</a>
       </li>
     
@@ -1101,10 +1094,6 @@ if-else  这其实是一种控制语句，不能说Haskell放掉了控制语句�
     
       <li class="post">
         <a href="/blog/2017/02/08/fortrandu-qu-csvwen-jian/">Fortran读取csv文件</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/08/perldu-qu-mysqlshu-ju-ku/">Perl读取mysql数据库</a>
       </li>
     
   </ul>

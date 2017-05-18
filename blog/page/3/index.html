@@ -9,8 +9,10 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="Scheme解释器的好处是可以不断的拓展自己语言的能力， 通过The First-interpreter-from-eopl创建了一个较为简单let-language，实现了较为简单的减法运算和let局部变量赋值等功能。
-The Second Interpreter from &hellip;">
+  <meta name="description" content="程序的过程追踪能力体现着一个独特的优势，本文在First Interpreter,Second Interpreter,Third Interpreter基础上实现新的解释器功能。 实现效果: 1
+2
+enter: x = #(struct:num-val 30)
+exting: result &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,6 +71,59 @@ The Second Interpreter from &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/02/27/the-fourth-interpreter-about-the-traceproc/">The Fourth Interpreter About the Traceproc</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-02-27T21:49:18+08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2016</time>
+        
+
+         
+          | <a href="/blog/2016/02/27/the-fourth-interpreter-about-the-traceproc/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>程序的过程追踪能力体现着一个独特的优势，本文在<a href="http://jueqingsizhe66.github.io/blog/2016/02/25/first-interpreter-from-eopl/">First Interpreter</a>,<a href="http://jueqingsizhe66.github.io/blog/2016/02/27/the-second-interpreter-from-one/">Second Interpreter</a>,<a href="http://jueqingsizhe66.github.io/blog/2016/02/27/the-third-interpreter-implementing-proc/">Third Interpreter</a>基础上实现新的解释器功能。</p>
+
+<p>实现效果:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>enter: x = #(struct:num-val 30)
+</span><span class='line'>exting: result = #(struct:num-val 29)</span></code></pre></td></tr></table></div></figure>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/02/27/the-fourth-interpreter-about-the-traceproc/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -739,63 +794,6 @@ of the language.目的就是如何更简洁地定义语法。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/02/16/engine-your-life/">Engine Your Life</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-02-16T17:26:03+08:00" pubdate data-updated="true">Feb 16<span>th</span>, 2016</time>
-        
-
-         
-          | <a href="/blog/2016/02/16/engine-your-life/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>有很多时候在思考engine是什么东西？
-偶尔在一本书中看到Engine包含三个部分</p>
-
-<ol>
-<li>clock ticks时间戳（什么时候做什么事情）</li>
-<li>success procedure</li>
-<li>failure procedure</li>
-</ol>
-
-
-<p>也就是一个Engine交代了按照时间的发展，满足某个条件
-该做什么事情，如果失败了该做什么东西。
-<img src="/images/life/listen.jpg" alt="listen" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/02/16/engine-your-life/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -1015,7 +1013,7 @@ of the language.目的就是如何更简洁地定义语法。</p>
 <li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
 <li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (24)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>Linux (21)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (22)</a></li>
 <li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
 <li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
 <li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
@@ -1047,6 +1045,10 @@ of the language.目的就是如何更简洁地定义语法。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/05/18/see-from-noteexpress/">See From NoteExpress</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/05/18/can-you-see-them-from-here/">Can You See Them From Here?</a>
       </li>
     
@@ -1060,10 +1062,6 @@ of the language.目的就是如何更简洁地定义语法。</p>
     
       <li class="post">
         <a href="/blog/2017/02/08/fortrandu-qu-csvwen-jian/">Fortran读取csv文件</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/08/perldu-qu-mysqlshu-ju-ku/">Perl读取mysql数据库</a>
       </li>
     
   </ul>

@@ -9,11 +9,11 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="我们设定一个接口，该接口实现包括三个constructor和1个observer zero
-successor
-predecessor
-zero? 当然也可以拓展该接口包括scheme-val->my-val,my-val->scheme-val,plus等。
-下面看一下如何实现三个相同接口的实现 &hellip;">
+  <meta name="description" content="有很多时候在思考engine是什么东西？
+偶尔在一本书中看到Engine包含三个部分 clock ticks时间戳（什么时候做什么事情）
+success procedure
+failure procedure 也就是一个Engine交代了按照时间的发展，满足某个条件
+该做什么事情， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -72,6 +72,63 @@ zero? 当然也可以拓展该接口包括scheme-val->my-val,my-val->scheme-val,
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/02/16/engine-your-life/">Engine Your Life</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-02-16T17:26:03+08:00" pubdate data-updated="true">Feb 16<span>th</span>, 2016</time>
+        
+
+         
+          | <a href="/blog/2016/02/16/engine-your-life/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>有很多时候在思考engine是什么东西？
+偶尔在一本书中看到Engine包含三个部分</p>
+
+<ol>
+<li>clock ticks时间戳（什么时候做什么事情）</li>
+<li>success procedure</li>
+<li>failure procedure</li>
+</ol>
+
+
+<p>也就是一个Engine交代了按照时间的发展，满足某个条件
+该做什么事情，如果失败了该做什么东西。
+<img src="/images/life/listen.jpg" alt="listen" /></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/02/16/engine-your-life/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -758,58 +815,6 @@ All Handware and software,or type checkers etc are interpreter.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/10/turbsim-8ge-tuan-liu-mo-xing-de-dui-bi/">TurbSim 8个湍流模型的对比</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-08-10T01:00:47+08:00" pubdate data-updated="true">Aug 10<span>th</span>, 2015</time>
-        
-
-         
-          | <a href="/blog/2015/08/10/turbsim-8ge-tuan-liu-mo-xing-de-dui-bi/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="https://nwtc.nrel.gov/TurbSim">TurbSim</a>,是NREL提供的一个小的开源工具， 用于产生湍流风，设置的时候可能对于不同模型会有不同的参数，基于范本进行了一番分析。当然测试文件在TurbSim的Test文件下的inp文件夹下。</p>
-
-<p>如果对那些湍流模型做一个对比，那样是否可以更加清晰的看出不同呢？
-于是就有了下面的shell分析脚本。</p>
-
-<p>TurbSim产生的风力机一圈的入流截面模型（仅仅一个截面，全场是因为捕捉了很多个截面）</p>
-
-<p><img src="/images/fast/turbsim.png" alt="Turbsim" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/10/turbsim-8ge-tuan-liu-mo-xing-de-dui-bi/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -1029,7 +1034,7 @@ All Handware and software,or type checkers etc are interpreter.</p>
 <li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
 <li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (24)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>Linux (21)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (22)</a></li>
 <li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
 <li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
 <li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
@@ -1061,6 +1066,10 @@ All Handware and software,or type checkers etc are interpreter.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/05/18/see-from-noteexpress/">See From NoteExpress</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/05/18/can-you-see-them-from-here/">Can You See Them From Here?</a>
       </li>
     
@@ -1074,10 +1083,6 @@ All Handware and software,or type checkers etc are interpreter.</p>
     
       <li class="post">
         <a href="/blog/2017/02/08/fortrandu-qu-csvwen-jian/">Fortran读取csv文件</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/08/perldu-qu-mysqlshu-ju-ku/">Perl读取mysql数据库</a>
       </li>
     
   </ul>
