@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | 网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-05-18T21:06:23+08:00</updated>
+  <updated>2017-05-18T21:53:55+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -18,29 +18,34 @@
     <link href="http://jueqingsizhe66.github.io/blog/2017/05/18/can-you-see-them-from-here/"/>
     <updated>2017-05-18T20:44:59+08:00</updated>
     <id>http://jueqingsizhe66.github.io/blog/2017/05/18/can-you-see-them-from-here</id>
-    <content type="html"><![CDATA[<p>[[<strong>Here Song</strong>]]
-I am here to look forward,
-Nothing or many things?
-I am embarrassed.</p>
+    <content type="html"><![CDATA[<h2>[[<strong>Here Song</strong>]]</h2>
 
-<p>what should I do here?
+<pre><code>I am here to look forward,
+Nothing or many things?
+I am embarrassed.
+
+what should I do here?
 What is your plan? what is your target?
 Come on,Come on!
 Be confident, do and do it at the best,
-so you can see more from here</p>
+so you can see more from here
 
-<p>Life is a road with many ups and downs.
-Looking at the stars in the sky, Doing at the desk in the grounds.</p>
+Life is a road with many ups and downs.
+Looking at the stars in the sky, Doing at the desk in the grounds.
+</code></pre>
 
 <!--more-->
 
 
 <h2>理解你的Here，才能到达There</h2>
 
-<p>Go there Base on Here !
-千里之行，始于足下;
+<p>Go there Base on Here !</p>
+
+<pre><code>千里之行，始于足下;
 百层高楼，起于垒土;
-You are Here!</p>
+</code></pre>
+
+<p>You are Here!</p>
 
 <ol>
 <li><a href="http://think-like-a-git.net/sections/rebase-from-the-ground-up/a-helpful-mnemonic-for-git-rebase-arguments.html">git rebase Here There</a></li>
@@ -53,7 +58,7 @@ You are Here!</p>
 <img src="/images/linux/railway.jpg" alt="railway" /></p>
 
 <p>See the sumrise, here to go! Let&rsquo;s go!
-<img src="/images/linux/time.jpeg" alt="sumrise" /></p>
+<img src="/images/linux/time.jpg" alt="sumrise" /></p>
 
 <ol>
 <li>somethings added later</li>
