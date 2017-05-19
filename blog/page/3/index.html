@@ -9,10 +9,7 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="程序的过程追踪能力体现着一个独特的优势，本文在First Interpreter,Second Interpreter,Third Interpreter基础上实现新的解释器功能。 实现效果: 1
-2
-enter: x = #(struct:num-val 30)
-exting: result &hellip;">
+  <meta name="description" content="letrec的作用是可以定义内部函数。它的实现类似于let，只不过let实现的主要是局部变量，而他是局部的过程（持保留意见) ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +68,51 @@ exting: result &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/02/28/the-fifth-interpreter-with-the-implementation-of-letrec-important/">The Fifth Interpreter With the Implementation of letrec(Important)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-02-28T06:02:57+08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2016</time>
+        
+
+         
+          | <a href="/blog/2016/02/28/the-fifth-interpreter-with-the-implementation-of-letrec-important/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>letrec的作用是可以定义内部函数。它的实现类似于let，只不过let实现的主要是局部变量，而他是局部的过程（持保留意见)</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/02/28/the-fifth-interpreter-with-the-implementation-of-letrec-important/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -747,53 +789,6 @@ of the language.目的就是如何更简洁地定义语法。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/02/16/let-and-letrec-makes-programming-orient-object/">Let and Letrec Makes Programming Orient Object</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-02-16T21:35:15+08:00" pubdate data-updated="true">Feb 16<span>th</span>, 2016</time>
-        
-
-         
-          | <a href="/blog/2016/02/16/let-and-letrec-makes-programming-orient-object/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>面向对象已经大行其道，而在scheme是如何实现，本文仅仅是刹那的思路，
-可以通过let来定义局部变量，而可以通过letrec定义method的过程来实现
-面向对象的数据抽象的能力。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/02/16/let-and-letrec-makes-programming-orient-object/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -1007,7 +1002,7 @@ of the language.目的就是如何更简洁地定义语法。</p>
 <section>
   <h1>分类目录</h1>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/fast/'>Fast (4)</a></li>
+    <li class='category'><a href='/blog/categories/fast/'>Fast (5)</a></li>
 <li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
 <li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
 <li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
@@ -1045,6 +1040,10 @@ of the language.目的就是如何更简洁地定义语法。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/05/19/ubuntu17-dot-04-install-fast8-dot-16/">Ubuntu17.04 Install FAST8.16</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/05/18/see-from-noteexpress/">See From NoteExpress</a>
       </li>
     
@@ -1058,10 +1057,6 @@ of the language.目的就是如何更简洁地定义语法。</p>
     
       <li class="post">
         <a href="/blog/2017/02/10/javakai-fa-nexussi-fu-da-jian/">Java开发nexus私服搭建</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/08/fortrandu-qu-csvwen-jian/">Fortran读取csv文件</a>
       </li>
     
   </ul>

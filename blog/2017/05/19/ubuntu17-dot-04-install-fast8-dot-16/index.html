@@ -5,11 +5,15 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>This Must Be a Success - 网络书屋(Web Reading Room)</title>
+  <title>Ubuntu17.04 Install FAST8.16 - 网络书屋(Web Reading Room)</title>
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="stay hungry,stay foolish This is my hibai 原始地址:http://jueqingsizhe66.github.io/blog/2014/03/06/this-must-be-a-success/&nbsp;written by Ye Zhaoliang& &hellip;">
+  <meta name="description" content="Something Noted in the process of installation FAST8.16 in the 32bit ubuntu17.04 system. 1. Download Fast8.16 and decompress 1
+2
+3
+4
+mkdir FAST-816 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +22,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2014/03/06/this-must-be-a-success">
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2017/05/19/ubuntu17-dot-04-install-fast8-dot-16">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
@@ -71,7 +75,7 @@
   
   <header>
     
-      <h1 class="entry-title">This Must Be a Success</h1>
+      <h1 class="entry-title">Ubuntu17.04 Install FAST8.16</h1>
     
     
       <p class="meta">
@@ -87,7 +91,7 @@
   
 
 
-<time datetime="2014-03-06T01:18:31+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2014</time>
+<time datetime="2017-05-19T15:05:44+08:00" pubdate data-updated="true">May 19<span>th</span>, 2017</time>
         
 
          
@@ -98,16 +102,357 @@
   </header>
 
 
-<div class="entry-content"><p><strong>stay hungry,stay foolish</strong></p>
+<div class="entry-content"><p>Something Noted in the process of installation FAST8.16 in the 32bit ubuntu17.04 system.</p>
 
 <!--more-->
 
 
-<p><img src="/images/zhaoliang.jpg" alt="myimages" />
-This is my <a href="http://hi.baidu.com/jueqingsizhe66">hibai</a></p>
+<h3>1. Download <a href="https://nwtc.nrel.gov/FAST8"> Fast8.16</a> and decompress</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir FAST-816
+</span><span class='line'>cd FAST-816
+</span><span class='line'>mv FAST*.tar.gz FAST-816
+</span><span class='line'>tar -xvf FAST*.tar.gz
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2. Download <a href="https://nwtc.nrel.gov/system/files/MAP_v1.20.10.tar.gz"> Map </a> for generating map.so and decompress</h3>
+
+<p>FAST_DIR 告诉MAP FAST项目存在哪里</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd FAST-816
+</span><span class='line'>mkdir LIBMAP
+</span><span class='line'>cd LIBMAP
+</span><span class='line'>mv ../../*.MAP*.tar.gz .
+</span><span class='line'>tar -xvf *MAP*.tar.gz
+</span><span class='line'>
+</span><span class='line'>cd compiling
+</span><span class='line'>vim driver_makefile&lt;&lt;EOF
+</span><span class='line'>
+</span><span class='line'>----- FAST_DIR     = ../Source
+</span><span class='line'>+++++ FAST_DIR     = /paper/FAST-816/
+</span><span class='line'>
+</span><span class='line'>EOF
+</span><span class='line'>
+</span><span class='line'>cd ../src/
+</span><span class='line'>
+</span><span class='line'>vim makefile&lt;&lt;EOF
+</span><span class='line'>
+</span><span class='line'>----- BITS = -m64
+</span><span class='line'>+++++ BITS = -m32  32bit系统
+</span><span class='line'>
+</span><span class='line'>EOF
+</span><span class='line'>
+</span><span class='line'>make#################something error here</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>make Libmap.so something error here</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>a.o mapinit.o maperror.o lineroutines.o numeric.o outputstream.o mapapi.o lmroutines.o jacobian.o residual.o  -lm -llapacke 
+</span><span class='line'>/usr/bin/ld: 找不到 -llapacke
+</span><span class='line'>/usr/bin/ld: 找不到 -llapacke
+</span><span class='line'>collect2: error: ld returned 1 exit status
+</span><span class='line'>makefile:81: recipe for target 'all' failed
+</span><span class='line'>make: *** [all] Error 1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="http://jueqingsizhe66.github.io/blog/2016/04/15/ubuntu15-dot-10-32bit-an-zhuang-fastv8-dot-15/">fixed it</a>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>apt-get install lapacke-dev*</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>make again</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>make ### OK generate libmap-1.2.so
+</span><span class='line'>
+</span><span class='line'>mkdir /paper/FAST-816/bin
+</span><span class='line'>cp libmap-1.20.10.so /paper/FAST-816/bin
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3. Now Install FAST</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /paper/FAST-816/compiling/
+</span><span class='line'>make 
+</span><span class='line'>make -f makefile_DISCON_DLL ## for Test18-26.fst case</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>gcc -fbacktrack FAST_Subs 可能再gcc-6会有点问题，部分f90文件得删除该选项</strong>
+删掉-fbacktrace测试通过</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> 2 ❯ make
+</span><span class='line'>gfortran -I Obj_lin32 -O2 -m32 -fbacktrace -ffree-line-length-none -x f95-cpp-input -DNO_LibLoad -DUSE_DLL_INTERFACE -c ../Source/FAST_Subs.f90 -o Obj_lin32/FAST_Subs.o -J Obj_lin32 -B Obj_lin32
+</span><span class='line'>gfortran: internal compiler error: 已杀死 (program f951)
+</span><span class='line'>Please submit a full bug report,
+</span><span class='line'>with preprocessed source if appropriate.
+</span><span class='line'>See &lt;file:///usr/share/doc/gcc-6/README.Bugs&gt; for instructions.
+</span><span class='line'>makefile:416: recipe for target 'FAST_Subs.o' failed
+</span><span class='line'>make: *** [FAST_Subs.o] Error 4
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4. Run Test1-18.fst</h3>
+
+<p>You can go to /paper/FAST-816/bin to check whether FAST_Glin32 and libmap.so have been generated or not</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /paper/FAST-816/bin
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>❯ ./FAST_glin32 ../CertTest/Test02.fst
+</span><span class='line'>
+</span><span class='line'> **************************************************************************************************
+</span><span class='line'> FAST (v8.16.00a-bjj, 27-Jul-2016)
+</span><span class='line'>
+</span><span class='line'> Copyright (C) 2016 National Renewable Energy Laboratory
+</span><span class='line'>
+</span><span class='line'> This program comes with ABSOLUTELY NO WARRANTY. See the "license.txt" file distributed with this
+</span><span class='line'> software for details.
+</span><span class='line'> **************************************************************************************************
+</span><span class='line'>
+</span><span class='line'>  Running FAST (v8.16.00a-bjj, 27-Jul-2016), compiled as a 32-bit application using single
+</span><span class='line'>  precision
+</span><span class='line'>  linked with NWTC Subroutine Library (v2.09.00, 23-Jul-2016)
+</span><span class='line'>
+</span><span class='line'>  Heading of the FAST input file:
+</span><span class='line'>    FAST Certification Test #02: AWT-27CR2 with many DOFs with startup and shutdown and steady wind
+</span><span class='line'>
+</span><span class='line'>  Running ElastoDyn (v1.04.00a-bjj, 26-Jul-2016).
+</span><span class='line'>
+</span><span class='line'>  Running AeroDyn (v15.03.00, 27-Jul-2016).
+</span><span class='line'>
+</span><span class='line'>  Running AirfoilInfo (v1.01.00a-bjj, 5-Apr-2016).
+</span><span class='line'>
+</span><span class='line'>  Running BEM (v1.02.00, 29-Jun-2016).
+</span><span class='line'>
+</span><span class='line'>  Running InflowWind (v3.03.00, 26-Jul-2016).
+</span><span class='line'>  Opening InflowWind input file:  ../CertTest/AWT27/Test02_InflowWind.dat
+</span><span class='line'>
+</span><span class='line'>  Running ServoDyn (v1.06.00a-bjj, 26-Jul-2016).
+</span><span class='line'>  Timestep: 0 of 20 seconds.
+</span><span class='line'>
+</span><span class='line'> Timestep: 2 of 20 seconds. Estimated final completion at 16:05:13.                               
+</span><span class='line'> Timestep: 4 of 20 seconds. Estimated final completion at 16:05:12.    </span></code></pre></td></tr></table></div></figure>
+
+
+<h3>5. Modify the ServoData for servo module</h3>
+
+<p><a href="http://jueqingsizhe66.github.io/blog/2015/10/22/fast-in-ubuntu64bit-bian-yi-zhu-yi-shi-xiang/">DISON_DLL running</a>
+因为FAST在运行Test18-26.fst的case时候会去读取5MW_BASELINE[只针对的是5MW]底下的ServoData的文件,
+所以对应dll-filename得修改一下。</p>
+
+<ol>
+<li>make DISCON SO file</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>❯ make -f makefile_DISCON_DLL
+</span><span class='line'>gfortran  -O2 -m32 -fbacktrace -ffree-line-length-none -x f95-cpp-input -C -DIMPLICIT_DLLEXPORT -fPIC -c ../CertTest/5MW_Baseline/ServoData/Source/DISCON.f90 -o Obj_lin32/DISCON.obj -J Obj_lin32 -B Obj_lin32
+</span><span class='line'>gfortran -shared -O2 -m32 -fbacktrace -fPIC -I Obj_lin32 -o ../CertTest/5MW_Baseline/ServoData/DISCON_glin32.so \
+</span><span class='line'> Obj_lin32/DISCON.obj
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>Change DLL_FileName in the configure data file</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /paper/FAST-816/CertTest/5MW_Baseline
+</span><span class='line'>vim NRELOffshrBsline5MW_Onshore_ServoDyn.dat 
+</span><span class='line'>
+</span><span class='line'>修改DLL_FileName为 ServoData/DISCON_glin32.so</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Test RESULT:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  Running BeamDyn (v1.01.04, 26-Jul-2016).
+</span><span class='line'>
+</span><span class='line'>  Running AeroDyn (v15.03.00, 27-Jul-2016).
+</span><span class='line'>
+</span><span class='line'>  Running AirfoilInfo (v1.01.00a-bjj, 5-Apr-2016).
+</span><span class='line'>
+</span><span class='line'>  Running BEM (v1.02.00, 29-Jun-2016).
+</span><span class='line'> Warning: Turning off Unsteady Aerodynamics because C_nalpha is 0.  BladeNode = 1, Blade = 1
+</span><span class='line'> Warning: Turning off Unsteady Aerodynamics because C_nalpha is 0.  BladeNode = 2, Blade = 1
+</span><span class='line'> Warning: Turning off Unsteady Aerodynamics because C_nalpha is 0.  BladeNode = 3, Blade = 1
+</span><span class='line'> Warning: Turning off Unsteady Aerodynamics because C_nalpha is 0.  BladeNode = 4, Blade = 1
+</span><span class='line'> Warning: Turning off Unsteady Aerodynamics because C_nalpha is 0.  BladeNode = 1, Blade = 2
+</span><span class='line'> Warning: Turning off Unsteady Aerodynamics because C_nalpha is 0.  BladeNode = 2, Blade = 2
+</span><span class='line'> Warning: Turning off Unsteady Aerodynamics because C_nalpha is 0.  BladeNode = 3, Blade = 2
+</span><span class='line'> Warning: Turning off Unsteady Aerodynamics because C_nalpha is 0.  BladeNode = 4, Blade = 2
+</span><span class='line'> Warning: Turning off Unsteady Aerodynamics because C_nalpha is 0.  BladeNode = 1, Blade = 3
+</span><span class='line'> Warning: Turning off Unsteady Aerodynamics because C_nalpha is 0.  BladeNode = 2, Blade = 3
+</span><span class='line'> Warning: Turning off Unsteady Aerodynamics because C_nalpha is 0.  BladeNode = 3, Blade = 3
+</span><span class='line'> Warning: Turning off Unsteady Aerodynamics because C_nalpha is 0.  BladeNode = 4, Blade = 3
+</span><span class='line'>
+</span><span class='line'>  Running InflowWind (v3.03.00, 26-Jul-2016).
+</span><span class='line'>  Opening InflowWind input file:  ../CertTest/5MW_Baseline/NRELOffshrBsline5MW_InflowWind_12mps.dat
+</span><span class='line'>
+</span><span class='line'>    Reading a 31x31 grid (145 m wide, 17.5 m to 162.5 m above ground) with a characteristic wind
+</span><span class='line'>    speed of 12 m/s. This full-field file was generated by TurbSim (v1.06.00, 21-Sep-2012) on
+</span><span class='line'>    07-Jan-2014 at 12:50:45.
+</span><span class='line'>
+</span><span class='line'>    Processed 1442 time steps of 20-Hz full-field data (72.05 seconds).
+</span><span class='line'>
+</span><span class='line'>  Running ServoDyn (v1.06.00a-bjj, 26-Jul-2016).
+</span><span class='line'>
+</span><span class='line'>  Running ServoDyn Interface for Bladed Controllers (using GNU Fortran for Linux, 14-Oct-2015).
+</span><span class='line'>  Timestep: 0 of 20 seconds.
+</span><span class='line'>
+</span><span class='line'> FAST_Solution0:CalcOutputs_And_SolveForInputs:SolveOption2:SrvD_CalcOutput:Running with torque
+</span><span class='line'> and pitch control of the NREL offshore 5MW baseline wind turbine from DISCON.dll as written by J.
+</span><span class='line'> Jonkman of NREL/NWTC for use in the IEA Annex XXIII OC3 studies.
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'> Timestep: 1 of 20 seconds. Estimated final completion at 16:20:36.                               
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Okay, All things have been done.</p>
+
+<p>Happy FAST programming.</p>
 
 <p class='post-footer'>
-                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2014/03/06/this-must-be-a-success/'>http://jueqingsizhe66.github.io/blog/2014/03/06/this-must-be-a-success/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2017/05/19/ubuntu17-dot-04-install-fast8-dot-16/'>http://jueqingsizhe66.github.io/blog/2017/05/19/ubuntu17-dot-04-install-fast8-dot-16/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
 
 </div>
 
@@ -131,12 +476,12 @@ This is my <a href="http://hi.baidu.com/jueqingsizhe66">hibai</a></p>
   
 
 
-<time datetime="2014-03-06T01:18:31+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2014</time>
+<time datetime="2017-05-19T15:05:44+08:00" pubdate data-updated="true">May 19<span>th</span>, 2017</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/life/'>life</a>
+    <a class='category' href='/blog/categories/fast/'>Fast</a>
   
 </span>
 
@@ -154,8 +499,8 @@ This is my <a href="http://hi.baidu.com/jueqingsizhe66">hibai</a></p>
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2017/05/18/see-from-noteexpress/" title="Previous Post: See from NoteExpress">&laquo; See from NoteExpress</a>
       
-        <a class="basic-alignment right" href="/blog/2014/03/06/funny-jokes/" title="Next Post: funny jokes">funny jokes &raquo;</a>
       
     </p>
   </footer>
@@ -576,7 +921,7 @@ var duoshuoQuery = {short_name:"f708708"};
 </section>
 <section>
 <h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
-<a href="http://jueqingsizhe66.github.io/blog/2014/03/06/this-must-be-a-success/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2014/03/06/this-must-be-a-success/" alt="post-qrcode"></a></section>
+<a href="http://jueqingsizhe66.github.io/blog/2017/05/19/ubuntu17-dot-04-install-fast8-dot-16/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2017/05/19/ubuntu17-dot-04-install-fast8-dot-16/" alt="post-qrcode"></a></section>
 
   
 </aside>
