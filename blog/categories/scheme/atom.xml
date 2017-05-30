@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Scheme | 网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/blog/categories/scheme/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-05-19T16:19:02+08:00</updated>
+  <updated>2017-05-30T14:26:22+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Racket Man Wanna Learn Datetype and Cases]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2017/05/30/racket-man-wanna-learn-datetype-and-cases/"/>
+    <updated>2017-05-30T14:14:59+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2017/05/30/racket-man-wanna-learn-datetype-and-cases</id>
+    <content type="html"><![CDATA[<p>无意中，想到了<a href="http://racket-lang.org/"> racket </a>，scheme家族中一员，那么亲切，lovely.</p>
+
+<!--more-->
+
+
+<p>``` racket</p>
+
+<p>Welcome to Racket v6.9.</p>
+
+<blockquote><p>(/ 66 2)
+33
+(/ 52.44 0.834493)
+62.840551089104395
+(/ 52.44 0.834493)-62
+62.840551089104395
+-62
+(&ndash; (/ 52.44 0.834493) 62)
+0.8405510891043946
+(* (&ndash; (/ 52.44 0.834493) 62) 360)
+302.59839207758205
+exit;</p>
+
+<h1>&lt;procedure:exit></h1>
+
+<p>(exit)</p></blockquote>
+
+<p>```</p>
+
+<p>复习列表:</p>
+
+<ol>
+<li><a href="http://jueqingsizhe66.github.io/blog/2016/02/19/the-implementation-of-define-datetype/">datetype</a></li>
+<li><a href="http://jueqingsizhe66.github.io/blog/2016/02/23/casesde-zuo-yong/">cases</a></li>
+<li><a href="http://jueqingsizhe66.github.io/blog/2016/02/25/first-interpreter-from-eopl/">First Interpreter From EOPL</a></li>
+<li><a href="http://jueqingsizhe66.github.io/blog/2016/02/27/the-second-interpreter-from-one/">The Second Interpreter from one</a></li>
+<li><a href="http://jueqingsizhe66.github.io/blog/2016/02/27/the-third-interpreter-implementing-proc/">The third Interpreter with proc feature</a></li>
+<li><a href="http://jueqingsizhe66.github.io/blog/2016/02/27/the-fourth-interpreter-about-the-traceproc/">the fourth Interpreter with traceproc feature</a></li>
+<li><a href="http://jueqingsizhe66.github.io/blog/2016/02/28/the-fifth-interpreter-with-the-implementation-of-letrec-important/">The fifth Interpreter with letrec feature</a></li>
+<li>Read the EOPL book</li>
+</ol>
+
+
+<p>Deadline: 2017-06-30</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[能真正教会你编程能力的是重写]]></title>
@@ -849,132 +900,6 @@ prev
 <li>了解插入排序的实现过程。</li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[The Fifth Interpreter With the Implementation of letrec(Important)]]></title>
-    <link href="http://jueqingsizhe66.github.io/blog/2016/02/28/the-fifth-interpreter-with-the-implementation-of-letrec-important/"/>
-    <updated>2016-02-28T06:02:57+08:00</updated>
-    <id>http://jueqingsizhe66.github.io/blog/2016/02/28/the-fifth-interpreter-with-the-implementation-of-letrec-important</id>
-    <content type="html"><![CDATA[<p>letrec的作用是可以定义内部函数。它的实现类似于let，只不过let实现的主要是局部变量，而他是局部的过程（持保留意见)</p>
-
-<!--more-->
-
-
-<h2>错误1.</h2>
-
-<p>```
-  (define-datatype environment environment?</p>
-
-<pre><code>(empty-env)
-(extend-env
- (bvar symbol?)  ;;;这边是一个 所以是symbol?
- (bval expval?)
- (saved-env environment?))
-(extend-env-rec
- (id symbol?)
- (bvar (list-of symbol?)) ;;这边和proc-val的定义发生了冲突  一个是symbol? 另外一个则是(list-of symbol?)
- (body expression?)
- (saved-env environment?)))
-</code></pre>
-
-<p>```</p>
-
-<p>而在实际的extend-env-rec的实现中，则是调用了proc-val，所以并且传入到proc-val，为了保证一致性</p>
-
-<p>```
-;;;;;;;;;;;;;;;; environment constructors and observers ;;;;;;;;;;;;;;;;
-(define apply-env
-  (lambda (env search-sym)</p>
-
-<pre><code>(cases environment env
-       (empty-env ()
-                  (error 'apply-env "No binding for ~s" search-sym))
-       (extend-env (var val saved-env)
-                   (if (eqv? search-sym var)
-                       val
-                       (apply-env saved-env search-sym)))
-       (extend-env-rec (p-name b-var p-body saved-env)
-                       (if (eqv? search-sym p-name)
-                         ;; (proc-val (procedure b-var p-body env))  ;;;注意这里的变化！
-                          (proc-val (procedure b-var p-body env #t)) ;;修改了一个bug 目的是可以追踪的作用
-                           (apply-env saved-env search-sym))))))
-</code></pre>
-
-<p>```
-所以需要对应的修改proc-val</p>
-
-<p>```
-  ;; proc? : SchemeVal &ndash;> Bool
-  ;; procedure : Var * Exp * Env &ndash;> Proc
-  (define-datatype proc proc? ;;;注意这边的变化 影响到apply-procedure</p>
-
-<pre><code>(procedure
- ;(var symbol?)  ;;;为了保证和environment的define-datatype一直改为(list-of symbol?)
- (var (list-of symbol?))
- (body expression?)
- (env environment?)
- (trace boolean?))) ;;;需要考虑#t #f
-</code></pre>
-
-<p>```</p>
-
-<h2>错误2.</h2>
-
-<p>```</p>
-
-<blockquote><p>(run &ldquo;letrec double(x)=+(x,6) in (double 10)&rdquo;)
-enter: (x) = #(struct:num-val 10)
-. . cdr: contract violation
-  expected: pair?
-  given: (num-val 10)
-```</p></blockquote>
-
-<p>原因在于原先的call-exp并没有遍历的过程，而新改进的apply-procedure则是需要遍历，
-```</p>
-
-<pre><code>    (call-exp (rator rand)
-             (let ((proc (expval-&gt;proc (value-of rator env)))
-                   (arg (value-of rand env))) 
-               (apply-procedure proc arg)))
-</code></pre>
-
-<p>```</p>
-
-<p>改进的call-exp
-```</p>
-
-<pre><code>    (call-exp (rator rands)
-             (let ((proc (expval-&gt;proc (value-of rator env)))
-                   (args (map (lambda (x) (value-of x env)) rands)))
-               (apply-procedure proc args)))
-</code></pre>
-
-<p>```</p>
-
-<h2>额外错误</h2>
-
-<p><code>
- data-structures.scm:7:11: all-defined: not a provide sub-form in: (all-defined)
-</code></p>
-
-<p>这个错误是因为现在都是在使用<code>(all-defined-out)</code></p>
-
-<h3>为什么还是会出现如下的错误</h3>
-
-<p>``` scheme</p>
-
-<blockquote><p>(run &ldquo;letrec double(x)</p>
-
-<pre><code>        = if zero?(x) then 0 else -((double -(x,1)), 2)
-   in (double 6)")
-</code></pre>
-
-<p>. . extend-env-rec: bad value for bvar field: &lsquo;(x)
-(run &ldquo;if zero?(3) then 0 else &ndash;(3,2)&rdquo;)
-(num-val 1)
-```</p></blockquote>
 ]]></content>
   </entry>
   

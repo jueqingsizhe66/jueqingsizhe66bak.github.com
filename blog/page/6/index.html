@@ -9,9 +9,12 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="我有两台电脑，都有IP，处于相同的局域网。
-我想传递文件，然而我又不想用U盘，我也不想用teamview，更不想用比如百度盘、新浪盘，有道云笔记等。
-我想要用命令行解决。python提供了一种解决方案。 ">
+  <meta name="description" content="在Linux地下，脚本(script)编程是一个快捷的方式和内核(kernel)进行交流。
+通常包含以下几种脚本编程: bash shell(其他shell也类似)
+perl
+python
+ruby
+等等 我现在发现我们既可以处理文件中的信息，也同时可以处理硬件的东西，这些其实我就清楚， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,6 +73,64 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/13/ba-shi-jian-he-jian-pan-xie-jin-script/">把时间和键盘写进script</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-13T20:00:58+08:00" pubdate data-updated="true">Jun 13<span>th</span>, 2015</time>
+        
+
+         
+          | <a href="/blog/2015/06/13/ba-shi-jian-he-jian-pan-xie-jin-script/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在Linux地下，脚本(script)编程是一个快捷的方式和内核(kernel)进行交流。
+通常包含以下几种脚本编程:</p>
+
+<ul>
+<li>bash shell(其他shell也类似)</li>
+<li>perl</li>
+<li>python</li>
+<li>ruby</li>
+<li>等等</li>
+</ul>
+
+
+<p>我现在发现我们既可以处理文件中的信息，也同时可以处理硬件的东西，这些其实我就清楚，比如linux把很多的设备都虚拟为文件，只不过之前不知道怎么用。
+接触到shell之后，我才发现比如键盘的东西都可以被写进脚本的，也就是电脑上的外接设备也是可以被写进程序当中的，当作计算机里面的一种概念。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/06/13/ba-shi-jian-he-jian-pan-xie-jin-script/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -774,58 +835,6 @@ You can first practice <a href="http://blog.chinaunix.net/uid-25932176-id-297381
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/02/bashzhi-neng-fen-lei-sheng-ji-ban/">Bash智能分类升级版</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-02T14:35:57+08:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2015</time>
-        
-
-         
-          | <a href="/blog/2015/06/02/bashzhi-neng-fen-lei-sheng-ji-ban/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ol>
-<li>加入了 seq 1 8  智能产生序列的方法
- 使得30度攻角的实验值也可以处理。</li>
-<li>判断文件夹内是否存在文件
- [ -e &ldquo;实验*.txt&rdquo; ] 无法执行正则表达式
- 因为有可能没有对应攻角的</li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/06/02/bashzhi-neng-fen-lei-sheng-ji-ban/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/7/">&larr; Older</a>
@@ -1066,7 +1075,7 @@ You can first practice <a href="http://blog.chinaunix.net/uid-25932176-id-297381
 <li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
 <li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
-<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (36)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
 
@@ -1075,6 +1084,10 @@ You can first practice <a href="http://blog.chinaunix.net/uid-25932176-id-297381
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/05/30/racket-man-wanna-learn-datetype-and-cases/">Racket Man Wanna Learn Datetype and Cases</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/05/19/ubuntu17-dot-04-install-fast8-dot-16/">Ubuntu17.04 Install FAST8.16</a>
@@ -1090,10 +1103,6 @@ You can first practice <a href="http://blog.chinaunix.net/uid-25932176-id-297381
     
       <li class="post">
         <a href="/blog/2017/02/13/mysqlluan-ma-hui-gu/">Mysql乱码回顾</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/10/javakai-fa-nexussi-fu-da-jian/">Java开发nexus私服搭建</a>
       </li>
     
   </ul>

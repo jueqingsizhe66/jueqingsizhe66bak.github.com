@@ -9,7 +9,8 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="信息与知识的不同在于，信息是暂时不被理解的知识，而当它被理解，并被组织，他也就成了知识。 ">
+  <meta name="description" content="FAST(Fatigue,Aerodynamic,Struture,Turbulence),是一款风力机的气动、水动力、
+励磁、结构等几个部分的模拟工具 风力机系统的整体带入流风物理流动现象: 而本文主要讲的是如何在ubuntu64bit系统编译FAST使其可以使用。 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +69,58 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/10/22/fast-in-ubuntu64bit-bian-yi-zhu-yi-shi-xiang/">FAST in Ubuntu64Bit 编译注意事项</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-22T23:38:33+08:00" pubdate data-updated="true">Oct 22<span>nd</span>, 2015</time>
+        
+
+         
+          | <a href="/blog/2015/10/22/fast-in-ubuntu64bit-bian-yi-zhu-yi-shi-xiang/#comments">Comments</a>
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://nwtc.nrel.gov/FAST8">FAST(Fatigue,Aerodynamic,Struture,Turbulence)</a>,是一款风力机的气动、水动力、
+励磁、结构等几个部分的模拟<a href="http://www.nrel.gov/docs/fy13osti/57228.pdf">工具</a></p>
+
+<p>风力机系统的整体带入流风物理流动现象:</p>
+
+<p><img src="/images/fast/WTSystem.png" alt="Physical phenomena affecting a floating wind turbine system" /></p>
+
+<p>而本文主要讲的是如何在ubuntu64bit系统编译FAST使其可以使用。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/10/22/fast-in-ubuntu64bit-bian-yi-zhu-yi-shi-xiang/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -759,64 +812,6 @@ Incompact3d整体框架的介绍可以参考软件的<a href="https://code.googl
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/13/ba-shi-jian-he-jian-pan-xie-jin-script/">把时间和键盘写进script</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-13T20:00:58+08:00" pubdate data-updated="true">Jun 13<span>th</span>, 2015</time>
-        
-
-         
-          | <a href="/blog/2015/06/13/ba-shi-jian-he-jian-pan-xie-jin-script/#comments">Comments</a>
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在Linux地下，脚本(script)编程是一个快捷的方式和内核(kernel)进行交流。
-通常包含以下几种脚本编程:</p>
-
-<ul>
-<li>bash shell(其他shell也类似)</li>
-<li>perl</li>
-<li>python</li>
-<li>ruby</li>
-<li>等等</li>
-</ul>
-
-
-<p>我现在发现我们既可以处理文件中的信息，也同时可以处理硬件的东西，这些其实我就清楚，比如linux把很多的设备都虚拟为文件，只不过之前不知道怎么用。
-接触到shell之后，我才发现比如键盘的东西都可以被写进脚本的，也就是电脑上的外接设备也是可以被写进程序当中的，当作计算机里面的一种概念。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/06/13/ba-shi-jian-he-jian-pan-xie-jin-script/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -1057,7 +1052,7 @@ Incompact3d整体框架的介绍可以参考软件的<a href="https://code.googl
 <li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
 <li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
-<li class='category'><a href='/blog/categories/scheme/'>scheme (35)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (36)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
 
@@ -1066,6 +1061,10 @@ Incompact3d整体框架的介绍可以参考软件的<a href="https://code.googl
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/05/30/racket-man-wanna-learn-datetype-and-cases/">Racket Man Wanna Learn Datetype and Cases</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/05/19/ubuntu17-dot-04-install-fast8-dot-16/">Ubuntu17.04 Install FAST8.16</a>
@@ -1081,10 +1080,6 @@ Incompact3d整体框架的介绍可以参考软件的<a href="https://code.googl
     
       <li class="post">
         <a href="/blog/2017/02/13/mysqlluan-ma-hui-gu/">Mysql乱码回顾</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/10/javakai-fa-nexussi-fu-da-jian/">Java开发nexus私服搭建</a>
       </li>
     
   </ul>
