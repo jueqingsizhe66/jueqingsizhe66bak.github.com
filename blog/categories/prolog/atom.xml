@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Prolog | 网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/blog/categories/prolog/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-06-15T20:24:08+08:00</updated>
+  <updated>2017-06-15T20:40:47+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -5498,12 +5498,12 @@ index 0000000..989108a
 &mdash;&ndash; /dev/null
 +++ b/pack.pl
 @@ -0,0 +1,9 @@
-+author(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#x6d;&#101;&#x40;&#119;&#111;&#117;&#x74;&#101;&#114;&#98;&#x65;&#101;&#107;&#x2e;&#99;&#x6f;&#x6d;">&#109;&#x65;&#x40;&#119;&#x6f;&#117;&#x74;&#x65;&#x72;&#98;&#101;&#101;&#x6b;&#46;&#99;&#x6f;&#109;</a>&rsquo;).
++author(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#109;&#101;&#64;&#119;&#x6f;&#x75;&#116;&#101;&#114;&#98;&#x65;&#x65;&#107;&#x2e;&#x63;&#111;&#x6d;">&#109;&#101;&#x40;&#x77;&#111;&#117;&#x74;&#101;&#114;&#98;&#101;&#x65;&#x6b;&#46;&#x63;&#x6f;&#109;</a>&rsquo;).
 +download(&lsquo;<a href="https://github.com/wouterbeek/plGraphViz/release/*.zip">https://github.com/wouterbeek/plGraphViz/release/*.zip</a>&rsquo;).
 +home(&lsquo;<a href="https://github.com/wouterbeek/plGraphViz">https://github.com/wouterbeek/plGraphViz</a>&rsquo;).
-+maintainer(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#x6d;&#101;&#x40;&#119;&#111;&#x75;&#x74;&#101;&#114;&#98;&#x65;&#101;&#107;&#46;&#x63;&#111;&#109;">&#109;&#101;&#x40;&#119;&#111;&#x75;&#116;&#x65;&#114;&#98;&#101;&#101;&#x6b;&#46;&#99;&#x6f;&#x6d;</a>&rsquo;).
++maintainer(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#109;&#101;&#64;&#119;&#x6f;&#117;&#x74;&#x65;&#x72;&#98;&#x65;&#x65;&#107;&#46;&#x63;&#111;&#109;">&#x6d;&#x65;&#x40;&#119;&#x6f;&#117;&#116;&#101;&#x72;&#98;&#101;&#101;&#x6b;&#46;&#x63;&#111;&#109;</a>&rsquo;).
 +name(plGraphViz).
-+packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#58;&#x6d;&#x65;&#x40;&#x77;&#111;&#x75;&#116;&#101;&#x72;&#x62;&#x65;&#101;&#107;&#x2e;&#x63;&#x6f;&#109;">&#x6d;&#x65;&#x40;&#x77;&#x6f;&#117;&#x74;&#101;&#114;&#x62;&#101;&#x65;&#107;&#46;&#99;&#x6f;&#x6d;</a>&rsquo;).
++packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#109;&#x65;&#64;&#119;&#111;&#117;&#116;&#x65;&#x72;&#x62;&#x65;&#101;&#x6b;&#46;&#x63;&#x6f;&#109;">&#x6d;&#x65;&#x40;&#119;&#111;&#x75;&#116;&#x65;&#x72;&#x62;&#x65;&#101;&#x6b;&#x2e;&#99;&#111;&#x6d;</a>&rsquo;).
 +requires(&lsquo;Prolog-Library-Collection&rsquo;).
 +title(plGraphViz).
 +version(&lsquo;0.0.1&rsquo;).
@@ -11382,12 +11382,12 @@ index 989108a..0000000
 &mdash;&ndash; a/pack.pl
 +++ /dev/null
 @@ -1,9 +0,0 @@
--author(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#105;&#108;&#116;&#111;&#x3a;&#x6d;&#101;&#64;&#x77;&#x6f;&#x75;&#x74;&#101;&#114;&#98;&#101;&#101;&#107;&#x2e;&#99;&#x6f;&#109;">&#109;&#101;&#x40;&#119;&#111;&#117;&#116;&#101;&#114;&#98;&#101;&#x65;&#107;&#46;&#99;&#111;&#109;</a>&rsquo;).
+-author(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#x6d;&#x65;&#64;&#x77;&#111;&#x75;&#x74;&#101;&#x72;&#x62;&#101;&#x65;&#107;&#46;&#x63;&#x6f;&#109;">&#109;&#x65;&#x40;&#119;&#x6f;&#117;&#x74;&#x65;&#114;&#x62;&#x65;&#101;&#107;&#46;&#99;&#x6f;&#x6d;</a>&rsquo;).
 -download(&lsquo;<a href="https://github.com/wouterbeek/plGraphViz/release/*.zip">https://github.com/wouterbeek/plGraphViz/release/*.zip</a>&rsquo;).
 -home(&lsquo;<a href="https://github.com/wouterbeek/plGraphViz">https://github.com/wouterbeek/plGraphViz</a>&rsquo;).
--maintainer(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#58;&#109;&#x65;&#x40;&#x77;&#x6f;&#117;&#x74;&#x65;&#114;&#98;&#101;&#101;&#x6b;&#46;&#x63;&#x6f;&#109;">&#x6d;&#101;&#x40;&#x77;&#x6f;&#x75;&#x74;&#101;&#x72;&#98;&#x65;&#x65;&#107;&#x2e;&#x63;&#x6f;&#109;</a>&rsquo;).
+-maintainer(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#109;&#x65;&#64;&#119;&#111;&#117;&#116;&#101;&#x72;&#98;&#101;&#x65;&#107;&#46;&#99;&#111;&#x6d;">&#109;&#x65;&#x40;&#119;&#x6f;&#117;&#x74;&#101;&#114;&#98;&#x65;&#101;&#x6b;&#x2e;&#99;&#111;&#109;</a>&rsquo;).
 -name(plGraphViz).
--packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#109;&#x65;&#x40;&#119;&#111;&#117;&#x74;&#x65;&#x72;&#98;&#x65;&#101;&#x6b;&#46;&#99;&#111;&#x6d;">&#x6d;&#x65;&#x40;&#x77;&#111;&#117;&#x74;&#101;&#x72;&#98;&#101;&#101;&#107;&#46;&#99;&#x6f;&#x6d;</a>&rsquo;).
+-packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x6d;&#101;&#x40;&#x77;&#x6f;&#117;&#116;&#x65;&#x72;&#x62;&#x65;&#101;&#107;&#x2e;&#99;&#111;&#x6d;">&#109;&#x65;&#64;&#x77;&#x6f;&#x75;&#x74;&#101;&#x72;&#x62;&#101;&#101;&#x6b;&#x2e;&#99;&#x6f;&#x6d;</a>&rsquo;).
 -requires(&lsquo;Prolog-Library-Collection&rsquo;).
 -title(plGraphViz).
 -version(&lsquo;0.0.1&rsquo;).
@@ -31226,12 +31226,12 @@ index 0000000..f0f5b22
 &mdash;&ndash; /dev/null
 +++ b/pack.pl
 @@ -0,0 +1,9 @@
-+author(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#109;&#101;&#x40;&#119;&#x6f;&#117;&#x74;&#101;&#x72;&#98;&#x65;&#101;&#x6b;&#x2e;&#99;&#111;&#x6d;">&#109;&#101;&#x40;&#119;&#x6f;&#x75;&#x74;&#101;&#114;&#x62;&#101;&#x65;&#x6b;&#46;&#x63;&#111;&#x6d;</a>&rsquo;).
++author(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x6d;&#101;&#x40;&#119;&#111;&#117;&#x74;&#101;&#x72;&#x62;&#101;&#101;&#107;&#x2e;&#x63;&#111;&#x6d;">&#x6d;&#101;&#64;&#119;&#111;&#x75;&#x74;&#101;&#114;&#98;&#101;&#x65;&#107;&#x2e;&#99;&#111;&#x6d;</a>&rsquo;).
 +download(&lsquo;<a href="https://github.com/wouterbeek/plGraphViz/release/*.zip">https://github.com/wouterbeek/plGraphViz/release/*.zip</a>&rsquo;).
 +home(&lsquo;<a href="https://github.com/wouterbeek/plGraphViz">https://github.com/wouterbeek/plGraphViz</a>&rsquo;).
-+maintainer(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x6d;&#x65;&#x40;&#119;&#x6f;&#x75;&#x74;&#101;&#114;&#98;&#101;&#x65;&#x6b;&#46;&#x63;&#111;&#x6d;">&#x6d;&#x65;&#64;&#x77;&#x6f;&#117;&#116;&#x65;&#x72;&#98;&#101;&#x65;&#x6b;&#46;&#99;&#111;&#x6d;</a>&rsquo;).
++maintainer(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#x6d;&#101;&#x40;&#x77;&#x6f;&#x75;&#116;&#101;&#114;&#98;&#x65;&#101;&#x6b;&#46;&#99;&#x6f;&#x6d;">&#109;&#x65;&#x40;&#119;&#x6f;&#117;&#x74;&#101;&#x72;&#98;&#x65;&#101;&#107;&#46;&#99;&#111;&#109;</a>&rsquo;).
 +name(plGraphViz).
-+packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#109;&#101;&#x40;&#119;&#x6f;&#x75;&#x74;&#101;&#114;&#x62;&#x65;&#x65;&#107;&#x2e;&#99;&#x6f;&#x6d;">&#x6d;&#101;&#64;&#x77;&#111;&#117;&#x74;&#101;&#114;&#98;&#x65;&#x65;&#x6b;&#x2e;&#x63;&#x6f;&#109;</a>&rsquo;).
++packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x6d;&#101;&#64;&#119;&#111;&#117;&#x74;&#x65;&#x72;&#98;&#x65;&#101;&#107;&#46;&#99;&#x6f;&#109;">&#109;&#101;&#64;&#119;&#111;&#117;&#116;&#x65;&#114;&#98;&#101;&#x65;&#x6b;&#x2e;&#99;&#x6f;&#x6d;</a>&rsquo;).
 +requires(&lsquo;Prolog_Library_Collection&rsquo;).
 +title(plGraphViz).
 +version(&lsquo;0.0.1&rsquo;).
@@ -32108,7 +32108,7 @@ index f0f5b22..cf24d04 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -6,4 +6,4 @@ name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#x6d;&#x65;&#64;&#119;&#x6f;&#x75;&#116;&#101;&#114;&#98;&#101;&#101;&#x6b;&#x2e;&#x63;&#x6f;&#x6d;">&#109;&#101;&#64;&#x77;&#111;&#x75;&#x74;&#x65;&#x72;&#98;&#101;&#x65;&#107;&#46;&#99;&#x6f;&#109;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#109;&#x65;&#64;&#119;&#x6f;&#117;&#116;&#x65;&#114;&#98;&#101;&#101;&#107;&#46;&#x63;&#x6f;&#109;">&#x6d;&#101;&#64;&#119;&#111;&#x75;&#x74;&#x65;&#x72;&#x62;&#101;&#101;&#x6b;&#46;&#99;&#111;&#x6d;</a>&rsquo;).
  requires(&lsquo;Prolog_Library_Collection&rsquo;).
  title(plGraphViz).
 -version(&lsquo;0.0.1&rsquo;).
@@ -32128,7 +32128,7 @@ index cf24d04..775776f 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -6,4 +6,4 @@ name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x6d;&#101;&#64;&#119;&#x6f;&#x75;&#x74;&#x65;&#x72;&#x62;&#x65;&#x65;&#107;&#46;&#x63;&#x6f;&#x6d;">&#x6d;&#101;&#x40;&#x77;&#111;&#117;&#x74;&#101;&#114;&#98;&#x65;&#x65;&#107;&#46;&#99;&#111;&#109;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#x6d;&#x65;&#x40;&#119;&#111;&#117;&#116;&#x65;&#114;&#98;&#x65;&#101;&#107;&#46;&#x63;&#x6f;&#x6d;">&#109;&#101;&#x40;&#119;&#111;&#x75;&#x74;&#x65;&#x72;&#98;&#x65;&#x65;&#x6b;&#46;&#99;&#111;&#x6d;</a>&rsquo;).
  requires(&lsquo;Prolog_Library_Collection&rsquo;).
  title(plGraphViz).
 -version(&lsquo;0.0.2&rsquo;).
@@ -32162,7 +32162,7 @@ index 775776f..ea8929c 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -6,4 +6,4 @@ name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#x6d;&#101;&#64;&#119;&#x6f;&#x75;&#x74;&#101;&#x72;&#98;&#x65;&#x65;&#107;&#46;&#99;&#111;&#109;">&#x6d;&#101;&#64;&#x77;&#111;&#117;&#x74;&#x65;&#x72;&#98;&#101;&#101;&#107;&#x2e;&#x63;&#111;&#x6d;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#109;&#x65;&#x40;&#x77;&#x6f;&#x75;&#116;&#x65;&#x72;&#x62;&#x65;&#x65;&#x6b;&#x2e;&#99;&#111;&#x6d;">&#109;&#x65;&#x40;&#119;&#111;&#x75;&#x74;&#101;&#114;&#98;&#x65;&#x65;&#x6b;&#x2e;&#99;&#111;&#109;</a>&rsquo;).
  requires(&lsquo;Prolog_Library_Collection&rsquo;).
  title(plGraphViz).
 -version(&lsquo;0.0.3&rsquo;).
@@ -32229,7 +32229,7 @@ index ea8929c..8806f20 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -6,4 +6,4 @@ name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#109;&#101;&#64;&#119;&#111;&#x75;&#x74;&#x65;&#x72;&#x62;&#101;&#x65;&#107;&#x2e;&#99;&#x6f;&#x6d;">&#x6d;&#x65;&#x40;&#119;&#x6f;&#117;&#x74;&#101;&#x72;&#98;&#x65;&#x65;&#x6b;&#x2e;&#x63;&#x6f;&#109;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#109;&#101;&#64;&#x77;&#111;&#117;&#116;&#101;&#114;&#x62;&#101;&#101;&#x6b;&#x2e;&#99;&#x6f;&#x6d;">&#109;&#101;&#64;&#x77;&#111;&#x75;&#x74;&#x65;&#114;&#x62;&#x65;&#x65;&#x6b;&#46;&#x63;&#x6f;&#109;</a>&rsquo;).
  requires(&lsquo;Prolog_Library_Collection&rsquo;).
  title(plGraphViz).
 -version(&lsquo;0.0.4&rsquo;).
@@ -32330,7 +32330,7 @@ index 8806f20..d590fb2 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -6,4 +6,4 @@ name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#109;&#x65;&#64;&#x77;&#111;&#117;&#116;&#x65;&#x72;&#x62;&#x65;&#101;&#x6b;&#46;&#x63;&#x6f;&#x6d;">&#109;&#101;&#64;&#x77;&#x6f;&#x75;&#x74;&#x65;&#114;&#98;&#101;&#101;&#107;&#x2e;&#99;&#111;&#x6d;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#x6d;&#101;&#x40;&#119;&#x6f;&#117;&#116;&#x65;&#114;&#98;&#101;&#x65;&#x6b;&#x2e;&#99;&#111;&#109;">&#x6d;&#x65;&#64;&#x77;&#111;&#x75;&#x74;&#101;&#x72;&#98;&#101;&#101;&#107;&#46;&#x63;&#x6f;&#x6d;</a>&rsquo;).
  requires(&lsquo;Prolog_Library_Collection&rsquo;).
  title(plGraphViz).
 -version(&lsquo;0.0.5&rsquo;).
@@ -32762,7 +32762,7 @@ index d590fb2..8093a1f 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -6,4 +6,4 @@ name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#109;&#x65;&#64;&#119;&#111;&#x75;&#x74;&#101;&#x72;&#x62;&#101;&#101;&#107;&#x2e;&#99;&#111;&#109;">&#109;&#101;&#64;&#x77;&#111;&#117;&#x74;&#x65;&#114;&#98;&#101;&#x65;&#x6b;&#x2e;&#x63;&#x6f;&#x6d;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#x6d;&#x65;&#x40;&#119;&#x6f;&#x75;&#x74;&#x65;&#114;&#x62;&#101;&#101;&#107;&#46;&#99;&#111;&#109;">&#x6d;&#101;&#64;&#x77;&#x6f;&#x75;&#x74;&#101;&#x72;&#98;&#101;&#101;&#107;&#46;&#x63;&#x6f;&#x6d;</a>&rsquo;).
  requires(&lsquo;Prolog_Library_Collection&rsquo;).
  title(plGraphViz).
 -version(&lsquo;0.0.6&rsquo;).
@@ -32836,7 +32836,7 @@ index 8093a1f..487feb1 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -6,4 +6,4 @@ name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#109;&#x65;&#x40;&#x77;&#x6f;&#117;&#x74;&#101;&#114;&#98;&#x65;&#x65;&#107;&#46;&#99;&#x6f;&#x6d;">&#x6d;&#101;&#64;&#119;&#111;&#x75;&#x74;&#101;&#x72;&#x62;&#x65;&#x65;&#107;&#46;&#x63;&#x6f;&#109;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#109;&#101;&#64;&#119;&#111;&#117;&#116;&#x65;&#114;&#x62;&#x65;&#x65;&#107;&#46;&#99;&#111;&#109;">&#109;&#101;&#x40;&#119;&#111;&#117;&#x74;&#101;&#x72;&#98;&#x65;&#x65;&#107;&#x2e;&#99;&#111;&#x6d;</a>&rsquo;).
  requires(&lsquo;Prolog_Library_Collection&rsquo;).
  title(plGraphViz).
 -version(&lsquo;0.0.7&rsquo;).
@@ -32878,7 +32878,7 @@ index 487feb1..57e9348 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -6,4 +6,4 @@ name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#58;&#109;&#x65;&#64;&#x77;&#111;&#x75;&#116;&#x65;&#114;&#98;&#x65;&#101;&#107;&#46;&#99;&#x6f;&#x6d;">&#x6d;&#101;&#x40;&#119;&#x6f;&#117;&#116;&#x65;&#x72;&#98;&#x65;&#101;&#107;&#x2e;&#x63;&#111;&#109;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#58;&#x6d;&#101;&#64;&#x77;&#111;&#117;&#x74;&#101;&#x72;&#98;&#101;&#x65;&#x6b;&#x2e;&#x63;&#111;&#109;">&#109;&#101;&#64;&#x77;&#111;&#117;&#116;&#101;&#114;&#98;&#x65;&#101;&#x6b;&#x2e;&#x63;&#x6f;&#109;</a>&rsquo;).
  requires(&lsquo;Prolog_Library_Collection&rsquo;).
  title(plGraphViz).
 -version(&lsquo;0.0.8&rsquo;).
@@ -32977,7 +32977,7 @@ index 57e9348..d1fef6b 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -6,4 +6,4 @@ name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#109;&#x65;&#64;&#119;&#x6f;&#x75;&#x74;&#x65;&#x72;&#98;&#x65;&#101;&#107;&#x2e;&#99;&#111;&#x6d;">&#x6d;&#101;&#x40;&#x77;&#x6f;&#x75;&#x74;&#x65;&#x72;&#98;&#x65;&#101;&#107;&#46;&#99;&#x6f;&#109;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x6d;&#101;&#x40;&#119;&#x6f;&#117;&#116;&#x65;&#114;&#98;&#101;&#101;&#107;&#x2e;&#99;&#x6f;&#x6d;">&#109;&#x65;&#64;&#x77;&#x6f;&#x75;&#x74;&#x65;&#114;&#98;&#x65;&#x65;&#x6b;&#46;&#99;&#111;&#x6d;</a>&rsquo;).
  requires(&lsquo;Prolog_Library_Collection&rsquo;).
  title(plGraphViz).
 -version(&lsquo;0.0.9&rsquo;).
@@ -33028,7 +33028,7 @@ index d1fef6b..854ddee 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -6,4 +6,4 @@ name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x6d;&#101;&#64;&#119;&#111;&#117;&#x74;&#x65;&#114;&#98;&#101;&#101;&#107;&#x2e;&#x63;&#x6f;&#109;">&#x6d;&#101;&#64;&#x77;&#111;&#x75;&#x74;&#x65;&#114;&#x62;&#101;&#101;&#x6b;&#46;&#x63;&#x6f;&#109;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x6d;&#x65;&#64;&#119;&#111;&#x75;&#116;&#101;&#x72;&#98;&#x65;&#101;&#107;&#x2e;&#x63;&#111;&#x6d;">&#x6d;&#101;&#64;&#x77;&#111;&#117;&#116;&#x65;&#114;&#98;&#x65;&#x65;&#x6b;&#x2e;&#99;&#x6f;&#x6d;</a>&rsquo;).
  requires(&lsquo;Prolog_Library_Collection&rsquo;).
  title(plGraphViz).
 -version(&lsquo;0.0.10&rsquo;).
@@ -33128,7 +33128,7 @@ index 854ddee..74f024d 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -6,4 +6,4 @@ name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#x6d;&#101;&#x40;&#119;&#111;&#117;&#116;&#x65;&#114;&#98;&#101;&#x65;&#107;&#x2e;&#99;&#111;&#x6d;">&#109;&#x65;&#64;&#119;&#111;&#x75;&#116;&#101;&#114;&#98;&#101;&#101;&#x6b;&#x2e;&#x63;&#x6f;&#109;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#109;&#101;&#x40;&#x77;&#x6f;&#117;&#116;&#101;&#114;&#x62;&#x65;&#101;&#x6b;&#46;&#99;&#x6f;&#109;">&#x6d;&#101;&#x40;&#119;&#x6f;&#117;&#x74;&#101;&#x72;&#98;&#x65;&#101;&#107;&#46;&#x63;&#111;&#109;</a>&rsquo;).
  requires(&lsquo;Prolog_Library_Collection&rsquo;).
  title(plGraphViz).
 -version(&lsquo;0.0.11&rsquo;).
@@ -33167,7 +33167,7 @@ index 74f024d..2a85425 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -6,4 +6,4 @@ name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#109;&#101;&#x40;&#119;&#111;&#x75;&#x74;&#x65;&#114;&#x62;&#x65;&#x65;&#107;&#46;&#x63;&#111;&#109;">&#x6d;&#101;&#x40;&#x77;&#111;&#x75;&#x74;&#101;&#114;&#98;&#101;&#x65;&#107;&#x2e;&#x63;&#111;&#109;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#58;&#109;&#101;&#x40;&#119;&#111;&#x75;&#116;&#x65;&#x72;&#x62;&#x65;&#101;&#107;&#x2e;&#99;&#x6f;&#x6d;">&#x6d;&#101;&#64;&#119;&#x6f;&#117;&#116;&#x65;&#114;&#98;&#101;&#x65;&#107;&#46;&#x63;&#111;&#109;</a>&rsquo;).
  requires(&lsquo;Prolog_Library_Collection&rsquo;).
  title(plGraphViz).
 -version(&lsquo;0.0.12&rsquo;).
@@ -33200,7 +33200,7 @@ index 2a85425..dfee09c 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -6,4 +6,4 @@ name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#x6d;&#x65;&#x40;&#x77;&#111;&#x75;&#116;&#101;&#114;&#x62;&#x65;&#101;&#107;&#46;&#99;&#x6f;&#x6d;">&#109;&#101;&#x40;&#119;&#x6f;&#x75;&#116;&#x65;&#114;&#98;&#x65;&#101;&#x6b;&#x2e;&#99;&#111;&#109;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#109;&#x65;&#64;&#x77;&#x6f;&#117;&#116;&#x65;&#114;&#98;&#x65;&#x65;&#x6b;&#x2e;&#99;&#x6f;&#x6d;">&#x6d;&#101;&#x40;&#x77;&#x6f;&#x75;&#x74;&#101;&#114;&#98;&#x65;&#x65;&#x6b;&#46;&#x63;&#111;&#109;</a>&rsquo;).
  requires(&lsquo;Prolog_Library_Collection&rsquo;).
  title(plGraphViz).
 -version(&lsquo;0.0.13&rsquo;).
@@ -34246,7 +34246,7 @@ index dfee09c..edfd45f 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -6,4 +6,4 @@ name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#109;&#101;&#x40;&#119;&#111;&#117;&#x74;&#101;&#114;&#98;&#101;&#101;&#107;&#x2e;&#x63;&#111;&#x6d;">&#109;&#x65;&#64;&#x77;&#x6f;&#x75;&#116;&#101;&#114;&#98;&#101;&#x65;&#107;&#x2e;&#x63;&#111;&#109;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#x6d;&#x65;&#64;&#119;&#111;&#x75;&#x74;&#x65;&#114;&#98;&#101;&#x65;&#107;&#46;&#99;&#111;&#109;">&#x6d;&#x65;&#x40;&#x77;&#111;&#x75;&#116;&#101;&#x72;&#98;&#x65;&#x65;&#x6b;&#46;&#x63;&#111;&#109;</a>&rsquo;).
  requires(&lsquo;Prolog_Library_Collection&rsquo;).
  title(plGraphViz).
 -version(&lsquo;0.0.14&rsquo;).
@@ -35571,7 +35571,7 @@ index edfd45f..ed03c94 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -6,4 +6,4 @@ name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x6d;&#x65;&#x40;&#119;&#111;&#117;&#x74;&#x65;&#x72;&#98;&#101;&#101;&#x6b;&#46;&#99;&#x6f;&#109;">&#109;&#101;&#64;&#x77;&#x6f;&#117;&#116;&#101;&#114;&#x62;&#x65;&#x65;&#107;&#x2e;&#99;&#111;&#109;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#109;&#x65;&#x40;&#119;&#x6f;&#117;&#116;&#101;&#x72;&#98;&#101;&#101;&#x6b;&#46;&#99;&#111;&#109;">&#x6d;&#101;&#x40;&#x77;&#x6f;&#117;&#x74;&#101;&#114;&#x62;&#x65;&#101;&#107;&#x2e;&#99;&#x6f;&#109;</a>&rsquo;).
  requires(&lsquo;Prolog_Library_Collection&rsquo;).
  title(plGraphViz).
 -version(&lsquo;0.0.15&rsquo;).
@@ -35591,7 +35591,7 @@ index ed03c94..203cbfc 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -6,4 +6,4 @@ name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#109;&#x65;&#64;&#119;&#111;&#x75;&#x74;&#101;&#x72;&#x62;&#101;&#101;&#107;&#46;&#x63;&#111;&#x6d;">&#109;&#x65;&#x40;&#x77;&#x6f;&#x75;&#116;&#x65;&#114;&#98;&#x65;&#x65;&#107;&#46;&#x63;&#x6f;&#x6d;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#58;&#x6d;&#101;&#64;&#x77;&#111;&#117;&#x74;&#101;&#114;&#x62;&#x65;&#x65;&#x6b;&#x2e;&#99;&#x6f;&#109;">&#x6d;&#x65;&#64;&#119;&#x6f;&#117;&#x74;&#x65;&#114;&#x62;&#101;&#x65;&#x6b;&#46;&#99;&#x6f;&#109;</a>&rsquo;).
  requires(&lsquo;Prolog_Library_Collection&rsquo;).
  title(plGraphViz).
 -version(&lsquo;0.0.16&rsquo;).
@@ -43270,9 +43270,9 @@ index 203cbfc..989108a 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -4,6 +4,6 @@ home(&lsquo;<a href="https://github.com/wouterbeek/plGraphViz">https://github.com/wouterbeek/plGraphViz</a>&rsquo;).
- maintainer(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#109;&#101;&#64;&#119;&#x6f;&#x75;&#x74;&#101;&#114;&#98;&#x65;&#101;&#107;&#x2e;&#x63;&#111;&#109;">&#109;&#x65;&#64;&#x77;&#x6f;&#x75;&#116;&#x65;&#x72;&#98;&#101;&#x65;&#107;&#46;&#x63;&#x6f;&#x6d;</a>&rsquo;).
+ maintainer(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#x6d;&#x65;&#x40;&#119;&#x6f;&#117;&#116;&#101;&#114;&#x62;&#x65;&#x65;&#x6b;&#46;&#x63;&#x6f;&#x6d;">&#x6d;&#x65;&#x40;&#x77;&#x6f;&#117;&#116;&#x65;&#114;&#x62;&#101;&#101;&#107;&#46;&#99;&#x6f;&#x6d;</a>&rsquo;).
  name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#58;&#109;&#101;&#64;&#x77;&#111;&#117;&#x74;&#101;&#114;&#x62;&#x65;&#x65;&#x6b;&#x2e;&#99;&#111;&#109;">&#109;&#x65;&#64;&#119;&#111;&#x75;&#x74;&#x65;&#114;&#x62;&#x65;&#101;&#107;&#x2e;&#99;&#111;&#109;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#109;&#x65;&#x40;&#119;&#111;&#117;&#x74;&#x65;&#x72;&#98;&#101;&#x65;&#x6b;&#46;&#99;&#x6f;&#x6d;">&#109;&#101;&#64;&#119;&#111;&#x75;&#x74;&#101;&#114;&#98;&#x65;&#x65;&#107;&#x2e;&#x63;&#x6f;&#109;</a>&rsquo;).
 -requires(&lsquo;Prolog_Library_Collection&rsquo;).
 +requires(&lsquo;Prolog-Library-Collection&rsquo;).
  title(plGraphViz).
@@ -44290,9 +44290,9 @@ index 989108a..203cbfc 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -4,6 +4,6 @@ home(&lsquo;<a href="https://github.com/wouterbeek/plGraphViz">https://github.com/wouterbeek/plGraphViz</a>&rsquo;).
- maintainer(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#109;&#x65;&#64;&#119;&#x6f;&#117;&#116;&#x65;&#x72;&#98;&#101;&#x65;&#107;&#x2e;&#99;&#111;&#x6d;">&#x6d;&#101;&#x40;&#119;&#x6f;&#x75;&#116;&#x65;&#114;&#x62;&#101;&#x65;&#x6b;&#x2e;&#x63;&#x6f;&#x6d;</a>&rsquo;).
+ maintainer(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#109;&#x65;&#64;&#x77;&#x6f;&#x75;&#116;&#x65;&#x72;&#98;&#x65;&#x65;&#107;&#46;&#99;&#111;&#x6d;">&#x6d;&#x65;&#x40;&#x77;&#111;&#117;&#x74;&#x65;&#x72;&#98;&#x65;&#x65;&#x6b;&#46;&#x63;&#111;&#109;</a>&rsquo;).
  name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#109;&#x65;&#64;&#x77;&#x6f;&#117;&#116;&#101;&#114;&#x62;&#x65;&#x65;&#x6b;&#x2e;&#99;&#x6f;&#109;">&#x6d;&#101;&#64;&#119;&#x6f;&#x75;&#116;&#x65;&#x72;&#x62;&#101;&#x65;&#107;&#46;&#x63;&#x6f;&#109;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x6d;&#x65;&#x40;&#x77;&#x6f;&#x75;&#116;&#101;&#114;&#x62;&#x65;&#101;&#x6b;&#x2e;&#x63;&#111;&#x6d;">&#x6d;&#x65;&#64;&#x77;&#x6f;&#x75;&#116;&#x65;&#x72;&#98;&#101;&#101;&#x6b;&#46;&#x63;&#111;&#x6d;</a>&rsquo;).
 -requires(&lsquo;Prolog-Library-Collection&rsquo;).
 +requires(&lsquo;Prolog_Library_Collection&rsquo;).
  title(plGraphViz).
@@ -46054,9 +46054,9 @@ index 203cbfc..989108a 100644
 &mdash;&ndash; a/pack.pl
 +++ b/pack.pl
 @@ -4,6 +4,6 @@ home(&lsquo;<a href="https://github.com/wouterbeek/plGraphViz">https://github.com/wouterbeek/plGraphViz</a>&rsquo;).
- maintainer(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#109;&#101;&#64;&#119;&#x6f;&#x75;&#116;&#101;&#x72;&#98;&#101;&#101;&#x6b;&#46;&#x63;&#x6f;&#109;">&#109;&#101;&#64;&#119;&#111;&#x75;&#x74;&#x65;&#114;&#x62;&#101;&#101;&#107;&#x2e;&#99;&#x6f;&#x6d;</a>&rsquo;).
+ maintainer(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x6d;&#101;&#64;&#119;&#x6f;&#x75;&#116;&#101;&#114;&#98;&#101;&#x65;&#x6b;&#46;&#x63;&#111;&#109;">&#x6d;&#x65;&#x40;&#x77;&#111;&#117;&#x74;&#x65;&#x72;&#98;&#x65;&#x65;&#x6b;&#46;&#x63;&#x6f;&#109;</a>&rsquo;).
  name(plGraphViz).
- packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#109;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#109;&#101;&#x40;&#x77;&#x6f;&#117;&#x74;&#x65;&#114;&#x62;&#101;&#101;&#107;&#x2e;&#x63;&#x6f;&#109;">&#109;&#x65;&#x40;&#x77;&#x6f;&#117;&#x74;&#101;&#114;&#x62;&#x65;&#101;&#x6b;&#46;&#99;&#x6f;&#x6d;</a>&rsquo;).
+ packager(&lsquo;Wouter Beek&rsquo;, &lsquo;<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#x6d;&#x65;&#x40;&#x77;&#111;&#117;&#x74;&#101;&#x72;&#x62;&#x65;&#x65;&#x6b;&#46;&#x63;&#111;&#109;">&#109;&#101;&#64;&#119;&#x6f;&#x75;&#116;&#101;&#114;&#98;&#101;&#101;&#107;&#46;&#x63;&#x6f;&#x6d;</a>&rsquo;).
 -requires(&lsquo;Prolog_Library_Collection&rsquo;).
 +requires(&lsquo;Prolog-Library-Collection&rsquo;).
  title(plGraphViz).
