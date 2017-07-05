@@ -9,8 +9,8 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="Bash-it是一个开源的bash框架，
-我的第一感觉是他的themes主题不错，所以就用了，这是我采用的rjorgenson的主题 ">
+  <meta name="description" content="问题：我如何在shell当中批处理产生图片
+解决方案：使用gnuplot即可，但是我如何获得shell变量，于是我使用 gnuplot&lt;&lt;EOF ...&lt;command&gt; EOF 的方式导入。即可，后来不断地接触到&lt;&lt;VIM ..VIM也是可以的 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,6 +69,57 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/03/bashzhong-de-%5B%3F%5D-xie-chang-yong-de-eofyong-fa/">Bash中的一些常用的EOF用法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-03T14:14:22+08:00" pubdate data-updated="true">Jun 3<span>rd</span>, 2015</time>
+        
+
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>问题：我如何在shell当中批处理产生图片
+解决方案：使用gnuplot即可，但是我如何获得shell变量，于是我使用</p>
+
+<pre><code>     gnuplot&lt;&lt;EOF
+     ...&lt;command&gt;
+     EOF
+</code></pre>
+
+<p>的方式导入。即可，后来不断地接触到<code>&lt;&lt;VIM  ..VIM</code>也是可以的</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/06/03/bashzhong-de-%5B%3F%5D-xie-chang-yong-de-eofyong-fa/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -722,71 +773,6 @@ Programming is doing Math.编成的工作其实就是数学的工作。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/21/haskellku-wen-dang-jie-gou/">Haskell库文档结构</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-21T12:27:42+08:00" pubdate data-updated="true">May 21<span>st</span>, 2015</time>
-        
-
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/src
-</span><span class='line'>Folder for source-code
-</span><span class='line'>Setup.hs
-</span><span class='line'>Haskell build script
-</span><span class='line'>app.cabal
-</span><span class='line'>Cabal build script
-</span><span class='line'>README
-</span><span class='line'>Informative text file
-</span><span class='line'>LICENCE
-</span><span class='line'>Software licence statement</span></code></pre></td></tr></table></div></figure>
-
-
-<p>下面是我的建立过程:</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/05/21/haskellku-wen-dang-jie-gou/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/8/">&larr; Older</a>
@@ -1000,7 +986,7 @@ Programming is doing Math.编成的工作其实就是数学的工作。</p>
 <section>
   <h1>分类目录</h1>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/fast/'>Fast (5)</a></li>
+    <li class='category'><a href='/blog/categories/fast/'>Fast (6)</a></li>
 <li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
 <li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
 <li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
@@ -1038,6 +1024,10 @@ Programming is doing Math.编成的工作其实就是数学的工作。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/07/05/windows-fast0816bian-yi-shi-bai/">Windows FAST0816编译失败</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/07/05/pi-liang-xiu-gai-pdfwen-jian-ming-yi-ji-chuang-jian-wiki-links/">批量修改pdf文件名以及创建wiki Links</a>
       </li>
     
@@ -1051,10 +1041,6 @@ Programming is doing Math.编成的工作其实就是数学的工作。</p>
     
       <li class="post">
         <a href="/blog/2017/05/18/see-from-noteexpress/">See From NoteExpress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/05/18/can-you-see-them-from-here/">Can You See Them From Here?</a>
       </li>
     
   </ul>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | 网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-07-05T17:04:27+08:00</updated>
+  <updated>2017-07-05T17:17:19+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -118,7 +118,7 @@ done
 
 <h1>NOTES: &mdash;&ndash;</h1>
 
-<h1>AUTHOR: Ye Zhao Liang (Vimer), <a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#58;&#x7a;&#x68;&#97;&#x6f;&#116;&#x75;&#x72;&#x6b;&#107;&#101;&#121;&#64;&#x31;&#54;&#51;&#x2e;&#99;&#x6f;&#109;">&#x7a;&#x68;&#97;&#x6f;&#116;&#x75;&#x72;&#107;&#x6b;&#101;&#121;&#64;&#49;&#54;&#51;&#x2e;&#99;&#x6f;&#109;</a></h1>
+<h1>AUTHOR: Ye Zhao Liang (Vimer), <a href="&#109;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#122;&#104;&#x61;&#111;&#116;&#x75;&#114;&#x6b;&#x6b;&#101;&#121;&#x40;&#x31;&#54;&#x33;&#46;&#99;&#x6f;&#x6d;">&#122;&#104;&#x61;&#111;&#116;&#x75;&#x72;&#107;&#107;&#x65;&#x79;&#64;&#x31;&#54;&#x33;&#x2e;&#99;&#111;&#109;</a></h1>
 
 <h1>ORGANIZATION: BrokenSun</h1>
 
@@ -268,10 +268,7 @@ $ find . -name &ldquo;*&rdquo;|awk &lsquo;{if($0~/pages/){print $0}}&rsquo;
 
 <p>```</p>
 
-<ol>
-<li>awk的<a href="http://blog.csdn.net/panpan639944806/article/details/19932543">BEGIN</a></li>
-</ol>
-
+<p>2.awk的<a href="http://blog.csdn.net/panpan639944806/article/details/19932543">BEGIN</a></p>
 
 <p>```
 function name()
@@ -287,29 +284,20 @@ END{</p>
 <p>}
 ```</p>
 
-<ol>
-<li>awk <a href="http://blog.sina.com.cn/s/blog_67e34ceb0100ybvg.html">gsub</a></li>
-</ol>
-
+<p>3.awk <a href="http://blog.sina.com.cn/s/blog_67e34ceb0100ybvg.html">gsub</a></p>
 
 <p><code>
 echo "a b c 2011-11-22 a:d" | awk 'gsub(/-/,"",$4)'
 </code></p>
 
-<ol>
-<li>awk变量定义</li>
-</ol>
-
+<p>4.awk变量定义</p>
 
 <p>BEGIN中<a href="http://blog.csdn.net/shangboerds/article/details/49449291">定义1</a>
 <a href="http://jingyan.baidu.com/article/d45ad148fb46f269552b80cf.html">awk -v单行</a>定义变量</p>
 
 <p><a href="http://www.linuxidc.com/Linux/2015-04/115781.htm">awk内置变量</a>, 包括FS,OFS,NR,NFR,NF,$0,$1,$2,ARGC,ARGV<a href="http://blog.csdn.net/panpan639944806/article/details/19932543">1</a>等。</p>
 
-<ol>
-<li>awk定义函数</li>
-</ol>
-
+<p>5.awk定义函数</p>
 
 <p>awk的<a href="http://bbs.chinaunix.net/thread-1424218-1-1.html">函数定义</a>是在BEGIN{},{},END{}之外的，和他们平级的关系
 ```</p>
@@ -332,7 +320,7 @@ echo "a b c 2011-11-22 a:d" | awk 'gsub(/-/,"",$4)'
 
 <h1>VIM Version:  7.0+</h1>
 
-<h1>Author:  Ye Zhao Liang (Vimer), <a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#58;&#122;&#x68;&#x61;&#x6f;&#x74;&#117;&#114;&#107;&#x6b;&#101;&#x79;&#x40;&#49;&#54;&#x33;&#x2e;&#99;&#x6f;&#x6d;">&#x7a;&#104;&#x61;&#111;&#116;&#117;&#114;&#x6b;&#107;&#101;&#x79;&#x40;&#49;&#54;&#51;&#x2e;&#99;&#111;&#x6d;</a></h1>
+<h1>Author:  Ye Zhao Liang (Vimer), <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#122;&#104;&#97;&#x6f;&#x74;&#117;&#x72;&#x6b;&#107;&#x65;&#121;&#x40;&#x31;&#54;&#51;&#46;&#99;&#111;&#109;">&#x7a;&#x68;&#97;&#111;&#x74;&#117;&#x72;&#107;&#x6b;&#101;&#x79;&#x40;&#49;&#x36;&#x33;&#x2e;&#x63;&#x6f;&#109;</a></h1>
 
 <h1>Organization:  BrokenSun</h1>
 
@@ -372,9 +360,10 @@ y=300;
 
 <p>```</p>
 
-<ol>
-<li><p>bash四种变量截取</p></li>
-<li><p>${var#.*}  从左到右，满足#之后条件的最小长度</p></li>
+<p>6.bash四种变量截取</p>
+
+<ol type="a">
+<li>${var#.*}  从左到右，满足#之后条件的最小长度</li>
 <li>${var##.*}  从左到右，满足##之后条件的最大长度</li>
 <li>${var%.*}  从右到左，满足%之后条件的最小长度</li>
 <li>${var%%.*}  从右到左，满足%%之后条件的最小长度</li>
@@ -383,10 +372,7 @@ y=300;
 
 <p>在awk中可以使用substr($1,0,length($1)&ndash;..)实现类似的功能。</p>
 
-<ol>
-<li>bash中的包含关系</li>
-</ol>
-
+<p>7.bash中的包含关系</p>
 
 <p>包含： 即一个大的部分包含小的部分（member)
 等价： 即两个东西等价(equal)
@@ -411,10 +397,7 @@ then</p>
 <p>fi
 ```</p>
 
-<ol>
-<li>awk去除左右空格</li>
-</ol>
-
+<p>8.awk去除左右空格</p>
 
 <p>第5个知识点阐述了函数的定义方式,现在来运用一下，
 awk<a href="http://blog.csdn.net/bitcarmanlee/article/details/51090048">去除左右空格</a>，再一次使用中发现所有的文件名后缀中多了一个空格，于是尝试消掉空格，想着用awk实现。</p>
@@ -456,10 +439,7 @@ BEGIN{</p>
 <p>}
 ```</p>
 
-<ol>
-<li>awk调用系统命令</li>
-</ol>
-
+<p>9.awk调用系统命令</p>
 
 <p><a href="http://blog.csdn.net/cy_cai/article/details/41908921">方法</a></p>
 
@@ -485,10 +465,7 @@ d.txt
 <p>awk &lsquo;{cmd=&ldquo;rm &rdquo;$0;system(cmd)}&rsquo; a.txt <br/>
 ```</p>
 
-<ol>
-<li>awk重定向和管道</li>
-</ol>
-
+<p>10.awk重定向和管道</p>
 
 <p>有时候直接可以在awk使用管道，提供给shell,比如<a href="http://blog.chinaunix.net/uid-25324849-id-3079511.html">print|Sort</a>,</p>
 
@@ -496,10 +473,7 @@ d.txt
 awk '{print $1, $2 | "sort" }'
 </code></p>
 
-<ol>
-<li>windows下的cygwin使用脚本</li>
-</ol>
-
+<p>11.windows下的cygwin使用脚本</p>
 
 <p>必须得使用
 <code>
@@ -509,14 +483,11 @@ dos2unix.exe func.awk
 </code>
 这样执行shell才有效。</p>
 
-<ol>
-<li>awk性能比shell更高</li>
-</ol>
-
+<p>12.awk性能比shell更高</p>
 
 <p>参考<a href="http://www.cnblogs.com/chengmo/archive/2010/10/04/1842073.html">链接</a>
 ```
-三、性能比较</p>
+性能比较</p>
 
 <p>[chengmo@localhost nginx]# time (awk &lsquo;BEGIN{ total=0;for(i=0;i&lt;=10000;i++){total+=i;}print total;}&rsquo;)
 50005000</p>

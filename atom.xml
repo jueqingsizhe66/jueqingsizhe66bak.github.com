@@ -4,7 +4,7 @@
   <title><![CDATA[网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-07-05T17:04:27+08:00</updated>
+  <updated>2017-07-05T17:17:19+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Windows FAST0816编译失败]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2017/07/05/windows-fast0816bian-yi-shi-bai/"/>
+    <updated>2017-07-05T17:13:57+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2017/07/05/windows-fast0816bian-yi-shi-bai</id>
+    <content type="html"><![CDATA[<p>在之前的fast使用中一直没有碰到编译proj file失败的事情，但再816却出现了，于是添加了额外的编译debug路径，解决了
+问题。</p>
+
+<!--more-->
+
+
+<p><img src="http://jueqingsizhe66.github.io/images/fast/fast816.png" alt="pic" /></p>
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2017/07/05/windows-fast0816bian-yi-shi-bai/'>http://jueqingsizhe66.github.io/blog/2017/07/05/windows-fast0816bian-yi-shi-bai/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[批量修改pdf文件名以及创建wiki Links]]></title>
@@ -369,10 +388,7 @@ IFS=$&lsquo;\n&rsquo;</p></li>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<ol>
-<li>awk的<a href="http://blog.csdn.net/panpan639944806/article/details/19932543">BEGIN</a></li>
-</ol>
-
+<p>2.awk的<a href="http://blog.csdn.net/panpan639944806/article/details/19932543">BEGIN</a></p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -398,29 +414,20 @@ IFS=$&lsquo;\n&rsquo;</p></li>
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<ol>
-<li>awk <a href="http://blog.sina.com.cn/s/blog_67e34ceb0100ybvg.html">gsub</a></li>
-</ol>
-
+<p>3.awk <a href="http://blog.sina.com.cn/s/blog_67e34ceb0100ybvg.html">gsub</a></p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>echo "a b c 2011-11-22 a:d" | awk 'gsub(/-/,"",$4)'</span></code></pre></td></tr></table></div></figure>
 
 
-<ol>
-<li>awk变量定义</li>
-</ol>
-
+<p>4.awk变量定义</p>
 
 <p>BEGIN中<a href="http://blog.csdn.net/shangboerds/article/details/49449291">定义1</a>
 <a href="http://jingyan.baidu.com/article/d45ad148fb46f269552b80cf.html">awk -v单行</a>定义变量</p>
 
 <p><a href="http://www.linuxidc.com/Linux/2015-04/115781.htm">awk内置变量</a>, 包括FS,OFS,NR,NFR,NF,$0,$1,$2,ARGC,ARGV<a href="http://blog.csdn.net/panpan639944806/article/details/19932543">1</a>等。</p>
 
-<ol>
-<li>awk定义函数</li>
-</ol>
-
+<p>5.awk定义函数</p>
 
 <p>awk的<a href="http://bbs.chinaunix.net/thread-1424218-1-1.html">函数定义</a>是在BEGIN{},{},END{}之外的，和他们平级的关系</p>
 
@@ -505,9 +512,10 @@ IFS=$&lsquo;\n&rsquo;</p></li>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<ol>
-<li><p>bash四种变量截取</p></li>
-<li><p>${var#.*}  从左到右，满足#之后条件的最小长度</p></li>
+<p>6.bash四种变量截取</p>
+
+<ol type="a">
+<li>${var#.*}  从左到右，满足#之后条件的最小长度</li>
 <li>${var##.*}  从左到右，满足##之后条件的最大长度</li>
 <li>${var%.*}  从右到左，满足%之后条件的最小长度</li>
 <li>${var%%.*}  从右到左，满足%%之后条件的最小长度</li>
@@ -516,10 +524,7 @@ IFS=$&lsquo;\n&rsquo;</p></li>
 
 <p>在awk中可以使用substr($1,0,length($1)&ndash;..)实现类似的功能。</p>
 
-<ol>
-<li>bash中的包含关系</li>
-</ol>
-
+<p>7.bash中的包含关系</p>
 
 <p>包含： 即一个大的部分包含小的部分（member)
 等价： 即两个东西等价(equal)
@@ -545,10 +550,7 @@ IFS=$&lsquo;\n&rsquo;</p></li>
 </span><span class='line'>fi</span></code></pre></td></tr></table></div></figure>
 
 
-<ol>
-<li>awk去除左右空格</li>
-</ol>
-
+<p>8.awk去除左右空格</p>
 
 <p>第5个知识点阐述了函数的定义方式,现在来运用一下，
 awk<a href="http://blog.csdn.net/bitcarmanlee/article/details/51090048">去除左右空格</a>，再一次使用中发现所有的文件名后缀中多了一个空格，于是尝试消掉空格，想着用awk实现。</p>
@@ -605,10 +607,7 @@ awk<a href="http://blog.csdn.net/bitcarmanlee/article/details/51090048">去除�
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<ol>
-<li>awk调用系统命令</li>
-</ol>
-
+<p>9.awk调用系统命令</p>
 
 <p><a href="http://blog.csdn.net/cy_cai/article/details/41908921">方法</a></p>
 
@@ -639,10 +638,7 @@ awk<a href="http://blog.csdn.net/bitcarmanlee/article/details/51090048">去除�
 </span><span class='line'>awk '{cmd="rm "$0;system(cmd)}' a.txt   </span></code></pre></td></tr></table></div></figure>
 
 
-<ol>
-<li>awk重定向和管道</li>
-</ol>
-
+<p>10.awk重定向和管道</p>
 
 <p>有时候直接可以在awk使用管道，提供给shell,比如<a href="http://blog.chinaunix.net/uid-25324849-id-3079511.html">print|Sort</a>,</p>
 
@@ -650,10 +646,7 @@ awk<a href="http://blog.csdn.net/bitcarmanlee/article/details/51090048">去除�
 </pre></td><td class='code'><pre><code class=''><span class='line'>awk '{print $1, $2 | "sort" }'</span></code></pre></td></tr></table></div></figure>
 
 
-<ol>
-<li>windows下的cygwin使用脚本</li>
-</ol>
-
+<p>11.windows下的cygwin使用脚本</p>
 
 <p>必须得使用</p>
 
@@ -667,10 +660,7 @@ awk<a href="http://blog.csdn.net/bitcarmanlee/article/details/51090048">去除�
 
 <p>这样执行shell才有效。</p>
 
-<ol>
-<li>awk性能比shell更高</li>
-</ol>
-
+<p>12.awk性能比shell更高</p>
 
 <p>参考<a href="http://www.cnblogs.com/chengmo/archive/2010/10/04/1842073.html">链接</a></p>
 
@@ -688,7 +678,7 @@ awk<a href="http://blog.csdn.net/bitcarmanlee/article/details/51090048">去除�
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>三、性能比较
+</pre></td><td class='code'><pre><code class=''><span class='line'>性能比较
 </span><span class='line'>
 </span><span class='line'>[chengmo@localhost nginx]# time (awk 'BEGIN{ total=0;for(i=0;i&lt;=10000;i++){total+=i;}print total;}')
 </span><span class='line'>50005000
@@ -6376,660 +6366,6 @@ what is Posterior Probability? what is Predictor Prior Probability?</p>
 
 <p class='post-footer'>
                         原始地址:<a href='http://jueqingsizhe66.github.io/blog/2016/09/28/machine-learning-some-search-record/'>http://jueqingsizhe66.github.io/blog/2016/09/28/machine-learning-some-search-record/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Graphviz Notebook]]></title>
-    <link href="http://jueqingsizhe66.github.io/blog/2016/09/28/graphviz-notebook/"/>
-    <updated>2016-09-28T17:14:53+08:00</updated>
-    <id>http://jueqingsizhe66.github.io/blog/2016/09/28/graphviz-notebook</id>
-    <content type="html"><![CDATA[<p><a href="http://www.graphviz.org">graphviz</a>可用于帮助你绘制工具之外和工具之内的想法。关于绘图的历史可以参看<a href="http://www.merl.com/publications/TR2001-49">A short note of the graph drawing</a>.</p>
-
-<!--more-->
-
-
-<p><a href="http://graphviz.org/Download.php">graphviz下载链接</a>, 安装很方便，一步一步进行即可，一般是在<a href="http://graphviz.org/content/command-line-invocation">命令行使用</a>。</p>
-
-<p>下面是我记录学习的一些graphviz的笔记。只用pdf输出<code>dot -Tpdf *.dot -o *.pdf</code>，
-因为质量较好(矢量化输出)，但是特殊情况可以参考<a href="http://graphviz.org/content/command-line-invocation">output format</a>,
-因为不同的输出会在<a href="http://graphviz.org/content/attrs">Node, Edge and Graph Attributes</a> 节点、边、图中表现出不同的样式出来。</p>
-
-<p><img src="http://jueqingsizhe66.github.io/images/graphviz/main1.jpg" alt="main1" /></p>
-
-<p><img src="http://jueqingsizhe66.github.io/images/graphviz/main2.jpg" alt="main2" /></p>
-
-<h2>CFD</h2>
-
-<p><img src="http://jueqingsizhe66.github.io/images/graphviz/CFD.jpg" alt="CFD" /></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-</pre></td><td class='code'><pre><code class='gnuplot'><span class='line'><span class="err">digrap</span><span class="k">h</span> <span class="n">G</span><span class="p">{</span>
-</span><span class='line'>    <span class="nv">compound</span><span class="o">=</span><span class="n">true</span><span class="p">;</span> <span class="err">//</span> <span class="err">这样lhead</span> <span class="err">ltai</span><span class="k">l</span><span class="err">指向</span><span class="n">cluster</span><span class="err">才有效</span>
-</span><span class='line'>    <span class="err">edge</span> <span class="err">[</span><span class="nv">fontname</span><span class="o">=</span><span class="s">&quot;SimSun&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">grap</span><span class="k">h</span><span class="p">[</span><span class="n">fontname</span><span class="o">=</span><span class="s">&quot;SimHei&quot;</span><span class="p">]</span>
-</span><span class='line'>    <span class="err">node</span> <span class="err">[</span><span class="nv">shape</span><span class="o">=</span><span class="n">box</span><span class="o">,</span> <span class="n">fontname</span><span class="o">=</span><span class="s">&quot;KaiTi&quot;</span> <span class="n">size</span><span class="o">=</span><span class="s">&quot;5,5&quot;</span><span class="o">,</span> <span class="n">style</span><span class="o">=</span><span class="n">filld</span><span class="o">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">node[</span><span class="nv">style</span><span class="o">=</span><span class="n">filled</span><span class="o">,</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;lightblue&quot;</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nv">rankdir</span><span class="o">=</span><span class="n">LR</span><span class="p">;</span>
-</span><span class='line'>    <span class="err">{</span>
-</span><span class='line'>    <span class="nv">rank</span><span class="o">=</span><span class="n">same</span><span class="p">;</span>
-</span><span class='line'>    <span class="err">befo</span><span class="k">re</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;前处理&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">compute[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;计算&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">after[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;后处理&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">subgrap</span><span class="k">h</span> <span class="n">cluster1</span><span class="p">{</span>
-</span><span class='line'>        <span class="err">geometry[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;几何建模&quot;</span><span class="p">];</span>
-</span><span class='line'>        <span class="err">me</span><span class="k">sh</span><span class="err">[</span><span class="nb">label</span><span class="err">=&quot;网格生成&quot;]</span><span class="p">;</span>
-</span><span class='line'>        <span class="err">geometry-&gt;me</span><span class="k">sh</span><span class="err">;</span>
-</span><span class='line'>        <span class="err">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">subgrap</span><span class="k">h</span> <span class="n">cluster2</span><span class="p">{</span>
-</span><span class='line'>        <span class="err">initia</span><span class="k">l</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;初始化&quot;</span><span class="p">];</span>
-</span><span class='line'>        <span class="err">setting[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;设置&quot;</span><span class="p">];</span>
-</span><span class='line'>        <span class="err">mode</span><span class="k">l</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;湍流模型&quot;</span><span class="p">];</span>
-</span><span class='line'>        <span class="err">output[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;输出&quot;</span><span class="p">];</span>
-</span><span class='line'>        <span class="err">initia</span><span class="k">l</span><span class="o">-&gt;</span><span class="n">setting</span><span class="o">-&gt;</span><span class="n">model</span><span class="o">-&gt;</span><span class="n">output</span><span class="p">;</span>
-</span><span class='line'>        <span class="err">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">subgrap</span><span class="k">h</span> <span class="n">cluster3</span><span class="p">{</span>
-</span><span class='line'>       <span class="err">plane[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;截面&quot;</span><span class="p">];</span>
-</span><span class='line'>       <span class="err">polyline[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;多边形线&quot;</span><span class="p">];</span>
-</span><span class='line'>       <span class="err">chart[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;表格&quot;</span><span class="p">];</span>
-</span><span class='line'>       <span class="err">pile[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;批处理&quot;</span><span class="p">];</span>
-</span><span class='line'>       <span class="err">contour[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;云图&quot;</span><span class="p">];</span>
-</span><span class='line'>        <span class="err">plane-&gt;polyline-&gt;chart</span><span class="k">;</span>
-</span><span class='line'>        <span class="err">plane-&gt;contour</span><span class="k">;</span>
-</span><span class='line'>        <span class="err">}</span>
-</span><span class='line'>    <span class="err">befo</span><span class="k">re</span><span class="o">-&gt;</span><span class="n">compute</span><span class="o">-&gt;</span><span class="n">after</span><span class="p">;</span>
-</span><span class='line'>    <span class="err">befo</span><span class="k">re</span><span class="o">-&gt;</span><span class="n">geometry</span><span class="p">[</span><span class="n">lhead</span><span class="o">=</span><span class="n">cluster1</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">compute-&gt;initia</span><span class="k">l</span><span class="p">[</span><span class="n">lhead</span><span class="o">=</span><span class="n">cluster2</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">after-&gt;plane[</span><span class="nv">lhead</span><span class="o">=</span><span class="n">cluster3</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="err">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>inner 图</h2>
-
-<p>注意使用circo生成，需要有一个回环圆。</p>
-
-<p>compound用于子图的lhead属性，不设置没效果。</p>
-
-<p>concentrate这里没什么作用。</p>
-
-<p><img src="http://jueqingsizhe66.github.io/images/graphviz/inner.jpg" alt="inner" /></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-</pre></td><td class='code'><pre><code class='gnuplot'><span class='line'><span class="err">//circo</span> <span class="err">-Tpd</span><span class="k">f</span> <span class="n">inner</span><span class="o">.</span><span class="n">dot</span> <span class="o">-</span><span class="n">o</span> <span class="n">inner</span><span class="o">.</span><span class="n">pdf</span>
-</span><span class='line'><span class="err">digrap</span><span class="k">h</span> <span class="n">G</span><span class="p">{</span>
-</span><span class='line'>    <span class="nv">fontname</span><span class="o">=</span><span class="s">&quot;SimSun&quot;</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">compound</span><span class="o">=</span><span class="n">true</span><span class="p">;</span> <span class="err">//</span> <span class="err">这样lhead</span> <span class="err">ltai</span><span class="k">l</span><span class="err">指向</span><span class="n">cluster</span><span class="err">才有效</span>
-</span><span class='line'>    <span class="err">edge[</span><span class="nv">fontname</span><span class="o">=</span><span class="s">&quot;SimSun&quot;</span><span class="o">,</span><span class="n">arrowhead</span><span class="o">=</span><span class="n">vee</span><span class="o">,</span><span class="n">color</span><span class="o">=</span><span class="n">blue</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">grap</span><span class="k">h</span><span class="p">[</span><span class="n">fontname</span><span class="o">=</span><span class="s">&quot;SimHei&quot;</span><span class="o">,</span><span class="n">color</span><span class="o">=</span><span class="n">lightgray</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">node[</span><span class="nv">shape</span><span class="o">=</span><span class="n">box</span><span class="o">,</span> <span class="n">fontname</span><span class="o">=</span><span class="s">&quot;KaiTi&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">//</span><span class="nv">concentrate</span><span class="o">=</span><span class="n">true</span><span class="p">;</span>
-</span><span class='line'>    <span class="err">//node[</span><span class="nv">style</span><span class="o">=</span><span class="n">filled</span><span class="o">,</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;lightblue&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="nv">arrowsize</span><span class="o">=</span><span class="mf">.5</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nv">concentrate</span><span class="o">=</span><span class="n">true</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">nodesep</span><span class="o">=</span><span class="mf">0.5</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">ranksep</span><span class="o">=</span><span class="mf">0.5</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">rankdir</span><span class="o">=</span><span class="n">BU</span><span class="p">;</span>
-</span><span class='line'>    <span class="err">//</span><span class="nv">rank</span><span class="o">=</span><span class="n">sink</span><span class="p">;</span>
-</span><span class='line'>    <span class="err">//task[</span><span class="nv">shape</span><span class="o">=</span><span class="n">polygon</span><span class="o">,</span><span class="n">sides</span><span class="o">=</span><span class="mi">5</span><span class="o">,</span><span class="n">peripheries</span><span class="o">=</span><span class="mi">2</span><span class="o">,</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;图像处理&quot;</span><span class="o">,</span><span class="n">fillcolor</span><span class="o">=</span><span class="s">&quot;#F1C40F&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="err">/*</span>
-</span><span class='line'>    <span class="err">subgrap</span><span class="k">h</span> <span class="n">cluster_0</span><span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">innerpoint[</span><span class="nv">shape</span><span class="o">=</span><span class="n">point</span><span class="o">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span><span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">innerpoint1[</span><span class="nv">shape</span><span class="o">=</span><span class="n">point</span><span class="o">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span><span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">innerpoint2[</span><span class="nv">shape</span><span class="o">=</span><span class="n">point</span><span class="o">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span><span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">innerpoint3[</span><span class="nv">shape</span><span class="o">=</span><span class="n">point</span><span class="o">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span><span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">innerpoint4[</span><span class="nv">shape</span><span class="o">=</span><span class="n">point</span><span class="o">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span><span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">innerpoint-&gt;innerpoint1-&gt;innerpoint2-&gt;innerpoint3-&gt;innerpoint4-&gt;innerpoint[</span><span class="nv">arrowsize</span><span class="o">=</span><span class="mf">0.1</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="err">*/</span>
-</span><span class='line'>    <span class="err">subgrap</span><span class="k">h</span> <span class="n">cluster_1</span><span class="p">{</span>
-</span><span class='line'>        <span class="err">//</span><span class="nv">rankdir</span><span class="o">=</span><span class="n">TB</span><span class="p">;</span>
-</span><span class='line'>        <span class="nv">label</span><span class="o">=</span><span class="s">&quot;内&quot;</span><span class="p">;</span>
-</span><span class='line'>        <span class="nv">style</span><span class="o">=</span><span class="n">filled</span><span class="p">;</span>
-</span><span class='line'>        <span class="nv">fillcolor</span><span class="o">=</span><span class="n">lightgray</span><span class="p">;</span>
-</span><span class='line'>        <span class="err">//</span><span class="nv">shape</span><span class="o">=</span><span class="n">ellpse</span><span class="p">;</span>
-</span><span class='line'>        <span class="err">//edge[</span><span class="nv">fontname</span><span class="o">=</span><span class="s">&quot;SimSun&quot;</span><span class="o">,</span><span class="n">arrowhead</span><span class="o">=</span><span class="n">vee</span><span class="o">,</span><span class="n">color</span><span class="o">=</span><span class="n">blue</span><span class="o">,</span><span class="n">style</span><span class="o">=</span><span class="n">dashed</span><span class="p">];</span>
-</span><span class='line'>        <span class="err">//</span><span class="nv">style</span><span class="o">=</span><span class="n">filled</span><span class="p">;</span>
-</span><span class='line'>        <span class="err">//</span><span class="nv">fillcolor</span><span class="o">=</span><span class="n">lightgray</span><span class="p">;</span>
-</span><span class='line'>        <span class="err">//</span><span class="nv">fillcolor</span><span class="o">=</span><span class="n">mintcream</span><span class="p">;</span>
-</span><span class='line'>        <span class="err">//</span><span class="nv">style</span><span class="o">=</span><span class="n">filled</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="err">{</span>
-</span><span class='line'>            <span class="err">//node[</span><span class="nv">style</span><span class="o">=</span><span class="n">filled</span><span class="o">,</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;chartreuse&quot;</span><span class="p">];</span>
-</span><span class='line'>            <span class="err">//node[</span><span class="nv">style</span><span class="o">=</span><span class="n">filled</span><span class="o">,</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;palegreen&quot;</span><span class="p">];</span>
-</span><span class='line'>            <span class="err">//</span><span class="nv">rank</span><span class="o">=</span><span class="n">same</span><span class="p">;</span>
-</span><span class='line'>            <span class="err">node[</span><span class="nv">color</span><span class="o">=</span><span class="n">red</span><span class="o">,</span><span class="n">shape</span><span class="o">=</span><span class="n">circle</span><span class="p">];</span>
-</span><span class='line'>            <span class="err">edge[</span><span class="nv">color</span><span class="o">=</span><span class="n">green</span><span class="o">,</span><span class="n">style</span><span class="o">=</span><span class="n">dashed</span><span class="p">]</span>
-</span><span class='line'>            <span class="err">subgoal1[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;内1&quot;</span><span class="p">];</span>
-</span><span class='line'>            <span class="err">step1[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;内2&quot;</span><span class="p">];</span>
-</span><span class='line'>            <span class="err">step2[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;内3&quot;</span><span class="p">];</span>
-</span><span class='line'>            <span class="err">step3[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;内4&quot;</span><span class="p">]</span>
-</span><span class='line'>            <span class="err">step4[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;内n&quot;</span><span class="p">]</span>
-</span><span class='line'>            <span class="err">subgoal1-&gt;</span> <span class="err">step1-&gt;step2-&gt;step3-&gt;step4-&gt;subgoal1</span><span class="k">;</span>
-</span><span class='line'>        <span class="err">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">}</span>
-</span><span class='line'> <span class="err">//</span>           <span class="err">innerpoint-&gt;{subgoal1</span> <span class="err">step1</span> <span class="err">step2</span> <span class="err">step3</span> <span class="err">step4}[</span><span class="nv">color</span><span class="o">=</span><span class="n">red</span><span class="o">,</span><span class="n">style</span><span class="o">=</span><span class="n">dotted</span><span class="o">,</span><span class="n">ltail</span><span class="o">=</span><span class="n">cluster_0</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">outer1[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;外1&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">outer2[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;外2&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">outer3[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;外3&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">outer4[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;外4&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">outern[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;外n&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">subgoal1-&gt;outern[</span><span class="nv">ltail</span><span class="o">=</span><span class="n">cluster_1</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">step1-&gt;outer1[</span><span class="nv">ltail</span><span class="o">=</span><span class="n">cluster_1</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">step2-&gt;outer2[</span><span class="nv">ltail</span><span class="o">=</span><span class="n">cluster_1</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">step3-&gt;outer3[</span><span class="nv">ltail</span><span class="o">=</span><span class="n">cluster_1</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">step4-&gt;outer4[</span><span class="nv">ltail</span><span class="o">=</span><span class="n">cluster_1</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">outerf1[</span><span class="nv">shape</span><span class="o">=</span><span class="n">point</span><span class="o">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span><span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">outerf2[</span><span class="nv">shape</span><span class="o">=</span><span class="n">point</span><span class="o">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span><span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">outerf3[</span><span class="nv">shape</span><span class="o">=</span><span class="n">point</span><span class="o">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span><span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">outerf4[</span><span class="nv">shape</span><span class="o">=</span><span class="n">point</span><span class="o">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span><span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">outerfn[</span><span class="nv">shape</span><span class="o">=</span><span class="n">point</span><span class="o">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span><span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">outer1-&gt;outerf1</span><span class="k">;</span>
-</span><span class='line'>    <span class="err">outer2-&gt;outerf2</span><span class="k">;</span>
-</span><span class='line'>    <span class="err">outer3-&gt;outerf3</span><span class="k">;</span>
-</span><span class='line'>    <span class="err">outer4-&gt;outerf4</span><span class="k">;</span>
-</span><span class='line'>    <span class="err">outern-&gt;outerfn</span><span class="k">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">//{</span><span class="nv">rank</span><span class="o">=</span><span class="n">same</span><span class="p">;</span> <span class="err">innerpoint</span> <span class="err">step4</span> <span class="err">outer4}</span><span class="k">;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="err">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>outer图</h2>
-
-<p><img src="http://jueqingsizhe66.github.io/images/graphviz/outer.jpg" alt="outer" /></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-</pre></td><td class='code'><pre><code class='gnuplot'><span class='line'><span class="err">//circo</span> <span class="err">-Tpd</span><span class="k">f</span> <span class="n">inner</span><span class="o">.</span><span class="n">dot</span> <span class="o">-</span><span class="n">o</span> <span class="n">inner</span><span class="o">.</span><span class="n">pdf</span>
-</span><span class='line'><span class="err">digrap</span><span class="k">h</span> <span class="n">G</span><span class="p">{</span>
-</span><span class='line'>    <span class="nv">fontname</span><span class="o">=</span><span class="s">&quot;SimSun&quot;</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">compound</span><span class="o">=</span><span class="n">true</span><span class="p">;</span> <span class="err">//</span> <span class="err">这样lhead</span> <span class="err">ltai</span><span class="k">l</span><span class="err">指向</span><span class="n">cluster</span><span class="err">才有效</span>
-</span><span class='line'>    <span class="err">edge[</span><span class="nv">fontname</span><span class="o">=</span><span class="s">&quot;SimSun&quot;</span><span class="o">,</span><span class="n">arrowhead</span><span class="o">=</span><span class="n">vee</span><span class="o">,</span><span class="n">color</span><span class="o">=</span><span class="n">blue</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">grap</span><span class="k">h</span><span class="p">[</span><span class="n">fontname</span><span class="o">=</span><span class="s">&quot;SimHei&quot;</span><span class="o">,</span><span class="n">color</span><span class="o">=</span><span class="n">lightgray</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">node[</span><span class="nv">shape</span><span class="o">=</span><span class="n">box</span><span class="o">,</span> <span class="n">fontname</span><span class="o">=</span><span class="s">&quot;KaiTi&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">//</span><span class="nv">concentrate</span><span class="o">=</span><span class="n">true</span><span class="p">;</span>
-</span><span class='line'>    <span class="err">//node[</span><span class="nv">style</span><span class="o">=</span><span class="n">filled</span><span class="o">,</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;lightblue&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="nv">arrowsize</span><span class="o">=</span><span class="mf">.5</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nv">nodesep</span><span class="o">=</span><span class="mf">0.5</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">ranksep</span><span class="o">=</span><span class="mf">0.5</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">rankdir</span><span class="o">=</span><span class="n">BU</span><span class="p">;</span>
-</span><span class='line'>    <span class="err">//</span><span class="nv">center</span><span class="o">=</span><span class="n">true</span><span class="p">;</span>
-</span><span class='line'>    <span class="err">//</span><span class="nv">rank</span><span class="o">=</span><span class="n">sink</span><span class="p">;</span>
-</span><span class='line'>    <span class="err">//task[</span><span class="nv">shape</span><span class="o">=</span><span class="n">polygon</span><span class="o">,</span><span class="n">sides</span><span class="o">=</span><span class="mi">5</span><span class="o">,</span><span class="n">peripheries</span><span class="o">=</span><span class="mi">2</span><span class="o">,</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;图像处理&quot;</span><span class="o">,</span><span class="n">fillcolor</span><span class="o">=</span><span class="s">&quot;#F1C40F&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">subgrap</span><span class="k">h</span> <span class="n">cluster_1</span><span class="p">{</span>
-</span><span class='line'>        <span class="err">//</span><span class="nv">rankdir</span><span class="o">=</span><span class="n">TB</span><span class="p">;</span>
-</span><span class='line'>        <span class="nv">label</span><span class="o">=</span><span class="s">&quot;内&quot;</span><span class="p">;</span>
-</span><span class='line'>        <span class="nv">style</span><span class="o">=</span><span class="n">filled</span><span class="p">;</span>
-</span><span class='line'>        <span class="nv">fillcolor</span><span class="o">=</span><span class="n">chartreuse</span><span class="p">;</span>
-</span><span class='line'>        <span class="err">//</span><span class="nv">shape</span><span class="o">=</span><span class="n">ellpse</span><span class="p">;</span>
-</span><span class='line'>        <span class="err">//edge[</span><span class="nv">fontname</span><span class="o">=</span><span class="s">&quot;SimSun&quot;</span><span class="o">,</span><span class="n">arrowhead</span><span class="o">=</span><span class="n">vee</span><span class="o">,</span><span class="n">color</span><span class="o">=</span><span class="n">blue</span><span class="o">,</span><span class="n">style</span><span class="o">=</span><span class="n">dashed</span><span class="p">];</span>
-</span><span class='line'>        <span class="err">//</span><span class="nv">style</span><span class="o">=</span><span class="n">filled</span><span class="p">;</span>
-</span><span class='line'>        <span class="err">//</span><span class="nv">fillcolor</span><span class="o">=</span><span class="n">lightgray</span><span class="p">;</span>
-</span><span class='line'>        <span class="err">//</span><span class="nv">fillcolor</span><span class="o">=</span><span class="n">mintcream</span><span class="p">;</span>
-</span><span class='line'>        <span class="err">//</span><span class="nv">style</span><span class="o">=</span><span class="n">filled</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="err">{</span>
-</span><span class='line'>            <span class="err">//node[</span><span class="nv">style</span><span class="o">=</span><span class="n">filled</span><span class="o">,</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;chartreuse&quot;</span><span class="p">];</span>
-</span><span class='line'>            <span class="err">//node[</span><span class="nv">style</span><span class="o">=</span><span class="n">filled</span><span class="o">,</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;palegreen&quot;</span><span class="p">];</span>
-</span><span class='line'>            <span class="err">//</span><span class="nv">rank</span><span class="o">=</span><span class="n">same</span><span class="p">;</span>
-</span><span class='line'>            <span class="err">//innerpoint[</span><span class="nv">shape</span><span class="o">=</span><span class="n">point</span><span class="o">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span><span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>            <span class="err">node[</span><span class="nv">color</span><span class="o">=</span><span class="n">red</span><span class="o">,</span><span class="n">shape</span><span class="o">=</span><span class="n">circle</span><span class="p">];</span>
-</span><span class='line'>            <span class="err">edge[</span><span class="nv">color</span><span class="o">=</span><span class="s">&quot;green&quot;</span><span class="o">,</span><span class="n">style</span><span class="o">=</span><span class="n">dashed</span><span class="p">]</span>
-</span><span class='line'>            <span class="err">subgoal1[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;内1&quot;</span><span class="p">];</span>
-</span><span class='line'>            <span class="err">step1[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;内2&quot;</span><span class="p">];</span>
-</span><span class='line'>            <span class="err">step2[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;内3&quot;</span><span class="p">];</span>
-</span><span class='line'>            <span class="err">step3[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;内4&quot;</span><span class="p">]</span>
-</span><span class='line'>            <span class="err">step4[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;内n&quot;</span><span class="p">]</span>
-</span><span class='line'>            <span class="err">subgoal1-&gt;</span> <span class="err">step1-&gt;step2-&gt;step3-&gt;step4-&gt;subgoal1</span><span class="k">;</span>
-</span><span class='line'>
-</span><span class='line'>           <span class="err">//</span> <span class="err">{subgoal1</span> <span class="err">step1</span> <span class="err">step2</span> <span class="err">step3</span> <span class="err">step4}-&gt;innerpoint[</span><span class="nv">color</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">];</span>
-</span><span class='line'>        <span class="err">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">}</span>
-</span><span class='line'><span class="err">subgrap</span><span class="k">h</span> <span class="n">cluster_0</span><span class="p">{</span>
-</span><span class='line'>    <span class="err">outer1[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;外1&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">outer2[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;外2&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">outer3[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;外3&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">outer4[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;外4&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">outern[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;外n&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">//outer1-&gt;outer2-&gt;outer3-&gt;outer4-&gt;outern-&gt;outer1</span><span class="k">;</span>
-</span><span class='line'><span class="err">}</span>
-</span><span class='line'>    <span class="err">outern-&gt;step3</span><span class="k">;</span>
-</span><span class='line'>    <span class="err">outer1-&gt;step4</span><span class="k">;</span>
-</span><span class='line'>    <span class="err">outer2-&gt;subgoal1</span><span class="k">;</span>
-</span><span class='line'>    <span class="err">outer3-&gt;step1</span><span class="k">;</span>
-</span><span class='line'>    <span class="err">outer4-&gt;step2</span><span class="k">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">outerf1[</span><span class="nv">shape</span><span class="o">=</span><span class="n">point</span><span class="o">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span><span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">outerf2[</span><span class="nv">shape</span><span class="o">=</span><span class="n">point</span><span class="o">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span><span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">outerf3[</span><span class="nv">shape</span><span class="o">=</span><span class="n">point</span><span class="o">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span><span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">outerf4[</span><span class="nv">shape</span><span class="o">=</span><span class="n">point</span><span class="o">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span><span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">outerfn[</span><span class="nv">shape</span><span class="o">=</span><span class="n">point</span><span class="o">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span><span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>    <span class="err">//outerf1-&gt;outerf2-&gt;outerf3-&gt;outerf4-&gt;outerfn-&gt;outerf1</span><span class="k">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="err">outerf1-&gt;outer3</span><span class="k">;</span>
-</span><span class='line'>    <span class="err">outerf2-&gt;outer2</span><span class="k">;</span>
-</span><span class='line'>    <span class="err">outerf3-&gt;outer1</span><span class="k">;</span>
-</span><span class='line'>    <span class="err">outerf4-&gt;outern</span><span class="k">;</span>
-</span><span class='line'>    <span class="err">outerfn-&gt;outer4</span><span class="k">;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>   <span class="err">//</span> <span class="err">outer1-&gt;outer2-&gt;outer3-&gt;outer4-&gt;outern-&gt;outer1</span><span class="k">;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="err">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>算法绘制</h2>
-
-<p><img src="http://jueqingsizhe66.github.io/images/graphviz/binary.jpg" alt="algo" /></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='gnuplot'><span class='line'><span class="err">digrap</span><span class="k">h</span> <span class="n">ast</span><span class="p">{</span>
-</span><span class='line'>    <span class="nv">size</span><span class="o">=</span><span class="s">&quot;4,4&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="nv">fontname</span><span class="o">=</span><span class="s">&quot;Microsoft YaHei&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="nv">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">;</span>
-</span><span class='line'><span class="err">node</span> <span class="err">[</span><span class="nv">shape</span><span class="o">=</span><span class="n">circle</span><span class="o">,</span> <span class="n">fontname</span><span class="o">=</span><span class="s">&quot;Microsoft YaHei&quot;</span><span class="o">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">];</span>
-</span><span class='line'><span class="err">edge</span> <span class="err">[</span><span class="nv">fontname</span><span class="o">=</span><span class="s">&quot;Microsoft YaHei&quot;</span><span class="o">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">];</span>
-</span><span class='line'><span class="err">node</span> <span class="err">[</span><span class="nv">shape</span><span class="o">=</span><span class="s">&quot;plaintext&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="err">mu</span><span class="k">l</span> <span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;mul(*)&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="err">add</span> <span class="err">[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;add(+)&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="err">add</span> <span class="err">-&gt;</span> <span class="err">3</span>
-</span><span class='line'><span class="err">add</span> <span class="err">-&gt;</span> <span class="err">4</span><span class="k">;</span>
-</span><span class='line'><span class="err">mu</span><span class="k">l</span> <span class="o">-&gt;</span> <span class="n">add</span><span class="p">;</span>
-</span><span class='line'><span class="err">mu</span><span class="k">l</span> <span class="o">-&gt;</span> <span class="mi">5</span><span class="p">;</span>
-</span><span class='line'><span class="err">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>时序表制作</h2>
-
-<p><img src="http://jueqingsizhe66.github.io/images/graphviz/sequence.jpg" alt="sequence" /></p>
-
-<p>聪明的做法 是从图中隐藏了所有stepi（其实图像对象中是存在的，只不过打印不出来
-并同时使用了plaintext的风格。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class='gnuplot'><span class='line'><span class="err">digrap</span><span class="k">h</span> <span class="n">G</span> <span class="p">{</span>
-</span><span class='line'><span class="nv">rankdir</span><span class="o">=</span><span class="s">&quot;LR&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="err">node[</span><span class="nv">shape</span><span class="o">=</span><span class="s">&quot;point&quot;</span><span class="o">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'><span class="err">edge[</span><span class="nv">arrowhead</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="o">,</span> <span class="n">style</span><span class="o">=</span><span class="s">&quot;dashed&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="err">{</span>
-</span><span class='line'><span class="nv">rank</span><span class="o">=</span><span class="s">&quot;same&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="err">edge[</span><span class="nv">style</span><span class="o">=</span><span class="s">&quot;solid&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="err">LC[</span><span class="nv">shape</span><span class="o">=</span><span class="s">&quot;plaintext&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="err">LC</span> <span class="err">-&gt;</span> <span class="err">step00</span> <span class="err">-&gt;</span> <span class="err">step01</span> <span class="err">-&gt;</span> <span class="err">step02</span> <span class="err">-&gt;</span> <span class="err">step03</span> <span class="err">-&gt;</span> <span class="err">step04</span> <span class="err">-&gt;</span> <span class="err">step05</span><span class="k">;</span>
-</span><span class='line'><span class="err">}</span>
-</span><span class='line'><span class="err">{</span>
-</span><span class='line'><span class="nv">rank</span><span class="o">=</span><span class="s">&quot;same&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="err">edge[</span><span class="nv">style</span><span class="o">=</span><span class="s">&quot;solid&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="err">Agency[</span><span class="nv">shape</span><span class="o">=</span><span class="s">&quot;plaintext&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="err">Agency</span> <span class="err">-&gt;</span> <span class="err">step10</span> <span class="err">-&gt;</span> <span class="err">step11</span> <span class="err">-&gt;</span> <span class="err">step12</span> <span class="err">-&gt;</span> <span class="err">step13</span> <span class="err">-&gt;</span> <span class="err">step14</span> <span class="err">-&gt;</span> <span class="err">step15</span><span class="k">;</span>
-</span><span class='line'><span class="err">}</span>
-</span><span class='line'><span class="err">{</span>
-</span><span class='line'><span class="nv">rank</span><span class="o">=</span><span class="s">&quot;same&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="err">edge[</span><span class="nv">style</span><span class="o">=</span><span class="s">&quot;solid&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="err">Agent[</span><span class="nv">shape</span><span class="o">=</span><span class="s">&quot;plaintext&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="err">Agent</span> <span class="err">-&gt;</span> <span class="err">step20</span> <span class="err">-&gt;</span> <span class="err">step21</span> <span class="err">-&gt;</span> <span class="err">step22</span> <span class="err">-&gt;</span> <span class="err">step23</span> <span class="err">-&gt;</span> <span class="err">step24</span> <span class="err">-&gt;</span> <span class="err">step25</span><span class="k">;</span>
-</span><span class='line'><span class="err">}</span>
-</span><span class='line'><span class="err">step00</span> <span class="err">-&gt;</span> <span class="err">step10</span> <span class="err">[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;sends email new custumer&quot;</span><span class="o">,</span> <span class="n">arrowhead</span><span class="o">=</span><span class="s">&quot;normal&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="err">step11</span> <span class="err">-&gt;</span> <span class="err">step01</span> <span class="err">[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;declines&quot;</span><span class="o">,</span> <span class="n">arrowhead</span><span class="o">=</span><span class="s">&quot;normal&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="err">step12</span> <span class="err">-&gt;</span> <span class="err">step02</span> <span class="err">[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;accepts&quot;</span><span class="o">,</span> <span class="n">arrowhead</span><span class="o">=</span><span class="s">&quot;normal&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="err">step13</span> <span class="err">-&gt;</span> <span class="err">step23</span> <span class="err">[</span><span class="nv">label</span><span class="o">=</span><span class="s">&quot;forward to&quot;</span><span class="o">,</span> <span class="n">arrowhead</span><span class="o">=</span><span class="s">&quot;normal&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="err">step24</span> <span class="err">-&gt;</span> <span class="err">step14</span><span class="k">;</span>
-</span><span class='line'><span class="err">step14</span> <span class="err">-&gt;</span> <span class="err">step04</span> <span class="err">[</span><span class="nv">arrowhead</span><span class="o">=</span><span class="s">&quot;normal&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="err">//xinran[</span><span class="nv">shape</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="o">,</span><span class="n">image</span><span class="o">=</span><span class="s">&quot;xinran2.jpg&quot;</span><span class="o">,</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="err">betterline[</span><span class="nv">shape</span><span class="o">=</span><span class="s">&quot;record&quot;</span><span class="o">,</span><span class="n">style</span><span class="o">=</span><span class="n">filled</span><span class="o">,</span><span class="n">fillcolor</span><span class="o">=</span><span class="n">chartreuse</span><span class="p">];</span>
-</span><span class='line'><span class="err">betteredge[</span><span class="nv">shape</span><span class="o">=</span><span class="s">&quot;record&quot;</span><span class="o">,</span><span class="n">style</span><span class="o">=</span><span class="n">filled</span><span class="o">,</span><span class="n">fillcolor</span><span class="o">=</span><span class="n">forestgreen</span><span class="p">];</span>
-</span><span class='line'><span class="err">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>reference</h2>
-
-<ol>
-<li><p>graphviz的<a href="http://www.graphviz.org/Documentation.php">在线文档</a>,</p></li>
-<li><p>dot语言的<a href="http://www.graphviz.org/content/dot-language">在线文档</a>,</p></li>
-<li><p><a href="http://www.tonyballantyne.com/graphs.html">drawing Graph using dot</a>介绍了一些图表中分层的概念。</p></li>
-<li><p><a href="http://www.tuicool.com/articles/qeqeuyb">使用Graphviz绘制流程图和关系图</a>教会了关于图、节点、边的属性设置(attribute property predictor)，
-其实也可以参考<a href="http://graphviz.org/content/attrs">Node, Edge and Graph Attributes</a>关于默认属性的设置，相关的还可以参考<a href="http://graphviz.org/content/node-shapes">node shapes</a>,
-<a href="http://graphviz.org/content/arrow-shapes">Arrow Shapes</a>, <a href="http://graphviz.org/content/color-names">colors</a> 这也是比较会经常查看的参数属性设置。</p></li>
-</ol>
-
-
-<p>注意Mrecord不支持中文，为了实现<a href="http://www.graphviz.org/content/global-subgraph-style-statements">圆角</a>你可以使用<code>style=rounded</code>来实现(可以和filled叠加起来使用) <code>style="rounded,filled"</code>。
-还可以参考<a href="http://stackoverflow.com/questions/7115870/creating-straight-edges-in-graphviz">Creating Straight Edges in Graphviz</a>,以及<a href="http://www.graphviz.org/content/attrs">官网属性文档style section</a></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>node与edge公用样式：<span class="s2">&quot;dashed&quot;</span>虚线, <span class="s2">&quot;dotted&quot;</span>点, <span class="s2">&quot;solid&quot;</span>固体框, <span class="s2">&quot;invis&quot;</span>隐藏 and <span class="s2">&quot;bold&quot;</span> 加粗
-</span><span class='line'>edge 特有样式：<span class="s2">&quot;tapered&quot;</span> 锥形
-</span><span class='line'>node 特有样式：<span class="s2">&quot;filled&quot;</span>填充, <span class="s2">&quot;diagonals&quot;</span>对角线 与 <span class="s2">&quot;rounded&quot;</span> 圆角
-</span><span class='line'>cluster可使用样式：<span class="s2">&quot;filled&quot;</span>与<span class="s2">&quot;rounded&quot;</span>
-</span><span class='line'> <span class="s2">&quot;radial&quot;</span>径向样式可被nodes, clusters 与graphs使用，如果使用需要指出一个径向渐变填充风格
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>graphviz也是支持插图的,</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='gnuplot'><span class='line'><span class="err">digrap</span><span class="k">h</span> <span class="n">G</span> <span class="p">{</span>
-</span><span class='line'><span class="nv">rankdir</span><span class="o">=</span><span class="s">&quot;LR&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="err">xinran[</span><span class="nv">shape</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="o">,</span><span class="n">image</span><span class="o">=</span><span class="s">&quot;xinran2.jpg&quot;</span><span class="o">,</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="err">betterline[</span><span class="nv">shape</span><span class="o">=</span><span class="s">&quot;record&quot;</span><span class="o">,</span><span class="n">style</span><span class="o">=</span><span class="n">filled</span><span class="o">,</span><span class="n">fillcolor</span><span class="o">=</span><span class="n">chartreuse</span><span class="p">];</span>
-</span><span class='line'><span class="err">betteredge[</span><span class="nv">shape</span><span class="o">=</span><span class="s">&quot;record&quot;</span><span class="o">,</span><span class="n">style</span><span class="o">=</span><span class="n">filled</span><span class="o">,</span><span class="n">fillcolor</span><span class="o">=</span><span class="n">forestgreen</span><span class="p">];</span>
-</span><span class='line'><span class="err">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li><a href="http://www.ibm.com/developerworks/cn/aix/library/au-aix-graphviz/index.html">使用 Graphviz 生成自动化系统图 </a>.</li>
-<li><a href="http://lockriver.blog.163.com/blog/static/487232242010101761749383/">中文乱码</a>.</li>
-<li><a href="http://lockriver.blog.163.com/blog/static/487232242010101761749383/">Using graph drawing </a> <font color=red>很详细，推荐</font></li>
-</ol>
-
-
-<p class='post-footer'>
-                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2016/09/28/graphviz-notebook/'>http://jueqingsizhe66.github.io/blog/2016/09/28/graphviz-notebook/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
 
 ]]></content>
   </entry>
