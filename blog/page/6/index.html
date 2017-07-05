@@ -9,12 +9,9 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="在Linux地下，脚本(script)编程是一个快捷的方式和内核(kernel)进行交流。
-通常包含以下几种脚本编程: bash shell(其他shell也类似)
-perl
-python
-ruby
-等等 我现在发现我们既可以处理文件中的信息，也同时可以处理硬件的东西，这些其实我就清楚， &hellip;">
+  <meta name="description" content="有时候我们需要统计一篇论文当中某个字符串的出现频率。
+试验了，grep，awk，sed，wc -l等，最终发现awk的RS
+完美的解决了问题。 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +70,51 @@ ruby
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/14/zi-fu-chuan-guan-jian-zi-de-chu-xian-pin-lu-tong-ji/">字符串关键字的出现频率统计</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-14T01:50:24+08:00" pubdate data-updated="true">Jun 14<span>th</span>, 2015</time>
+        
+
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>有时候我们需要统计一篇论文当中某个字符串的出现频率。
+试验了，grep，awk，sed，wc -l等，最终发现awk的RS
+完美的解决了问题。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/06/14/zi-fu-chuan-guan-jian-zi-de-chu-xian-pin-lu-tong-ji/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -760,51 +802,6 @@ You can first practice <a href="http://blog.chinaunix.net/uid-25932176-id-297381
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/03/wo-de-bash-it/">我的Bash-It</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-03T13:59:44+08:00" pubdate data-updated="true">Jun 3<span>rd</span>, 2015</time>
-        
-
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="https://github.com/jueqingsizhe66/bash-it">Bash-it</a>是一个开源的bash框架，
-我的第一感觉是他的themes主题不错，所以就用了，这是我采用的rjorgenson的主题
-<img src="/images/jiemian.png" alt="rjorgenson" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/06/03/wo-de-bash-it/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/7/">&larr; Older</a>
@@ -1024,7 +1021,7 @@ You can first practice <a href="http://blog.chinaunix.net/uid-25932176-id-297381
 <li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
 <li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (24)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>Linux (22)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (23)</a></li>
 <li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
 <li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
 <li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
@@ -1056,6 +1053,10 @@ You can first practice <a href="http://blog.chinaunix.net/uid-25932176-id-297381
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/07/05/pi-liang-xiu-gai-pdfwen-jian-ming-yi-ji-chuang-jian-wiki-links/">批量修改pdf文件名以及创建wiki Links</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/05/30/racket-man-wanna-learn-datetype-and-cases/">Racket Man Wanna Learn Datetype and Cases</a>
       </li>
     
@@ -1069,10 +1070,6 @@ You can first practice <a href="http://blog.chinaunix.net/uid-25932176-id-297381
     
       <li class="post">
         <a href="/blog/2017/05/18/can-you-see-them-from-here/">Can You See Them From Here?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/13/mysqlluan-ma-hui-gu/">Mysql乱码回顾</a>
       </li>
     
   </ul>

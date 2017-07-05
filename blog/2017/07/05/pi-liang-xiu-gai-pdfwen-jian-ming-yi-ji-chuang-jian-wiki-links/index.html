@@ -1,0 +1,1303 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>批量修改pdf文件名以及创建wiki Links - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="bash、awk、sed等的好处，就是可以专一的完成你的需求，但是也存在很多不足，借着批量重命令和批量导出链接到vimwiki的wiki中，形成[[local:文件名路径]]的过程，巩固学习linux命令, it is homework(learning process)。 提取路径， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2017/07/05/pi-liang-xiu-gai-pdfwen-jian-ming-yi-ji-chuang-jian-wiki-links">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">批量修改pdf文件名以及创建wiki Links</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-07-05T17:03:07+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2017</time>
+        
+
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>bash、awk、sed等的好处，就是可以专一的完成你的需求，但是也存在很多不足，借着批量重命令和批量导出链接到vimwiki的wiki中，形成[[local:文件名路径]]的过程，巩固学习linux命令, it is homework(learning process)。</p>
+
+<!--more-->
+
+
+<h2>提取路径，用于vimwiki中，当作快速链接</h2>
+
+<ul>
+<li><p>如果IFS是&#8221;&ldquo;，那么相当于一个文件名特别长会分成很多行显示，所以这边设置为
+IFS=$&lsquo;\n&rsquo;</p></li>
+<li><p>[a-z]star替换原先的star，目的是去除点号。</p></li>
+<li>使用echo和管道命令传递信息给sed或者awk等</li>
+<li>在sed中似乎用^$等位置字符进行替换,如果是文件夹则进行名字替换，并且遍历当前文件夹</li>
+<li>使用双重for循环进行控制</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>IFS=$'\n';
+</span><span class='line'>count=1;
+</span><span class='line'>countDir=1;
+</span><span class='line'>specialCharacter='pages';
+</span><span class='line'>generateChapter() # @Description : 对不同文件进行不同处理
+</span><span class='line'>                  # @usage       : generatechapter
+</span><span class='line'>{
+</span><span class='line'>    # 妙用find 得到当前目录的相对路径 不需要不断的进入目录
+</span><span class='line'>    for var2 in `find . -name "[a-z]*"`
+</span><span class='line'>    do
+</span><span class='line'>        if [[ -d  $var2 ]] # &lt; cannot . Error
+</span><span class='line'>        then
+</span><span class='line'>            #echo "fuck"
+</span><span class='line'>            var=`echo $var2|sed 's/^./F:\/ScienceBase.Attachments\/WindEnergy/g'|sed 's/^/[[local:/g'|sed 's/$/]]/g'`
+</span><span class='line'>            printf "= $countDir. [ ] $var =\n" # 使用#号来删除之前的点号
+</span><span class='line'>            countDir=$(($countDir+1));
+</span><span class='line'>
+</span><span class='line'>            for tempVar in `find $var2 -name "*.pdf"`
+</span><span class='line'>            do
+</span><span class='line'>                temp1=`echo $tempVar|sed 's/^./F:\/ScienceBase.Attachments\/WindEnergy/g'` 
+</span><span class='line'>    #            # echo ${var2} ${var2:0:$((${var2}-18))}.pdf  
+</span><span class='line'>                 varr=`echo $temp1|sed 's/^/[[local:/g'|sed 's/$/]]/g'`;
+</span><span class='line'>                #var=`echo $var2|sed 's/^./F:\/ScienceBase.Attachments\/WindEnergy/g'|sed 's/^/[[local:/g'|sed 's/$/]]/g'` 
+</span><span class='line'>                printf "\t$count. [ ] ${varr}\n" # 这边需要去除到第一个点号,这是才得到的处理方法
+</span><span class='line'>                count=$(($count+1));
+</span><span class='line'>
+</span><span class='line'>            done
+</span><span class='line'>            count=1;
+</span><span class='line'>        fi
+</span><span class='line'>        
+</span><span class='line'>
+</span><span class='line'>    done
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>generateChapter
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>删除不必要的名字特殊字符，重命名</h2>
+
+<ul>
+<li>删除文件pdf名字不必要的（pages 110&mdash;30）等信息。</li>
+<li>使用awk printf产生逗号分隔字符串，使用xargs -d, mv提取以逗号分隔的字段，
+并且对文件名进行重命名（在我找的多种方法中，就他有效）</li>
+<li>xargs -n 2 表示按照空格划分的方式 提取两个参数，逐个进行。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash -
+</span><span class='line'>#===============================================================================
+</span><span class='line'>#
+</span><span class='line'>#          FILE: b.sh
+</span><span class='line'>#
+</span><span class='line'>#         USAGE: ./b.sh
+</span><span class='line'>#
+</span><span class='line'>#   DESCRIPTION: 
+</span><span class='line'>#
+</span><span class='line'>#       OPTIONS: ---
+</span><span class='line'>#  REQUIREMENTS: ---
+</span><span class='line'>#          BUGS: ---
+</span><span class='line'>#         NOTES: ---
+</span><span class='line'>#        AUTHOR: Ye Zhao Liang (Vimer), zhaoturkkey@163.com
+</span><span class='line'>#  ORGANIZATION: BrokenSun
+</span><span class='line'>#       CREATED: 2017/7/4 23:01:31
+</span><span class='line'>#      REVISION:  ---
+</span><span class='line'>#===============================================================================
+</span><span class='line'>
+</span><span class='line'>IFS=$'\n';
+</span><span class='line'>count=1;
+</span><span class='line'>countDir=1;
+</span><span class='line'>specialCharacter='pages';
+</span><span class='line'>generateChapter() # @Description : 对不同文件进行不同处理
+</span><span class='line'>                  # @usage       : generatechapter
+</span><span class='line'>{
+</span><span class='line'>    # 妙用find 得到当前目录的相对路径 不需要不断的进入目录
+</span><span class='line'>    #for var2 in `find . -name "*"`
+</span><span class='line'>    for var2 in `find . -name "windEnergy201*"`
+</span><span class='line'>    do
+</span><span class='line'>        if [[ -d  $var2 ]] # &lt; cannot . Error
+</span><span class='line'>        then
+</span><span class='line'>                cd $var2;
+</span><span class='line'>                for var in `find . -name "*"`;do echo $var|awk '/pages/{printf("%s,%s",$0,substr($0,0,length($0)-22)".pdf")|"xargs -d, mv ";}';done 
+</span><span class='line'>                cd ..;
+</span><span class='line'>        fi
+</span><span class='line'>
+</span><span class='line'>    done
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>generateChapter
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><font color="red">注意可以使用 ，学到技巧1中的检测工具，查看你的修改是否完全正确，如果出现文件名中有逗号的情况，通常pages没有删掉，原因是xargs也是按照，号进行分割，所以改进方法是使用分号输出</font></p>
+
+<p>改进代码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>for var in `find . -name "*"`;do echo $var|awk '/pages/{printf("%s;%s",$0,substr($0,0,length($0)-22)".pdf")|"xargs -d; mv ";}';done 
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>最终结果</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>= 1. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system]] =
+</span><span class='line'>  1. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/ch1.pdf]]
+</span><span class='line'>  2. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/ch10.pdf]]
+</span><span class='line'>  3. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/ch11.pdf]]
+</span><span class='line'>  4. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/ch12.pdf]]
+</span><span class='line'>  5. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/ch13.pdf]]
+</span><span class='line'>  6. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/ch14.pdf]]
+</span><span class='line'>  7. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/ch15.pdf]]
+</span><span class='line'>  8. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/ch16.pdf]]
+</span><span class='line'>  9. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/ch2.pdf]]
+</span><span class='line'>  10. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/ch3.pdf]]
+</span><span class='line'>  11. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/ch4.pdf]]
+</span><span class='line'>  12. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/ch5.pdf]]
+</span><span class='line'>  13. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/ch6.pdf]]
+</span><span class='line'>  14. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/ch7.pdf]]
+</span><span class='line'>  15. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/ch8.pdf]]
+</span><span class='line'>  16. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/ch9.pdf]]
+</span><span class='line'>  17. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/fmatter.pdf]]
+</span><span class='line'>  18. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/index.pdf]]
+</span><span class='line'>  19. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/harmonic power system/scard.pdf]]
+</span><span class='line'>= 2. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/Offshore Wind Energy Generation Control, Protection, and Integration to Electrical Systems/offshoreWindEnergy]] =
+</span><span class='line'>  1. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/Offshore Wind Energy Generation Control, Protection, and Integration to Electrical Systems/offshoreWindEnergy/app1.pdf]]
+</span><span class='line'>  2. [ ] [[local:F:/ScienceBase.Attachments/WindEnergy/Offshore Wind Energy Generation Control, Protection, and Integration to Electrical Systems/offshoreWindEnergy/app2.pdf]]
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>学到的技巧</h2>
+
+<ol>
+<li>awk两种表示判断,if判断得用分号
+<a href="http://blog.csdn.net/qq_31382921/article/details/55094907">如果不用分号隔开会报错</a></li>
+</ol>
+
+
+<p><strong>注意分号！！！</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>awk '{if ($1==1) print "A"; else if ($1==2) print "B"; else print "C"}'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>对应的bash使用的是if,then,else,fi的形式，且不用分号间隔语句</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'> for var in `find . -name "*"`
+</span><span class='line'>    do
+</span><span class='line'>        if [[ -d  $var ]] # &lt; cannot . Error
+</span><span class='line'>        then
+</span><span class='line'>            printf "$var\n" # 使用#号来删除之前的点号
+</span><span class='line'>        else
+</span><span class='line'>            printf "\t${var}\n" # 这边需要去除到第一个点号,这是才得到的处理方法
+</span><span class='line'>        fi
+</span><span class='line'>
+</span><span class='line'>    done
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>awk的&#8217;/page/{}&lsquo;等效于&#8217;if($0~/dfd/){}&rsquo;</p>
+
+<p>下面的命令，也是一种检查上述程序正确与否的一种工具,可以看出哪些pdf文件依然有pages的字段</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>YeZhao@DESKTOP-YeZhao /cygdrive/f/ScienceBase.Attachments/WindEnergy
+</span><span class='line'>$ find . -name "*"|awk '{if($0~/pages/){print $0}}'
+</span><span class='line'>./windEnergy2009-i6/Characterizing future large, rapid changes in aggregated wind power using Numerical Weather Prediction spatial fields (pages 542–555).pdf
+</span><span class='line'>./windEnergy2012-i1/Modeling wake effects in large wind farms in complex terrain the problem, the methods and the issues (pages 161–182).pdf
+</span><span class='line'>./windEnergy2012-i2/The Betz–Joukowsky limit on the contribution to rotor aerodynamics by the British, German and Russian scientific schools (pages 335–344).pdf
+</span><span class='line'>./windEnergy2012-i3/Computational fluid dynamics simulation of the aerodynamics of a high solidity, small-scale vertical axis wind turbine (pages 349–361).pdf
+</span><span class='line'>./windEnergy2012-i3/Correction factors for NRG #40 anemometers potentially affected by dry friction whip characterization, analysis, and validation (pages 489–502).pdf
+</span><span class='line'>./windEnergy2012-i4/Analysis of wake measurements from the ECN Wind Turbine Test Site Wieringermeer, EWTW (pages 575–591).pdf
+</span><span class='line'>./windEnergy2012-i5/Atmospheric stability and turbulence fluxes at Horns Rev—an intercomparison of sonic, bulk and WRF model data (pages 717–731).pdf
+</span><span class='line'>./windEnergy2013-11/Modeling, simulation and control of a wind turbine with a hydraulic transmission system (pages 1259–1276).pdf
+</span><span class='line'>./windEnergy2013-8/Indicial lift response function an empirical relation for finite-thickness airfoils, and effects on aeroelastic simulations (pages 681–693).pdf
+</span><span class='line'>./windEnergy2013-8/Simulating the dynamics of wind turbine blades part I, model development and verification (pages 694–710).pdf
+</span><span class='line'>./windEnergy2013-8/Simulating the dynamics of wind turbine blades part鈥塈I, model validation and uncertainty quantification (pages 741–758).pdf
+</span><span class='line'>./windEnergy2014-2/An assessment of the impact of reduced averaging time on small wind turbine power curves, energy capture predictions and turbulence intensity measurements (pages 337–342).pdf
+</span><span class='line'>./windEnergy2014-9/Dynamic response analysis of wind turbines under blade pitch system fault, grid loss, and shutdown events (pages 1385–1409).pdf
+</span><span class='line'>./windEnergy2015-10/Rapid optimization of stall-regulated wind turbine blades using a frequency-domain method Part 1, loads analysis (pages 1703–1723).pdf
+</span><span class='line'>./windEnergy2015-11/Application and validation of incrementally complex models for wind turbine aerodynamics, isolated wind turbine in uniform inflow conditions (pages 1893–1916).pdf
+</span><span class='line'>./windEnergy2015-2/Wind turbine boundary layer arrays for Cartesian and staggered configurations Part II, low-dimensional representations via the proper orthogonal decomposition (pages 297–315).pdf
+</span><span class='line'>./windEnergy2015-2/Wind turbine boundary layer arrays for Cartesian and staggered configurations-Part I, flow field and power measurements (pages 277–295).pdf
+</span><span class='line'>./windEnergy2015-4/Utilization of machine-learning algorithms for wind turbine site suitability modeling in Iowa, USA (pages 713–727).pdf
+</span><span class='line'>./windEnergy2015-6/Rapid optimization of stall-regulated wind turbine blades using a frequency-domain method Part 2, cost function selection and results (pages 955–977).pdf
+</span><span class='line'>./windEnergy2015-7/Variable geometry wind turbine for performance enhancement, improved survivability and reduced cost of energy (pages 1303–1311).pdf
+</span><span class='line'>./windEnergy2016-11/Reliability of wind turbines modeled by a Poisson process with covariates, unobserved heterogeneity and seasonality (pages 1991–2002).pdf
+</span><span class='line'>./windEnergy2016-2/Cylindrical vortex wake model skewed cylinder, application to yawed or tilted rotors (pages 345–358).pdf
+</span><span class='line'>./windEnergy2016-6/Effects of low temperature on the mechanical properties of glass fibre–epoxy composites static tension, compression, R = 0.1 and R =鈭▒ 1 fatigue of ±45laminates (pages 1023–1041).pdf
+</span><span class='line'>./windEnergy2016-6/Failure rate, repair time and unscheduled O&M cost analysis of offshore wind turbines (pages 1107–1119).pdf
+</span><span class='line'>./windEnergy2017-02/Verifying the Blade Element Momentum Method in unsteady, radially varied, axisymmetric loading using a vortex ring model (pages 269–288).pdf
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>awk的<a href="http://blog.csdn.net/panpan639944806/article/details/19932543">BEGIN</a></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function name()
+</span><span class='line'>{}
+</span><span class='line'>
+</span><span class='line'>BEGIN{
+</span><span class='line'>}
+</span><span class='line'>{
+</span><span class='line'>    
+</span><span class='line'>}
+</span><span class='line'>END{
+</span><span class='line'>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>awk <a href="http://blog.sina.com.cn/s/blog_67e34ceb0100ybvg.html">gsub</a></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>echo "a b c 2011-11-22 a:d" | awk 'gsub(/-/,"",$4)'</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>awk变量定义</li>
+</ol>
+
+
+<p>BEGIN中<a href="http://blog.csdn.net/shangboerds/article/details/49449291">定义1</a>
+<a href="http://jingyan.baidu.com/article/d45ad148fb46f269552b80cf.html">awk -v单行</a>定义变量</p>
+
+<p><a href="http://www.linuxidc.com/Linux/2015-04/115781.htm">awk内置变量</a>, 包括FS,OFS,NR,NFR,NF,$0,$1,$2,ARGC,ARGV<a href="http://blog.csdn.net/panpan639944806/article/details/19932543">1</a>等。</p>
+
+<ol>
+<li>awk定义函数</li>
+</ol>
+
+
+<p>awk的<a href="http://bbs.chinaunix.net/thread-1424218-1-1.html">函数定义</a>是在BEGIN{},{},END{}之外的，和他们平级的关系</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/awk -f
+</span><span class='line'>#===============================================================================
+</span><span class='line'>#
+</span><span class='line'>#          File:  func.awk
+</span><span class='line'># 
+</span><span class='line'>#   Description:  awk -f func.awk file
+</span><span class='line'>#           file内容为400
+</span><span class='line'># 
+</span><span class='line'>#   VIM Version:  7.0+
+</span><span class='line'>#        Author:  Ye Zhao Liang (Vimer), zhaoturkkey@163.com
+</span><span class='line'>#  Organization:  BrokenSun
+</span><span class='line'>#       Version:  1.0
+</span><span class='line'>#       Created:  2017/7/5 16:06:33
+</span><span class='line'>#      Revision:  ---
+</span><span class='line'>#       License:  Copyright (c) 2017, Ye Zhao Liang
+</span><span class='line'>#===============================================================================
+</span><span class='line'># 
+</span><span class='line'>function b()
+</span><span class='line'>{
+</span><span class='line'>print "b.in.$1="$1;
+</span><span class='line'>}
+</span><span class='line'>{
+</span><span class='line'>v=100; y=200
+</span><span class='line'>print "a.in.v="v;
+</span><span class='line'>print "a.in.y="y;
+</span><span class='line'>
+</span><span class='line'>a(y);
+</span><span class='line'>b();
+</span><span class='line'>print "a.out.v="v;
+</span><span class='line'>print "a.out.y="y;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>function a(y)
+</span><span class='line'>{
+</span><span class='line'>print "(a)v="v;
+</span><span class='line'>v=v+$1+y;
+</span><span class='line'>y=300;
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><p>bash四种变量截取</p></li>
+<li><p>${var#.*}  从左到右，满足#之后条件的最小长度</p></li>
+<li>${var##.*}  从左到右，满足##之后条件的最大长度</li>
+<li>${var%.*}  从右到左，满足%之后条件的最小长度</li>
+<li>${var%%.*}  从右到左，满足%%之后条件的最小长度</li>
+</ol>
+
+
+<p>在awk中可以使用substr($1,0,length($1)&ndash;..)实现类似的功能。</p>
+
+<ol>
+<li>bash中的包含关系</li>
+</ol>
+
+
+<p>包含： 即一个大的部分包含小的部分（member)
+等价： 即两个东西等价(equal)
+比较：一般是两个数，另外也可以是字符串。</p>
+
+<p>bash几种<a href="http://www.cnblogs.com/ginsonwang/p/5525340.html">包含关系用法</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>strA="helloworld"
+</span><span class='line'>strB="low"
+</span><span class='line'>if [[ $strA =~ $strB ]]
+</span><span class='line'>then
+</span><span class='line'>    echo "包含"
+</span><span class='line'>else
+</span><span class='line'>    echo "不包含"
+</span><span class='line'>fi</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>awk去除左右空格</li>
+</ol>
+
+
+<p>第5个知识点阐述了函数的定义方式,现在来运用一下，
+awk<a href="http://blog.csdn.net/bitcarmanlee/article/details/51090048">去除左右空格</a>，再一次使用中发现所有的文件名后缀中多了一个空格，于是尝试消掉空格，想着用awk实现。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s }
+</span><span class='line'>function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s }
+</span><span class='line'>function trim(s) { return rtrim(ltrim(s)); }
+</span><span class='line'>BEGIN{
+</span><span class='line'>        FS=","
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>{
+</span><span class='line'>        $0 = rtrim($0);
+</span><span class='line'>        if($2!="-" && $3=="-")
+</span><span class='line'>                a[$4]++;
+</span><span class='line'>        {
+</span><span class='line'>        if($4!="-")
+</span><span class='line'>                b[$4]++;
+</span><span class='line'>        else
+</span><span class='line'>                b[$5]++;
+</span><span class='line'>        }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>END{
+</span><span class='line'>        print "   client    incr_num_day";
+</span><span class='line'>        for(i in a) printf("%10s   %d\n",i,a[i])
+</span><span class='line'>        print "\n\n   client    all_num";                                                                                                                                                     
+</span><span class='line'>        for(j in b) printf("%10s   %d\n",j,b[j]);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>awk调用系统命令</li>
+</ol>
+
+
+<p><a href="http://blog.csdn.net/cy_cai/article/details/41908921">方法</a></p>
+
+<ol type="a">
+<li>ready:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>touch c.txt
+</span><span class='line'>touch d.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>II. a.txt:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>c.txt
+</span><span class='line'>d.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>III. code:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>awk '{cmd="rm "$0;system(cmd)}' a.txt   </span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>awk重定向和管道</li>
+</ol>
+
+
+<p>有时候直接可以在awk使用管道，提供给shell,比如<a href="http://blog.chinaunix.net/uid-25324849-id-3079511.html">print|Sort</a>,</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>awk '{print $1, $2 | "sort" }'</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>windows下的cygwin使用脚本</li>
+</ol>
+
+
+<p>必须得使用</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dos2unix.exe *脚本名字
+</span><span class='line'>dos2unix.exe a.sh
+</span><span class='line'>dos2unix.exe func.awk</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样执行shell才有效。</p>
+
+<ol>
+<li>awk性能比shell更高</li>
+</ol>
+
+
+<p>参考<a href="http://www.cnblogs.com/chengmo/archive/2010/10/04/1842073.html">链接</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>三、性能比较
+</span><span class='line'>
+</span><span class='line'>[chengmo@localhost nginx]# time (awk 'BEGIN{ total=0;for(i=0;i&lt;=10000;i++){total+=i;}print total;}')
+</span><span class='line'>50005000
+</span><span class='line'>
+</span><span class='line'>real    0m0.003s
+</span><span class='line'>user    0m0.003s
+</span><span class='line'>sys     0m0.000s
+</span><span class='line'>[chengmo@localhost nginx]# time(total=0;for i in $(seq 10000);do total=$(($total+i));done;echo $total;)
+</span><span class='line'>50005000
+</span><span class='line'>
+</span><span class='line'>real    0m0.141s
+</span><span class='line'>user    0m0.125s
+</span><span class='line'>sys     0m0.008s </span></code></pre></td></tr></table></div></figure>
+
+
+<p>结论：在awk中执行算术运算，比在bash中执行更好一些。</p>
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2017/07/05/pi-liang-xiu-gai-pdfwen-jian-ming-yi-ji-chuang-jian-wiki-links/'>http://jueqingsizhe66.github.io/blog/2017/07/05/pi-liang-xiu-gai-pdfwen-jian-ming-yi-ji-chuang-jian-wiki-links/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-07-05T17:03:07+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>Linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <!-- <div class="sharing"> -->
+<!--    -->
+<!--    -->
+<!--   <div class="g-plusone" data-size="medium"></div> -->
+<!--    -->
+<!--    -->
+<!-- </div> -->
+<!--  -->
+<!-- JiaThis Button -->
+
+  <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_32x32">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share?uid=2136616" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2136616" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2136616"></script>
+<!-- UY END -->
+
+
+
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/05/30/racket-man-wanna-learn-datetype-and-cases/" title="Previous Post: Racket Man wanna learn datetype and cases">&laquo; Racket Man wanna learn datetype and cases</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+    <p>
+      <!--<img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> -->
+      <img class="alignleft" src="/images/lvxing/gulangyu.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 10px" weight="100" height="140" border="0" /> 
+ <!--而是yellow的原因-->
+<!--不是他的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+</p>
+
+<p> Perl:</br>
+  <a href="http://bbs.pinggu.org/thread-4890642-1-1.html">Learning Perl(7th) 2016 入门 </a></br>
+  <a href="https://zhidao.baidu.com/share/2e40aed238e8a3f0fdb8d8148aa88565.html">The Immediate Perl(2th) 2006 中级 </a></br>
+  <a href="http://www.jb51.net/books/24569.html"> Mastering Perl 高级</a></br>
+  <a href="http://download.csdn.net/detail/blkf/4131770">Perl Programming (4th) (Larry Wall) </a></br>
+  <a href="http://www.tutorialspoint.com/perl/perl_oo_perl.htm ">Perl Object Orient Programming(perl oop) </a></br>
+  <a href="http://vdisk.weibo.com/s/zcetMufbD44U0">Perl Best Practice(Domian Conway) 2006 终极</a></br>
+  <a href="http://wwwacs.gantep.edu.tr/docs/perl-ebook/ch19.htm">Perl Object Orient Programming(by Kamran Husain) </a></br>
+  <a href="http://www.ibm.com/developerworks/cn/linux/sdk/perl/perl-1/index.html ">一篇写得不错的perl intro</a></br>
+  <a href="http://dbi.perl.org/docs/">Perl DBI </a></br> 
+  <a href="http://www.tutorialspoint.com/perl/perl_database.htm">Perl DataBase Management </a></br>
+  <a href="http://www.tutorialspoint.com/perl/perl_cgi.htm ">Perl CGI script </a></br>
+  <a href="http://www.tutorialspoint.com/perl/perl_modules.htm">Writing Perl Module</a></br>
+</p>
+
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。 <br/>
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (5)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (24)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (23)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (5)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (19)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/perl/'>perl (3)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (36)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/07/05/pi-liang-xiu-gai-pdfwen-jian-ming-yi-ji-chuang-jian-wiki-links/">批量修改pdf文件名以及创建wiki Links</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/05/30/racket-man-wanna-learn-datetype-and-cases/">Racket Man Wanna Learn Datetype and Cases</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/05/19/ubuntu17-dot-04-install-fast8-dot-16/">Ubuntu17.04 Install FAST8.16</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/05/18/see-from-noteexpress/">See From NoteExpress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/05/18/can-you-see-them-from-here/">Can You See Them From Here?</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<!-- <section> -->
+<!-- <h1>Recent Comments</h1> -->
+<!-- <ul class="ds-recent-comments" data-num-items="" data-show-avatars="" data-show-time="" data-show-title="" data-show-admin="" data-excerpt-length=""></ul> -->
+<!--  -->
+<!-- </section> -->
+
+<!-- UYAN NEW COMMENT BEGIN -->
+<div id="uyan_newcmt_unit"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2136616"></script> <!-- 如果已经过加载此行JS，即可不用重复加载 -->
+<!-- UYAN NEW COMMENT END -->
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="http://www.sci-hub.cc">sci文章破解下载</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+  <li>
+      <a href=" https://palm.muk.uni-hannover.de/trac "> PALM(cfd solver for atmosphere and ocean)</a>
+    </li>
+<li>
+      <a href=" https://github.com/Unidata "> unidata netcdf-c </a>
+    </li>
+
+
+
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2017/07/05/pi-liang-xiu-gai-pdfwen-jian-ming-yi-ji-chuang-jian-wiki-links/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2017/07/05/pi-liang-xiu-gai-pdfwen-jian-ming-yi-ji-chuang-jian-wiki-links/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>
