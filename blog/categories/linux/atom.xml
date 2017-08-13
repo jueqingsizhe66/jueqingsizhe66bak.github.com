@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | 网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-07-05T17:17:19+08:00</updated>
+  <updated>2017-08-13T11:41:34+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -12,6 +12,429 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[What Vim Teaches You?]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2017/08/13/what-vim-teaches-you/"/>
+    <updated>2017-08-13T05:14:47+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2017/08/13/what-vim-teaches-you</id>
+    <content type="html"><![CDATA[<p>vim真正教会了你什么？</p>
+
+<p>vim带给你激情，也给了你生活的智趣，从一开始你练习<a href="http://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/">Learn-vim-progressively</a>,并且现在还在练习macro和vim&rsquo;s text object.
+也在不断的学习marks and tags思想，让生活轨迹有迹可循，你使用<a href="#ctrlspace">CtrlSpace</a>来保证你的workspace保存下来，并切换文件和buffer；
+随着知识的增长，你使用<a href="#vimwiki">vimwiki</a>来管理你的知识，并结合<a href="https://github.com/mattn/calendar-vim">calendar</a>在vimwiki来管理你的日记。为了让文件查找，文件编辑更加方便，你使用
+<a href="https://github.com/Shougo">shoudo</a>的<a href="https://github.com/Shougo/vimfiler.vim">vimfiles</a>来增强你的vim，使得你的vim变得更像一把瑞士军刀。</p>
+
+<ul>
+<li><a href="#ctrl-space">1. Ctrl-Space Plugin</a></li>
+<li><a href="#vimwiki">2. Knowledge tool: Vimwiki</a></li>
+<li><a href="#vimfiler">3. Vimfiles: file operation</a></li>
+<li><a href="#star">4. Menu for your vim:Startify</a></li>
+<li><a href="#att">5. Attach File </a></li>
+</ul>
+
+
+<!--more-->
+
+
+<p>为了多一点对称美，你使用高丽棒作者<a href="https://github.com/junegunn">junegunn</a>的<a href="https://github.com/junegunn/vim-easy-align">vim-easy-align</a> (<font color="red">Note: <a href="https://github.com/junegunn/vim-easy-align/blob/master/EXAMPLES.md#formatting-yaml-or-json">many examples</a></font>),为了少犯错误，你加入了<a href="https://github.com/chip/vim-fat-finger">vim-fat-finger</a>,使用iabbrev来缩写你需要写的单词，或者修正错误的单词,为了编辑更加有效,你甚至引入了<a href="https://github.com/terryma/vim-multiple-cursors">vim-multiline-cursor</a>, 并进一步的你引入了<a href="https://github.com/tpope">tpope</a>的<a href="https://github.com/tpope/vim-surround">vim-surround</a>让你在书写racket(当然你也可以使用<a href="https://github.com/ruanyl/bigvim">delimiteMate</a>补全括号插件)或者lisp代码的时候更加方便一些，并为了重复或者递归使用，你也引入他的<a href="https://github.com/tpope/vim-repeat">vim-repeat</a> (vim中的很多插件都是支持增强的，比如f的增强插件<a href="https://rhysd.github.io/clever-f.vim/">clever-f</a>);为了更快捷的编辑文件行，除了使用vim text object, 你也引入了<a href="https://github.com/matze/vim-move">vim-move</a>和<a href="https://github.com/easymotion/vim-easymotion">vim-easymotion</a> (<font color="red">Very Good</font>)来移动行,使得vim文本更加结构化。</p>
+
+<p>想着让你的vim运行得更快一些，你把你一直用的<a href="https://github.com/VundleVim/Vundle.vim">vundle</a>改为了的<a href="https://github.com/junegunn">junegunn</a><a href="https://github.com/junegunn/vim-plug">vim-plug</a>来管理你的插件,确没见得有太大的改进，简洁地使用plugins自然就快了。</p>
+
+<p><img src="/images/Aboutvim/fuck.jpg" alt="Mybeautifulvim" /></p>
+
+<p>可以看到你的其实也增加了<a href="#star">Startify</a>的配置。</p>
+
+<p>然而，上面这些都是你想让vim做的，下面要写的则是<font color="red">vim plugins带给你关于写作的新的概念和思想</font>，这也才是本文的重点。</p>
+
+<p>刚开始接触vim的时候，你是用了scrooloose的<a href="https://github.com/scrooloose/nerdtree">nerdtree</a> ,<a href="https://github.com/majutsushi/tagbar">tagbar</a>,<a href="https://github.com/vim-airline/vim-airline">vim airline</a>等，你也使用了各种<a href="https://github.com/WolfgangMehner/vim-plugins">language support vim plugins</a>,也知道vim使用<a href="https://github.com/tpope">tpope</a>的<a href="https://github.com/airblade/vim-gitgutter">vim-gitgutter</a>结合git管理code, 现在让我们来看第一个vim插件ctrl-space</p>
+
+<h3 id="ctrlspace"> 1. Ctrl-Space Plugin</h3>
+
+
+<p>Github Repo: Click <a href="https://github.com/vim-ctrlspace/vim-ctrlspace">here</a></p>
+
+<p><font color="red">核心概念:</font></p>
+
+<p>当你在vim中使用<code>:h ctrlspace</code>时候会搜索到这些资料，</p>
+
+<p>```
+【1.vim desktop】: Let&rsquo;s imagine [ Vim ] is a writing desk.
+【2.projects draws】 : Your [ projects ] are like drawers.
+【3.Bookmark  favorite project】:  The [ Bookmark ] List simply displays your favorite projects.
+【4.Buffer  paper】: A [ buffer ] is like a sheet of paper lying on the desk.</p>
+
+<pre><code>    named buffers
+    unsaved buffers
+</code></pre>
+
+<p>【5.workspace  an status snapshot of current project】:All your [ buffers ], [ tabs ], and [ tab ] layouts can be persisted as a workspace.
+It&rsquo;s like taking a picture of your desk with an instant camera. You can
+save multiple workspaces per project with Workspace List.
+【6.workspace  session】 : The word &ldquo;workspace&rdquo; can be considered a synonym of a &ldquo;session&rdquo;. The
+ability of having so many sessions available at hand creates a lot of
+interesting use cases! For example, you can have a workspace for each task
+or feature you are working on. It&rsquo;s very easy to switch from one workspace
+to another.
+```</p>
+
+<p>```</p>
+
+<p>然后以后可以使用大写的B，跳转到Bookmark标签栏，类似于CtrlSpace的哲学思想，会跳转到某个bookmark下的目录，通过C也可以，直接Enter《CR》键也是可以的。
+删除觉得不需要了，就D一下即可。
+```</p>
+
+<p><tag>: The easiest way to think about tab pages in Vim is to consider them to be viewports, layouts, or workspaces</p>
+
+<p>```
+tags是一个在编程中经常会使用
+而且在git的版本中也经常涉及到很多打tag的工作 (git tag  or  git tag  -a)   git checkout某个tag等</p>
+
+<p>其实tags只不过是对事物的一种抽象，这也是你在现实当中经常看到的class field method 注释等等，其实都可以把他们理解为一种tag，一种convinience tag
+```</p>
+
+<p>在vimwiki的wiki文件的简单实用方法(经常用！！！):</p>
+
+<p>```
+:标签名字:</p>
+
+<p>[[文件名#标签名字]]即可
+```</p>
+
+<p>相同vim tag概念
+```</p>
+
+<p>&ldquo;&rdquo; tab encapsulation
+&ldquo; tab 操作
+&rdquo; <a href="http://vim.wikia.com/wiki/Alternative_tab_navigation">http://vim.wikia.com/wiki/Alternative_tab_navigation</a>
+&ldquo; <a href="http://stackoverflow.com/questions/2005214/switching-to-a-particular-tab-in-vim">http://stackoverflow.com/questions/2005214/switching-to-a-particular-tab-in-vim</a></p>
+
+<p>&ldquo; tab切换
+map <leader>th :tabfirst<cr>
+map <leader>tl :tablast<cr></p>
+
+<p>map <leader>tj :tabnext<cr>
+map <leader>tk :tabprev<cr>
+map <leader>tn :tabnext<cr>
+map <leader>tp :tabprev<cr></p>
+
+<p>map <leader>te :tabedit<cr>
+map <leader>td :tabclose<cr>
+map <leader>tm :tabm<cr></p>
+
+<p>&ldquo; normal模式下切换到确切的tab
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<cr></p>
+
+<p>&ldquo; Toggles between the active and last active tab &rdquo;
+&ldquo; The first tab is always 1 &rdquo;
+let g:last_active_tab = 1
+&ldquo; nnoremap <leader>gt :execute &lsquo;tabnext &rsquo; . g:last_active_tab<cr>
+&rdquo; nnoremap <silent> &lt;c-o> :execute &lsquo;tabnext &rsquo; . g:last_active_tab<cr>
+&ldquo; vnoremap <silent> &lt;c-o> :execute &lsquo;tabnext &rsquo; . g:last_active_tab<cr>
+nnoremap <silent> <leader>tt :execute &lsquo;tabnext &rsquo; . g:last_active_tab<cr>
+autocmd TabLeave * let g:last_active_tab = tabpagenr()</p>
+
+<p>&ldquo; 新建tab  Ctrl+t
+nnoremap &lt;C-t>     :tabnew<CR>
+inoremap &lt;C-t>     <Esc>:tabnew<CR></p>
+
+<p>```</p>
+
+<h4>默认工作类型目录</h4>
+
+<p><code>``
+Markers will be also used as a storage for</code>cs_workspaces<code>(workspaces of
+the current project) and</code>cs_files` (cached files of the current project).</p>
+
+<p>Default value: ></p>
+
+<pre><code>let g:CtrlSpaceProjectRootMarkers = [
+     \ ".git",
+     \ ".hg",
+     \ ".svn",
+     \ ".bzr",
+     \ "_darcs",
+     \ "CVS"
+     \ ]
+</code></pre>
+
+<p>```</p>
+
+<p><font color="RED">Summary:</font></p>
+
+<p>```
+   A buffer is the in-memory text of a file.
+   A window is a viewport on a buffer.
+   A tab page is a collection of windows.</p>
+
+<p>A window is a viewport onto a buffer.  You can use multiple windows on one
+buffer, or several windows on different buffers.</p>
+
+<p>A buffer is a file loaded into memory for editing.  The original file remains
+unchanged until you write the buffer to the file.</p>
+
+<p>```</p>
+
+<h3 id="vimwiki">2. Knowledge tool: Vimwiki</h3>
+
+
+<p>Github Repo: Click <a href="https://github.com/vimwiki/vimwiki">here</a></p>
+
+<h4>vimwki setup in vimrc:</h4>
+
+<p><code>
+• """"""""""""""""""""""""""""""""""""""""""""""""""  
+• " vimwiki  
+• let g:vimwiki_use_mouse = 1  
+• let g:vimwiki_list_ignore_newline = 0  
+• let g:vimwiki_hl_headers = 0  
+• " vimwiki打开折叠  
+• "let g:vimwiki_folding = 1  
+• let g:vimwiki_camel_case = 0  
+• let g:vimwiki_list_ignore_newline = 0  
+• let g:vimwiki_CJK_length = 1  
+•   
+• "设定文件浏览器目录为当前目录  
+• set bsdir=buffer      
+• "set autochdir  
+•   
+• " 日历插件  
+• map ca :Calendar&lt;cr&gt;  
+•   
+• map &lt;S-Space&gt; :&lt;C-Space&gt;  
+•   
+• " vimwiki  
+• let g:vimwiki_list = [{'path': '~/Wiki/wiki/', 'path_html': '~/Wiki/', 'auto_export': 1}]  
+• " 转化为Html文件  
+• map &lt;S-F4&gt; :Vimwiki2HTML&lt;cr&gt;  
+•   
+• " 设置颜色  
+• hi VimwikiHeader1 guifg=#FF0000  
+• hi VimwikiHeader2 guifg=#00FF00  
+• hi VimwikiHeader3 guifg=#0000FF  
+• hi VimwikiHeader4 guifg=#FF00FF  
+• hi VimwikiHeader5 guifg=#00FFFF  
+hi VimwikiHeader6 guifg=#FFFF00  
+</code></p>
+
+<h4>vimwiki tagbar 集成</h4>
+
+<h2>```</h2>
+
+<p>Tagbar integration                                            <em>vimwiki-tagbar</em></p>
+
+<p>As an alternative to the Table of Contents, you can use the Tagbar plugin
+(<a href="http://majutsushi.github.io/tagbar/">http://majutsushi.github.io/tagbar/</a>) to show the headers of your wiki files
+in a side pane.
+Download the Python script from
+<a href="https://raw.githubusercontent.com/vimwiki/utils/master/vwtags.py">https://raw.githubusercontent.com/vimwiki/utils/master/vwtags.py</a> and follow
+the instructions in it.
+```</p>
+
+<p>效果如下，</p>
+
+<p><img src="/images/AboutVim/tagbar.png" alt="tagbar" /></p>
+
+<h3 id="vimfiler"> 3. Vimfiles: A tool for file operations </h3>
+
+
+<p>Github Repo: click <a href="https://github.com/Shougo/vimfiler.vim"> here </a></p>
+
+<p>vimfiler setup in vimrc</p>
+
+<p>```
+&ldquo;for vimfiler
+let g:vimfiler_enable_auto_cd=1
+"call vimfiler#set_execute_file(&lsquo;txt&rsquo;, &lsquo;notepad&rsquo;)
+call vimfiler#set_execute_file(&lsquo;txt&rsquo;, &lsquo;gvim&rsquo;)
+call vimfiler#set_execute_file(&lsquo;c&rsquo;, [&lsquo;gvim&rsquo;, &lsquo;notepad&rsquo;])</p>
+
+<p>let g:vimfiler_as_default_explorer = 1</p>
+
+<p>&ldquo; Enable file operation commands.
+&rdquo; Edit file by tabedit.
+&ldquo;call vimfiler#custom#profile(&lsquo;default&rsquo;, &lsquo;context&rsquo;, {
+&rdquo;      \ &lsquo;safe&rsquo; : 0,
+&ldquo;      \ &lsquo;edit_action&rsquo; : &lsquo;tabopen&rsquo;,
+&rdquo;      \ })</p>
+
+<p>&ldquo; Like Textmate icons.
+let g:vimfiler_tree_leaf_icon = &lsquo; &rsquo;
+"let g:vimfiler_tree_closed_icon = &lsquo;▸&rsquo;
+"let g:vimfiler_tree_opened_icon = &lsquo;▾&rsquo;
+let g:vimfiler_file_icon = &lsquo;&ndash;&rsquo;
+let g:vimfiler_marked_file_icon = &lsquo;*&rsquo;</p>
+
+<p>let g:vimfiler_safe_mode_by_default=0</p>
+
+<pre><code>" Use trashbox.
+" Windows only and require latest vimproc.
+</code></pre>
+
+<p>let g:unite_kind_file_use_trashbox = 1
+&ldquo;&rdquo;  you can create a .vim file, then source it
+&ldquo;need everything.exe
+"nnoremap <Leader>f :Unite file buffer file_rec file_mru everything<CR>
+nnoremap <Leader>f :VimFiler<CR>
+nnoremap <leader>l :Unite line<CR>
+let g:unite_source_everything_limit = 100
+let g:unite_source_everything_full_path_search = 1
+let g:unite_source_everything_posix_regexp_search = 1
+let g:unite_source_everything_async_minimum_length = 3
+let g:unite_source_everything_cmd_path = &lsquo;C:\Users\YeZhao\.vim\es\es.exe&rsquo;</p>
+
+<p>```</p>
+
+<p>由于vimfiler的使用也了解到了 <a href="https://github.com/ggreer/the_silver_searcher">ag</a>插件（一个特别好用的搜索插件,在ubuntu底下直接使用ag &ldquo;expression&rdquo; 找到当前文件夹所有文件内容  包含表达式的行数据 相当快速）</p>
+
+<p>```
+H作用打开shell  x打开文件夹的意思</p>
+
+<p>L打开磁盘
+Load
+&amp;回到project目录  那是相当有用的
+~回到.vim目录</p>
+
+<p>e编写文件
+N 创建文件
+K创建文件夹</p>
+
+<h1>全选</h1>
+
+<p>*全部选？</p>
+
+<p>c复制
+d删除
+m移动</p>
+
+<p>先用m表示选定 然后d删除(重要操作)
+m移动
+c复制
+```</p>
+
+<p><strong><u>有意思的是:</u></strong></p>
+
+<p>使用m然后r，可以跳出一个新的编辑窗口，进行文件名的修改，这是相当好的实现。</p>
+
+<p>转化为HTML</p>
+
+<p><code>vim
+:Vimwiki2HTML – Convert current wiki page to HTML
+:VimwikiAll2HTML – Convert all your wiki pages to HTML
+</code></p>
+
+<h3 id="star"> 4. Startify Plugin</h3>
+
+
+<p>Github Repo: click <a href="https://github.com/mhinz/vim-startify"> here </a></p>
+
+<h4>vim 全屏</h4>
+
+<p>``` vim
+let w:full_screen=0</p>
+
+<pre><code>map :call FullScreen()
+</code></pre>
+
+<p>func! FullScreen()</p>
+
+<pre><code>if w:full_screen==1
+let w:full_screen=0
+:simalt ~R
+else
+:simalt ~X
+let w:full_screen=1
+endif
+</code></pre>
+
+<p>endfunc
+```</p>
+
+<h4>vim-easy-align常用命令</h4>
+
+<p><code>
+Nope
+</code></p>
+
+<h4>vim-surround 常用命令</h4>
+
+<p><code>
+1. cs"'
+2. cs'"
+3. cs'&lt;q&gt;
+4. cst"
+5. cs"t
+6. ds"
+7. ysiw"
+8. yssb == yss)  
+9. S"  可视化模式选择快 然后大S，这点类似于Multiple-Cursor的Ctrl+N命令
+</code></p>
+
+<h4>vim copy file name</h4>
+
+<p>你使用<a href="https://github.com/AdamWhittingham/vim-copy-filename">vim-copy-filename</a>
+<code>
+"" for vim-copy-filename
+nmap &lt;leader&gt;cp :CopyRelativePath&lt;CR&gt;
+nmap &lt;leader&gt;cl :CopyRelativePathAndLine&lt;CR&gt;
+nmap &lt;leader&gt;cP :CopyAbsolutePath&lt;CR&gt;
+nmap &lt;leader&gt;cf :CopyFileName&lt;CR&gt;
+nmap &lt;leader&gt;cd :CopyDirectoryPath&lt;CR&gt;
+</code></p>
+
+<p>额外一些插件的备注</p>
+
+<ol>
+<li><a href="https://github.com/haya14busa"> Haya14busa </a>提供的<a href="https://github.com/haya14busa/incsearch.vim"> incsearch </a> 增加了statusline的查找词当前数 和总个数</li>
+<li><a href="https://github.com/itchyny/vim-cursorword"> Vim-cursorword </a>表示添加下划线。</li>
+<li><a href="https://github.com/AndrewRadev/splitjoin.vim"> AndrewRadev/splitjoin.vim  </a>是提供类似于perl的当行模式的插件[gS gJ]。在scheme估计比较少用到。</li>
+</ol>
+
+
+<p>一直遗忘的一个快捷查看命令
+<code>Ctrl+E</code> 往下滚屏  <code>Ctrl+Y</code> 往上滚屏</p>
+
+<p><code>
+运行的话,进入底线命令模式,用:!perl %就可以运行,或者可以绑定一个快捷键组合, %表示当前文件的意思
+</code></p>
+
+<p>最后，编辑器界面展示的应全是代码，不应该有<u>工具条、菜单、滚动条</u>浪费空间的元素，另外，编程是种<font color="red">精神高度集中的脑力劳动</font>，不应出现<s>闪烁光标、花哨鼠标</s>这些分散注意力的东东</p>
+
+<p>```
+写到这边我去睡觉了，梦中梦到了前半辈子比较重要的三个女人，我妈以及另外两个从小长大的妇女(不说女生了),街道上偶遇她们正在端着一个冰盒沿街发送，也不像是生了孩子似的，但梦中是那么真实又带着虚的东西（所以人是一个最精良的仪器，拥有最直觉的第六感，又拥有最会惹事的直觉），我妈骑着自行车从我们三身边走过，前方又出现一个特别活泼的"妇女",在我的环境中还有篮球这一个概念，我的梦（由我的身体+癫痫的精神状态+疲惫产生的一种组合的事件）把我带到一个篮球场，后来我又去了</p>
+
+<p>我一个哥们那边，终于有男的出现，我发现我走过的路总是不缺乏女生(所以我是趋向于好色之徒,本来也是), 我梦到了我儿时的
+阴影我特别怕的一个男生，喜欢拿刀砍人，犯冲，特别好斗，但缺少脑子。我写出来了，因为我想克服它。梦向黄大仙一样，它放屁的效果具有致幻的效果，能让人陷入幻境中不得自拔，人每天晚上也像黄大仙附体一样坐着春秋大梦。</p>
+
+<p>但从我身边路过的那些女生，都已经变得不真实，我身边有一个wife如胶似漆的黏着我，怎么我就不懂珍惜呢。时代的进步，需要梦的催化，世界上无德的传销机构也在利用着洗脑在铸造着同一类人，这些人把思维当作无趣，而非智趣。</p>
+
+<p>匆匆而过三十载，岁月不饶人，也不等人(也就是你学会了用时间的非定常特性来观察人生）。乐观、不自信一直伴随着我成长，然而我却不知道痛苦才是生活的本源，享受
+痛苦，才能拥有些许的快乐。Enjoy Painess!但我不想把pain带给亲人，身边的人。我是一个自私的人，没有团队精神，不太会
+替别人考虑的人（当然自从有了她，我得替她考虑，但是考虑得还很少，我很对不起她）</p>
+
+<p>也就是生活的智趣源于痛苦，痛苦的根源诞生了时代的进步，和智趣的发展。</p>
+
+<p>写到这边，就先停笔把，继续回到vim当中，他也像人，能够感知到字符的变化，感知文本结构（你赋予了它思考的能力），能够
+让你编辑得更顺畅些;vim像刀、人也可以像刀，磨砺你自己这把最重要的一把刀把！</p>
+
+<p>```</p>
+
+<h3 id="att"> 5. Attach File </h3>
+
+
+<p>Windows Version dotVim Repo: [ here ]
+Ubuntu Version dotVim Repo: [ here ]</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[批量修改pdf文件名以及创建wiki Links]]></title>
@@ -118,7 +541,7 @@ done
 
 <h1>NOTES: &mdash;&ndash;</h1>
 
-<h1>AUTHOR: Ye Zhao Liang (Vimer), <a href="&#109;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#122;&#104;&#x61;&#111;&#116;&#x75;&#114;&#x6b;&#x6b;&#101;&#121;&#x40;&#x31;&#54;&#x33;&#46;&#99;&#x6f;&#x6d;">&#122;&#104;&#x61;&#111;&#116;&#x75;&#x72;&#107;&#107;&#x65;&#x79;&#64;&#x31;&#54;&#x33;&#x2e;&#99;&#111;&#109;</a></h1>
+<h1>AUTHOR: Ye Zhao Liang (Vimer), <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#122;&#x68;&#97;&#x6f;&#x74;&#117;&#114;&#x6b;&#107;&#x65;&#x79;&#x40;&#x31;&#x36;&#51;&#46;&#x63;&#x6f;&#109;">&#122;&#104;&#97;&#111;&#116;&#x75;&#x72;&#x6b;&#107;&#101;&#121;&#64;&#49;&#x36;&#51;&#x2e;&#x63;&#111;&#x6d;</a></h1>
 
 <h1>ORGANIZATION: BrokenSun</h1>
 
@@ -320,7 +743,7 @@ echo "a b c 2011-11-22 a:d" | awk 'gsub(/-/,"",$4)'
 
 <h1>VIM Version:  7.0+</h1>
 
-<h1>Author:  Ye Zhao Liang (Vimer), <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#122;&#104;&#97;&#x6f;&#x74;&#117;&#x72;&#x6b;&#107;&#x65;&#121;&#x40;&#x31;&#54;&#51;&#46;&#99;&#111;&#109;">&#x7a;&#x68;&#97;&#111;&#x74;&#117;&#x72;&#107;&#x6b;&#101;&#x79;&#x40;&#49;&#x36;&#x33;&#x2e;&#x63;&#x6f;&#109;</a></h1>
+<h1>Author:  Ye Zhao Liang (Vimer), <a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#x3a;&#x7a;&#x68;&#x61;&#111;&#116;&#x75;&#114;&#107;&#x6b;&#101;&#x79;&#64;&#49;&#x36;&#51;&#46;&#x63;&#111;&#x6d;">&#x7a;&#104;&#97;&#x6f;&#x74;&#x75;&#x72;&#107;&#x6b;&#101;&#x79;&#64;&#x31;&#x36;&#x33;&#x2e;&#x63;&#111;&#x6d;</a></h1>
 
 <h1>Organization:  BrokenSun</h1>
 
@@ -787,54 +1210,6 @@ bash: syntax error near `1&lt;'</p>
 <p>```</p>
 
 <p>而bash也一般是使用<code>$((...))</code> 进行算术的运算.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ydiff单文件夹的所有scm文件比较]]></title>
-    <link href="http://jueqingsizhe66.github.io/blog/2016/02/26/ydiffdan-wen-jian-jia-de-suo-you-scmwen-jian-bi-jiao/"/>
-    <updated>2016-02-26T18:29:08+08:00</updated>
-    <id>http://jueqingsizhe66.github.io/blog/2016/02/26/ydiffdan-wen-jian-jia-de-suo-you-scmwen-jian-bi-jiao</id>
-    <content type="html"><![CDATA[<p>关于YDIff处理已经在<a href="http://jueqingsizhe66.github.io/blog/2016/02/22/shi-yong-ydiffgong-ju-sheng-cheng-wen-jian-chai-yi-bi-jiao-wen-jian/">使用Ydiff工具生成文件差异比较文件</a>中提及，但是只是比较了两个文件夹之间的文件，
-而如果是较为简单的单个文件的所有文件的比较？类似思路如下所示，</p>
-
-<!--more-->
-
-
-<p>一定要注意数组使用的是小括号包括起来，否则程序有问题。</p>
-
-<p>``` sh</p>
-
-<h1>遍历当前目录下的所有文件 并进行比较 最终结果存入final-result</h1>
-
-<h1>array1=<code>ls *.scm</code></h1>
-
-<p>array1=(<code>ls *.scm</code>)  # 必须加上括号
-mkdir final-result
-for i in <code>seq 0 $((${#array1[@]}-1))</code>; do</p>
-
-<pre><code>#遍历从i之后的文件
-for j in ${array1[@]:$i+1:${#array1[@]}}; do 
-    #echo ${array1[$i]},$j;
-    dir1=${array1[$i]};
-    dir2=$j;
-    # 选取对应文件夹下的scm文件
-        #export TestVari=$i
-        /home/happycamp-of-lisp/wangying/ydiff/diff-lisp $dir1 ${dir2}
-
-done;
-</code></pre>
-
-<p>done;</p>
-
-<pre><code>    mv *.html final-result
-    cp ./nav.js ./diff.css final-result
-</code></pre>
-
-<p>```</p>
-
-<p>ls会找出当前文件夹下的所有scm文件，然后利用bash中的数组操作，使用双重
-循环进行遍历即可。</p>
 ]]></content>
   </entry>
   

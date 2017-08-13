@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Scheme | 网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/blog/categories/scheme/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-07-05T17:17:19+08:00</updated>
+  <updated>2017-08-13T11:41:34+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -12,6 +12,1637 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CPS Intutive]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2017/08/11/cps-intutive/"/>
+    <updated>2017-08-11T23:03:15+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2017/08/11/cps-intutive</id>
+    <content type="html"><![CDATA[<p>通过deep&amp;coB 和deepB的不同CPS实现，说明letcc版本是直接跳出surrounding，而不管周边的其他计算。
+并且可以这样认为所有的scheme lambda表达式都可以理解为kn表达式的过程<font color="red">(好处1)</font>，这种直观的解释方便理解
+绕来绕去的过程。并且cps style尾巴的k既可以是变量也可以是函数 <font color="red">(好处2)</font>。</p>
+
+<!--more-->
+
+
+<h2>1. 普通形式</h2>
+
+<p>``` scheme
+;; Normal Form
+(define append2
+  (lambda (lisa lisb)</p>
+
+<pre><code>(cond
+  ((null? lisa) lisb)
+  (else
+   (cons (car lisa) (append2 (cdr lisa) lisb))))))
+</code></pre>
+
+<p>(define fact
+  (lambda (n)</p>
+
+<pre><code>(if (zero? n)
+     1
+     (* n (fact (- n 1))))))
+</code></pre>
+
+<p>(fact 4)</p>
+
+<p>```</p>
+
+<h2>2. Tail form</h2>
+
+<p>``` scheme
+(define append3
+  (lambda (lisa lisb)</p>
+
+<pre><code>(letrec ((ap2
+          (lambda (a b)
+            (cond
+              ((null? a) b)
+              (else (ap2 (cdr a) (cons (car a) b)))))))
+  (ap2 (reverse lisa) lisb))))
+</code></pre>
+
+<p>(define fact2
+  (lambda (n)</p>
+
+<pre><code>(letrec ((fact-help (lambda (n help)
+                      (if (zero? n)
+                          help
+                          (fact-help (- n 1) (* n help))))))
+  (fact-help n 1))))
+</code></pre>
+
+<p>(fact2 4)</p>
+
+<p>```</p>
+
+<h2>3. deep&amp;coB</h2>
+
+<p>``` scheme
+(define deep&amp;coB
+  (lambda (m k)</p>
+
+<pre><code>(cond
+  ((zero? m)
+   (let ()
+     (set! toppings k)
+     (k 'pizza)))
+  (else
+   (deep&amp;coB (sub1 m)
+             (lambda (x)
+               (k (cons x '()))))))))
+</code></pre>
+
+<p>(deep&amp;coB 6 (lambda (x) x))         ; &lsquo;((((((pizza))))))
+(deep&amp;coB 4 (lambda (x) x)) ; &rsquo;((((pizza))))
+```</p>
+
+<p>cps风格 lambda(x) x ,可以使用k1  k2 k3 的风格进行替换,cps风格仅仅是编程的风格，letcc是其中的一种体现.</p>
+
+<h2>4. deepB</h2>
+
+<p>letcc风格 直接跳出！！（也就是不管其他计算，直接他就是返回值！！）
+``` scheme
+(define toppings 0)
+(define deepB
+  (lambda (m)</p>
+
+<pre><code>(cond
+  ((zero? m)
+   (call-with-current-continuation
+    (lambda (jump)
+      (set! toppings jump)
+      'pizza)))
+  (else
+   (cons (deepB (sub1 m)) '())))))
+</code></pre>
+
+<p>```</p>
+
+<h2>5. bons and kons</h2>
+
+<p>进一步理解cps风格也可以看看kons和bons的实现</p>
+
+<p>``` scheme</p>
+
+<h1>lang racket</h1>
+
+<p>; kons the magnificent
+;
+(define kons
+  (lambda (kar kdr)</p>
+
+<pre><code>(lambda (selector)          ; returns lambda (selector)
+  (selector kar kdr))))     ; calls selector with kar and kdr arguments
+</code></pre>
+
+<p>; kar
+;
+(define kar
+  (lambda &copy;                   ; applies selector on (a d) and returns &lsquo;a (car)</p>
+
+<pre><code>(c (lambda (a d) a))))
+</code></pre>
+
+<p>; kdr
+;
+(define kdr
+  (lambda &copy;                   ; applies selector on (a d) and returns d (cdr)</p>
+
+<pre><code>(c (lambda (a d) d))))
+</code></pre>
+
+<p>; Examples of kons kar kdr
+;
+(kar (kons &lsquo;a &rsquo;()))                 ; &lsquo;a
+(kdr (kons 'a &rsquo;()))                 ; &lsquo;()
+(kar (kdr (kons 'a (kons 'b &rsquo;())))) ; &lsquo;b
+(kar (kons 'a (kons 'b &rsquo;()))) ; &lsquo;a
+; Another cons
+;
+(define bons
+  (lambda (kar)</p>
+
+<pre><code>(let ((kdr '()))
+  (lambda (selector)
+    (selector
+     (lambda (x) (set! kdr x))
+     kar
+     kdr)))))
+</code></pre>
+
+<p>; Another kar
+;
+(define bar
+  (lambda &copy;</p>
+
+<pre><code>(c (lambda (s a d) a))))
+</code></pre>
+
+<p>; Another kdr
+;
+(define bdr
+  (lambda &copy;</p>
+
+<pre><code>(c (lambda (s a d) d))))
+</code></pre>
+
+<p>; set-kdr
+;
+(define set-kdr
+  (lambda (c x)</p>
+
+<pre><code>((c (lambda (s a d) s)) x)))
+</code></pre>
+
+<p>; create kons using set-kdr and bons
+;
+(define kons2
+  (lambda (a d)</p>
+
+<pre><code>(let ((c (bons a)))
+  (set-kdr c d)
+  c)))
+</code></pre>
+
+<p>; Example of kons2 bar and bdr
+;
+(bar (kons2 &lsquo;a &rsquo;(1 2 3)))       ; &lsquo;a
+(bdr (kons2 'a &rsquo;(1 2 3)))       ; &lsquo;(1 2 3)
+(define bad
+  (lambda (x)</p>
+
+<pre><code>(and (will-stop? bad)
+     (eternity x))))
+</code></pre>
+
+<p>(define eternity
+  (lambda (x)</p>
+
+<pre><code>(eternity x)))
+</code></pre>
+
+<p>```</p>
+
+<ul>
+<li><a href="https://cgi.soic.indiana.edu/~c311/lib/exe/fetch.php?media=cps-notes.scm">cps变换教程</a></li>
+<li><a href="http://www.ece.uc.edu/~franco/C511/html/Scheme/ycomb.html">Y combinator推导</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[From Little Scheme to Season Scheme]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2017/08/11/from-little-scheme-to-season-scheme/"/>
+    <updated>2017-08-11T23:01:17+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2017/08/11/from-little-scheme-to-season-scheme</id>
+    <content type="html"><![CDATA[<p>The Little Scheme(TLS) 提出了<a href="#rember">rember</a>,<a href="#multirember">multirember</a>,<a href="#mrs">multirember*</a>以及<a href="#mrsc">multirember&amp;Col collector</a>等系列函数的定义，而在The Season  Scheme(TSS) 进一步改进了rember系列函数，
+使用<a href="#rlet">let</a>、<a href="#rletrec">letrec</a>、<a href="#rletcc">letcc</a>进行改写，并结合leftmost和deep函数的想法，又提出了<a href="#rs">rember*</a>的函数，该函数表示删除最左边的函数。在此过程中，剖析每一个简单的函数(并由此带来<strong>智趣</strong>)，
+并进行改进，升级，提炼，从中可以体味到<a href="http://blog.sina.com.cn/s/blog_bffd70da0101f4sl.html">华罗庚老先生</a>说的"书越读越薄，并积厚薄书"的感觉,从繁杂中感受直观的本质，
+借以理解事物，从另外一个角度看待事物。</p>
+
+<ul>
+<li><a href="#TLS">一、The Little Scheme</a>
+
+<ul>
+<li><a href="#rember">rember</a></li>
+<li><a href="#multirember">multirember</a></li>
+<li><a href="#mrs">multiremberStar</a></li>
+<li><a href="#mrsc">multiremberStarCol</a></li>
+</ul>
+</li>
+<li><a href="#TSS">二、The Season Scheme</a>
+
+<ul>
+<li><a href="#rlet">rember-let</a></li>
+<li><a href="#rletrec">rember-letrec</a></li>
+<li><a href="#rletcc">rember-letcc</a></li>
+<li><a href="#rs">rember star</a></li>
+<li><a href="#di">depthStar improvement</a></li>
+</ul>
+</li>
+</ul>
+
+
+<!--more-->
+
+
+
+
+<h2 id="TLS"> 一、The Little Scheme </h2>
+
+
+<hr/>
+
+
+<p>scheme的核心数据结构是List，通过list进行算法的演算，而rember是其中的一种算法，用于去除其中的一个元素。
+并在rember的同级函数中，也定义了subst，member，insert left, insert right等。在TLS书中也提出了这些函数的相同之处并最终使用insert-g来统一各个函数，这是不错的思想。</p>
+
+<h3 id="rember">1.1 rember </h3>
+
+
+<p>``` scheme
+(define rember-f
+  (lambda (test?)</p>
+
+<pre><code>      (lambda (a lat)
+        (cond
+          ((null? lat) '())
+          ((test? a (car lat))
+           (cdr lat))
+          (else
+           (cons (car lat)
+                 ((multirember-f test?) a (cdr lat))))))))
+</code></pre>
+
+<p>```</p>
+
+<p>Another related procedures:</p>
+
+<p>``` scheme
+(define insertL
+  (lambda (new old lat)</p>
+
+<pre><code>(cond
+  ((null? lat)
+   '())
+  ((eq? (car lat) old)
+   (cons new (cons old (cdr lat))))
+  (else
+   (cons new (insertL new old (cdr lat)))))))
+</code></pre>
+
+<p>(define insertLR
+  (lambda (new oldL oldR lat)</p>
+
+<pre><code>(cond
+  ((null? lat)
+   '())
+  ((eq? (car lat) oldL)
+   (cons new (cons oldL (cdr lat))))
+  ((eq? (car lat) oldR)
+   (cons oldR (cons new (cdr lat))))
+  (else
+   (cons (car lat) (insertLR new oldL oldR (cdr lat)))))))
+</code></pre>
+
+<p>```</p>
+
+<p>进一步可以参考 <a href="http://jueqingsizhe66.github.io/blog/2015/05/18/the-little-scheme-and-part-of-tss/">TLS and TSS Backup</a></p>
+
+<hr/>
+
+
+<p>为了更进一步删除一个列表(未嵌套多个list)时候所有的元素(定义为lat version)</p>
+
+<h3 id="multirember">1.2 multirember </h3>
+
+
+<p>``` scheme
+(define multirember-f
+  (lambda (test?)</p>
+
+<pre><code>      (lambda (a lat)
+        (cond
+          ((null? lat) '())
+          ((test? a (car lat))
+           ((multirember-f test?) a (cdr lat)))
+          (else
+           (cons (car lat)
+                 ((multirember-f test?) a (cdr lat))))))))
+</code></pre>
+
+<p>```</p>
+
+<p>Another related procedures:</p>
+
+<p>``` scheme
+(define multiinsertLR
+  (lambda (new oldL oldR lat)</p>
+
+<pre><code>(cond
+  ((null? lat)
+   '())
+  ((eq? (car lat) oldL)
+   (cons new (cons oldL (multiinsertLR new oldL oldR (cdr lat)))))
+  ((eq? (car lat) oldR)
+   (cons oldR (cons new (multiinsertLR new oldL oldR (cdr lat)))))
+  (else
+   (cons (car lat) (multiinsertLR new oldL oldR (cdr lat)))))))
+</code></pre>
+
+<p>;(insertL &lsquo;a 'b &rsquo;(a b c (a b c)))
+;&lsquo;(a a b c (a b c))</p>
+
+<p>;(insertLR &lsquo;water 'a 'b &rsquo;(a bc b c d (a c b)))
+;&lsquo;(water a bc b c d (a c b))</p>
+
+<p> (multiinsertLR &lsquo;water 'a 'b &rsquo;(a b c d a b (a b c d)))
+&lsquo;(water a b water c d water a b water (a b c d))</p>
+
+<blockquote><p>(insertLR &lsquo;water 'a 'b &rsquo;(a b c d a b (a b c d)))
+&lsquo;(water a b c d a b (a b c d))
+```</p></blockquote>
+
+<hr/>
+
+
+<h3 id="mrs">1.3 multirember* </h3>
+
+
+<p>``` scheme
+(define multiinsertLR*
+  (lambda (new oldL oldR lat)</p>
+
+<pre><code>(define atom?
+  (lambda (x)
+    (and  (not (pair? x)) (not (null? x)))))
+(cond
+  ((null? lat)
+   '())
+  ((atom? (car lat))
+   (cond 
+     ((eq? (car lat) oldL)
+      (cons new (cons oldL (multiinsertLR* new oldL oldR (cdr lat)))))
+     ((eq? (car lat) oldR)
+      (cons oldR (cons new (multiinsertLR* new oldL oldR (cdr lat)))))
+     (else
+      (cons (car lat) (multiinsertLR* new oldL oldR (cdr lat))))))
+  (else
+   (cons (multiinsertLR* new oldL oldR (car lat))
+         (multiinsertLR* new oldL oldR (cdr lat)))))))
+</code></pre>
+
+<p>(define evens-only*
+  (lambda (l)</p>
+
+<pre><code>(define atom?
+  (lambda (x)
+    (and (not (pair? x)) (not (null? x)))))
+(cond
+  ((null? l) '())
+  ((atom? (car l))
+   (cond
+     ((even? (car l))
+      (cons (car l) (evens-only* (cdr l))))
+     (else (evens-only* (cdr l)))))
+  (else
+   (cons (evens-only* (car l))
+         (evens-only* (cdr l)))))))
+</code></pre>
+
+<blockquote><p>(multiinsertLR* &lsquo;water 'a 'b &rsquo;(a b c d a b (a b c d)))
+&lsquo;(water a b water c d water a b water (water a b water c d))
+(multiinsertLR 'water 'a 'b &rsquo;(a b c d a b (a b c d)))
+&lsquo;(water a b water c d water a b water (a b c d))</p></blockquote>
+
+<p>```</p>
+
+<p>Another related procedures:</p>
+
+<p>``` scheme</p>
+
+<p>(define multiinsertLR*let
+  (lambda (new oldL oldR lat)</p>
+
+<pre><code>(define atom?
+  (lambda (x)
+    (and  (not (pair? x)) (not (null? x)))))
+(cond
+  ((null? lat)
+   '())
+  ((atom? (car lat))
+    (let ((rest (multiinsertLR* new oldL oldR (cdr lat))))
+      (cond        
+        ((eq? (car lat) oldL)
+         (cons new (cons oldL rest)))
+        ((eq? (car lat) oldR)
+         (cons oldR (cons new rest)))
+        (else
+         (cons (car lat) rest)))))
+  (else
+   (let ((first (multiinsertLR* new oldL oldR (car lat)))
+         (rest (multiinsertLR* new oldL oldR (cdr lat))))
+   (cons first rest))))))
+</code></pre>
+
+<p>(define multiinsertLR*letrec
+  (lambda (new oldL oldR lat)</p>
+
+<pre><code>(define atom?
+  (lambda (x)
+    (and  (not (pair? x)) (not (null? x)))))
+(define mul-help
+  (lambda (lat)       
+    (cond
+      ((null? lat)
+       '())
+      ((atom? (car lat))
+       (cond 
+         ((eq? (car lat) oldL)
+          (cons new (cons oldL (mul-help  (cdr lat)))))
+         ((eq? (car lat) oldR)
+          (cons oldR (cons new (mul-help  (cdr lat)))))
+         (else
+          (cons (car lat) (mul-help  (cdr lat))))))
+      (else
+       (cons (mul-help  (car lat))
+             (mul-help  (cdr lat)))))))
+(mul-help lat)))
+</code></pre>
+
+<blockquote><p>(multiinsertLR<em>let &lsquo;water 'a 'b &rsquo;(a b c d a b (a b c d)))
+&lsquo;(water a b water c d water a b water (water a b water c d))
+(multiinsertLR</em> 'water 'a 'b &rsquo;(a b c d a b (a b c d)))
+&lsquo;(water a b water c d water a b water (water a b water c d))
+(multiinsertLR 'water 'a 'b &rsquo;(a b c d a b (a b c d)))
+&lsquo;(water a b water c d water a b water (a b c d))</p></blockquote>
+
+<p>(multiinsertLR*letrec &lsquo;water 'a 'b &rsquo;(a b c d a b (a b c d)))
+&lsquo;(water a b water c d water a b water (water a b water c d))</p>
+
+<p>(define multiinsertLR*letreclet
+  (lambda (new oldL oldR lat)</p>
+
+<pre><code>(define atom?
+  (lambda (x)
+    (and  (not (pair? x)) (not (null? x)))))
+(define mul-help
+  (lambda (lat)       
+    (cond
+      ((null? lat)
+       '())
+      ((atom? (car lat))
+       (let ((rest (mul-help  (cdr lat))))
+       (cond 
+         ((eq? (car lat) oldL)
+          (cons new (cons oldL rest)))
+         ((eq? (car lat) oldR)
+          (cons oldR (cons new rest)))
+         (else
+          (cons (car lat) rest)))))
+      (else
+       (let ((first (mul-help  (car lat)))
+             (rest (mul-help  (cdr lat))))
+       (cons first rest))))))
+(mul-help lat)))
+</code></pre>
+
+<p>(multiinsertLR*letreclet &lsquo;water 'a 'b &rsquo;(a b c d a b (a b c d)))
+&lsquo;(water a b water c d water a b water (water a b water c d))</p>
+
+<p>```</p>
+
+<hr/>
+
+
+<h3 id="mrsc">1.4 multiremberstar and collector </h3>
+
+
+<p>``` scheme</p>
+
+<p>(define multirember*co
+  (lambda (a lat col)</p>
+
+<pre><code>(define atom?
+  (lambda (x)
+    (and (not (pair? x)) (not (null? x)))))
+(cond
+  (( null? lat)
+   (col (quote ()) (quote ())))
+  ((atom? (car lat))
+   (cond
+     ((eq? ( car lat) a)
+     (multirember*co a (cdr lat)
+                    (lambda ( newlat seen)
+                      (col newlat (cons (car lat)
+                                        seen)))))
+   (else
+    (multirember*co a (cdr lat)
+                   (lambda (newlat seen)
+                     (col (cons (car lat) newlat) seen))))))
+  (else
+   (multirember*co a (car lat)
+                   (lambda (al as)
+                     (multirember*co a (cdr lat)
+                                     (lambda (dl ds)
+                                       (col (cons al dl)
+                                            (cons as ds))))))))))
+</code></pre>
+
+<p>```</p>
+
+<p>Another related procedures:</p>
+
+<p>``` scheme</p>
+
+<p>(define col
+   (lambda (x y)</p>
+
+<pre><code>  (null? y)))
+</code></pre>
+
+<p>(define a-friend
+   (lambda (x y)</p>
+
+<pre><code>  (length x)))
+</code></pre>
+
+<p>(define a-friend-y
+   (lambda (x y)</p>
+
+<pre><code>  (length y)))
+</code></pre>
+
+<p>(define a-friend-z
+   (lambda (x y)</p>
+
+<pre><code>  (cons x (cons y '()))))
+</code></pre>
+
+<p>(define a-friend-zp
+   (lambda (x y z)</p>
+
+<pre><code>  (cons x (cons y (cons z '())))))
+</code></pre>
+
+<p>(define evens-only*col
+  (lambda (l col)</p>
+
+<pre><code>(define atom?
+  (lambda (x)
+    (and (not (pair? x)) (not (null? x)))))
+(cond
+  ((null? l) (col '() 1 0))
+  ((atom? (car l))
+   (cond
+     ((even? (car l))
+      (evens-only*col (cdr l)
+                      (lambda (newlat L R)
+                        (col (cons (car l) newlat) (* (car l) L) R))))
+     (else (evens-only*col (cdr l) (lambda (newlat L R)
+                                  (col newlat L
+                                       (+ (car l) R)))))))
+  (else
+   (evens-only*col (car l)
+                   (lambda (al ale ari)
+                     (evens-only*col (cdr l)
+                                     (lambda (dl dle dri)
+                                       (col (cons al dl)
+                                            (* ale dle)
+                                            (+ ari dri))))))))))
+</code></pre>
+
+<p>(define multiinsertLRo
+  (lambda (new oldL oldR lat col)</p>
+
+<pre><code>(cond
+  ((null? lat) (col '() 0 0))
+  ((eq? (car lat) oldL)
+   (multiinsertLRo new oldL oldR (cdr lat)
+                   (lambda (newlat L R)
+                     (col (cons new (cons oldL newlat))
+                          (+ L 1) R))))
+  ((eq? (car lat) oldR)
+   (multiinsertLRo new oldL oldR (cdr lat)
+                   (lambda (newlat L R)
+                     (col (cons oldR (cons new newlat))
+                          L (+ R 1)))))
+  (else
+   (multiinsertLRo new oldL oldR (cdr lat)
+                   (lambda (newlat L R)
+                     (col (cons (car lat) newlat)
+                          L
+                          R)))))))
+</code></pre>
+
+<p>(define multiinsertLR*o
+  (lambda (new oldL oldR lat col)</p>
+
+<pre><code>(define atom?
+  (lambda (x)
+    (and (not (pair? x)) (not (null? x)))))
+(cond
+  ((null? lat) (col '() 0 0))
+  ((atom? (car lat))
+   (cond
+     ((eq? (car lat) oldL)
+      (multiinsertLR*o new oldL oldR (cdr lat)
+                      (lambda (newlat L R)
+                        (col (cons new (cons oldL newlat))
+                             (+ L 1) R))))
+     ((eq? (car lat) oldR)
+      (multiinsertLR*o new oldL oldR (cdr lat)
+                      (lambda (newlat L R)
+                        (col (cons oldR (cons new newlat))
+                             L (+ R 1)))))
+     (else
+      (multiinsertLR*o new oldL oldR (cdr lat)
+                      (lambda (newlat L R)
+                        (col (cons (car lat) newlat)
+                             L
+                             R))))))
+  (else
+   (multiinsertLR*o new oldL oldR (car lat)
+                    (lambda (al ale ari)
+                      (multiinsertLR*o new oldL oldR (cdr lat)
+                                       (lambda (dl dle dri)
+                                         (col (cons al dl)
+                                              (+ ale dle)
+                                              (+ ari dri))))))))))
+</code></pre>
+
+<p>```</p>
+
+<hr/>
+
+
+<h2 id="TSS"> 二、The Season Scheme </h2>
+
+
+
+
+<hr/>
+
+
+<p>由<a href="#member">member</a>和rember又可以深入进行剖析，于是引进了member的升级版本two-in-a-lat,未包含TSS的最后一个two-in-a-lat的实现，并通过let,letrec,letcc改写TLS中的rember系列函数，在结合<a href="#lm">leftmost</a>和<a href="#deep">deep(Later on,deep有两外一层意思就是产生n层的pizza)</a>函数，升级rember到删除最左边的一个元素。</p>
+
+<p>Member实际上在所有的函数的实现中都有对应的组成，他是一个十分重要的组成部分，包括基于member的<a href="#union">union</a>,<a href="#intersect">intersect</a>,<a href="#intersectall">intersectall</a>函数的，一个相对基础的函数。</p>
+
+<h4 id="member">the  definition of member</h4>
+
+
+<p>``` scheme
+(define member?
+  (lambda (a lat)</p>
+
+<pre><code>(cond
+  ((null? lat) #f)
+  (else
+   (or (eq? a (car lat))
+       (member a (cdr lat)))))))
+</code></pre>
+
+<p>; member-letrec version
+(define member?
+  (lambda (a l)</p>
+
+<pre><code>(letrec
+  ((yes? (lambda (l)
+           (cond
+             ((null? l) #f)
+             ((eq? (car l) a) #t)
+             (else (yes? (cdr l)))))))
+  (yes? l))))
+</code></pre>
+
+<p>```</p>
+
+<p>现在让我们看看two-in-a-lat的引申(通过member)</p>
+
+<h4 id="two">Two -in -a -lat</h4>
+
+
+<p>包含two-in-a-lat(用member2代替),并附加sum-of-prefix和scramble函数的实现，目的是说如果你想让函数知道额外的信息，可以通过增加参数的方法。</p>
+
+<p>``` scheme
+(define member-letrec-ju?
+  (lambda (a lat)</p>
+
+<pre><code>(letrec ((yes? (lambda (l)
+                (cond
+                  ((null? l) #f)
+                  (else
+                   (or (eq? a (car l))
+                       (yes? a (cdr l))))))))
+  (yes? lat))))
+</code></pre>
+
+<p>(define member2?
+  (lambda (preceding lat)</p>
+
+<pre><code>(cond
+  ((null? lat) #f)
+  (else (or (eq? preceding (car lat))
+            (member2? (car lat) (cdr lat)))))))
+</code></pre>
+
+<p>;;; (member2? &lsquo;a &rsquo;(a b c))  bugs!</p>
+
+<p>(define memberContinue?
+  (lambda (lat)</p>
+
+<pre><code>(define M2?
+  (lambda (preceding lat)
+    (cond
+      ((null? lat) #f)
+      (else (or (eq? preceding (car lat))
+                (M2? (car lat) (cdr lat)))))))
+(M2? '() lat)))
+</code></pre>
+
+<p>(define memberContinueAlter?
+  (lambda (lat)</p>
+
+<pre><code>(letrec ((M2? (lambda (preceding lat)
+                (cond
+                  ((null? lat) #f)
+                  (else
+                   (let ((pre (car lat)))
+                     (or (eq? preceding pre)
+                            (M2? pre (cdr lat)))))))))
+         (M2? '() lat))))
+</code></pre>
+
+<p>(define sum-of-prefixes
+  (lambda (tup)</p>
+
+<pre><code>(define sum-of-prefixes-b
+  (lambda (sonssf tup)     ; sonssf stands for 'sum of numbers seen so far'
+    (cond
+      ((null? tup) '())
+      (else (cons (+ sonssf (car tup))
+                  (sum-of-prefixes-b
+                   (+ sonssf (car tup))
+                   (cdr tup)))))))
+(sum-of-prefixes-b 0 tup)))
+</code></pre>
+
+<p>;  (sum-of-prefixes &lsquo;(1 2 3 4))
+; &rsquo;(1 3 6 10)</p>
+
+<p>(define sum-of-prefixes1
+  (lambda (tup)</p>
+
+<pre><code>(letrec
+  ((S (lambda (sss tup)
+        (cond
+          ((null? tup) '())
+          (else
+           (let ((first (car tup)))
+            (cons (+ sss first)
+                  (S (+ sss first) (cdr tup)))))))))
+</code></pre>
+
+<p>(S 0 tup))))</p>
+
+<p>(define scramble-b
+  (lambda (tup rev-pre)</p>
+
+<pre><code>(define one?
+  (lambda (n)
+    (= n  1)))
+(define sub1
+  (lambda (n)
+    (- n 1)))
+(define pick
+  (lambda (n lat)
+    (cond
+      ((one? n) (car lat))
+      (else (pick (sub1 n) (cdr lat))))))
+(cond
+  ((null? tup) '())
+  (else
+   (cons (pick (car tup) (cons (car tup) rev-pre))
+         (scramble-b (cdr tup)
+                     (cons (car tup) rev-pre)))))))
+</code></pre>
+
+<p>(define scramble
+  (lambda (tup)</p>
+
+<pre><code>(letrec ((scramble-b
+          (lambda (tup rev-pre)
+            (define one?
+              (lambda (n)
+                (= n  1)))
+            (define sub1
+              (lambda (n)
+                (- n 1)))
+            (define pick
+              (lambda (n lat)
+                (cond
+                  ((one? n) (car lat))
+                  (else (pick (sub1 n) (cdr lat))))))
+            (cond
+              ((null? tup) '())
+              (else
+               (let ((first (car tup)))
+                 (cons (pick first (cons first rev-pre))
+                 (scramble-b (cdr tup)
+                             (cons first rev-pre)))))))))
+  (scramble-b tup '()))))
+</code></pre>
+
+<p>(define scramble2
+  (lambda (tup)</p>
+
+<pre><code>(letrec ((one?
+          (lambda (n)
+            (= n  1)))
+         (sub1
+          (lambda (n)
+            (- n 1)))
+         (pick
+          (lambda (n lat)
+            (cond
+              ((one? n) (car lat))
+              (else (pick (sub1 n) (cdr lat))))))
+         (scramble-b
+          (lambda (tup rev-pre)
+            (cond
+              ((null? tup) '())
+              (else
+               (let ((first (car tup)))
+                 (cons (pick first (cons first rev-pre))
+                       (scramble-b (cdr tup)
+                                   (cons first rev-pre)))))))))
+  (scramble-b tup '()))))
+</code></pre>
+
+<p>```</p>
+
+<hr/>
+
+
+
+
+<h3 id="rlet">2.1 rember-let </h3>
+
+
+<p>Note: use let to define the repeated expression, so simplify the definition of the procedure.</p>
+
+<hr/>
+
+
+
+
+<h3 id="rletrec">2.2 rember-letrec </h3>
+
+
+<p>``` scheme</p>
+
+<p>;;; see at the TSS
+(define rember
+  (lambda (a lat)</p>
+
+<pre><code>(letrec
+    ((R (lambda (lat)
+          (cond
+            ((null? lat) '())
+            ((eq? (car lat) a) (cdr lat))
+            (else
+             (cons (car lat) (R (cdr lat))))))))
+  (R lat))))
+</code></pre>
+
+<p>```</p>
+
+<hr/>
+
+
+<p>如果我们想要进一步实现<a href="#rbf">rember-beyond-first</a>(保留删除元素之前的所有元素)和<a href="#rul">rember-upto-last</a>(只保留删除元素之后的元素)</p>
+
+<h3 id="rletcc">2.3 rember-letcc </h3>
+
+
+
+
+<h4 id="rbf">Rember-Beyond-first</h4>
+
+
+<p>``` scheme
+; The rember-beyond-first function rembers everything beyond first match
+;
+(define rember-beyond-first
+  (lambda (a lat)</p>
+
+<pre><code>(letrec
+  ((R (lambda (lat)
+        (cond
+          ((null? lat) '())
+          ((eq? (car lat) a) '())
+          (else
+            (cons (car lat) (R (cdr lat))))))))
+  (R lat))))
+</code></pre>
+
+<p>```</p>
+
+<p><code>
+(rember-beyond-first
+  'roots
+  '(noodles spaghetti spatzle bean-thread roots potatoes yam others rice))
+; ==&gt; '(noodles spaghetti spaghetti bean-thread)
+</code></p>
+
+<hr/>
+
+
+
+
+<h4 id="rul">Rember-upto-last</h4>
+
+
+<p>``` scheme
+(define-syntax letcc
+  (syntax-rules ()</p>
+
+<pre><code>((letcc ?k ?body ...)
+ (call/cc (lambda (?k) ?body ...)))))
+</code></pre>
+
+<p>(define rember-upto-last
+  (lambda (a lat) ; Look Ma, no cons</p>
+
+<pre><code>(letcc skip
+  (letrec 
+      ((R
+        (lambda (l)
+          (cond
+            ((null? l) (void))
+            (else (let ()
+                    (R (cdr l))
+                    (cond
+                      ((eq? a (car l))
+                       (skip (cdr l)))
+                      (else (void)))))))))
+    (R lat)
+    lat))))
+</code></pre>
+
+<p>```</p>
+
+<p><code>
+(rember-upto-last
+  'roots
+  '(noodles spaghetti spatzle bean-thread roots potatoes yam others rice))
+; ==&gt; '(potatoes yam others rice)
+</code></p>
+
+<hr/>
+
+
+
+
+<h3 id="rs">2.4 remberstar </h3>
+
+
+
+
+<h4 id="lm">the  definition of leftmost</h4>
+
+
+<p>``` scheme
+(define leftmost-fixed-let
+  (lambda (l)</p>
+
+<pre><code>(cond
+  ((null? l) '())
+  ((atom? (car l)) (car l))
+  (else
+   (let ((a (leftmost-fixed (car l))))
+     (cond
+       ((atom? a) a)
+       (else (leftmost-fixed (cdr l)))))))))
+</code></pre>
+
+<p>;(leftmost-fixed-let &lsquo;((() a b) (c d))) ;; bug fixed
+;
+;(leftmost-fixed-let &rsquo;(((y) b) (c d)))   ; &lsquo;y
+;(leftmost-fixed-let &rsquo;(((y) ()) () (e))) ; &lsquo;y
+;(leftmost-fixed-let &rsquo;(((() y) ())))     ; &lsquo;y
+;(leftmost-fixed-let &rsquo;(((()) ()))) ; &lsquo;()</p>
+
+<p>;;letcc version</p>
+
+<p>(define leftmost-letcc
+  (letrec</p>
+
+<pre><code>  ((lm (lambda (l out)
+         (cond
+           ((null? l) '())
+           ((atom? (car l)) (out (car l)))
+           (else
+            (begin
+              (lm (car l) out)
+              (lm (cdr l) out)))))))
+(lambda (l)
+  (call-with-current-continuation
+   (lambda (skip)
+     (lm l skip))))))
+</code></pre>
+
+<p>```</p>
+
+<hr/>
+
+
+
+
+<h4 id="deep">the  definition of deep</h4>
+
+
+<p>``` scheme
+(define deep
+  (lambda (m)</p>
+
+<pre><code>(cond
+  ((zero? m) 'pizza)
+  (else (cons (deep (sub1 m)) '())))))
+</code></pre>
+
+<p>(define toppings 0)
+(define deepB
+  (lambda (m)</p>
+
+<pre><code>(cond
+  ((zero? m)
+   (call-with-current-continuation
+    (lambda (jump)
+      (set! toppings jump)
+      'pizza)))
+  (else
+   (cons (deepB (sub1 m)) '())))))
+</code></pre>
+
+<p>(define deep&amp;co
+  (lambda (m k)</p>
+
+<pre><code>(cond
+  ((zero? m) (k 'pizza))
+  (else
+   (deep&amp;co (sub1 m)
+            (lambda (x) (k (cons x '()))))))))
+</code></pre>
+
+<p>(deep&amp;co 0 (lambda (x) x))          ; &lsquo;pizza
+(deep&amp;co 6 (lambda (x) x))          ; &rsquo;((((((pizza))))))
+(deep&amp;co 2 (lambda (x) x)) ; &lsquo;((pizza))</p>
+
+<p>(define deep&amp;coB
+  (lambda (m k)</p>
+
+<pre><code>(cond
+  ((zero? m)
+   (let ()
+     (set! toppings k)
+     (k 'pizza)))
+  (else
+   (deep&amp;coB (sub1 m)
+             (lambda (x)
+               (k (cons x '()))))))))
+</code></pre>
+
+<p>(deep&amp;coB 6 (lambda (x) x))         ; &lsquo;((((((pizza))))))
+(deep&amp;coB 4 (lambda (x) x)) ; &rsquo;((((pizza))))
+```</p>
+
+<hr/>
+
+
+<p>接下来，再看看由leftmost结合rember得到rember star.</p>
+
+<p>``` scheme</p>
+
+<p>; The rember1<em> function removes the leftmost occurrence of a in l
+;
+(define rember1</em>
+  (lambda (a l)</p>
+
+<pre><code>(cond
+  ((null? l) '())
+  ((atom? (car l))
+   (cond
+     ((eq? (car l) a) (cdr l))
+     (else
+       (cons (car l) (rember1* a (cdr l))))))
+  (else
+    (cond
+      ((equal? (rember1* a (car l)) (car l)) ; if the list with 'a' removed doesn't change
+       (cons (car l) (rember1* a (cdr l))))  ; then recurse
+      (else
+        (cons (rember1* a (car l)) (cdr l)))))))) ; otherwise remove 'a'
+</code></pre>
+
+<p>```</p>
+
+<p>```
+; Examples of rember1<em>
+;
+(rember1</em>
+  &lsquo;salad
+  &rsquo;((Swedish rye) (French (mustard salad turkey)) salad))
+; ==> &lsquo;((Swedish rye) (French (mustard turkey)) salad)</p>
+
+<p>(rember1*
+  &lsquo;meat
+  &rsquo;((pasta meat) pasta (noodles meat sauce) meat tomatoes))
+; ==> &lsquo;((pasta) pasta (noodles meat sauce) meat tomatoes)</p>
+
+<p>```</p>
+
+<p>下面是letrec version of rember1*
+```
+(define rember1*-letrec
+  (lambda (a l)</p>
+
+<pre><code>(letrec
+    ((R (lambda (l)
+          (cond
+            ((null? l) '())
+            ((atom? (car l))
+             (let ((first (car l))
+                   (second (cdr l)))
+               (cond
+                 ((eq? first a) second)
+                 (else
+                  (cons first (R second))))))
+             (else
+              (let ((first (car l))
+                    (second (cdr l)))
+                (cond
+                  ((equal? (R first) first) ; if the list with 'a' removed doesn't change
+                   (cons first (R second)))  ; then recurse
+                  (else
+                   (cons (R first) second))))))))) ; otherwise remove 'a'
+  (R l))))
+</code></pre>
+
+<p>(rember1<em>-letrec
+  &lsquo;salad
+  &rsquo;((Swedish rye) (French (mustard salad turkey)) salad))
+(rember1</em>-letrec
+  &lsquo;meat
+  &rsquo;((pasta meat) pasta (noodles meat sauce) meat tomatoes))</p>
+
+<p>```</p>
+
+<p>the version of letcc (我暂时不太理解)</p>
+
+<p>```
+; rember1<em> via letcc
+;
+(define rember1</em>-letcc
+  (lambda (a l)</p>
+
+<pre><code>(letrec
+    ((rm (lambda (a l oh)
+           (cond
+             ((null? l) (oh 'no))
+             ((atom? (car l))
+              (if (eq? (car l) a)
+                  (cdr l)
+                  (cons (car l) (rm a (cdr l) oh))))
+             (else
+              (let ((new-car
+                     (call-with-current-continuation
+                      (lambda (oh)
+                        (rm a (car l) oh)))))
+                (if (atom? new-car)
+                    (cons (car l) (rm a (cdr l) oh))
+                    (cons new-car (cdr l)))))))))
+  (let ((new-l
+         (call-with-current-continuation
+          (lambda (oh)
+            (rm a l oh)))))
+    (if (atom? new-l)
+        l
+        new-l)))))
+</code></pre>
+
+<p>; Tests of rember1<em>-letcc
+;
+(rember1</em>-letcc
+ &lsquo;salad
+ &rsquo;((Swedish rye) (French (mustard salad turkey)) salad))
+; ==> &lsquo;((Swedish rye) (French (mustard turkey)) salad)</p>
+
+<p>(rember1*-letcc
+ &lsquo;meat
+ &rsquo;((pasta meat) pasta (noodles meat sauce) meat tomatoes))
+; ==> &lsquo;((pasta) pasta (noodles meat sauce) meat tomatoes)</p>
+
+<p>(rember1*-letcc
+ &lsquo;a
+ &rsquo;((foo bar) baz))
+; ==> &lsquo;((foo bar) baz)</p>
+
+<p>```</p>
+
+<hr/>
+
+
+
+
+<h4 id="union">the  definition of union</h4>
+
+
+<p>``` scheme
+(define union2
+  (lambda (set1 set2)</p>
+
+<pre><code>(letrec ((member? (lambda (a lat)
+            (cond ((null? lat) #f)
+                          ((eq? a (car lat)) #t)
+                          (else (member? a (cdr lat))))))
+         (A (lambda (set1)
+            (cond
+              ((null? set1) set2)
+              (else
+               (let ((p1 (A (cdr set1))))
+                 (if (member? (car set1) set2)
+                     p1
+                     (cons (car set1) p1))))))))
+  (A set1))))
+  (union2 '(a b c) '(c d e f))
+</code></pre>
+
+<p>```</p>
+
+<hr/>
+
+
+
+
+<h4 id="intersect">the  definition of intersect</h4>
+
+
+<p>``` scheme
+(define intersect
+  (lambda (set1 set2)</p>
+
+<pre><code>(cond
+  ((null? set1) '())  ; don't forget the 1st commandment
+  ((member? (car set1) set2)
+   (cons (car set1) (intersect (cdr set1) set2)))
+  (else
+    (intersect (cdr set1) set2)))))
+</code></pre>
+
+<p>```</p>
+
+<p><code>
+; Examples of intersect
+;
+;(intersect '(a b x c d) '(q w e x r t y a))     ; '(a x)
+;(intersect '(a b x c d) '())                    ; '()
+;(intersect '() '())                             ; '()
+;(intersect '() '(a b x c d))                    ; '()
+;(intersect '(a b x c d) '(a b x c d))           ; '(a b x c d)
+</code></p>
+
+<p>intersect letrec version</p>
+
+<p><font color="red">use letrec to remove arguments that do not change for recursive applications</font></p>
+
+<p>``` scheme
+(define intersect-letrec
+  (lambda (set1 set2)</p>
+
+<pre><code>(letrec
+  ((I (lambda (set)
+        (cond
+          ((null? set) '())
+          ((member? (car set) set2)
+           (cons (car set) (I (cdr set))))
+          (else
+            (I (cdr set)))))))
+  (I set1))))
+</code></pre>
+
+<p>; Test of intersect-letrec
+;
+;(intersect-letrec &lsquo;(a b x c d) &rsquo;(q w e x r t y a))     ; &lsquo;(a x)
+;(intersect-letrec &rsquo;(a b x c d) &lsquo;())                    ; &rsquo;()
+;(intersect-letrec &lsquo;() &rsquo;())                             ; &lsquo;()
+;(intersect-letrec &rsquo;() &lsquo;(a b x c d))                    ; &rsquo;()
+;(intersect-letrec &lsquo;(a b x c d) &rsquo;(a b x c d))           ; &lsquo;(a b x c d)
+```</p>
+
+<hr/>
+
+
+
+
+<h4 id="intersectall">the  definition of intersectall</h4>
+
+
+<p>``` scheme
+; The intersectall function finds intersect of a bunch of sets
+;
+(define intersectall
+  (lambda (lset)</p>
+
+<pre><code>(cond
+  ((null? lset) '())
+  ((null? (cdr lset)) (car lset))
+  (else
+    (intersect (car lset)
+               (intersectall (cdr lset)))))))
+</code></pre>
+
+<p>; Examples of intersectall
+;
+;(intersectall &lsquo;((a) (a) (a)))                   ; &rsquo;(a)
+;(intersectall &lsquo;((a) () (a)))                    ; &rsquo;()
+;(intersectall &lsquo;())                              ; &rsquo;()
+;(intersectall &lsquo;((a b c d) (b c d e) (c d e f))) ; &rsquo;(c d)</p>
+
+<p>; Obeying the 12th commandment
+;
+(define intersectall-letrec
+  (lambda (lset)</p>
+
+<pre><code>(letrec
+  ((A (lambda (lset)
+        (cond
+          ((null? (cdr lset)) (car lset))
+          (else
+            (intersect (car lset)
+                       (A (cdr lset))))))))
+  (cond
+    ((null? lset) '())
+    (else (A lset))))))
+</code></pre>
+
+<p>; Tests of intersectall-letrec
+;;
+;(intersectall-letrec &lsquo;((a) (a) (a)))                   ; &rsquo;(a)
+;(intersectall-letrec &lsquo;((a) () (a)))                    ; &rsquo;()
+;(intersectall-letrec &lsquo;())                              ; &rsquo;()
+;(intersectall-letrec &lsquo;((a b c d) (b c d e) (c d e f))) ; &rsquo;(c d)</p>
+
+<p>(define intersectall-ap
+  (lambda (lset)</p>
+
+<pre><code>(call-with-current-continuation
+  (lambda (hop)
+    (letrec
+      ((A (lambda (lset)
+            (cond
+              ((null? (car lset)) (hop '()))
+              ((null? (cdr lset)) (car lset))
+              (else
+                (I (car lset)
+                   (A (cdr lset)))))))
+       (I (lambda (s1 s2)
+            (letrec
+              ((J (lambda (s1)
+                    (cond
+                      ((null? s1) '())
+                      ((member? (car s1) s2)
+                       (cons (car s1) (J (cdr s1))))
+                      (else
+                        (J (cdr s1)))))))
+              (cond
+                ((null? s2) (hop '()))
+                (else (J s1)))))))
+      (cond
+        ((null? lset) '())
+        (else (A lset))))))))
+</code></pre>
+
+<p>; Tests of intersectall-ap
+;
+;(intersectall-ap &lsquo;((a) (a) (a)))                   ; &rsquo;(a)
+;(intersectall-ap &lsquo;((a) () (a)))                    ; &rsquo;()
+;(intersectall-ap &lsquo;())                              ; &rsquo;()
+;(intersectall-ap &lsquo;((a b c d) (b c d e) (c d e f))) ; &rsquo;(c d)
+```</p>
+
+<p>最后再透过deep star的写法优化过程来体会TSS的函数精髓。</p>
+
+<hr/>
+
+
+
+
+<h3 id="di">depthStar improvement </h3>
+
+
+<p>通过<a href="#depth">depth</a>进一步阐释letrec的意义（从原始的depth到<a href="#depthlet">depth-let</a>
+然后<a href="#letif">depth-let-if</a>，以及更为清晰版本的<a href="#letmax">depth-let-max</a>,然后最后浓缩到最后的6行代码<a href="#max">depth-max</a>。</p>
+
+<h4 id="depth">depth</h4>
+
+
+<p>``` scheme
+; The depth<em> function finds the max depth of an s-expression
+;
+(define depth</em>
+  (lambda (l)</p>
+
+<pre><code>(cond
+  ((null? l) 1)
+  ((atom? (car l)) (depth* (cdr l)))
+  (else
+    (cond
+      ((&gt; (depth* (cdr l))
+          (add1 (depth* (car l))))
+       (depth* (cdr l)))
+      (else
+</code></pre>
+
+<p>(add1 (depth* (car l)))))))))</p>
+
+<p>(depth<em> &lsquo;((pickled) peppers (peppers pickled)))                          ; 2
+(depth</em> &rsquo;(margarine ((bitter butter) (makes) (batter (bitter))) butter)) ; 4
+(depth* &lsquo;(c (b (a b) a) a)) ; 3</p>
+
+<p>```</p>
+
+<p>let version:</p>
+
+<h4 id="depthlet">depth-let</h4>
+
+
+<p>``` scheme</p>
+
+<p>(define depth*-let
+  (lambda (l)</p>
+
+<pre><code>(cond
+  ((null? l) 1)
+  ((atom? (car l)) (depth*-let (cdr l)))
+  (else
+   (let ((rightPart (depth*-let (cdr l)))
+         (leftPart (add1 (depth*-let (car l)))))
+     (cond
+       ((&gt; rightPart
+           leftPart)
+        rightPart)
+       (else
+        leftPart)))))))
+</code></pre>
+
+<p>(depth<em>-let &lsquo;((pickled) peppers (peppers pickled)))                          ; 2
+(depth</em>-let &rsquo;(margarine ((bitter butter) (makes) (batter (bitter))) butter)) ; 4
+(depth*-let &lsquo;(c (b (a b) a) a)) ; 3
+```</p>
+
+<p>let-if version:</p>
+
+<h4 id="letif">depth-let-if</h4>
+
+
+<p>``` scheme
+(define depth*-let-if
+  (lambda (l)</p>
+
+<pre><code>(cond
+  ((null? l) 1)
+  ((atom? (car l)) (depth*-let-if (cdr l)))
+  (else
+   (let ((rightPart (depth*-let-if (cdr l)))
+         (leftPart (add1 (depth*-let-if (car l)))))
+     (if (&gt; rightPart leftPart)
+        rightPart
+        leftPart))))))
+</code></pre>
+
+<p>(depth<em>-let-if &lsquo;((pickled) peppers (peppers pickled)))                          ; 2
+(depth</em>-let-if &rsquo;(margarine ((bitter butter) (makes) (batter (bitter))) butter)) ; 4
+(depth*-let-if &lsquo;(c (b (a b) a) a)) ; 3
+```</p>
+
+<p>depth-let-max version:</p>
+
+<h4 id="letmax">depth-let-max</h4>
+
+
+<p>``` scheme
+define depth*-let-max
+  (lambda (l)</p>
+
+<pre><code>(cond
+  ((null? l) 1)
+  ((atom? (car l)) (depth*-let-max (cdr l)))
+  (else
+   (let ((rightPart (depth*-let-max (cdr l)))
+         (leftPart (add1 (depth*-let-max (car l)))))
+     (max rightPart leftPart))))))
+</code></pre>
+
+<p>(depth<em>-let-max &lsquo;((pickled) peppers (peppers pickled)))                          ; 2
+(depth</em>-let-max &rsquo;(margarine ((bitter butter) (makes) (batter (bitter))) butter)) ; 4
+(depth*-let-max &lsquo;(c (b (a b) a) a)) ; 3</p>
+
+<p>```</p>
+
+<p>depth-max version:</p>
+
+<h4 id="max">depth-max</h4>
+
+
+<p>``` scheme
+(define depth*-max
+  (lambda (l)</p>
+
+<pre><code>(cond
+  ((null? l) 1)
+  ((atom? (car l)) (depth*-max (cdr l)))
+  (else
+     (max (depth*-max (cdr l)) (add1 (depth*-max (car l))))))))
+</code></pre>
+
+<p>(depth<em>-max &lsquo;((pickled) peppers (peppers pickled)))                          ; 2
+(depth</em>-max &rsquo;(margarine ((bitter butter) (makes) (batter (bitter))) butter)) ; 4
+(depth*-max &lsquo;(c (b (a b) a) a)) ; 3
+```</p>
+
+<hr/>
+
+
+<p>常用链接，</p>
+
+<ul>
+<li><a href="http://jueqingsizhe66.github.io/blog/2016/02/14/si-ji-mo-si-de-le-yuan-schemers/">Scheme清单</a></li>
+<li><a href="https://groups.google.com/forum/#!forum/racket-users">Google racket User group</a></li>
+<li><a href="https://groups.google.com/forum/#!topic/racket-users/cPuTr8lrXCs">Gossip about the decision tree</a></li>
+<li>GreghenderShoot 1970
+
+<ul>
+<li><a href="https://github.com/greghendershott">Github Repo</a></li>
+<li><a href="https://github.com/greghendershott/fear-of-macros">Fear of macro</a> Tell us the history of macro, overcome the fear of macro</li>
+<li><a href="https://github.com/greghendershott/frog">frog</a> one static website generator tool</li>
+<li><a href="http://www.greghendershott.com/">His Website</a></li>
+</ul>
+</li>
+<li>Tonyg
+
+<ul>
+<li><a href="https://github.com/tonyg?tab=repositories">Github Repo</a></li>
+<li><a href="http://tonyg.github.io/racket-bitsyntax/">His opensource tools: Bitsyntax</a></li>
+</ul>
+</li>
+<li><a href="https://botbot.me/freenode/racket/">racket freenote robot, Gossip Platform</a></li>
+<li>Husk scheme
+
+<ul>
+<li><a href="https://github.com/justinethier/husk-scheme">husk repo</a></li>
+<li><a href="http://justinethier.github.io/husk-scheme/manual/getting-started.html">husk get started</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/alaricsp/chicken-scheme">chicken scheme</a></li>
+<li><a href="http://www.schemers.org/Documents/Standards/R5RS/HTML/r5rs-Z-H-2.html#%_toc_start">R5RS html file</a></li>
+<li>root of lisp
+
+<ul>
+<li><a href="http://www.paulgraham.com/rootsoflisp.html">original site</a></li>
+<li><a href="https://github.com/hlpp/scheme/tree/master/tests">define implement</a></li>
+</ul>
+</li>
+</ul>
+
+
+<p>BTW, one very good vim tips, you can use <a href="https://github.com/Shougo/vimfiler.vim">Vimfiler</a>, with shortkey <code>m and then r</code> to rename
+the file in the editor page.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Racket Man Wanna Learn Datetype and Cases]]></title>
@@ -259,647 +1890,6 @@ Note: 你需要解析的其实是花生仁，但是你不得不先把壳打开�
 
 
 <p>慢工才能出细活，通过三行表格n列迭代的形式(也可以进一步加大计算量变成n行表格n列迭代)理解递归迭代的过程,在一定的时间，进行一系列的列计算，并让时间推进，直到满足你想要的结果。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Scheme环境的几种表现形式-represtations]]></title>
-    <link href="http://jueqingsizhe66.github.io/blog/2016/03/03/schemehuan-jing-de-ji-chong-biao-xian-xing-shi-represtations/"/>
-    <updated>2016-03-03T02:05:32+08:00</updated>
-    <id>http://jueqingsizhe66.github.io/blog/2016/03/03/schemehuan-jing-de-ji-chong-biao-xian-xing-shi-represtations</id>
-    <content type="html"><![CDATA[<p>scheme的解释器的构造，都需要enviroment类型的参与，environment类型的抽象确是影响到语言的具体性能。</p>
-
-<!--more-->
-
-
-<p>主要有以下四种类型(另一种未实现)</p>
-
-<ol>
-<li><a href="#1">环境关联表形式出现(cons cons&hellip;)</a></li>
-<li><a href="#2">环境的列表出现 (list var val env)</a></li>
-<li><a href="#3">环境的过程实现(lambda ()形式)</a></li>
-<li><a href="#4">环境的一种较为特殊的形式成堆变量的实现(list (list var) (list val))</a></li>
-</ol>
-
-
-<h2 id="1"> 1. 环境关联表形式出现 </h2>
-
-
-<p>此时是每一次都把一个键值对存入到环境中，逐次存入的过程(采用 <em>cons cons的形式</em>)。</p>
-
-<p>``` scheme
-((a . 1) (b . 1)  (c . 1))</p>
-
-<p>empty-env  is &lsquo;()
-```</p>
-
-<p>具体实现如下所示</p>
-
-<p>``` scheme</p>
-
-<p>(define empty-env
-  (lambda() &lsquo;()))</p>
-
-<p>(define extend-env
-  (lambda (var val env)</p>
-
-<pre><code>(cons (cons var val)
-  env)))
-</code></pre>
-
-<p>(define apply-env
-  (lambda (env search-var)</p>
-
-<pre><code>(cond
- ((null? env)
-  (report-no-binding-found search-var))
- ((eqv? (caar env) search-var)
-  (cdr (car env)))
- (else
-  (apply-env (cdr env) search-var)))))
-</code></pre>
-
-<p>(define report-no-binding-found
-  (lambda (search-var)</p>
-
-<pre><code>(error 'apply-env "No binding for: " search-var)))
-</code></pre>
-
-<p>(define e
-  (extend-env &rsquo;d 6</p>
-
-<pre><code>(extend-env 'y 8
-   (extend-env 'x 7
-  (extend-env 'y 14
-    (empty-env))))))
-</code></pre>
-
-<p>(equal?? (apply-env e &rsquo;d) 6)
-(equal?? (apply-env e &lsquo;y) 8)
-(equal?? (apply-env e 'x) 7)
-(equal?? (apply-env e &rsquo;d) 6)</p>
-
-<p>```</p>
-
-<p>一种比较特殊的就是
-``` scheme
- a=1 b=2  a=3  c=5</p>
-
-<p> ((a 1 3) (b 2) (c 5))</p>
-
-<p> empty-env is &lsquo;()
-```</p>
-
-<p>针对当前的关联表的一个很小的拓展</p>
-
-<h3>增加一个<code>has-binding</code> 实现</h3>
-
-<p>``` scheme</p>
-
-<p>(define has-binding?
-  (lambda (env var)</p>
-
-<pre><code>(cond
- ((null? env) #f)
- ((eqv? (caar env) var) #t)
- (else
-  (has-binding? (cdr env) var)))))
-</code></pre>
-
-<p>(define e
-  (extend-env &rsquo;d 6</p>
-
-<pre><code> (extend-env 'y 8
-    (extend-env 'x 7
-       (extend-env 'y 14
-          (empty-env))))))
-</code></pre>
-
-<p>(equal?? (has-binding? e &rsquo;d) #t)
-(equal?? (has-binding? e &lsquo;y) #t)
-(equal?? (has-binding? e 'x) #t)
-(equal?? (has-binding? e 'z) #f)</p>
-
-<p>```</p>
-
-<h3>拓展一个列表输入的功能<code>extend-env*</code></h3>
-
-<p>``` scheme
-(define extend-env*
-  (lambda (var-list val-list env)</p>
-
-<pre><code>(if (null? var-list)
-env
-(let ((var (car var-list))
-      (val (car val-list)))
-  (extend-env* (cdr var-list)
-           (cdr val-list)
-           (extend-env var val env))))))
-</code></pre>
-
-<p>(equal?? (has-binding? (extend-env<em> &lsquo;(A) &rsquo;(1) e) &lsquo;A) #t)
-(equal?? (has-binding? (extend-env</em> &rsquo;(A B C) &lsquo;(1 2 3) e) 'C) #t)</p>
-
-<p>```</p>
-
-<h2 id="2"> 2.环境的列表出现  </h2>
-
-
-<p>此时使用一个标志位<code>extend-env</code>每一次都把一个键值对存入到list环境中，<font color="red">嵌套</font>存入的过程(采用 <em>cons cons的形式</em>)。</p>
-
-<p>``` scheme
- (extend
-   (list &lsquo;extend-env var exp (extend                        ;;;====其实'extend-env 有点多余</p>
-
-<pre><code>                     (list 'extend-env var exp (extend  ;;;====其实'extend-env 有点多余
-                                           (empty-env))))))
-</code></pre>
-
-<p> (1 (2 (3 6)))
-```</p>
-
-<p>且看具体实现如下</p>
-
-<p>``` scheme
-;; empty-env : () &ndash;> Env
-(define empty-env
-  (lambda () (list &lsquo;empty-env)))</p>
-
-<p>;; extend-env : Var * Schemeval * Env &ndash;> Env
-(define extend-env
-  (lambda (var val env)</p>
-
-<pre><code>(list 'extend-env var val env)))     ;;;;;;;==================&gt;关键位置
-</code></pre>
-
-<p>;; apply-env : Env * Var &ndash;> Schemeval
-(define apply-env-rec
-  (lambda (env search-var all)</p>
-
-<pre><code>(cond
- ((eqv? (car env) 'empty-env)
-  (report-no-binding-found search-var all))
- ((eqv? (car env) 'extend-env)
-  (let ((saved-var (cadr env))        ;;;;;;;==================&gt;关键位置  
-    (saved-val (caddr env))           ;;;;;;;==================&gt;关键位置
-    (saved-env (cadddr env)))         ;;;;;;;==================&gt;关键位置
-(if (eqv? search-var saved-var)
-    saved-val
-    (apply-env-rec saved-env search-var all))))  ;;;;;;;==================&gt;不断更新最新的位置look up variable in the saved-env
- (else
-  (report-invalid-env env)))))
-</code></pre>
-
-<p>(define apply-env
-  (lambda (env search-var)</p>
-
-<pre><code>(apply-env-rec env search-var env)))
-</code></pre>
-
-<p>(define display-env-rec
-  (lambda (env)</p>
-
-<pre><code>(if (eqv? (car env) 'extend-env)
-(let ((saved-var (cadr env))
-      (saved-env (cadddr env)))
-  (printf " ~a " saved-var)
-  (display-env-rec saved-env)))))
-</code></pre>
-
-<p>(define display-env
-  (lambda (env)</p>
-
-<pre><code>(printf "env: ")
-(display-env-rec env)
-(newline)))
-</code></pre>
-
-<p>(display-env e)</p>
-
-<p>(define report-no-binding-found
-  (lambda (search-var all)</p>
-
-<pre><code>(display-env all)
-(error 'apply-env "No binding for" search-var)))
-</code></pre>
-
-<p>(define report-invalid-env
-  (lambda (env)</p>
-
-<pre><code>(error 'apply-env "Bad environment" env)))
-</code></pre>
-
-<p>(define e
-  (extend-env &rsquo;d 6</p>
-
-<pre><code>  (extend-env 'y 8
-     (extend-env 'x 7
-        (extend-env 'y 14
-            (empty-env))))))
-</code></pre>
-
-<p>(equal?? (apply-env e &rsquo;d) 6)
-(equal?? (apply-env e &lsquo;y) 8)
-(equal?? (apply-env e 'x) 7)</p>
-
-<p>```</p>
-
-<h2 id="3"> 3.环境的过程实现</h2>
-
-
-<p>环境的过程实现是比较难理解的，因为该过程更少了递归的逐渐减少的表像，感觉所有都不变。</p>
-
-<p>具体实现如下：</p>
-
-<p>``` scheme
-;; data definition:
-;; Env = Var &ndash;> Schemeval</p>
-
-<p>;; empty-env : () &ndash;> Env
-(define empty-env
-  (lambda ()</p>
-
-<pre><code>(cons (lambda (search-var)
-    (report-no-binding-found search-var))
-  (lambda ()
-    #t))))
-</code></pre>
-
-<p>;; extend-env : Var * Schemeval * Env &ndash;> Env
-(define extend-env
-  (lambda (saved-var saved-val saved-env)</p>
-
-<pre><code>(cons (lambda (search-var)
-    (if (eqv? search-var saved-var)
-    saved-val
-    (apply-env saved-env search-var)))
-  (lambda ()
-    #f))))
-</code></pre>
-
-<p>;; apply-env : Env * Var &ndash;> Schemeval
-(define apply-env
-  (lambda (env search-var)</p>
-
-<pre><code>((car env) search-var)))
-</code></pre>
-
-<p>(define empty-env?
-  (lambda (env)</p>
-
-<pre><code>((cdr env))))
-</code></pre>
-
-<p>(define report-no-binding-found
-  (lambda (search-var)</p>
-
-<pre><code>(error 'apply-env "No binding for ~s" search-var)))
-</code></pre>
-
-<p>(define report-invalid-env
-  (lambda (env)</p>
-
-<pre><code>(error 'apply-env "Bad environment: ~s" env)))
-</code></pre>
-
-<p>(define e
-  (extend-env &rsquo;d 6</p>
-
-<pre><code> (extend-env 'y 8
-    (extend-env 'x 7
-       (extend-env 'y 14
-          (empty-env))))))
-</code></pre>
-
-<p>(equal?? (apply-env e &rsquo;d) 6)
-(equal?? (apply-env e &lsquo;y) 8)
-(equal?? (apply-env e 'x) 7)</p>
-
-<p>(equal?? (empty-env? (empty-env)) #t)
-(equal?? (empty-env? e) #f)</p>
-
-<p>```</p>
-
-<h2 id="4"> 4.环境的一种较为特殊的形式的实现 </h2>
-
-
-<p>如果若有的定义扎堆存在呢？也就是把所有变量放在一个列表中，值放在一个列表里面。</p>
-
-<p>``` scheme
- x=3 y=4 z=5 c=6</p>
-
-<p> 表现为 ((x y z c) (3 4 5 6))</p>
-
-<p> 此时 empty-env is (()  ())
-```</p>
-
-<p>``` scheme</p>
-
-<p>(define empty-env
-  (lambda() &lsquo;()))</p>
-
-<p>(define extend-env
-  (lambda (var val env)</p>
-
-<pre><code>(cons (list
-   (list var) (list val))
-      env)))
-</code></pre>
-
-<p>(define extend-env*
-  (lambda (var-list val-list env)</p>
-
-<pre><code>(if (null? var-list)
-env
-(cons (list var-list val-list)
-      env))))
-</code></pre>
-
-<p>;; return a pair, for distinguish with val is #f
-(define apply-current
-  (lambda (vars vals search-var)</p>
-
-<pre><code>(if (null? vars)
-(cons #f '())
-(if (eqv? (car vars) search-var)
-    (cons #t (car vals))
-    (apply-current (cdr vars) (cdr vals) search-var)))))
-</code></pre>
-
-<p>(define apply-env
-  (lambda (env search-var)</p>
-
-<pre><code>(if (null? env)
- (report-no-binding-found search-var)
- (let ((val (apply-current (caar env) (cadar env) search-var)))
-   (if (car val) (cdr val)
-   (apply-env (cdr env) search-var))))))
-</code></pre>
-
-<p>(define report-no-binding-found
-  (lambda (search-var)</p>
-
-<pre><code>(error 'apply-env "No binding for: " search-var)))
-</code></pre>
-
-<p>(define has-binding?
-  (lambda (env var)</p>
-
-<pre><code>(if (null? env)
-#f
-(let ((val (apply-current (caar env) (cadar env) var)))
-  (if (car val)
-      #t
-      (has-binding? (cdr env) var))))))
-</code></pre>
-
-<p>(define e (empty-env))
-(equal?? e &lsquo;())</p>
-
-<p>(define e (extend-env &lsquo;z 10 e))
-(equal?? e &rsquo;(((z) (10))))</p>
-
-<p>(define e (extend-env* &lsquo;(a b c d) &rsquo;(1 2 3 4) e))
-(equal?? e &lsquo;(((a b c d) (1 2 3 4)) ((z) (10))))</p>
-
-<p>(equal?? (apply-env e &lsquo;z) 10)
-(equal?? (apply-env e &rsquo;d) 4)</p>
-
-<p>(equal?? (has-binding? e &lsquo;z) #t)
-(equal?? (has-binding? e &rsquo;d) #t)
-(equal?? (has-binding? e &rsquo;m) #f)</p>
-
-<p>```</p>
-
-<h2>结论</h2>
-
-<p>上述所谈的4种环境的实现，其实也就对应着四种不同的解释器的实现。环境实现的不同，对应者整个解释器的提取过程也就不一样。
-整个解释器独立的解释每一个表达式的时候，所采用的方法也就会有所不一样。所以设计一个好的environment，对应的就是设计一个好的
-数据结构，用于程序program解析的时候需要使用到的变量或者表达式数据，至关重要！</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[插入排序]]></title>
-    <link href="http://jueqingsizhe66.github.io/blog/2016/02/28/cha-ru-pai-xu/"/>
-    <updated>2016-02-28T16:42:54+08:00</updated>
-    <id>http://jueqingsizhe66.github.io/blog/2016/02/28/cha-ru-pai-xu</id>
-    <content type="html"><![CDATA[<p>排序算法是一种比较常见的算法，一般包括冒泡排序，插入排序，快速排序等。
-本文主要是关于插入排序。</p>
-
-<!--more-->
-
-
-<h2>如何把一个数字插入到一个列表中</h2>
-
-<p>```
-;; using insert sort here</p>
-
-<p>(define insert
-  (lambda (lst elem)</p>
-
-<pre><code>(cond ((null? lst) (list elem))
-  ((&lt; elem (car lst))
-   (cons elem lst))
-  (else (cons (car lst)
-          (insert (cdr lst) elem))))))
-</code></pre>
-
-<p>(define sort-rec
-  (lambda (prev now)</p>
-
-<pre><code>(if (null? now)
-prev
-(sort-rec (insert prev (car now))
-      (cdr now)))))
-</code></pre>
-
-<p>(define sort
-  (lambda (lst)</p>
-
-<pre><code>(sort-rec '() lst)))
-</code></pre>
-
-<p>```</p>
-
-<h2>提取出判断条件</h2>
-
-<p>利用pred代表小于号
-```
-(define insert
-  (lambda (lst elem pred)</p>
-
-<pre><code> (cond
-    ((null? lst) (list elem))
-    ((pred elem (car lst))
-      (cons elem lst))
-    (else (cons (car lst)
-                (insert (cdr lst) elem pred))))))
-</code></pre>
-
-<p>```</p>
-
-<p>结果：</p>
-
-<p>```
-(insert &lsquo;(1 2 3) '4 &lt;)</p>
-
-<pre><code>(1 2 3 4)
-</code></pre>
-
-<p>(insert &lsquo;(1 2 3) '0 &lt;)</p>
-
-<pre><code>(0 1 2 3)
-</code></pre>
-
-<p>(insert &lsquo;(1 3 2) '4 &lt;)</p>
-
-<pre><code>(1 3 2 4)    ==&gt; 这不是我们想要的
-</code></pre>
-
-<p>```</p>
-
-<p>分析发现 insert仅仅是在判断满足条件的时候，直接退出，不管后面的大小问题，
-<font color="red">我们不可以判断该元素之后的所有的字符的情况</font>。</p>
-
-<p>然而该程序当作一个最小的模块，也就是加入我逐个提出判断列表，最终实现的是每提取一个元素
-都和新构成的排序列表进行判断，那么也就算判断完成。</p>
-
-<h2>对一个列表进行插入排序</h2>
-
-<p>在原先insert的基础上，书写了sort-rec和sort-predicate</p>
-
-<ul>
-<li>sort-rec 逐个判断最新的元素和新的临时列表的比较</li>
-<li>sort-predicate 仅仅是选择判断的标准。</li>
-</ul>
-
-
-<p>```
-(define sort-rec
-  (lambda (prev now pred)</p>
-
-<pre><code>(if (null? now)
-    prev
-    (sort-rec (insert prev (car now) pred)
-              (cdr now)
-              pred))))
-</code></pre>
-
-<p>(define sort/predicate
-   (lambda (pred lst)</p>
-
-<pre><code>  (sort-rec '() lst pred)))
-</code></pre>
-
-<p>```</p>
-
-<ul>
-<li>sort-rec的prev在逐渐的变大，而now的部分在不断的变小</li>
-<li>也就是 sort-rec 的第一号位置不断变大，第二号位由于cdr作用不断变小。
-``` scheme</li>
-</ul>
-
-
-<p>(sort/predicate &lt; &lsquo;(1 6 5 7))</p>
-
-<pre><code>prev          now
-</code></pre>
-
-<ol>
-<li>()         (1 6 5 7)</li>
-<li>(1)        (6 5 7)</li>
-<li>(1 6)      (5 7)</li>
-<li>(1 5 6)    (7)</li>
-<li>(1 5 6 7)  ()</li>
-</ol>
-
-
-<p>计算结束，返回prev的值
-```</p>
-
-<p>于是我们就可以获得正确的结果</p>
-
-<p>```
-(sort/predicate &lt; &lsquo;(1 6 5 7))</p>
-
-<pre><code>(1 5 6 7)
-</code></pre>
-
-<p>```</p>
-
-<h2>利用内部define和letrec改写程序</h2>
-
-<ul>
-<li>采用内部的define实现</li>
-</ul>
-
-
-<p>可以保护函数的实现（只被使用一次）</p>
-
-<p>``` scheme
-(define sort/predicate1
-  (lambda (pred lst)</p>
-
-<pre><code>(define sort-rec
-  (lambda (prev now pred)
-    (if (null? now)
-       prev
-       (sort-rec (insert prev (car now) pred)
-                (cdr now)
-                pred))))
-(define insert
-  (lambda (lst elem pred)
-    (cond
-      ((null? lst) (list elem))
-      ((pred elem (car lst))
-       (cons elem lst))
-      (else (cons (car lst)
-                 (insert (cdr lst) elem pred))))))
-
- (sort-rec '() lst pred)))
-
-  (sort/predicate1 &lt; '(1 6 5 7))
-</code></pre>
-
-<p><code>``
-+ 采用letrec实现sort/predicate,主要是用</code>(letrec (() &hellip;) &hellip;)` 结构</p>
-
-<p>``` scheme</p>
-
-<p>(define sort/predicate2
-  (lambda (pred lst)</p>
-
-<pre><code>(letrec ((sort-rec
-          (lambda (prev now pred)
-            (if (null? now)
-               prev
-               (sort-rec (insert prev (car now) pred)
-                        (cdr now)
-                        pred))))
-         (insert
-          (lambda (lst elem pred)
-            (cond
-              ((null? lst) (list elem))
-              ((pred elem (car lst))
-               (cons elem lst))
-              (else (cons (car lst)
-                         (insert (cdr lst) elem pred)))))))
-
-  (sort-rec '() lst pred))))
-</code></pre>
-
-<p>(sort/predicate2 &lt; &lsquo;(1 6 5 7))</p>
-
-<p>```</p>
-
-<h2>结论</h2>
-
-<ol>
-<li>每隔离一层抽象，相当于增加了一种变化</li>
-<li>了解插入排序的实现过程。</li>
-</ol>
-
 ]]></content>
   </entry>
   

@@ -1,0 +1,1255 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>What Vim Teaches You? - 网络书屋(Web Reading Room)</title>
+  <meta name="author" content="Ye Zhaoliang">
+
+  
+  <meta name="description" content="vim真正教会了你什么？ vim带给你激情，也给了你生活的智趣，从一开始你练习Learn-vim-progressively,并且现在还在练习macro和vim&rsquo;s text object.
+也在不断的学习marks and tags思想，让生活轨迹有迹可循， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jueqingsizhe66.github.io/blog/2017/08/13/what-vim-teaches-you">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="网络书屋(Web Reading Room)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">网络书屋(Web Reading Room)</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss email">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+    <li><a href="zhaoturkey@163.com" rel="subscribe-email" title="subscribe via email">Email</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jueqingsizhe66.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">What Vim Teaches You?</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-08-13T05:14:47+08:00" pubdate data-updated="true">Aug 13<span>th</span>, 2017</time>
+        
+
+         
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>vim真正教会了你什么？</p>
+
+<p>vim带给你激情，也给了你生活的智趣，从一开始你练习<a href="http://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/">Learn-vim-progressively</a>,并且现在还在练习macro和vim&rsquo;s text object.
+也在不断的学习marks and tags思想，让生活轨迹有迹可循，你使用<a href="#ctrlspace">CtrlSpace</a>来保证你的workspace保存下来，并切换文件和buffer；
+随着知识的增长，你使用<a href="#vimwiki">vimwiki</a>来管理你的知识，并结合<a href="https://github.com/mattn/calendar-vim">calendar</a>在vimwiki来管理你的日记。为了让文件查找，文件编辑更加方便，你使用
+<a href="https://github.com/Shougo">shoudo</a>的<a href="https://github.com/Shougo/vimfiler.vim">vimfiles</a>来增强你的vim，使得你的vim变得更像一把瑞士军刀。</p>
+
+<ul>
+<li><a href="#ctrl-space">1. Ctrl-Space Plugin</a></li>
+<li><a href="#vimwiki">2. Knowledge tool: Vimwiki</a></li>
+<li><a href="#vimfiler">3. Vimfiles: file operation</a></li>
+<li><a href="#star">4. Menu for your vim:Startify</a></li>
+<li><a href="#att">5. Attach File </a></li>
+</ul>
+
+
+<!--more-->
+
+
+<p>为了多一点对称美，你使用高丽棒作者<a href="https://github.com/junegunn">junegunn</a>的<a href="https://github.com/junegunn/vim-easy-align">vim-easy-align</a> (<font color="red">Note: <a href="https://github.com/junegunn/vim-easy-align/blob/master/EXAMPLES.md#formatting-yaml-or-json">many examples</a></font>),为了少犯错误，你加入了<a href="https://github.com/chip/vim-fat-finger">vim-fat-finger</a>,使用iabbrev来缩写你需要写的单词，或者修正错误的单词,为了编辑更加有效,你甚至引入了<a href="https://github.com/terryma/vim-multiple-cursors">vim-multiline-cursor</a>, 并进一步的你引入了<a href="https://github.com/tpope">tpope</a>的<a href="https://github.com/tpope/vim-surround">vim-surround</a>让你在书写racket(当然你也可以使用<a href="https://github.com/ruanyl/bigvim">delimiteMate</a>补全括号插件)或者lisp代码的时候更加方便一些，并为了重复或者递归使用，你也引入他的<a href="https://github.com/tpope/vim-repeat">vim-repeat</a> (vim中的很多插件都是支持增强的，比如f的增强插件<a href="https://rhysd.github.io/clever-f.vim/">clever-f</a>);为了更快捷的编辑文件行，除了使用vim text object, 你也引入了<a href="https://github.com/matze/vim-move">vim-move</a>和<a href="https://github.com/easymotion/vim-easymotion">vim-easymotion</a> (<font color="red">Very Good</font>)来移动行,使得vim文本更加结构化。</p>
+
+<p>想着让你的vim运行得更快一些，你把你一直用的<a href="https://github.com/VundleVim/Vundle.vim">vundle</a>改为了的<a href="https://github.com/junegunn">junegunn</a><a href="https://github.com/junegunn/vim-plug">vim-plug</a>来管理你的插件,确没见得有太大的改进，简洁地使用plugins自然就快了。</p>
+
+<p><img src="/images/Aboutvim/fuck.jpg" alt="Mybeautifulvim" /></p>
+
+<p>可以看到你的其实也增加了<a href="#star">Startify</a>的配置。</p>
+
+<p>然而，上面这些都是你想让vim做的，下面要写的则是<font color="red">vim plugins带给你关于写作的新的概念和思想</font>，这也才是本文的重点。</p>
+
+<p>刚开始接触vim的时候，你是用了scrooloose的<a href="https://github.com/scrooloose/nerdtree">nerdtree</a> ,<a href="https://github.com/majutsushi/tagbar">tagbar</a>,<a href="https://github.com/vim-airline/vim-airline">vim airline</a>等，你也使用了各种<a href="https://github.com/WolfgangMehner/vim-plugins">language support vim plugins</a>,也知道vim使用<a href="https://github.com/tpope">tpope</a>的<a href="https://github.com/airblade/vim-gitgutter">vim-gitgutter</a>结合git管理code, 现在让我们来看第一个vim插件ctrl-space</p>
+
+<h3 id="ctrlspace"> 1. Ctrl-Space Plugin</h3>
+
+
+<p>Github Repo: Click <a href="https://github.com/vim-ctrlspace/vim-ctrlspace">here</a></p>
+
+<p><font color="red">核心概念:</font></p>
+
+<p>当你在vim中使用<code>:h ctrlspace</code>时候会搜索到这些资料，</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>【1.vim desktop】: Let's imagine [ Vim ] is a writing desk. 
+</span><span class='line'>【2.projects draws】 : Your [ projects ] are like drawers. 
+</span><span class='line'>【3.Bookmark  favorite project】:  The [ Bookmark ] List simply displays your favorite projects.
+</span><span class='line'>【4.Buffer  paper】: A [ buffer ] is like a sheet of paper lying on the desk. 
+</span><span class='line'>        named buffers
+</span><span class='line'>        unsaved buffers
+</span><span class='line'>【5.workspace  an status snapshot of current project】:All your [ buffers ], [ tabs ], and [ tab ] layouts can be persisted as a workspace.
+</span><span class='line'>It's like taking a picture of your desk with an instant camera. You can
+</span><span class='line'>save multiple workspaces per project with Workspace List.
+</span><span class='line'>【6.workspace  session】 : The word "workspace" can be considered a synonym of a "session". The
+</span><span class='line'>ability of having so many sessions available at hand creates a lot of
+</span><span class='line'>interesting use cases! For example, you can have a workspace for each task
+</span><span class='line'>or feature you are working on. It's very easy to switch from one workspace
+</span><span class='line'>to another.</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>然后以后可以使用大写的B，跳转到Bookmark标签栏，类似于CtrlSpace的哲学思想，会跳转到某个bookmark下的目录，通过C也可以，直接Enter《CR》键也是可以的。
+</span><span class='line'>删除觉得不需要了，就D一下即可。</span></code></pre></td></tr></table></div></figure>
+
+
+<p><tag>: The easiest way to think about tab pages in Vim is to consider them to be viewports, layouts, or workspaces</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tags是一个在编程中经常会使用
+</span><span class='line'>而且在git的版本中也经常涉及到很多打tag的工作 (git tag  or  git tag  -a)   git checkout某个tag等
+</span><span class='line'>
+</span><span class='line'>其实tags只不过是对事物的一种抽象，这也是你在现实当中经常看到的class field method 注释等等，其实都可以把他们理解为一种tag，一种convinience tag</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在vimwiki的wiki文件的简单实用方法(经常用！！！):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:标签名字:
+</span><span class='line'>
+</span><span class='line'>[[文件名#标签名字]]即可</span></code></pre></td></tr></table></div></figure>
+
+
+<p>相同vim tag概念</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>"" tab encapsulation
+</span><span class='line'>" tab 操作
+</span><span class='line'>" http://vim.wikia.com/wiki/Alternative_tab_navigation
+</span><span class='line'>" http://stackoverflow.com/questions/2005214/switching-to-a-particular-tab-in-vim
+</span><span class='line'>
+</span><span class='line'>" tab切换
+</span><span class='line'>map &lt;leader&gt;th :tabfirst&lt;cr&gt;
+</span><span class='line'>map &lt;leader&gt;tl :tablast&lt;cr&gt;
+</span><span class='line'>
+</span><span class='line'>map &lt;leader&gt;tj :tabnext&lt;cr&gt;
+</span><span class='line'>map &lt;leader&gt;tk :tabprev&lt;cr&gt;
+</span><span class='line'>map &lt;leader&gt;tn :tabnext&lt;cr&gt;
+</span><span class='line'>map &lt;leader&gt;tp :tabprev&lt;cr&gt;
+</span><span class='line'>
+</span><span class='line'>map &lt;leader&gt;te :tabedit&lt;cr&gt;
+</span><span class='line'>map &lt;leader&gt;td :tabclose&lt;cr&gt;
+</span><span class='line'>map &lt;leader&gt;tm :tabm&lt;cr&gt;
+</span><span class='line'>
+</span><span class='line'>" normal模式下切换到确切的tab
+</span><span class='line'>noremap &lt;leader&gt;1 1gt
+</span><span class='line'>noremap &lt;leader&gt;2 2gt
+</span><span class='line'>noremap &lt;leader&gt;3 3gt
+</span><span class='line'>noremap &lt;leader&gt;4 4gt
+</span><span class='line'>noremap &lt;leader&gt;5 5gt
+</span><span class='line'>noremap &lt;leader&gt;6 6gt
+</span><span class='line'>noremap &lt;leader&gt;7 7gt
+</span><span class='line'>noremap &lt;leader&gt;8 8gt
+</span><span class='line'>noremap &lt;leader&gt;9 9gt
+</span><span class='line'>noremap &lt;leader&gt;0 :tablast&lt;cr&gt;
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>" Toggles between the active and last active tab "
+</span><span class='line'>" The first tab is always 1 "
+</span><span class='line'>let g:last_active_tab = 1
+</span><span class='line'>" nnoremap &lt;leader&gt;gt :execute 'tabnext ' . g:last_active_tab&lt;cr&gt;
+</span><span class='line'>" nnoremap &lt;silent&gt; &lt;c-o&gt; :execute 'tabnext ' . g:last_active_tab&lt;cr&gt;
+</span><span class='line'>" vnoremap &lt;silent&gt; &lt;c-o&gt; :execute 'tabnext ' . g:last_active_tab&lt;cr&gt;
+</span><span class='line'>nnoremap &lt;silent&gt; &lt;leader&gt;tt :execute 'tabnext ' . g:last_active_tab&lt;cr&gt;
+</span><span class='line'>autocmd TabLeave * let g:last_active_tab = tabpagenr()
+</span><span class='line'>
+</span><span class='line'>" 新建tab  Ctrl+t
+</span><span class='line'>nnoremap &lt;C-t&gt;     :tabnew&lt;CR&gt;
+</span><span class='line'>inoremap &lt;C-t&gt;     &lt;Esc&gt;:tabnew&lt;CR&gt;
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>默认工作类型目录</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Markers will be also used as a storage for `cs_workspaces` (workspaces of
+</span><span class='line'>the current project) and `cs_files` (cached files of the current project).
+</span><span class='line'>
+</span><span class='line'>Default value: &gt;
+</span><span class='line'>
+</span><span class='line'>    let g:CtrlSpaceProjectRootMarkers = [
+</span><span class='line'>         \ ".git",
+</span><span class='line'>         \ ".hg",
+</span><span class='line'>         \ ".svn",
+</span><span class='line'>         \ ".bzr",
+</span><span class='line'>         \ "_darcs",
+</span><span class='line'>         \ "CVS"
+</span><span class='line'>         \ ]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><font color="RED">Summary:</font></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>   A buffer is the in-memory text of a file.
+</span><span class='line'>   A window is a viewport on a buffer.
+</span><span class='line'>   A tab page is a collection of windows.
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>A window is a viewport onto a buffer.  You can use multiple windows on one
+</span><span class='line'>buffer, or several windows on different buffers.
+</span><span class='line'>
+</span><span class='line'>A buffer is a file loaded into memory for editing.  The original file remains
+</span><span class='line'>unchanged until you write the buffer to the file.
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h3 id="vimwiki">2. Knowledge tool: Vimwiki</h3>
+
+
+<p>Github Repo: Click <a href="https://github.com/vimwiki/vimwiki">here</a></p>
+
+<h4>vimwki setup in vimrc:</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>• """"""""""""""""""""""""""""""""""""""""""""""""""  
+</span><span class='line'>• " vimwiki  
+</span><span class='line'>• let g:vimwiki_use_mouse = 1  
+</span><span class='line'>• let g:vimwiki_list_ignore_newline = 0  
+</span><span class='line'>• let g:vimwiki_hl_headers = 0  
+</span><span class='line'>• " vimwiki打开折叠  
+</span><span class='line'>• "let g:vimwiki_folding = 1  
+</span><span class='line'>• let g:vimwiki_camel_case = 0  
+</span><span class='line'>• let g:vimwiki_list_ignore_newline = 0  
+</span><span class='line'>• let g:vimwiki_CJK_length = 1  
+</span><span class='line'>•   
+</span><span class='line'>• "设定文件浏览器目录为当前目录  
+</span><span class='line'>• set bsdir=buffer      
+</span><span class='line'>• "set autochdir  
+</span><span class='line'>•   
+</span><span class='line'>• " 日历插件  
+</span><span class='line'>• map ca :Calendar&lt;cr&gt;  
+</span><span class='line'>•   
+</span><span class='line'>• map &lt;S-Space&gt; :&lt;C-Space&gt;  
+</span><span class='line'>•   
+</span><span class='line'>• " vimwiki  
+</span><span class='line'>• let g:vimwiki_list = [{'path': '~/Wiki/wiki/', 'path_html': '~/Wiki/', 'auto_export': 1}]  
+</span><span class='line'>• " 转化为Html文件  
+</span><span class='line'>• map &lt;S-F4&gt; :Vimwiki2HTML&lt;cr&gt;  
+</span><span class='line'>•   
+</span><span class='line'>• " 设置颜色  
+</span><span class='line'>• hi VimwikiHeader1 guifg=#FF0000  
+</span><span class='line'>• hi VimwikiHeader2 guifg=#00FF00  
+</span><span class='line'>• hi VimwikiHeader3 guifg=#0000FF  
+</span><span class='line'>• hi VimwikiHeader4 guifg=#FF00FF  
+</span><span class='line'>• hi VimwikiHeader5 guifg=#00FFFF  
+</span><span class='line'>hi VimwikiHeader6 guifg=#FFFF00  </span></code></pre></td></tr></table></div></figure>
+
+
+<h4>vimwiki tagbar 集成</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>------------------------------------------------------------------------------
+</span><span class='line'>Tagbar integration                                            *vimwiki-tagbar*
+</span><span class='line'>
+</span><span class='line'>As an alternative to the Table of Contents, you can use the Tagbar plugin
+</span><span class='line'>(http://majutsushi.github.io/tagbar/) to show the headers of your wiki files
+</span><span class='line'>in a side pane.
+</span><span class='line'>Download the Python script from
+</span><span class='line'>https://raw.githubusercontent.com/vimwiki/utils/master/vwtags.py and follow
+</span><span class='line'>the instructions in it.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>效果如下，</p>
+
+<p><img src="/images/AboutVim/tagbar.png" alt="tagbar" /></p>
+
+<h3 id="vimfiler"> 3. Vimfiles: A tool for file operations </h3>
+
+
+<p>Github Repo: click <a href="https://github.com/Shougo/vimfiler.vim"> here </a></p>
+
+<p>vimfiler setup in vimrc</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"for vimfiler
+</span><span class='line'>let g:vimfiler_enable_auto_cd=1
+</span><span class='line'>"call vimfiler#set_execute_file('txt', 'notepad')
+</span><span class='line'>call vimfiler#set_execute_file('txt', 'gvim')
+</span><span class='line'>call vimfiler#set_execute_file('c', ['gvim', 'notepad'])
+</span><span class='line'>
+</span><span class='line'>let g:vimfiler_as_default_explorer = 1
+</span><span class='line'>
+</span><span class='line'>" Enable file operation commands.
+</span><span class='line'>" Edit file by tabedit.
+</span><span class='line'>"call vimfiler#custom#profile('default', 'context', {
+</span><span class='line'>"      \ 'safe' : 0,
+</span><span class='line'>"      \ 'edit_action' : 'tabopen',
+</span><span class='line'>"      \ })
+</span><span class='line'>
+</span><span class='line'>" Like Textmate icons.
+</span><span class='line'>let g:vimfiler_tree_leaf_icon = ' '
+</span><span class='line'>"let g:vimfiler_tree_closed_icon = '▸'
+</span><span class='line'>"let g:vimfiler_tree_opened_icon = '▾'
+</span><span class='line'>let g:vimfiler_file_icon = '-'
+</span><span class='line'>let g:vimfiler_marked_file_icon = '*'
+</span><span class='line'>
+</span><span class='line'>let g:vimfiler_safe_mode_by_default=0 
+</span><span class='line'>  " Use trashbox.
+</span><span class='line'>  " Windows only and require latest vimproc.
+</span><span class='line'>let g:unite_kind_file_use_trashbox = 1
+</span><span class='line'>""  you can create a .vim file, then source it
+</span><span class='line'>"need everything.exe
+</span><span class='line'>"nnoremap &lt;Leader&gt;f :Unite file buffer file_rec file_mru everything&lt;CR&gt;
+</span><span class='line'>nnoremap &lt;Leader&gt;f :VimFiler&lt;CR&gt;
+</span><span class='line'>nnoremap &lt;leader&gt;l :Unite line&lt;CR&gt;
+</span><span class='line'>let g:unite_source_everything_limit = 100
+</span><span class='line'>let g:unite_source_everything_full_path_search = 1
+</span><span class='line'>let g:unite_source_everything_posix_regexp_search = 1
+</span><span class='line'>let g:unite_source_everything_async_minimum_length = 3
+</span><span class='line'>let g:unite_source_everything_cmd_path = 'C:\\Users\\YeZhao\\.vim\\es\\es.exe'
+</span><span class='line'>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>由于vimfiler的使用也了解到了 <a href="https://github.com/ggreer/the_silver_searcher">ag</a>插件（一个特别好用的搜索插件,在ubuntu底下直接使用ag &ldquo;expression&rdquo; 找到当前文件夹所有文件内容  包含表达式的行数据 相当快速）</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>H作用打开shell  x打开文件夹的意思
+</span><span class='line'>
+</span><span class='line'>L打开磁盘
+</span><span class='line'>Load
+</span><span class='line'>&回到project目录  那是相当有用的
+</span><span class='line'>~回到.vim目录
+</span><span class='line'>
+</span><span class='line'>e编写文件
+</span><span class='line'>N 创建文件
+</span><span class='line'>K创建文件夹
+</span><span class='line'>
+</span><span class='line'>#全选
+</span><span class='line'>*全部选？
+</span><span class='line'>
+</span><span class='line'>c复制
+</span><span class='line'>d删除
+</span><span class='line'>m移动
+</span><span class='line'>
+</span><span class='line'>先用m表示选定 然后d删除(重要操作)
+</span><span class='line'>m移动
+</span><span class='line'>c复制</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong><u>有意思的是:</u></strong></p>
+
+<p>使用m然后r，可以跳出一个新的编辑窗口，进行文件名的修改，这是相当好的实现。</p>
+
+<p>转化为HTML</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="p">:</span>Vimwiki2HTML – Convert current wiki page <span class="k">to</span> HTML
+</span><span class='line'><span class="p">:</span>VimwikiAll2HTML – Convert <span class="k">all</span> your wiki pages <span class="k">to</span> HTML
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h3 id="star"> 4. Startify Plugin</h3>
+
+
+<p>Github Repo: click <a href="https://github.com/mhinz/vim-startify"> here </a></p>
+
+<h4>vim 全屏</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">let</span> <span class="k">w</span>:full_screen<span class="p">=</span><span class="m">0</span>
+</span><span class='line'>    map :<span class="k">call</span> FullScreen<span class="p">()</span>
+</span><span class='line'>func<span class="p">!</span> FullScreen<span class="p">()</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">w</span>:full_screen<span class="p">==</span><span class="m">1</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">w</span>:full_screen<span class="p">=</span><span class="m">0</span>
+</span><span class='line'>    :<span class="k">simalt</span> <span class="p">~</span>R
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>    :<span class="k">simalt</span> <span class="p">~</span><span class="k">X</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">w</span>:full_screen<span class="p">=</span><span class="m">1</span>
+</span><span class='line'>    <span class="k">endif</span>
+</span><span class='line'>endfunc
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>vim-easy-align常用命令</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'>Nope
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>vim-surround 常用命令</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="m">1</span>. <span class="k">cs</span>&quot;&#39;
+</span><span class='line'><span class="m">2</span>. <span class="k">cs</span>&#39;&quot;
+</span><span class='line'><span class="m">3</span>. <span class="k">cs</span>&#39;<span class="p">&lt;</span><span class="k">q</span><span class="p">&gt;</span>
+</span><span class='line'><span class="m">4</span>. <span class="nb">cst</span>&quot;
+</span><span class='line'><span class="m">5</span>. <span class="k">cs</span>&quot;<span class="k">t</span>
+</span><span class='line'><span class="m">6</span>. <span class="k">ds</span>&quot;
+</span><span class='line'><span class="m">7</span>. ysiw&quot;
+</span><span class='line'><span class="m">8</span>. yssb <span class="p">==</span> yss<span class="p">)</span>
+</span><span class='line'><span class="m">9</span>. S&quot;  可视化模式选择快 然后大S，这点类似于Multiple<span class="p">-</span>Cursor的Ctrl<span class="p">+</span><span class="k">N</span>命令
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>vim copy file name</h4>
+
+<p>你使用<a href="https://github.com/AdamWhittingham/vim-copy-filename">vim-copy-filename</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot;&quot; for vim-copy-filename</span>
+</span><span class='line'>nmap <span class="p">&lt;</span>leader<span class="p">&gt;</span><span class="k">cp</span> :CopyRelativePath<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>nmap <span class="p">&lt;</span>leader<span class="p">&gt;</span><span class="k">cl</span> :CopyRelativePathAndLine<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>nmap <span class="p">&lt;</span>leader<span class="p">&gt;</span>cP :CopyAbsolutePath<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>nmap <span class="p">&lt;</span>leader<span class="p">&gt;</span><span class="k">cf</span> :CopyFileName<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>nmap <span class="p">&lt;</span>leader<span class="p">&gt;</span><span class="k">cd</span> :CopyDirectoryPath<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>额外一些插件的备注</p>
+
+<ol>
+<li><a href="https://github.com/haya14busa"> Haya14busa </a>提供的<a href="https://github.com/haya14busa/incsearch.vim"> incsearch </a> 增加了statusline的查找词当前数 和总个数</li>
+<li><a href="https://github.com/itchyny/vim-cursorword"> Vim-cursorword </a>表示添加下划线。</li>
+<li><a href="https://github.com/AndrewRadev/splitjoin.vim"> AndrewRadev/splitjoin.vim  </a>是提供类似于perl的当行模式的插件[gS gJ]。在scheme估计比较少用到。</li>
+</ol>
+
+
+<p>一直遗忘的一个快捷查看命令
+<code>Ctrl+E</code> 往下滚屏  <code>Ctrl+Y</code> 往上滚屏</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'>运行的话<span class="p">,</span>进入底线命令模式<span class="p">,</span>用:<span class="p">!</span>perl %就可以运行<span class="p">,</span>或者可以绑定一个快捷键组合<span class="p">,</span> %表示当前文件的意思
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最后，编辑器界面展示的应全是代码，不应该有<u>工具条、菜单、滚动条</u>浪费空间的元素，另外，编程是种<font color="red">精神高度集中的脑力劳动</font>，不应出现<s>闪烁光标、花哨鼠标</s>这些分散注意力的东东</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'>写到这边我去睡觉了，梦中梦到了前半辈子比较重要的三个女人，我妈以及另外两个从小长大的妇女<span class="p">(</span>不说女生了<span class="p">),</span>街道上偶遇她们正在端着一个冰盒沿街发送，也不像是生了孩子似的，但梦中是那么真实又带着虚的东西（所以人是一个最精良的仪器，拥有最直觉的第六感，又拥有最会惹事的直觉），我妈骑着自行车从我们三身边走过，前方又出现一个特别活泼的<span class="s2">&quot;妇女&quot;</span><span class="p">,</span>在我的环境中还有篮球这一个概念，我的梦（由我的身体<span class="p">+</span>癫痫的精神状态<span class="p">+</span>疲惫产生的一种组合的事件）把我带到一个篮球场，后来我又去了
+</span><span class='line'>
+</span><span class='line'>我一个哥们那边，终于有男的出现，我发现我走过的路总是不缺乏女生<span class="p">(</span>所以我是趋向于好色之徒<span class="p">,</span>本来也是<span class="p">),</span> 我梦到了我儿时的
+</span><span class='line'>阴影我特别怕的一个男生，喜欢拿刀砍人，犯冲，特别好斗，但缺少脑子。我写出来了，因为我想克服它。梦向黄大仙一样，它放屁的效果具有致幻的效果，能让人陷入幻境中不得自拔，人每天晚上也像黄大仙附体一样坐着春秋大梦。
+</span><span class='line'>
+</span><span class='line'>但从我身边路过的那些女生，都已经变得不真实，我身边有一个wife如胶似漆的黏着我，怎么我就不懂珍惜呢。时代的进步，需要梦的催化，世界上无德的传销机构也在利用着洗脑在铸造着同一类人，这些人把思维当作无趣，而非智趣。
+</span><span class='line'>
+</span><span class='line'>匆匆而过三十载，岁月不饶人，也不等人<span class="p">(</span>也就是你学会了用时间的非定常特性来观察人生）。乐观、不自信一直伴随着我成长，然而我却不知道痛苦才是生活的本源，享受
+</span><span class='line'>痛苦，才能拥有些许的快乐。Enjoy Painess<span class="p">!</span>但我不想把pain带给亲人，身边的人。我是一个自私的人，没有团队精神，不太会
+</span><span class='line'>替别人考虑的人（当然自从有了她，我得替她考虑，但是考虑得还很少，我很对不起她）
+</span><span class='line'>
+</span><span class='line'>也就是生活的智趣源于痛苦，痛苦的根源诞生了时代的进步，和智趣的发展。
+</span><span class='line'>
+</span><span class='line'>写到这边，就先停笔把，继续回到<span class="k">vim</span>当中，他也像人，能够感知到字符的变化，感知文本结构（你赋予了它思考的能力），能够
+</span><span class='line'>让你编辑得更顺畅些;<span class="k">vim</span>像刀、人也可以像刀，磨砺你自己这把最重要的一把刀把！
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3 id="att"> 5. Attach File </h3>
+
+
+<p>Windows Version dotVim Repo: [ here ]
+Ubuntu Version dotVim Repo: [ here ]</p>
+
+<p class='post-footer'>
+                        原始地址:<a href='http://jueqingsizhe66.github.io/blog/2017/08/13/what-vim-teaches-you/'>http://jueqingsizhe66.github.io/blog/2017/08/13/what-vim-teaches-you/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ye Zhaoliang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-08-13T05:14:47+08:00" pubdate data-updated="true">Aug 13<span>th</span>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>Linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <!-- <div class="sharing"> -->
+<!--    -->
+<!--    -->
+<!--   <div class="g-plusone" data-size="medium"></div> -->
+<!--    -->
+<!--    -->
+<!-- </div> -->
+<!--  -->
+<!-- JiaThis Button -->
+
+  <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_32x32">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share?uid=2136616" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2136616" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2136616"></script>
+<!-- UY END -->
+
+
+
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/08/11/cps-intutive/" title="Previous Post: CPS intutive">&laquo; CPS intutive</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <article role="article">  <!--不是他的原因-->
+    <p>
+      <!--<img class="alignleft" src="/images/xinran.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 40px" weight="100" height="140" border="0" /> -->
+      <img class="alignleft" src="/images/lvxing/gulangyu.jpg" style="Float:left;MARGIN-BOTTOM: 10px;MARGIN-RIGHT: 10px" weight="100" height="140" border="0" /> 
+ <!--而是yellow的原因-->
+<!--不是他的原因-->
+ </br> 
+    <h4> 叶昭良(Zhaoliang Ye) believe& 肖欣然(Xinran Xiao)</h4>
+    <h5> Our Life </h5>
+<hr style="color:#990000;border:1px dotted">
+    QQ: <a href="977962857@qq.com">977962857@qq.com</a>
+        <a href="36559660@qq.com">36559660@qq.com</a>
+
+    </br>
+    Weibo: <a href="zhaoturkkey@sina.com">zhaoturkkey@sina.com</a>
+
+    <h5>Our Work</h5>
+
+<hr style="color:#990000;border:1px dotted">
+  <p>fortran程序员,Java程序员,HR,CFD</p>
+
+<h5>Some books and links</h5>
+<hr style="color:#990000;border:1px dotted">
+
+<p>Scheme:</br>
+  <a href="http://www.ccs.neu.edu/home/matthias/BTLS/"><font color="red">《the little scheme》(TLS)</font></a></br>
+    <a href=" http://www.ccs.neu.edu/home/matthias/BTSS/">《The Season Scheme》(TSS)</a> </br>
+    <a href="http://www.realmofracket.com/ ">《 Realm of Racket》</a> </br>
+  <a href="http://scheme.com/tspl4/">《The Scheme Programming Language》(TSPL) </a> </br> 
+  <a href=" http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html#%_toc_start">《Structure and Interpretation of Computer Programs》(SICP)</a></br>
+  <a href="http://community.schemewiki.org/?SICP-Solutions ">SICP Solution</a></br>
+  <a href="https://github.com/DeathKing/Learning-SICP">Learning SICP</a></br>
+  <a href="http://www.eopl3.com/ "><font color="red">《Essentials of Programming Language》(EOPL)</font></a></br>
+  <a href="http://academic.udayton.edu/SaverioPerugini/courses/cps343/lecture_notes/ ">EOPL Course</a></br>
+
+  <a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design programs(程序设计方法 SICP的简化版)</a></br>
+  <a href="http://www.cs.berkeley.edu/~bh/ss-toc2.html"> Simply Scheme(中学级别)</a></br>
+  <a href="http://songjinghe.github.io/TYS-zh-translation/"> Scheme语言简明教程(汉)</a></br>
+  <a href="http://ds26gte.github.io/tyscheme/index.html"> Teach yourself Scheme in fixed days</a></br>
+  <a href="http://vdisk.weibo.com/s/uutnsRMnFAbDA ">Scheme in programming(不错的入门书籍)</a></br>
+
+
+</p>
+<p> Lisp: </br>
+  <a href=" http://www.landoflisp.com/">《Land of Lisp》</a></br>
+  <a href="http://www.lisperati.com/casting.html">[Casting_spels] </a></br>
+  <a href=" http://www.gigamonkeys.com/book/"> 《Practical CommonLisp》</a></br>
+  <a href="http://www.paulgraham.com/acl.html">《ANSI_Common_lisp》 </a> </br>
+  <a href="http://www.norvig.com/paip.html"> 《Paradigms of Artificial Intelligence Programming(PAIP)》</a></br>
+
+</p>
+<p> Clojure: </br>
+  <a href="http://buhoz.net/public/books/lenguajes/clojure/Practical.Clojure.pdf">《Prcatical_clojure》</a></br>
+  <a href=" http://www.joyofclojure.com/">《The joy of Clojure》</a>
+  <a href="http://www.clojurebook.com/">《programming Clojure》 </a> </br>
+  <a href="http://blog.csdn.net/zh2qiang/article/category/928066"> Programming clojure学习笔记 </a></br>
+  <a href="http://xumingming.sinaapp.com/302/">Clojure入门教程: Clojure – Functional Programming for the JVM </a> </br>
+  <a href="http://www.oschina.net/translate/the-clojure-philosophy?cmp">Clojure 哲学</a></br> 
+
+</p></br>
+<p> Haskell:</br>
+  <a href="http://fleurer-lee.com/lyah/introduction.htm#%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E6%95%99%E7%A8%8B ">Haskell趣味指南</a></br>
+  <a href="https://www.haskell.org/">Hashell:An advanced purely-functional programming language </a></br>
+  <a href="http://www.cs.nott.ac.uk/~gmh/book.html "> Programming in Haskell</a></br>
+  <a href=" http://www.scs.stanford.edu/11au-cs240h/">Hashell Mit Course</a></br>
+
+<p> Fortran:</br>
+  <a href="http://www.personal.psu.edu/jhm/f90/lectures/quickref.html"> fortran90</a></br>
+  <a href="http://people.sc.fsu.edu/~jburkardt/">John Burkardt</a> </br>
+  <a href=" http://jblevins.org/mirror/amiller/#pzeros">Alan-Miller</a></br>
+  <a href="http://micro.ustc.edu.cn/Fortran/">Fortran收集 </a></br>
+  <a href="http://pan.baidu.com/s/1gdCN1T5"><font color="red">工程数值方法</font></a></br>
+  <a href=" https://github.com/jueqingsizhe66/gtk-fortran">fortran-gtk</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Modern_Fortran_Explained.pdf "> 《Modern Fortran Explained》(高级)</a></br>
+  <a href="http://203.195.149.196/ldt9v/ebook/Fortran95_2003_Science_Project_SongYeZhi.zip ">《Fortran95~2003数值计算》(宋叶志)</a></br>
+ 
+   
+</p>
+
+<p> Java:</br>
+  <a href="http://a-little-java-a-few-patterns.readthedocs.org/zh_CN/latest/index.html"> A little Java (visitor pattern)</a></br>
+  <a href="http://www.mkyong.com/"> Mkyong-java8</a></br>
+  <a href="http://howtodoinjava.com/ "> how-to-do-in-java</a></br>
+  <a href="http://stackoverflow.com/ "> StackOverflow问题堆栈 </a></br>
+  <a href="http://www.blogjava.net/ ">BlogJava</a></br>
+  <a href="http://www.importnew.com/ "> Java 新闻</a></br>
+  <a href="http://ifeve.com/category/java/ "> 并发编程网</a></br>
+  <a href="http://www.iteye.com/blogs ">IT 视角 </a></br>
+  <a href="http://www.iteye.com/forums/tag_good/Java%E7%BB%BC%E5%90%88 ">IT 视角之java综合(SSH) </a></br>
+  <a href="http://rednaxelafx.iteye.com/category/22617 ">IT 视角之rednaxelafx </a></br>
+  <a href="http://droidyue.com/ ">技术小黑屋 </a></br>
+  <a href="https://mouxuejie.com/ "> 某学姐 </a></br>
+  <a href="http://gudong.name/ "> 咕咚-handler  </a></br>
+  <a href="http://www.superqq.com/ "> ios-自媒体  </a></br>
+  <a href="http://blog.csdn.net/jackfrued/ "><font color="red"> CSDN-骆昊的技术专栏</font> </a></br>
+  <a href="http://www.adrop.me/cat/tech/java/ "> Adrop 自留地</a></br>
+  <a href="http://www.programcreek.com/ "> Programcreek</a></br>
+  <a href="http://java-performance.info/ "> Java-Performance(JP)</a></br>
+  <a href="http://www.ibm.com/developerworks/cn/java/ "> IBM Java开发者社区</a></br>
+  <a href="http://shipilev.net/ "> Aleksey Shipilëv: One Stop Page </a></br>
+  <a href="http://www.pandablog.cn/?cat=9 "> 熊猫大仙</a></br>
+  <a href="http://www.pixelstech.net/article.php?type=all "> pixelstech</a></br>
+  <a href="http://timyang.net/ "> 后端技术-java</a></br>
+  <a href="http://www.adam-bien.com/roller/abien/ "> abian德国Javaee</a></br>
+  <a href="https://javax0.wordpress.com/ "> Java纯粹(匈牙利) </a></br>
+  <a href="https://antoniogoncalves.org/ ">JAVAEE协议作者 (法国)-图文并茂 </a></br>
+  <a href="http://www.importnew.com/7469.html "> 100个小链接 </a></br>
+
+</p>
+
+<p> Java github repos: </br>
+  <a href="https://github.com/akullpp/awesome-java "> awesome-java一些常用的库链接</a></br>
+  <a href="https://github.com/codefollower/My-Blog ">  codefollowers</a></br>
+  </p>
+
+<p> JAVA API: </br>
+   <a href="https://docs.oracle.com/javaee/7/api/  "> JAVAEE 7 API</a></br>
+  <a href="https://docs.oracle.com/javase/8/docs/api/index.html  ">  JAVASE 8 API</a></br>
+  <a href="https://struts.apache.org/maven/struts2-core/apidocs/index.html "> <font color="red">Struts2core 2.5</font> </a></br>
+  <a href="http://docs.jboss.org/hibernate/search/5.6/api/ "> <font color="red">Hibernate5.6 </font></a></br>
+  <a href="http://spring.io/docs/reference "><font color="red">Spring系列文档</font> </a></br>
+  <a href="http://docs.spring.io/spring/docs/4.3.0.RC1/javadoc-api/ "><font color="red">Spring Framework</font> </a></br>
+
+</p>
+
+<p> Bash:</br>
+  <a href="http://vbird.dic.ksu.edu.tw/linux_basic/0320bash.php ">鸟哥的私房菜</a></br>
+  <a href=" http://www.thegeekstuff.com/bash-101-hacks-ebook/">Bash 101 Hacks</a></br>
+</p>
+
+<p> Perl:</br>
+  <a href="http://bbs.pinggu.org/thread-4890642-1-1.html">Learning Perl(7th) 2016 入门 </a></br>
+  <a href="https://zhidao.baidu.com/share/2e40aed238e8a3f0fdb8d8148aa88565.html">The Immediate Perl(2th) 2006 中级 </a></br>
+  <a href="http://www.jb51.net/books/24569.html"> Mastering Perl 高级</a></br>
+  <a href="http://download.csdn.net/detail/blkf/4131770">Perl Programming (4th) (Larry Wall) </a></br>
+  <a href="http://www.tutorialspoint.com/perl/perl_oo_perl.htm ">Perl Object Orient Programming(perl oop) </a></br>
+  <a href="http://vdisk.weibo.com/s/zcetMufbD44U0">Perl Best Practice(Domian Conway) 2006 终极</a></br>
+  <a href="http://wwwacs.gantep.edu.tr/docs/perl-ebook/ch19.htm">Perl Object Orient Programming(by Kamran Husain) </a></br>
+  <a href="http://www.ibm.com/developerworks/cn/linux/sdk/perl/perl-1/index.html ">一篇写得不错的perl intro</a></br>
+  <a href="http://dbi.perl.org/docs/">Perl DBI </a></br> 
+  <a href="http://www.tutorialspoint.com/perl/perl_database.htm">Perl DataBase Management </a></br>
+  <a href="http://www.tutorialspoint.com/perl/perl_cgi.htm ">Perl CGI script </a></br>
+  <a href="http://www.tutorialspoint.com/perl/perl_modules.htm">Writing Perl Module</a></br>
+</p>
+
+
+  <p>English: </br>
+    <a href="http://book.douban.com/subject/1014914/"> 《英语魔法俱乐部》</a>一本相当不错的英语语法书。 <br/>
+    <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%A6%81%E7%B4%A0">风格的要素(Element of Style)</a> 英语写作的圣经</br>
+    <a href="http://www.geraldmweinberg.com/Site/On_Writing.html">WeinBerg On Writing:The fieldstone method </a> 收集WeinBerg Stones</br>
+ 
+  </p>
+  <p> 流体力学：</br>
+  <a href="http://vdisk.weibo.com/s/uuCAVsYacltnf">计算流体力学入门(安德森)</a></br>
+  <a href="http://vdisk.weibo.com/search/?type=public&keyword=%E7%A9%BA%E6%B0%94%E5%8A%A8%E5%8A%9B%E5%AD%A6%E5%9F%BA%E7%A1%80"><font color="red">空气动力学基础(安德森)</font> </a></br>
+  <a href="http://vdisk.weibo.com/s/dgA_ls6t1ywY5 ">计算流体力学与传热学(陶文铨)</a></br>
+  <a href="http://dyfluid.com/ ">东岳流体</a></br>
+  <a href="http://blog.sina.com.cn/openfoamresearch "> 苏军伟-sina</a></br>
+
+
+  </p>
+
+  <p> 数学:</br>
+    <a href="http://ocw.mit.edu/faculty/gilbert-strang/">Gilbert Strang Professor 微积分，线性代数，微分方程</a> </br> 
+    <a href="http://math.mit.edu/~rbm/ "> Richard Melrose 泛函分析</a></br> 
+    <a href="http://homepage.ntlworld.com/ivan.wilde/notes/ ">Dr Ivan F Wilde 复分析</a></br>
+  </p>
+  <p> Machine Learning:(降维和优化) Support Vector Machine</br>
+    <a href="http://blog.csdn.net/v_july_v/article/details/7624837"><font color="red">July SVM三层境界</font></a> </br> 
+    <a href="http://vdisk.weibo.com/u/1580904460 ">July Vdisk</a> </br> 
+    <a href="http://www.blogjava.net/zhenandaci/archive/2009/03/15/259786.html "> Jason Java Jacal</a></br> 
+    <a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/ ">LibSvm: </a></br>
+    <a href="http://www.svms.org/vc-dimension/ ">Vc-dimension</a></br>
+    <a href="http://www.autonlab.org/tutorials/svm15.pdf ">内基梅隆大学carnegie mellon university(CMU) Svm Tutorials</a></br>
+    <a href="http://120.52.72.51/www.cmlab.csie.ntu.edu.tw/c3pr90ntcsf0/~cyy/learning/tutorials/SVR.pdf ">SVR :回归分析</a></br>
+
+    <a href="http://blog.csdn.net/zhzhl202/article/details/8197109 ">文本分类和SVM</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/tag/Machine%20Learning/ ">斯坦福机器课程学习笔记</a></br>
+    <a href="http://www.cnblogs.com/jerrylead/archive/2012/05/08/2489725.html ">斯坦福大学的原始讲义</a></br>
+    <a href="http://www.mit.edu/~9.520/spring11/slides/class06-svm.pdf ">MIT SVM讲义</a></br>
+    <a href="http://icml2008.cs.helsinki.fi/papers/266.pdf ">SVM优化</a></br>
+    <a href="http://blog.csdn.net/qll125596718/article/details/8248249 ">最小二乘法及其实现</a></br>
+    <a href="http://vdisk.weibo.com/s/s-XOVNRQc_reY ">《数理统计学简史》陈希孺院士著  </a></br>
+    <a href="http://vdisk.weibo.com/s/BZndAHHdASslv ">《最优化理论与算法》(第2版)－陈宝林 </a></br>
+    <a href="http://www.52nlp.cn/tag/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F ">正态分布的前世今生</a></br>
+
+  </p>
+  <p>Climing and Take a tourist</p>
+    <h5>Contact Us</h5>
+<hr style="color:#990000;border:1px dotted">
+    Email:<a href="zhaoturkkey@163.com">zhaoturkkey@163.com</a></br>
+         <a href="36559660@qq.com">36559660@qq.com</a>
+
+  </article>
+  <p><img src="/images/wood.jpg"  alt="zhaoturkkey@gmail.com" /></p></section>
+</section>
+
+<section>
+  <h1>分类目录</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/fast/'>Fast (6)</a></li>
+<li class='category'><a href='/blog/categories/html/'>HTML (1)</a></li>
+<li class='category'><a href='/blog/categories/haskell/'>Haskell (21)</a></li>
+<li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
+<li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (24)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (24)</a></li>
+<li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
+<li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
+<li class='category'><a href='/blog/categories/error/'>error (1)</a></li>
+<li class='category'><a href='/blog/categories/fortran/'>fortran (5)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (3)</a></li>
+<li class='category'><a href='/blog/categories/gnuplot/'>gnuplot (1)</a></li>
+<li class='category'><a href='/blog/categories/graphviz/'>graphviz (1)</a></li>
+<li class='category'><a href='/blog/categories/humor/'>humor (1)</a></li>
+<li class='category'><a href='/blog/categories/incompact3d/'>incompact3d (4)</a></li>
+<li class='category'><a href='/blog/categories/jquery/'>jQuery (2)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (19)</a></li>
+<li class='category'><a href='/blog/categories/makefile/'>makefile (2)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>markdown (4)</a></li>
+<li class='category'><a href='/blog/categories/matlab/'>matlab (2)</a></li>
+<li class='category'><a href='/blog/categories/openfoam/'>openfoam (1)</a></li>
+<li class='category'><a href='/blog/categories/perl/'>perl (3)</a></li>
+<li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
+<li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (38)</a></li>
+<li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
+<li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/08/13/what-vim-teaches-you/">What Vim Teaches You?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/11/cps-intutive/">CPS Intutive</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/11/from-little-scheme-to-season-scheme/">From Little Scheme to Season Scheme</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/07/05/windows-fast0816bian-yi-shi-bai/">Windows FAST0816编译失败</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/07/05/pi-liang-xiu-gai-pdfwen-jian-ming-yi-ji-chuang-jian-wiki-links/">批量修改pdf文件名以及创建wiki Links</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jueqingsizhe66">@jueqingsizhe66</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jueqingsizhe66',
+            count: 2,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/zhaoturkkey@gmail.com?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+<section>
+<h1>Zhao's Douban</h1>
+<div>
+ <script type="text/javascript" src="http://www.douban.com/service/badge/50717256/?selection=latest&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=8&amp;cat=drama%7Cmovie%7Cbook%7Cmusic&amp;columns=2"></script>
+</div>
+</section>
+<!-- <section> -->
+<!-- <h1>Recent Comments</h1> -->
+<!-- <ul class="ds-recent-comments" data-num-items="" data-show-avatars="" data-show-time="" data-show-title="" data-show-admin="" data-excerpt-length=""></ul> -->
+<!--  -->
+<!-- </section> -->
+
+<!-- UYAN NEW COMMENT BEGIN -->
+<div id="uyan_newcmt_unit"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2136616"></script> <!-- 如果已经过加载此行JS，即可不用重复加载 -->
+<!-- UYAN NEW COMMENT END -->
+<section>
+  <h1>盟友</h1>
+  <ul>
+    <li><a href="http://www.cfd-online.com/">CFD1</a></li>
+    <li><a href="http://www.sci-hub.cc">sci文章破解下载</a></li>
+    <li><a href="https://nwtc.nrel.gov/">NREL-NWTC </a></li>
+    <li>
+      <a href="http://mindhacks.cn/">刘未鹏MIND HACKS</a>
+    </li>
+    <li>
+      <a href="http://www.cnblogs.com/Solstice/">陈硕</a>
+    </li>
+    <li>
+      <a href="http://tianchunbinghe.blog.163.com/">冰河-网易</a></br>
+      <a href="http://weibo.com/tianchunbinghe?from=myfollow_all&is_all=1#_rnd1455615502647">冰河-新浪</a>
+    </li>
+    <li>
+      <a href="http://yinwang.org/">王垠</a></br>
+      <a href="http://www.jianshu.com/users/b1dd2b2c87a8/latest_articles">王垠-简书</a>
+    </li>
+    <li>
+      <a href="http://www.huzheng.org/ ">胡正</a>
+      </li>
+    <li>
+      <a href="http://xahlee.org/ ">李杀</a>
+      </li>
+    <li>
+      <a href="http://www.is.pku.edu.cn/~qzy/ "> 裘宗燕</a>
+      </li>
+    <li>
+      <a href=" http://blog.csdn.net/v_july_v"> July</a>
+      </li>
+    <li>
+      <a href="http://deathking.github.io/ "> deathKing: Learning-in-SICP</a>
+      </li>
+
+
+
+    <li>
+      <a href=" https://en.wikipedia.org/wiki/Scheme_%28programming_language%29"> scheme wikipedia(history of scheme)</a>
+    </li>
+    <li>
+      <a href="https://inst.eecs.berkeley.edu/~cs61a/fa14/proj/scheme/ ">CS61a:a scheme interpreter </a>
+      <a href="https://github.com/dhrushilbadani/Scheme "> interpreter with python implementation </a>
+    </li>
+    <li>
+      <a href="https://cgi.soic.indiana.edu/~c311/doku.php "> C311/B521/B621 </a>
+    </li>
+    <li>
+      <a href="http://minikanren.org/ "> MiniKanren</a>
+    </li>
+    <li>
+      <a href=" http://lambda-the-ultimate.org/"> Lambda the ultimate</a>
+    </li>
+    <li>
+      <a href="http://people.csail.mit.edu/jaffer/SLIB "> The SLIB Portable Scheme library</a>
+    </li>
+
+    <li>
+      <a href="http://v.qq.com/cover/p/pd51cjco90d1rc1.html?vid=o0015dvd155 "> 北平无战事43:承受</a>
+    </li>
+  <li>
+      <a href=" https://palm.muk.uni-hannover.de/trac "> PALM(cfd solver for atmosphere and ocean)</a>
+    </li>
+<li>
+      <a href=" https://github.com/Unidata "> unidata netcdf-c </a>
+    </li>
+
+
+
+
+
+  </ul>
+</section>
+<section>
+<h1>My website link<abbr title="The word 'QR Code' is a registered trademark of DENSO WAVE INCORPORATED. It applies only for the word 'QR Code', not for image.">&trade;</abbr></h1>
+<a href="http://jueqingsizhe66.github.io/blog/2017/08/13/what-vim-teaches-you/"><img src="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chld=|0&chco=165B94&chl=http://jueqingsizhe66.github.io/blog/2017/08/13/what-vim-teaches-you/" alt="post-qrcode"></a></section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Ye Zhaoliang -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

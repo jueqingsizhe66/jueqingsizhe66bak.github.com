@@ -9,8 +9,12 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="Bash Support实现一个vim的bash IDE工具。好处式可以较快捷的
-输入命令和编程以及调试(bashdb)。 ">
+  <meta name="description" content="As you all know we can use defun to define a function in the common lisp, 1
+2
+3
+4
+(defun add (x) (+ x 1))
+(defun foo (a b c) (list a b c)) Definition &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,6 +73,158 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/11/01/think-in-the-variable-and-macro-in-the-common-lisp/">Think in the Variable and Macro in the Common Lisp</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-11-01T17:26:23+08:00" pubdate data-updated="true">Nov 1<span>st</span>, 2015</time>
+        
+
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>As you all know we can use defun to define a function in the common lisp,</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='common-lisp'><span class='line'><span class="p">(</span><span class="nb">defun</span> <span class="nv">add</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nb">defun</span> <span class="nv">foo</span> <span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">(</span><span class="nb">list</span>  <span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Definition above is the most essential method to create a function. Due to the</p>
+
+<p><strong>convience</strong> we will have to think about the variables and functions again.</p>
+
+<p>Writing thinking path: from thinking the variables to functions and get the knowledge of the common lisp.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/11/01/think-in-the-variable-and-macro-in-the-common-lisp/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/10/24/zhong-guo-ban-de-the-design-of-everyday-things/">中国版的the Design of Everyday Things</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-24T20:30:55+08:00" pubdate data-updated="true">Oct 24<span>th</span>, 2015</time>
+        
+
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>经常时不时地回去逛<a href="http://www.yinwang.org/">王垠</a>的博客，接触它并不是因为他特立独行，他从清华退学，主要是
+在通过他，认识了scheme的<a href="http://www.yinwang.org/blog-cn/2012/08/01/interpreter/">简单和强大</a>，当然这不是本文的主题。</p>
+
+<p>当然也是因为他在其<a href="http://www.yinwang.org/blog-cn/2014/07/17/rest/">博文</a>介绍了<a href="http://www.amazon.com/Design-Everyday-Things-Revised-Expanded-ebook/dp/B00E257T6C">The Design of Everyday Things</a>.这本书的确对我很有启发,这是一本让你以人为本的设计书，程序员也需要经常阅读。</p>
+
+<p><img src="/images/life/design.png" alt="TheDesign" /></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/10/24/zhong-guo-ban-de-the-design-of-everyday-things/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/10/24/bash-array-he-tuo-zhan-de-pattern-match/">Bash Array 和拓展的pattern Match</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-24T15:36:57+08:00" pubdate data-updated="true">Oct 24<span>th</span>, 2015</time>
+        
+
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>通过<a href="http://jueqingsizhe66.github.io/blog/2015/10/23/bash-support-idede-xin-fa-xian/">Bash_It</a>的学习，第一次意识到Shell数组的不一样的写法。
+并且也看到Pattern Match的一些用途。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/10/24/bash-array-he-tuo-zhan-de-pattern-match/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -635,144 +791,6 @@ Incompact3d整体框架的介绍可以参考软件的<a href="https://code.googl
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/18/qiong-ren-yu-fu-ren-de-%5B%3F%5D-xie-qu-bie-zhuan/">穷人与富人的一些区别&#8211;转</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-18T16:29:30+08:00" pubdate data-updated="true">Jun 18<span>th</span>, 2015</time>
-        
-
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>穷人难道一直穷？
-富人难道一致富？
-其实穷的是心态和思维。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/06/18/qiong-ren-yu-fu-ren-de-%5B%3F%5D-xie-qu-bie-zhuan/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/18/nan-ren-jian-kang-yang-sheng-zhuan/">男人健康养生(转)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-18T16:05:19+08:00" pubdate data-updated="true">Jun 18<span>th</span>, 2015</time>
-        
-
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>咱们都想着身体健康，气血通畅，精气神十足，可是随着年龄的增长，我们发现
-喝酒、抽烟、熬夜、夜食、酗酒等无不在侵蚀着我们健康的身体。我们需要健康
-的作息习惯和生活习惯，来维持我们的健康。
-1. 作息时间
-2. 补充营养
-3. 适当运动
-<img src="/images/health.jpg" alt="health" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/06/18/nan-ren-jian-kang-yang-sheng-zhuan/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/18/%5B%3F%5D-xie-bu-cuo-de-ge-yan/">一些不错的格言</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-18T16:03:38+08:00" pubdate data-updated="true">Jun 18<span>th</span>, 2015</time>
-        
-
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>人活着应该有一些你一直遵守或者铭记的格言,来支撑我们坚定地走下去。也让我们在遇到困难的时候能够以平常心去处理。
-<img src="/images/xinyang.jpg" alt="信仰" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/06/18/%5B%3F%5D-xie-bu-cuo-de-ge-yan/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -992,7 +1010,7 @@ Incompact3d整体框架的介绍可以参考软件的<a href="https://code.googl
 <li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
 <li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (24)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>Linux (23)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (24)</a></li>
 <li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
 <li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
 <li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
@@ -1013,7 +1031,7 @@ Incompact3d整体框架的介绍可以参考软件的<a href="https://code.googl
 <li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
 <li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
-<li class='category'><a href='/blog/categories/scheme/'>scheme (36)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (38)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
 
@@ -1024,23 +1042,23 @@ Incompact3d整体框架的介绍可以参考软件的<a href="https://code.googl
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/08/13/what-vim-teaches-you/">What Vim Teaches You?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/11/cps-intutive/">CPS Intutive</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/11/from-little-scheme-to-season-scheme/">From Little Scheme to Season Scheme</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/07/05/windows-fast0816bian-yi-shi-bai/">Windows FAST0816编译失败</a>
       </li>
     
       <li class="post">
         <a href="/blog/2017/07/05/pi-liang-xiu-gai-pdfwen-jian-ming-yi-ji-chuang-jian-wiki-links/">批量修改pdf文件名以及创建wiki Links</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/05/30/racket-man-wanna-learn-datetype-and-cases/">Racket Man Wanna Learn Datetype and Cases</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/05/19/ubuntu17-dot-04-install-fast8-dot-16/">Ubuntu17.04 Install FAST8.16</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/05/18/see-from-noteexpress/">See From NoteExpress</a>
       </li>
     
   </ul>

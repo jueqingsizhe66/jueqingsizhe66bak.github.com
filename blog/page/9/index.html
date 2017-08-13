@@ -9,8 +9,10 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="一类抽象是把所有函数都放在module中 比如下面的方式:
-(注意一点：默认的查找路径会在当前目录下查找) ">
+  <meta name="description" content="比较欣赏第三种解法的匠心独运。另外最后一处也引入了模式匹配的思想。
+其实模式匹配，又或者Awk的Map-reduce等都源自范畴论的Monad.
+Monad其实是Monoid的一种endfunctor..
+Monoid更象是数学的复合函数的求解策略。f和g组合是g.f，g和h组合是h.g , &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,6 +71,144 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/17/haskellde-%5B%3F%5D-ci-homework/">Haskell的一次Homework</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-17T22:09:09+08:00" pubdate data-updated="true">May 17<span>th</span>, 2015</time>
+        
+
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>比较欣赏第三种解法的匠心独运。另外最后一处也引入了模式匹配的思想。
+其实模式匹配，又或者Awk的<a href="http://www.kuqin.com/shuoit/20140617/340631.html">Map-reduce</a>等都源自范畴论的<a href="http://www.jdon.com/idea/monad.html">Monad</a>.
+Monad其实是<a href="http://www.jdon.com/idea/monoid.html">Monoid</a>的一种endfunctor..
+Monoid更象是数学的<a href="http://baike.baidu.com/link?url=7iYP9qxtCIrLmJfyDk1nLYlcfBIB17bXjOQmymFupddY0ZN9uiNrXfY8R6yrbFr1Kl9JBmSwyzkQ6EGcQEqlc_">复合函数</a>的求解策略。f和g组合是g.f，g和h组合是h.g , 也就是说，f函数的输出作为g函数的输入，而且f函数的输出类型必须和g函数的输入类型相同。
+我们将一个范畴有元素对象和态射箭头，态射箭头有组合和幺元两种，且满足结合律，这种范畴称为Monoid。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/05/17/haskellde-%5B%3F%5D-ci-homework/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/17/haskellde-io-main/">Haskell的IO Main</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-17T21:48:03+08:00" pubdate data-updated="true">May 17<span>th</span>, 2015</time>
+        
+
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>main在Haskell充当类似c系列语言的exe文件的头函数
+main对应的类型是<a href="http://learnyoua.haskell.sg/content/zh-tw/ch09/input-and-output.html">IO Something</a>
+比如下列源码：</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/05/17/haskellde-io-main/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/17/the-greatest-weapons/">The Greatest Weapons</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-17T19:01:59+08:00" pubdate data-updated="true">May 17<span>th</span>, 2015</time>
+        
+
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Everything in Haskell has a Type
+Here are some Type declarations.</p>
+
+<p>These are your greatest weapons.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/05/17/the-greatest-weapons/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -665,151 +805,6 @@ you found!</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/12/zhe-ban-chao-zhao-you-tiao-jian/">折半查找有条件</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-12T02:46:03+08:00" pubdate data-updated="true">May 12<span>th</span>, 2015</time>
-        
-
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>You want to solve F(x)=0,
-if f(a)&lt;0&lt;f(b), so the value must be inside the [a,b].</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/05/12/zhe-ban-chao-zhao-you-tiao-jian/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/12/so-beautiful-code/">So Beautiful Code</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-12T02:29:11+08:00" pubdate data-updated="true">May 12<span>th</span>, 2015</time>
-        
-
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So beautiful</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='scheme'><span class='line'><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">f</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">f-helper</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">square</span> <span class="nv">a</span><span class="p">))</span>
-</span><span class='line'>      <span class="p">(</span><span class="nb">* </span><span class="nv">y</span> <span class="nv">b</span><span class="p">)</span>
-</span><span class='line'>      <span class="p">(</span><span class="nb">* </span><span class="nv">a</span> <span class="nv">b</span><span class="p">)))</span>
-</span><span class='line'>  <span class="p">(</span><span class="nf">f-helper</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="p">(</span><span class="nb">* </span><span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
-</span><span class='line'>            <span class="p">(</span><span class="nb">- </span><span class="mi">1</span> <span class="nv">y</span><span class="p">)))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/05/12/so-beautiful-code/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/11/ya-suo-wen-jian-ioliu-de-shi-yong-he-jian-dan-feng-zhuang-%280213%29/">压缩文件IO流的使用和简单封装（0213）</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-11T14:58:47+08:00" pubdate data-updated="true">May 11<span>th</span>, 2015</time>
-        
-
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"></div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/05/11/ya-suo-wen-jian-ioliu-de-shi-yong-he-jian-dan-feng-zhuang-%280213%29/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/10/">&larr; Older</a>
@@ -1029,7 +1024,7 @@ if f(a)&lt;0&lt;f(b), so the value must be inside the [a,b].</p>
 <li class='category'><a href='/blog/categories/jsdom/'>JSDom (3)</a></li>
 <li class='category'><a href='/blog/categories/javabasic/'>JavaBasic (24)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>JavaScript (3)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>Linux (23)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (24)</a></li>
 <li class='category'><a href='/blog/categories/lisp/'>Lisp (1)</a></li>
 <li class='category'><a href='/blog/categories/mysql/'>Mysql (2)</a></li>
 <li class='category'><a href='/blog/categories/tecplot/'>Tecplot (1)</a></li>
@@ -1050,7 +1045,7 @@ if f(a)&lt;0&lt;f(b), so the value must be inside the [a,b].</p>
 <li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
 <li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
-<li class='category'><a href='/blog/categories/scheme/'>scheme (36)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (38)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
 
@@ -1061,23 +1056,23 @@ if f(a)&lt;0&lt;f(b), so the value must be inside the [a,b].</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/08/13/what-vim-teaches-you/">What Vim Teaches You?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/11/cps-intutive/">CPS Intutive</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/08/11/from-little-scheme-to-season-scheme/">From Little Scheme to Season Scheme</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/07/05/windows-fast0816bian-yi-shi-bai/">Windows FAST0816编译失败</a>
       </li>
     
       <li class="post">
         <a href="/blog/2017/07/05/pi-liang-xiu-gai-pdfwen-jian-ming-yi-ji-chuang-jian-wiki-links/">批量修改pdf文件名以及创建wiki Links</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/05/30/racket-man-wanna-learn-datetype-and-cases/">Racket Man Wanna Learn Datetype and Cases</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/05/19/ubuntu17-dot-04-install-fast8-dot-16/">Ubuntu17.04 Install FAST8.16</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/05/18/see-from-noteexpress/">See From NoteExpress</a>
       </li>
     
   </ul>
