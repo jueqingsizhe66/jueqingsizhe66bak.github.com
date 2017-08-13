@@ -120,7 +120,7 @@
 
 <p>想着让你的vim运行得更快一些，你把你一直用的<a href="https://github.com/VundleVim/Vundle.vim">vundle</a>改为了的<a href="https://github.com/junegunn">junegunn</a><a href="https://github.com/junegunn/vim-plug">vim-plug</a>来管理你的插件,确没见得有太大的改进，简洁地使用plugins自然就快了。</p>
 
-<p><img src="/images/Aboutvim/fuck.jpg" alt="Mybeautifulvim" /></p>
+<p><img src="/images/AboutVim/fuck.png" alt="vim startup" /></p>
 
 <p>可以看到你的其实也增加了<a href="#star">Startify</a>的配置。</p>
 
@@ -132,6 +132,8 @@
 
 
 <p>Github Repo: Click <a href="https://github.com/vim-ctrlspace/vim-ctrlspace">here</a></p>
+
+<p>vim help: <code>:h ctrlspace</code></p>
 
 <p><font color="red">核心概念:</font></p>
 
@@ -631,8 +633,76 @@
 
 <h4>vim-easy-align常用命令</h4>
 
+<p>vim help: <code>:h easyalign</code></p>
+
+<p>vip=  Enter=   EnterEnter=(居右，居中，居左对其选项 )</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='vim'><span class='line'>Nope
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'>gaip<span class="p">=</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'> <span class="p">--------------+--------------------------------------------------------------------</span>
+</span><span class='line'> Delimiter <span class="nb">key</span> <span class="p">|</span> Description/Use cases                                              <span class="p">~</span>
+</span><span class='line'> <span class="p">--------------+--------------------------------------------------------------------</span>
+</span><span class='line'> <span class="p">&lt;</span>Space<span class="p">&gt;</span>       <span class="p">|</span> General alignment around whitespaces
+</span><span class='line'>    `:`            <span class="p">|</span> Suitable <span class="k">for</span> formatting JSON or YAML
+</span><span class='line'>  `<span class="p">=</span>`            <span class="p">|</span> Operators containing equals <span class="k">sign</span> <span class="p">(</span> `<span class="p">=</span>` <span class="p">,</span>  `<span class="p">==,</span>`  `<span class="p">!=</span>` <span class="p">,</span>  `<span class="p">+=</span>` <span class="p">,</span>  `&amp;&amp;<span class="p">=</span>` <span class="p">,</span> ...<span class="p">)</span>
+</span><span class='line'>  `.`            <span class="p">|</span> Multi<span class="p">-</span>line method chaining
+</span><span class='line'>  `<span class="p">,</span>`            <span class="p">|</span> Multi<span class="p">-</span>line method arguments
+</span><span class='line'>  `&amp;`            <span class="p">|</span> LaTeX tables <span class="p">(</span>matches  `&amp;`  and  `\\` <span class="p">)</span>
+</span><span class='line'>  `#`            <span class="p">|</span> Ruby/Python <span class="nb">comments</span>
+</span><span class='line'>  `&quot;`            <span class="p">|</span> Vim <span class="nb">comments</span>
+</span><span class='line'> <span class="p">&lt;</span>Bar<span class="p">&gt;</span>         <span class="p">|</span> Table markdown
+</span><span class='line'> <span class="p">--------------+--------------------------------------------------------------------</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">------------------+------------------------------------+--------------------</span>
+</span><span class='line'> With visual map   <span class="p">|</span> Description                        <span class="p">|</span> Equivalent command <span class="p">~</span>
+</span><span class='line'> <span class="p">------------------+------------------------------------+--------------------</span>
+</span><span class='line'> <span class="p">&lt;</span>Enter<span class="p">&gt;&lt;</span>Space<span class="p">&gt;</span>    <span class="p">|</span> Around <span class="m">1</span>st whitespaces             <span class="p">|</span> :<span class="s1">&#39;&lt;,&#39;</span><span class="p">&gt;</span>EasyAlign\
+</span><span class='line'> <span class="p">&lt;</span>Enter<span class="p">&gt;</span><span class="m">2</span><span class="p">&lt;</span>Space<span class="p">&gt;</span>   <span class="p">|</span> Around <span class="m">2</span>nd whitespaces             <span class="p">|</span> :<span class="s1">&#39;&lt;,&#39;</span><span class="p">&gt;</span>EasyAlign2\
+</span><span class='line'> <span class="p">&lt;</span>Enter<span class="p">&gt;-&lt;</span>Space<span class="p">&gt;</span>   <span class="p">|</span> Around the last whitespaces        <span class="p">|</span> :<span class="s1">&#39;&lt;,&#39;</span><span class="p">&gt;</span>EasyAlign<span class="p">-</span>\
+</span><span class='line'> <span class="p">&lt;</span>Enter<span class="p">&gt;</span><span class="m">-2</span><span class="p">&lt;</span>Space<span class="p">&gt;</span>  <span class="p">|</span> Around the <span class="m">2</span>nd <span class="k">to</span> last whitespaces <span class="p">|</span> :<span class="s1">&#39;&lt;,&#39;</span><span class="p">&gt;</span>EasyAlign<span class="m">-2</span>\
+</span><span class='line'> <span class="p">&lt;</span>Enter<span class="p">&gt;</span>:          <span class="p">|</span> Around <span class="m">1</span>st colon <span class="p">(</span> `<span class="nb">key</span>:  value` <span class="p">)</span>   <span class="p">|</span> :<span class="s1">&#39;&lt;,&#39;</span><span class="p">&gt;</span>EasyAlign:
+</span><span class='line'> <span class="p">&lt;</span>Enter<span class="p">&gt;&lt;</span>Right<span class="p">&gt;</span>:   <span class="p">|</span> Around <span class="m">1</span>st colon <span class="p">(</span> `<span class="nb">key</span> : value` <span class="p">)</span>   <span class="p">|</span> :<span class="s1">&#39;&lt;,&#39;</span><span class="p">&gt;</span>EasyAlign:<span class="p">&lt;</span>l1
+</span><span class='line'> <span class="p">&lt;</span>Enter<span class="p">&gt;=</span>          <span class="p">|</span> Around <span class="m">1</span>st operators with <span class="p">=</span>        <span class="p">|</span> :<span class="s1">&#39;&lt;,&#39;</span><span class="p">&gt;</span>EasyAlign<span class="p">=</span>
+</span><span class='line'> <span class="p">&lt;</span>Enter<span class="p">&gt;</span><span class="m">3</span><span class="p">=</span>         <span class="p">|</span> Around <span class="m">3</span>rd operators with <span class="p">=</span>        <span class="p">|</span> :<span class="s1">&#39;&lt;,&#39;</span><span class="p">&gt;</span>EasyAlign3<span class="p">=</span>
+</span><span class='line'> <span class="p">&lt;</span>Enter<span class="p">&gt;</span>*<span class="p">=</span>         <span class="p">|</span> Around <span class="k">all</span> operators with <span class="p">=</span>        <span class="p">|</span> :<span class="s1">&#39;&lt;,&#39;</span><span class="p">&gt;</span>EasyAlign*<span class="p">=</span>
+</span><span class='line'> <span class="p">&lt;</span>Enter<span class="p">&gt;</span>**<span class="p">=</span>        <span class="p">|</span> Left<span class="p">-</span><span class="k">right</span> alternating around <span class="p">=</span>    <span class="p">|</span> :<span class="s1">&#39;&lt;,&#39;</span><span class="p">&gt;</span>EasyAlign**<span class="p">=</span>
+</span><span class='line'> <span class="p">&lt;</span>Enter<span class="p">&gt;&lt;</span>Enter<span class="p">&gt;=</span>   <span class="p">|</span> Right alignment around <span class="m">1</span>st <span class="p">=</span>       <span class="p">|</span> :<span class="s1">&#39;&lt;,&#39;</span><span class="p">&gt;</span>EasyAlign<span class="p">!=</span>
+</span><span class='line'> <span class="p">&lt;</span>Enter<span class="p">&gt;&lt;</span>Enter<span class="p">&gt;</span>**<span class="p">=</span> <span class="p">|</span> Right<span class="p">-</span><span class="k">left</span> alternating around <span class="p">=</span>    <span class="p">|</span> :<span class="s1">&#39;&lt;,&#39;</span><span class="p">&gt;</span>EasyAlign<span class="p">!</span>**<span class="p">=</span>
+</span><span class='line'> <span class="p">------------------+------------------------------------+--------------------</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -650,8 +720,8 @@
 </pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="m">1</span>. <span class="k">cs</span>&quot;&#39;
 </span><span class='line'><span class="m">2</span>. <span class="k">cs</span>&#39;&quot;
 </span><span class='line'><span class="m">3</span>. <span class="k">cs</span>&#39;<span class="p">&lt;</span><span class="k">q</span><span class="p">&gt;</span>
-</span><span class='line'><span class="m">4</span>. <span class="nb">cst</span>&quot;
 </span><span class='line'><span class="m">5</span>. <span class="k">cs</span>&quot;<span class="k">t</span>
+</span><span class='line'><span class="m">4</span>. <span class="nb">cst</span>&quot;
 </span><span class='line'><span class="m">6</span>. <span class="k">ds</span>&quot;
 </span><span class='line'><span class="m">7</span>. ysiw&quot;
 </span><span class='line'><span class="m">8</span>. yssb <span class="p">==</span> yss<span class="p">)</span>
@@ -730,11 +800,59 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p>必然对偶然，自由对随机，自由在必然中，随机在偶然中，原来这才是自由(<a href="http://www.huzheng.org/geniusreligion/TheSourceCodeOfMyWorld.pdf">胡正自由</a>是有代价的)。</p>
+
 <h3 id="att"> 5. Attach File </h3>
 
 
-<p>Windows Version dotVim Repo: [ here ]
-Ubuntu Version dotVim Repo: [ here ]</p>
+<ul>
+<li>Windows Version dotVim Repo: <a href="http://pan.baidu.com/s/1ge3EbZX"> here </a></li>
+<li>Ubuntu Version dotVim Repo: <a href="http://pan.baidu.com/s/1slQA3JB"> here </a></li>
+</ul>
+
+
+<p>在终端使用vim编辑命令的方式:</p>
+
+<p>在~目录下创建一个.inputrc文件，内容如下</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">set</span> editing<span class="p">-</span><span class="k">mode</span> <span class="k">vi</span>
+</span><span class='line'>Control<span class="p">-</span><span class="k">a</span>: beginning<span class="p">-</span>of<span class="p">-</span>line
+</span><span class='line'>Control<span class="p">-</span><span class="k">b</span>: backward<span class="p">-</span>char
+</span><span class='line'>Control<span class="p">-</span><span class="k">d</span>: delete<span class="p">-</span>char
+</span><span class='line'>Control<span class="p">-</span><span class="k">e</span>: <span class="k">end</span><span class="p">-</span>of<span class="p">-</span>line
+</span><span class='line'>Control<span class="p">-</span><span class="k">f</span>: forward<span class="p">-</span>char
+</span><span class='line'>Control<span class="p">-</span><span class="k">k</span>: kill<span class="p">-</span>line
+</span><span class='line'>Control<span class="p">-</span><span class="k">n</span>: next<span class="p">-</span><span class="k">history</span>
+</span><span class='line'>Control<span class="p">-</span><span class="k">p</span>: <span class="k">previous</span><span class="p">-</span><span class="k">history</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">keymap</span> emacs<span class="p">-</span>ctlx
+</span><span class='line'><span class="k">v</span>: <span class="k">vi</span><span class="p">-</span>editing<span class="p">-</span><span class="k">mode</span>
+</span><span class='line'>Control<span class="p">-</span><span class="k">v</span>: <span class="s2">&quot;\C-xv\e&quot;</span>
+</span><span class='line'>Escape: <span class="s2">&quot;\C-xv\e&quot;</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">keymap</span> emacs
+</span><span class='line'>$<span class="k">if</span> Bash
+</span><span class='line'>  Control<span class="p">-</span><span class="k">w</span>: unix<span class="p">-</span><span class="k">filename</span><span class="p">-</span>rubout
+</span><span class='line'>$<span class="k">endif</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 
 <p class='post-footer'>
                         原始地址:<a href='http://jueqingsizhe66.github.io/blog/2017/08/13/what-vim-teaches-you/'>http://jueqingsizhe66.github.io/blog/2017/08/13/what-vim-teaches-you/</a><br/>&nbsp;written by <a href='http://jueqingsizhe66.github.io'>Ye Zhaoliang</a>&nbsp;posted at <a href='http://jueqingsizhe66.github.io'>http://jueqingsizhe66.github.io</a></p>
@@ -811,6 +929,8 @@ var jiathis_config = {data_track_clickback:'true'};
       
         <a class="basic-alignment left" href="/blog/2017/08/11/cps-intutive/" title="Previous Post: CPS intutive">&laquo; CPS intutive</a>
       
+      
+        <a class="basic-alignment right" href="/blog/2017/08/13/yue-du-source-code-of-my-world/" title="Next Post: 阅读source code of my world">阅读source code of my world &raquo;</a>
       
     </p>
   </footer>
@@ -1051,7 +1171,7 @@ var jiathis_config = {data_track_clickback:'true'};
 <li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
 <li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
-<li class='category'><a href='/blog/categories/scheme/'>scheme (38)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (39)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
 
@@ -1060,6 +1180,10 @@ var jiathis_config = {data_track_clickback:'true'};
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/08/13/yue-du-source-code-of-my-world/">阅读source Code of My World</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/08/13/what-vim-teaches-you/">What Vim Teaches You?</a>
@@ -1075,10 +1199,6 @@ var jiathis_config = {data_track_clickback:'true'};
     
       <li class="post">
         <a href="/blog/2017/07/05/windows-fast0816bian-yi-shi-bai/">Windows FAST0816编译失败</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/07/05/pi-liang-xiu-gai-pdfwen-jian-ming-yi-ji-chuang-jian-wiki-links/">批量修改pdf文件名以及创建wiki Links</a>
       </li>
     
   </ul>

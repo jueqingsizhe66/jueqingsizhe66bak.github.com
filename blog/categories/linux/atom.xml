@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | 网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-08-13T11:41:34+08:00</updated>
+  <updated>2017-08-13T21:47:14+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -41,7 +41,7 @@
 
 <p>想着让你的vim运行得更快一些，你把你一直用的<a href="https://github.com/VundleVim/Vundle.vim">vundle</a>改为了的<a href="https://github.com/junegunn">junegunn</a><a href="https://github.com/junegunn/vim-plug">vim-plug</a>来管理你的插件,确没见得有太大的改进，简洁地使用plugins自然就快了。</p>
 
-<p><img src="/images/Aboutvim/fuck.jpg" alt="Mybeautifulvim" /></p>
+<p><img src="/images/AboutVim/fuck.png" alt="vim startup" /></p>
 
 <p>可以看到你的其实也增加了<a href="#star">Startify</a>的配置。</p>
 
@@ -53,6 +53,8 @@
 
 
 <p>Github Repo: Click <a href="https://github.com/vim-ctrlspace/vim-ctrlspace">here</a></p>
+
+<p>vim help: <code>:h ctrlspace</code></p>
 
 <p><font color="red">核心概念:</font></p>
 
@@ -361,9 +363,48 @@ endif
 
 <h4>vim-easy-align常用命令</h4>
 
-<p><code>
-Nope
-</code></p>
+<p>vim help: <code>:h easyalign</code></p>
+
+<p>vip=  Enter=   EnterEnter=(居右，居中，居左对其选项 )</p>
+
+<p>```
+gaip=</p>
+
+<p> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
+ Delimiter key | Description/Use cases                                              ~
+ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
+ <Space>       | General alignment around whitespaces</p>
+
+<pre><code>`:`            | Suitable for formatting JSON or YAML
+</code></pre>
+
+<p>  <code>=</code>            | Operators containing equals sign ( <code>=</code> ,  <code>==,</code>  <code>!=</code> ,  <code>+=</code> ,  <code>&amp;&amp;=</code> , &hellip;)
+  <code>.</code>            | Multi-line method chaining
+  <code>,</code>            | Multi-line method arguments
+  <code>&amp;</code>            | LaTeX tables (matches  <code>&amp;</code>  and  <code>\\</code> )
+  <code>#</code>            | Ruby/Python comments
+  <code>"</code>            | Vim comments
+ <Bar>         | Table markdown
+ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</p>
+
+<p>  &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
+ With visual map   | Description                        | Equivalent command ~
+ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
+ <Enter><Space>    | Around 1st whitespaces             | :&lsquo;&lt;,&rsquo;>EasyAlign\
+ <Enter>2<Space>   | Around 2nd whitespaces             | :&lsquo;&lt;,&rsquo;>EasyAlign2\
+ <Enter>&ndash;<Space>   | Around the last whitespaces        | :&lsquo;&lt;,&rsquo;>EasyAlign-\
+ <Enter>-2<Space>  | Around the 2nd to last whitespaces | :&lsquo;&lt;,&rsquo;>EasyAlign-2\
+ <Enter>:          | Around 1st colon ( <code>key:  value</code> )   | :&lsquo;&lt;,&rsquo;>EasyAlign:
+ <Enter><Right>:   | Around 1st colon ( <code>key : value</code> )   | :&lsquo;&lt;,&rsquo;>EasyAlign:<l1
+ <Enter>=          | Around 1st operators with =        | :&lsquo;&lt;,&rsquo;>EasyAlign=
+ <Enter>3=         | Around 3rd operators with =        | :&lsquo;&lt;,&rsquo;>EasyAlign3=
+ <Enter><em>=         | Around all operators with =        | :&lsquo;&lt;,&rsquo;>EasyAlign</em>=
+ <Enter><strong>=        | Left-right alternating around =    | :&lsquo;&lt;,&rsquo;>EasyAlign</strong>=
+ <Enter><Enter>=   | Right alignment around 1st =       | :&lsquo;&lt;,&rsquo;>EasyAlign!=
+ <Enter><Enter><strong>= | Right-left alternating around =    | :&lsquo;&lt;,&rsquo;>EasyAlign!</strong>=
+ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</p>
+
+<p>```</p>
 
 <h4>vim-surround 常用命令</h4>
 
@@ -371,8 +412,8 @@ Nope
 1. cs"'
 2. cs'"
 3. cs'&lt;q&gt;
-4. cst"
 5. cs"t
+4. cst"
 6. ds"
 7. ysiw"
 8. yssb == yss)  
@@ -428,11 +469,41 @@ nmap &lt;leader&gt;cd :CopyDirectoryPath&lt;CR&gt;
 
 <p>```</p>
 
+<p>必然对偶然，自由对随机，自由在必然中，随机在偶然中，原来这才是自由(<a href="http://www.huzheng.org/geniusreligion/TheSourceCodeOfMyWorld.pdf">胡正自由</a>是有代价的)。</p>
+
 <h3 id="att"> 5. Attach File </h3>
 
 
-<p>Windows Version dotVim Repo: [ here ]
-Ubuntu Version dotVim Repo: [ here ]</p>
+<ul>
+<li>Windows Version dotVim Repo: <a href="http://pan.baidu.com/s/1ge3EbZX"> here </a></li>
+<li>Ubuntu Version dotVim Repo: <a href="http://pan.baidu.com/s/1slQA3JB"> here </a></li>
+</ul>
+
+
+<p>在终端使用vim编辑命令的方式:</p>
+
+<p>在~目录下创建一个.inputrc文件，内容如下</p>
+
+<p>```
+set editing-mode vi
+Control-a: beginning-of-line
+Control-b: backward-char
+Control-d: delete-char
+Control-e: end-of-line
+Control-f: forward-char
+Control-k: kill-line
+Control-n: next-history
+Control-p: previous-history
+set keymap emacs-ctlx
+v: vi-editing-mode
+Control-v: &ldquo;\C-xv\e&rdquo;
+Escape: &ldquo;\C-xv\e&rdquo;
+set keymap emacs
+$if Bash
+  Control-w: unix-filename-rubout
+$endif</p>
+
+<p>```</p>
 ]]></content>
   </entry>
   
@@ -541,7 +612,7 @@ done
 
 <h1>NOTES: &mdash;&ndash;</h1>
 
-<h1>AUTHOR: Ye Zhao Liang (Vimer), <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#122;&#x68;&#97;&#x6f;&#x74;&#117;&#114;&#x6b;&#107;&#x65;&#x79;&#x40;&#x31;&#x36;&#51;&#46;&#x63;&#x6f;&#109;">&#122;&#104;&#97;&#111;&#116;&#x75;&#x72;&#x6b;&#107;&#101;&#121;&#64;&#49;&#x36;&#51;&#x2e;&#x63;&#111;&#x6d;</a></h1>
+<h1>AUTHOR: Ye Zhao Liang (Vimer), <a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#122;&#104;&#97;&#x6f;&#x74;&#x75;&#x72;&#x6b;&#107;&#x65;&#x79;&#x40;&#49;&#x36;&#x33;&#x2e;&#x63;&#111;&#x6d;">&#x7a;&#x68;&#x61;&#111;&#116;&#x75;&#114;&#107;&#x6b;&#x65;&#x79;&#x40;&#x31;&#x36;&#x33;&#46;&#99;&#111;&#x6d;</a></h1>
 
 <h1>ORGANIZATION: BrokenSun</h1>
 
@@ -743,7 +814,7 @@ echo "a b c 2011-11-22 a:d" | awk 'gsub(/-/,"",$4)'
 
 <h1>VIM Version:  7.0+</h1>
 
-<h1>Author:  Ye Zhao Liang (Vimer), <a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#x3a;&#x7a;&#x68;&#x61;&#111;&#116;&#x75;&#114;&#107;&#x6b;&#101;&#x79;&#64;&#49;&#x36;&#51;&#46;&#x63;&#111;&#x6d;">&#x7a;&#104;&#97;&#x6f;&#x74;&#x75;&#x72;&#107;&#x6b;&#101;&#x79;&#64;&#x31;&#x36;&#x33;&#x2e;&#x63;&#111;&#x6d;</a></h1>
+<h1>Author:  Ye Zhao Liang (Vimer), <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x7a;&#104;&#97;&#111;&#x74;&#117;&#x72;&#107;&#107;&#x65;&#121;&#64;&#x31;&#x36;&#x33;&#46;&#99;&#x6f;&#109;">&#122;&#x68;&#97;&#111;&#x74;&#117;&#x72;&#107;&#107;&#x65;&#x79;&#x40;&#x31;&#x36;&#x33;&#x2e;&#99;&#x6f;&#109;</a></h1>
 
 <h1>Organization:  BrokenSun</h1>
 

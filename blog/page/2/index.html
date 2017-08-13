@@ -9,8 +9,11 @@
   <meta name="author" content="Ye Zhaoliang">
 
   
-  <meta name="description" content="NREL FAST的调试一直存在问题，关键是不知道怎么设置选项，查阅了Visual Studio和一些基本知识整理了
-NREL项目的调试方法。 ">
+  <meta name="description" content="一张来自fcode的有趣的静态和动态链接的比喻图， 静态库是需要直接和exe文件打包在一起的，而动态库则是需要运行的时候才执行dll文件，
+dll文件也是一个exe文件，只不过只能由对应的exe文件执行，无法人工执行。 1. 静态链接
+2. 动态链接
+3. 两者比较
+4. fortran与c混编 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,6 +72,61 @@ NREL项目的调试方法。 ">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/02/07/%5B%3F%5D-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen/">一份有趣的fortran动态静态链接文</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-02-07T20:03:04+08:00" pubdate data-updated="true">Feb 7<span>th</span>, 2017</time>
+        
+
+         
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>一张来自<a href="http://fcode.cn/">fcode</a>的有趣的静态和动态链接的比喻图，
+<img src="/images/fortrandebug/usb.png" alt="staticdy" /></p>
+
+<p>静态库是需要直接和exe文件打包在一起的，而动态库则是需要运行的时候才执行dll文件，
+dll文件也是一个exe文件，只不过只能由对应的exe文件执行，无法人工执行。</p>
+
+<ul>
+<li><a href="#static">1. 静态链接</a></li>
+<li><a href="#dynamic">2. 动态链接</a></li>
+<li><a href="#compare">3. 两者比较</a></li>
+<li><a href="#hun">4. fortran与c混编</a></li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/02/07/%5B%3F%5D-fen-you-qu-de-fortrandong-tai-jing-tai-lian-jie-wen/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -750,60 +808,6 @@ and compare with each other continually.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/07/19/matlabxiao-jie/">Matlab小结</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-07-19T18:41:57+08:00" pubdate data-updated="true">Jul 19<span>th</span>, 2016</time>
-        
-
-         
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近，有做一个图像处理的项目，总结出一些有用的maltlab小工具。</p>
-
-<ol>
-<li><a href="#1">Numsubplot</a></li>
-<li><a href="#2">windRose</a></li>
-<li><a href="#3">多项式拟合</a></li>
-<li><a href="#4">箭头</a></li>
-<li><a href="#5">误差带</a></li>
-<li><a href="#6">matlab编程配置</a></li>
-<li><a href="#7">cell and array</a></li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/07/19/matlabxiao-jie/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -1044,7 +1048,7 @@ and compare with each other continually.</p>
 <li class='category'><a href='/blog/categories/physics/'>physics (1)</a></li>
 <li class='category'><a href='/blog/categories/prolog/'>prolog (4)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
-<li class='category'><a href='/blog/categories/scheme/'>scheme (38)</a></li>
+<li class='category'><a href='/blog/categories/scheme/'>scheme (39)</a></li>
 <li class='category'><a href='/blog/categories/vim/'>vim (2)</a></li>
 <li class='category'><a href='/blog/categories/xml/'>xml (1)</a></li>
 
@@ -1053,6 +1057,10 @@ and compare with each other continually.</p>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/08/13/yue-du-source-code-of-my-world/">阅读source Code of My World</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/08/13/what-vim-teaches-you/">What Vim Teaches You?</a>
@@ -1068,10 +1076,6 @@ and compare with each other continually.</p>
     
       <li class="post">
         <a href="/blog/2017/07/05/windows-fast0816bian-yi-shi-bai/">Windows FAST0816编译失败</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/07/05/pi-liang-xiu-gai-pdfwen-jian-ming-yi-ji-chuang-jian-wiki-links/">批量修改pdf文件名以及创建wiki Links</a>
       </li>
     
   </ul>

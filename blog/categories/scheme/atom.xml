@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Scheme | 网络书屋(Web Reading Room)]]></title>
   <link href="http://jueqingsizhe66.github.io/blog/categories/scheme/atom.xml" rel="self"/>
   <link href="http://jueqingsizhe66.github.io/"/>
-  <updated>2017-08-13T11:41:34+08:00</updated>
+  <updated>2017-08-13T21:47:14+08:00</updated>
   <id>http://jueqingsizhe66.github.io/</id>
   <author>
     <name><![CDATA[Ye Zhaoliang]]></name>
@@ -12,6 +12,86 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[阅读source Code of My World]]></title>
+    <link href="http://jueqingsizhe66.github.io/blog/2017/08/13/yue-du-source-code-of-my-world/"/>
+    <updated>2017-08-13T21:42:17+08:00</updated>
+    <id>http://jueqingsizhe66.github.io/blog/2017/08/13/yue-du-source-code-of-my-world</id>
+    <content type="html"><![CDATA[<p>识贤者，戒游戏，做贡献，时而等闲,工程化行之。</p>
+
+<!--more-->
+
+
+<h3>贤者</h3>
+
+<ul>
+<li><p>可以读读有智慧的朋友 <a href="http://home.wangjianshuo.com/cn/cat_aecccc.html">王建硕</a>(比如很多话都是<a href="http://home.wangjianshuo.com/cn/20090307_aeaecaeaeec.htm">你以为，我以为更加接近现实,奥巴马也曾经以为</a>,当知道
+了太多的你以为之后，你才能成长，成熟地感受痛苦。所以最应该送上<a href="http://www.huzheng.org/geniusreligion/TheSourceCodeOfMyWorld.pdf">&ldquo;批斗场&rdquo;</a>的词语应该是"以为")
+When thinking changes your mind, that&rsquo;s philosophy.
+When God changes your mind, that&rsquo;s faith.
+When facts change your mind, that&rsquo;s science. That&rsquo;s the soul of <a href="https://www.edge.org/">edge.org</a></p></li>
+<li><p>去<a href="https://www.edge.org/">edge.org</a>看看thinking(比如 <a href="https://www.edge.org/conversation/tania_lombrozo-learning-by-thinking">解释的力量</a> )
+大项目和小项目智慧
+  参加体检的时候，会有很多项目要进行，而先排队做花时间长的大项目的人会最先体检完，
+  因为等你把大项目做完，再去进行小项目的时候，你会发现小项目早空了，没人排队了，而
+  那些先排队做小项目的人现在正排着比你开始更长的队伍进行着大项目的体检，所以你轻松
+  检查完小项目就可以先走了。去游乐园玩也是这样， 上午先排队玩大项目会是最优的选择，
+  因为虽然一开始排大项目的人会很多，但你会发现到了下午，排大项目的人的队伍会变得更
+  长，而那些小项目已经基本没什么人排队了，这样你轻松就最先玩完了大多数想玩的项目。
+  人生的学习排队也会是有这样的最佳策略，年轻的时候先把那些要花四五年时间才能精通的
+  大项目做完（比如Linux操作系统，软件开发技术），再去学习着装打扮这些几个月就能学
+  会的小项目，你就会最先达到你的人生目标了。而那些开始没学大项目的人，青春过后，会
+  发现再就很难拿出四五年的时间去学习大项目了，而他/她们以前学的那些小项目，别人会
+  很快也学会，而且因为别人有了坚实的基础，会做得比他/她们更 好。这就是抓住重点先进
+  行突破的秘诀了。就像往罐子里装石头和沙子一样，先放大石子，再灌沙子会充实得很满，
+  而先装沙子再放石头就会有很多空隙不能填满了，而且有的石头也就再也放不进去了。可见，
+  人生的学习排队策略也应该这样安排，这样才是有智慧的体现</p></li>
+</ul>
+
+
+<p><a href="http://mindhacks.cn/2008/07/07/the-importance-of-knowing-why/">Top-down</a>思想(书读厚)和Bottom-up(书读薄)深入思想,and recursive the procedure in your life(life is one book)，去理解<a href="http://blog.csdn.net/pongba/article/details/2412144">思考的背后</a>.</p>
+
+<pre><code>跨情境运用：思维法则也是知识记忆，是问题解决策略。既然是记忆，就受到提取线索的制约，
+这就是为什么当波利亚告诉你要“注意未知数”之后你还是不能真正在所有需要你“注意未知数”
+的地方都能提醒自己“注意未知数”。很多时候未知数是很隐蔽的，未知数并不会总是头顶一个
+大帽子上面写着“我是未知数”。所以很多时候缺乏对这个策略的“提醒”线索，这也是为什么你
+学会了在解决数学问题的时候“注意未知数”却不一定能在解决现实生活中的问题中时刻都能
+“注意你的未知数”（《你的灯亮着吗？》整本书的价值便在于此）
+</code></pre>
+
+<h3>游戏</h3>
+
+<p>游戏的乐趣，而致瘾，则是对快乐的超前消费、透支消费，不得不说游戏的虚拟社会由对抗、暴力和欲望主宰，玩家们因此急功近利、恩怨分明、派系林立、残酷冷漠，模拟人物的性格弱点。所谓爽，很High，只不过是提前消费快乐罢了，从第二天的疲劳你就会了解得到。就像办了信用卡，可以提前消费，但并不是增加了你的财富。如果随意刷卡，或者太过度玩乐，就
+会导致麻烦(由浪费而产生缺乏)，而得不偿失</p>
+
+<h3>贡献</h3>
+
+<p>万事即使无回报也得多做点贡献。</p>
+
+<pre><code>比如历史上有一个伟大的发明家（或许是最伟大的发明家之一），却鲜为人知。他就是
+Nikola Tesla。他发现或者开发了一系列伟大创新的基础技术，从无线电信号传输，到交流
+电，从特斯拉变压器到X光，荧光灯直到现代电网。他和爱迪生一起工作，却相比之下，却
+回报寥寥。不但老年穷困潦倒，也很少有人听说过他。1943年，这位为人类迎来电力时代
+的天才去世的时候，身边只有几只他捡来的病鸽子
+</code></pre>
+
+<h3>等闲</h3>
+
+<p>等闲，让自己有一些时间来让内心寂静, 等闲也是你的<a href="http://mindhacks.cn/">暗时间</a>,带着你关心的问题进行思考。</p>
+
+<pre><code>寂静指的不是外部环境，而是人的内心。渴望智慧、力量或者任何取得不朽成就的人，都会
+在内在世界中找到这些。内在世界会不断为你揭示各样的奥秘。那些粗心 大意的人可能会
+认为，“寂静”非常简单而且容易实现,所以要记住，只有在绝对寂静的状态下，你才能够触摸
+到神本身，才能领悟到永恒不变的法则并且受益。
+怎样获取智慧？ 集中精神；它将为你开启智慧之门，智慧来源于内在
+</code></pre>
+
+<h3>工程</h3>
+
+<p>一个工程一个项目的去干，书要干，也要写！多书则书呆，少书则没文化，书在古代也有写的意思。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[CPS Intutive]]></title>
@@ -1736,160 +1816,6 @@ exit;</p>
 <li>typeoo解释器</li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Program-as-data]]></title>
-    <link href="http://jueqingsizhe66.github.io/blog/2016/03/30/program-as-data/"/>
-    <updated>2016-03-30T13:23:21+08:00</updated>
-    <id>http://jueqingsizhe66.github.io/blog/2016/03/30/program-as-data</id>
-    <content type="html"><![CDATA[<p><a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/part_three.html">A program is like an essay. The first version is a draft, and drafts demand editing.</a>
-Program is also can be seen as data.</p>
-
-<ol>
-<li>直觉认识proc,提取body。</li>
-<li>对比识别。</li>
-<li>加壳。</li>
-<li>三行表格，n列迭代。</li>
-</ol>
-
-
-<!--more-->
-
-
-<p>``` scheme</p>
-
-<p>(value-of (proc (var body)) env)
- = (value-of (proc-exp (procedure (var body env)) val) env)</p>
-
-<p> = (value-of body ([var=val] env))
-```
-函数其实也是expression，它可以被consume也可以被produce.凭着这个脑中的
-印象是否可以帮助你继续理解abstration和程序即数据的思想。</p>
-
-<p>所有的函数和数据犹如花生的壳和仁的关系。</p>
-
-<p><img src="/images/lisp/peanut.jpeg" alt="peanut" /></p>
-
-<p>只有加壳就相当于是创建一层抽象，把类似的东西包裹起来，或者也可以换着一种思路
-（每个壳里面都包着类似的花生仁，只不过可能存在些许不同）</p>
-
-<h3>Two similar functions</h3>
-
-<p>``` scheme
-; Los &ndash;> Boolean
-; does l contain &ldquo;dog&rdquo;
-(define (contains-dog? l)
-  (cond</p>
-
-<pre><code>[(empty? l) #false]
-[else
- (or
-   (string=? (first l) "dog")
-   (contains-dog?
-     (rest l)))]))
-</code></pre>
-
-<p>; Los &ndash;> Boolean
-; does l contain &ldquo;cat&rdquo;
-(define (contains-cat? l)
-  (cond</p>
-
-<pre><code>[(empty? l) #false]
-[else
- (or
-   (string=? (first l) "cat")
-   (contains-cat?
-     (rest l)))]))
-</code></pre>
-
-<p>```</p>
-
-<h3>加壳</h3>
-
-<p>加上一个函数皮，并封上一层。</p>
-
-<p>``` scheme
-; String Los &ndash;> Boolean
-; determines whether l contains the string s
-(define (contains? s l)
-  (cond</p>
-
-<pre><code>[(empty? l) #false]
-[else (or (string=? (first l) s)
-          (contains? s (rest l)))]))
-</code></pre>
-
-<p>```</p>
-
-<p>然后我们就可以类似的改写了
-``` scheme
-; Los &ndash;> Boolean
-; does l contain &ldquo;dog&rdquo;
-(define (contains-dog? l)
-  (contains? &ldquo;dog&rdquo; l))</p>
-
-<p>; Los &ndash;> Boolean
-; does l contain &ldquo;cat&rdquo;
-(define (contains-cat? l)
-  (contains? &ldquo;cat&rdquo; l))
-```</p>
-
-<p>这个典型的过程就是函数抽象。进一步可以参考<a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/part_three.html">HowToDesginProgram</a>和<a href="http://www.ccs.neu.edu/home/matthias/BTLS/">TheLittleScheme</a>.
-Note: 你需要解析的其实是花生仁，但是你不得不先把壳打开或者通过另外一种方式，比如红外线等技术把它识别出来。</p>
-
-<p>也就是说进一步归纳的话，你首先得recognise识别出来，然后才能进行解析（提取其中的蛋白质、脂肪、热量等）。</p>
-
-<p><img src="/images/lisp/baby.png" alt="mybaby" /></p>
-
-<p>保护它的壳，给它提供营养，防止它受到感染和伤害。</p>
-
-<p><a href="http://pressbin.com/tools/excel_to_html_table/index.html">表格转换链接</a>.</p>
-
-<table>
-      <tr>
-                <td>index</td>
-                <td>0</td>
-                <td>1</td>
-                <td>2</td>
-                <td>…</td>
-      </tr>
-      <tr>
-                <td>M</td>
-                <td>a+S</td>
-                <td>a+1*W+S</td>
-                <td>a+2*W+S</td>
-                <td>…</td>
-      </tr>
-      <tr>
-                <td>f at M</td>
-                <td>f(a+S)</td>
-                <td>f(a+1*W+S)</td>
-                <td>f(a+2*W+S)</td>
-                <td>…</td>
-      </tr>
-      <tr>
-                <td>Area</td>
-                <td>W*f(a+S)</td>
-                <td>W*f(a+1*W+S)</td>
-                <td>W*f(a+2*W+S)</td>
-                <td>…</td>
-      </tr>
-      <tr>
-                <td>residual</td>
-                <td>60.00%</td>
-                <td>50.00%</td>
-                <td>40.00%</td>
-                <td>…</td>
-      </tr>
-      <tr>
-                <td></td>
-      </tr>
-</table>
-
-
-<p>慢工才能出细活，通过三行表格n列迭代的形式(也可以进一步加大计算量变成n行表格n列迭代)理解递归迭代的过程,在一定的时间，进行一系列的列计算，并让时间推进，直到满足你想要的结果。</p>
 ]]></content>
   </entry>
   
